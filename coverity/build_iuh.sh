@@ -143,12 +143,10 @@ build_osmoiuh
 build_osmopcu
 build_osmobts
 build_openbsc
-build_osmosipconnector
 
 # GMR
 build_libosmodsp
 build_osmogmr
-
 
 # MNCC to SIP
 build_osmosipconnector
