@@ -2,15 +2,20 @@
 
 set -e -x
 
-export PATH=~/coverity/cov-analysis-linux64-8.5.0/bin/:$PATH
-export PKG_CONFIG_PATH=~/coverity/install/lib/pkgconfig
+base_dir="$PWD"
+prefix="$base_dir/install"
+
+install -d "$prefix"
+
+export PATH="$base_dir/cov-analysis-linux64-8.5.0/bin/:$PATH"
+export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
 
 do_build() {
 	git clean -dxf
 	git remote prune origin
 	git pull --rebase
 	autoreconf --install --force
-	./configure --prefix=$HOME/coverity/install $*
+	./configure --prefix="$prefix" $*
 
 	cov-build --dir cov-int make
 	make install

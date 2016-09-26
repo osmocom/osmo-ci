@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 
-base_dir="$PWD"
-
 set -e -x
 
-export PATH=~/coverity/cov-analysis-linux64-8.5.0/bin/:$PATH
-export PKG_CONFIG_PATH=~/coverity/install/lib/pkgconfig
+base_dir="$PWD"
+src_dir="$base_dir/source"
+prefix="$base_dir/install"
+
+install -d "$prefix"
+
+export PATH="$base_dir/cov-analysis-linux64-8.5.0/bin/:$PATH"
+export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
 
 do_build() {
 	git clean -dxf
 	git remote prune origin
 	git pull --rebase
 	autoreconf --install --force
-	./configure --prefix=$HOME/coverity/install $*
+	./configure --prefix="$prefix" $*
 
 	cov-build --dir cov-int make
 	make install
@@ -71,7 +75,7 @@ upload_openbsc() {
 upload_osmobts() {
 	pushd osmo-bts
 
-	do_build --enable-sysmocom-bts --with-openbsc=$PWD/../openbsc/openbsc/include
+	do_build --enable-sysmocom-bts --with-openbsc="$src_dir/openbsc/openbsc/include"
 	do_upload osmo-bts
 	popd
 }
@@ -113,8 +117,8 @@ build_libsmpp34() {
 
 build_api() {
         pushd layer1-api
-        install -d $HOME/coverity/install/include/sysmocom/femtobts/
-        cp include/*.h $HOME/coverity/install/include/sysmocom/femtobts/
+        install -d "$prefix/include/sysmocom/femtobts/"
+        cp include/*.h "$prefix/include/sysmocom/femtobts/"
         popd
 }
 

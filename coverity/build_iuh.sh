@@ -2,7 +2,13 @@
 
 set -e -x
 
-export PKG_CONFIG_PATH=~/coverity/install-iuh/lib/pkgconfig
+base_dir="$PWD"
+src_dir="$base_dir/source-iuh"
+prefix="$base_dir/install-iuh"
+
+install -d "$prefix"
+
+export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
 
 do_build() {
 	git clean -dxf
@@ -10,7 +16,7 @@ do_build() {
 	git remote prune origin
 	git pull --rebase
 	autoreconf --install --force
-	./configure --prefix=$HOME/coverity/install-iuh $*
+	./configure --prefix="$prefix" $*
 
 	make
 	make install
@@ -18,8 +24,8 @@ do_build() {
 
 build_layer1api() {
 	pushd layer1-api
-	install -d $HOME/coverity/install-iuh/include/sysmocom/femtobts/
-	cp include/*.h $HOME/coverity/install-iuh/include/sysmocom/femtobts/
+	install -d "$prefix/include/sysmocom/femtobts/"
+	cp include/*.h "$prefix/include/sysmocom/femtobts/"
 	popd
 }
 
@@ -32,7 +38,7 @@ build_asn1c() {
 build_libasn1c() {
 	pushd libasn1c
 	do_build
-	sed -i s,'#include "config.h"','/*#include "config.h"*/', $HOME/coverity/install-iuh/include/asn1c/asn_system.h
+	sed -i s,'#include "config.h"','/*#include "config.h"*/', "$prefix/include/asn1c/asn_system.h"
 	popd
 }
 
@@ -84,7 +90,7 @@ build_osmobts() {
 	popd
 	pushd osmo-bts
 
-	do_build --enable-sysmocom-bts --with-openbsc=$PWD/../openbsc/openbsc/include
+	do_build --enable-sysmocom-bts --with-openbsc="$src_dir/openbsc/openbsc/include"
 	popd
 }
 
@@ -125,10 +131,9 @@ build_osmosipconnector() {
 	popd
 }
 
-cd source-iuh
+cd "$src_dir"
 
-
-rm -rf ~/coverity/install-iuh/
+rm -rf "$prefix"
 
 build_layer1api
 build_asn1c

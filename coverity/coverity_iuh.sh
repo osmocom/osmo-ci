@@ -2,15 +2,20 @@
 
 set -e -x
 
-export PATH=~/coverity/cov-analysis-linux64-8.5.0/bin/:$PATH
+base_dir="$PWD"
+src_dir="$base_dir/sources-iuh"
+cov_dir="$src_dir/cov-int"
 
-rm -rf sources-iuh/cov-int
-cov-build --dir sources-iuh/cov-int ./build_iuh.sh
-cd sources-iuh
+export PATH="$base_dir/cov-analysis-linux64-8.5.0/bin/:$PATH"
+
+rm -rf "$cov_dir"
+cov-build --dir "$cov_dir" ./build_iuh.sh
+
+cd "$src_dir"
 tar czf myproject.tgz cov-int
 
 	curl \
-		--form token="$(../get_token.sh ../tokens.txt iuh)" \
+		--form token="$($base_dir/get_token.sh $base_dir/tokens.txt iuh)" \
 		--form email=holger@freyther.de --form file=@myproject.tgz \
 		--form version=Version --form description=AutoUpload \
 		https://scan.coverity.com/builds?project=Osmocom
