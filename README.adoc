@@ -1,1 +1,11 @@
 Scripts used for the CI handling and coverity uploads
+
+coverity: scripts used to submit the osmocom sources for coverity scan.
+This depends on these, which are not included in osmo-ci:
+- a tokens.txt file in coverity/ -- see coverity/get_token.sh
+- a cov-analysis-linux64-8.5.0 in coverity/
+  (or the like, may need to adjust some scripts to match)
+
+scripts: used by jenkins jobs. Various osmo*/contrib/jenkins.sh scripts assume
+osmo-ci to be checked out in the build slave user's home, i.e. using a PATH of
+$HOME/osmo-ci/scripts.
