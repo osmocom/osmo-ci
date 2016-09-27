@@ -27,7 +27,6 @@ do_upload() {
 		--form email=holger@freyther.de --form file=@myproject.tgz \
 		--form version=Version --form description=AutoUpload \
 		https://scan.coverity.com/builds?project=$project
-	:
 }
 
 upload_libosmocore() {
