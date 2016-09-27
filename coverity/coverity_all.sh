@@ -20,6 +20,7 @@ do_build() {
 
 	cov-build --dir cov-int make
 	make install
+	rm -f myproject.tgz
 	tar czf myproject.tgz cov-int	
 }
 

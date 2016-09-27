@@ -12,6 +12,7 @@ rm -rf "$cov_dir"
 cov-build --dir "$cov_dir" ./build_iuh.sh
 
 cd "$src_dir"
+rm -f myproject.tgz
 tar czf myproject.tgz cov-int
 
 	curl \
