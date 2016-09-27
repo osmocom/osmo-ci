@@ -3,7 +3,7 @@
 set -e -x
 
 base_dir="$PWD"
-src_dir="$base_dir/sources-iuh"
+src_dir="$base_dir/source-iuh"
 cov_dir="$src_dir/cov-int"
 
 export PATH="$base_dir/cov-analysis-linux64-8.5.0/bin/:$PATH"
