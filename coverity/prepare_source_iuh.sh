@@ -24,6 +24,8 @@ for proj in \
   git clone git://git.osmocom.org/$proj
 done
 
+git clone git://git.sysmocom.de/sysmo-bts/layer1-api
+
 git -C asn1c checkout aper-prefix
 git -C libosmo-netif checkout sysmocom/sctp
 git -C libosmo-sccp checkout sysmocom/iu
