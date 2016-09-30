@@ -15,8 +15,8 @@ cd "$src_dir"
 rm -f myproject.tgz
 tar czf myproject.tgz cov-int
 
-	curl \
-		--form token="$($base_dir/get_token.sh $base_dir/tokens.txt iuh)" \
-		--form email=holger@freyther.de --form file=@myproject.tgz \
-		--form version=Version --form description=AutoUpload \
-		https://scan.coverity.com/builds?project=Osmocom
+curl \
+	--form token="$($base_dir/get_token.sh $base_dir/tokens.txt iuh)" \
+	--form email=holger@freyther.de --form file=@myproject.tgz \
+	--form version=Version --form description=AutoUpload \
+	https://scan.coverity.com/builds?project=Osmocom
