@@ -9,8 +9,8 @@
 # 
 # e.g.
 #
-# a3Ksd02nfa-Lk28f_cAk3F libosmocore
-# b8sdJA_sd43fLS3-2vL24g libosmo-abis
+# a3Ksd02nfa-Lk28f_cAk3F Osmocom
+# b8sdJA_sd43fLS3-2vL24g Another-token
 # ...
 
 tokens_file="$1"

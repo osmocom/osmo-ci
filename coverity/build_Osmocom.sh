@@ -3,8 +3,8 @@
 set -e -x
 
 base_dir="$PWD"
-src_dir="$base_dir/source-iuh"
-prefix="$base_dir/install-iuh"
+src_dir="$base_dir/source-Osmocom"
+prefix="$base_dir/install-Osmocom"
 
 install -d "$prefix"
 

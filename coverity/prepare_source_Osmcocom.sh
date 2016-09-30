@@ -1,7 +1,7 @@
 #!/bin/sh
-mkdir -p source-iuh
+mkdir -p source-Osmocom
 
-cd source-iuh
+cd source-Osmocom
 
 for proj in \
   asn1c \
