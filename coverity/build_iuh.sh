@@ -14,7 +14,7 @@ do_build() {
 	git clean -dxf
 	git checkout .
 	git remote prune origin
-	git pull --rebase
+	git pull --rebase -s recursive -Xtheirs
 	autoreconf --install --force
 	./configure --prefix="$prefix" $*
 

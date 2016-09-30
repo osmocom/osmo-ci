@@ -14,7 +14,7 @@ export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
 do_build() {
 	git clean -dxf
 	git remote prune origin
-	git pull --rebase
+	git pull --rebase -s recursive -Xtheirs
 	autoreconf --install --force
 	./configure --prefix="$prefix" $*
 
