@@ -19,6 +19,7 @@ for proj in \
   osmo-iuh \
   osmo-pcu \
   osmo-sip-connector \
+  osmo-trx \
   ; do
 
   git clone git://git.osmocom.org/$proj

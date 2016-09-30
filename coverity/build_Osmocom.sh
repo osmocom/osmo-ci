@@ -131,6 +131,12 @@ build_osmosipconnector() {
 	popd
 }
 
+build_osmotrx() {
+	pushd osmo-trx
+	do_build
+	popd
+}
+
 cd "$src_dir"
 
 rm -rf "$prefix"
@@ -155,3 +161,5 @@ build_osmogmr
 
 # MNCC to SIP
 build_osmosipconnector
+
+build_osmotrx
