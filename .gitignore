@@ -1,7 +1,5 @@
 cov-analysis-*
-source
-install
-source-iuh
-install-iuh
+source-*
+install-*
 tokens.txt
 .*.sw?
