@@ -15,8 +15,21 @@ cd "$src_dir"
 rm -f Osmocom.tgz
 tar czf Osmocom.tgz cov-int
 
-curl \
-	--form token="$($base_dir/get_token.sh $base_dir/tokens.txt Osmocom)" \
-	--form email=holger@freyther.de --form file=@Osmocom.tgz \
-	--form version=Version --form description=AutoUpload \
-	https://scan.coverity.com/builds?project=Osmocom
+# Don't leak the token to jenkins build logs, but still log the call:
+# First compose the call to echo, then run with token inserted by 'eval'.
+set +x
+
+curl_cmd='curl \
+ --form token="$token" \
+ --form email=holger@freyther.de --form file=@Osmocom.tgz \
+ --form version=Version --form description=AutoUpload \
+ https://scan.coverity.com/builds?project=Osmocom'
+echo "$curl_cmd"
+
+token="$($base_dir/get_token.sh $base_dir/tokens.txt Osmocom)"
+if [ -z "$token" ]; then
+  echo "TOKEN IS EMPTY"
+  exit 1
+fi
+
+eval "$curl_cmd"
