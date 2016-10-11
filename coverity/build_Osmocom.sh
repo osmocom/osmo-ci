@@ -15,10 +15,6 @@ git_branch() {
 }
 
 do_build() {
-	git fetch
-	git reset --hard "origin/$(git_branch)"
-	git clean -dxf
-	git checkout .
 	autoreconf --install --force
 	./configure --prefix="$prefix" $*
 
