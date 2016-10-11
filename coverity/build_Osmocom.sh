@@ -10,11 +10,15 @@ install -d "$prefix"
 
 export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
 
+git_branch() {
+  echo "$(git status)" | grep 'On branch' | sed 's/On branch //'
+}
+
 do_build() {
+	git fetch
+	git reset --hard "origin/$(git_branch)"
 	git clean -dxf
 	git checkout .
-	git remote prune origin
-	git pull --rebase -s recursive -Xtheirs
 	autoreconf --install --force
 	./configure --prefix="$prefix" $*
 
