@@ -1,4 +1,5 @@
 #!/bin/sh
+set -ex
 
 if ! test -d $1;
 then
