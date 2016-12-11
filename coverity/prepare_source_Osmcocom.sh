@@ -27,7 +27,7 @@ done
 
 git clone git://git.sysmocom.de/sysmo-bts/layer1-api
 
-git -C asn1c checkout aper-prefix
-git -C libosmo-netif checkout sysmocom/sctp
-git -C libosmo-sccp checkout sysmocom/iu
-git -C openbsc checkout sysmocom/iu
+#IU git -C asn1c checkout aper-prefix
+#IU git -C libosmo-netif checkout sysmocom/sctp
+#IU git -C libosmo-sccp checkout sysmocom/iu
+#IU git -C openbsc checkout sysmocom/iu

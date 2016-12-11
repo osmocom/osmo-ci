@@ -77,17 +77,17 @@ build_openggsn() {
 
 build_openbsc() {
 	pushd openbsc/openbsc
-	git checkout sysmocom/iu
+	#IU git checkout sysmocom/iu
 
-	do_build --enable-osmo-bsc --enable-nat --enable-smpp --enable-mgcp-transcoding --enable-iu
+	do_build --enable-osmo-bsc --enable-nat --enable-smpp --enable-mgcp-transcoding #IU --enable-iu
 	popd
 }
 
 build_osmobts() {
-	pushd openbsc/openbsc
-	git checkout master
-	git pull --rebase
-	popd
+	#IU pushd openbsc/openbsc
+	#IU git checkout master
+	#IU git pull --rebase
+	#IU popd
 	pushd osmo-bts
 
 	do_build --enable-sysmocom-bts --with-openbsc="$src_dir/openbsc/openbsc/include"
@@ -150,7 +150,7 @@ build_libosmonetif
 build_libosmosccp
 build_libsmpp34
 build_openggsn
-build_osmoiuh
+#IU build_osmoiuh
 build_osmopcu
 build_osmobts
 build_openbsc
