@@ -9,3 +9,4 @@ fi
 cd $1
 git fetch origin
 git reset --hard origin/master
+git rev-parse HEAD
