@@ -21,6 +21,7 @@ git clone git://git.osmocom.org/cellmgr-ng osmo-stp
 git clone git://git.osmocom.org/osmo-trx
 git clone git://git.osmocom.org/osmo-bts
 git clone git://git.osmocom.org/osmo-pcu
+git clone git://git.osmocom.org/osmo-hlr
 
 
 PROJ=network:osmocom:nightly
@@ -65,6 +66,7 @@ git commit -m "Copy OpenBSC files needed for the build"
 cd ../
 build osmo-bts
 build osmo-pcu
+build osmo-hlr
 
 cd $PROJ
 osc ci -m "Snapshot $DT"
