@@ -20,6 +20,7 @@ for proj in \
   osmo-pcu \
   osmo-sip-connector \
   osmo-trx \
+  osmo-hlr \
   ; do
 
   git clone git://git.osmocom.org/$proj

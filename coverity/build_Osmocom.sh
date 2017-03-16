@@ -83,6 +83,12 @@ build_openbsc() {
 	popd
 }
 
+build_osmohlr() {
+	pushd osmo-hlr
+	do_build
+	popd
+}
+
 build_osmobts() {
 	#IU pushd openbsc/openbsc
 	#IU git checkout master
@@ -154,6 +160,7 @@ build_openggsn
 build_osmopcu
 build_osmobts
 build_openbsc
+build_osmohlr
 
 # GMR
 build_libosmodsp
