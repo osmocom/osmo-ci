@@ -43,6 +43,14 @@ cd "$deps"
 osmo-deps.sh "$project" "$branch"
 cd "$project"
 
+# Keep the installation targets of the dependencies in a seperate directory
+# hierarchy before stowing them to avoid wrongly suggesting that they are part
+# of the -I and -L search paths
+mkdir -p "$inst/stow"
+
 autoreconf --install --force
-./configure --prefix="$inst" $cfg
+./configure --prefix="$inst/stow/$project" $cfg
 $MAKE $PARALLEL_MAKE install
+
+# Make the dependencies available through symlinks in $deps ($PWD/..).
+STOW_DIR="$inst/stow" stow --restow $project
