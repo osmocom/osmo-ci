@@ -20,7 +20,7 @@ case "$1" in
 	;;
     lc15)
 	uri="https://gitlab.com/nrw_litecell15/litecell15-fw"
-	version="nrw/litecell15-next"
+	version="origin/nrw/litecell15"
 	;;
     *)
 	echo "Unknown BTS model '$1'"
