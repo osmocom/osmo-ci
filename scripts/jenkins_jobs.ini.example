@@ -1,0 +1,6 @@
+[jenkins]
+user=example
+# To get a token: Go to Jenkins via Web -> Login -> Press up right Corner on your Username -> Configure -> API token in the body
+password=get_a_token
+url=https://jenkins.osmocom.org/jenkins
+query_plugins_info=False

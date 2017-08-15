@@ -3,3 +3,4 @@ source-*
 install-*
 tokens.txt
 .*.sw?
+jenkins_jobs.ini
