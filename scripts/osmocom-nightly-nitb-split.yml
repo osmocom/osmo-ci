@@ -17,4 +17,6 @@
       - git:
           url: git://git.osmocom.org/osmo-ci
           git-config-name: 'Jenkins Builder'
-          git-config-email: 'jenkins@osmocom.org
+          git-config-email: 'jenkins@osmocom.org'
+    triggers:
+      - timed: "@midnight"
