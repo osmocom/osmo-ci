@@ -88,13 +88,13 @@ build_osmocom() {
   checkout libosmo-sccp
   checkout libsmpp34
   checkout libasn1c
-  checkout osmo-iuh lynxis/pre_release
+  checkout osmo-iuh
   checkout osmo-hlr
   checkout openggsn
-  checkout osmo-mgw pre_release
-  checkout osmo-bsc lynxis/pre_release
-  checkout osmo-msc pre_release
-  checkout osmo-sgsn pre_release
+  checkout osmo-mgw
+  checkout osmo-bsc
+  checkout osmo-msc
+  checkout osmo-sgsn
 
   build libosmocore
   build libosmo-abis
