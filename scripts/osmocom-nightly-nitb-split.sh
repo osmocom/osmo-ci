@@ -90,7 +90,7 @@ build_osmocom() {
   checkout libasn1c
   checkout osmo-iuh
   checkout osmo-hlr
-  checkout openggsn
+  checkout osmo-ggsn
   checkout osmo-mgw
   checkout osmo-bsc
   checkout osmo-msc
@@ -104,7 +104,7 @@ build_osmocom() {
   build libasn1c
   build osmo-iuh
   build osmo-hlr
-  build openggsn
+  build osmo-ggsn
   build osmo-mgw
   build osmo-bsc
   build osmo-msc
