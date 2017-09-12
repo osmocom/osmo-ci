@@ -6,6 +6,9 @@ This depends on these, which are not included in osmo-ci:
 - a cov-analysis-linux64-8.5.0 in coverity/
   (or the like, may need to adjust some scripts to match)
 
+jobs: Jenkins Job Builder YAML files defining jenkins jobs. Read jobs/README.adoc
+for more information about deployment.
+
 scripts: used by jenkins jobs. Various osmo*/contrib/jenkins.sh scripts assume
 osmo-ci to be checked out in the build slave user's home, i.e. using a PATH of
 $HOME/osmo-ci/scripts.

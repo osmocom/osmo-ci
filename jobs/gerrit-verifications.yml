@@ -1,0 +1,253 @@
+# This file holds all gerrit verifications https://jenkins.osmocom.org/jenkins/view/Jenkins-Gerrit/.
+# One cane simply add a gerrit job by adding project's repository to repos list.
+
+- project:
+    name: gerrit
+    # following default values can be overridden by each repo
+    disabled: false
+    concurrent: false
+    node: linux_amd64_debian8
+    # axes related defaults
+    slave_axis: !!python/tuple [linux_amd64_debian8]
+    a1_name: a1
+    a1: !!python/tuple [default]
+    a2_name: a2
+    a2: !!python/tuple [default]
+    a3_name: a3
+    a3: !!python/tuple [default]
+    a4_name: a4
+    a4: !!python/tuple [default]
+    combination_filter: ''
+    # most common build invocation
+    cmd: ./contrib/jenkins.sh
+
+    repos:
+      - osmo-iuh
+      - osmo-gsm-manuals
+      - osmo-sip-connector
+      - osmocom-bb
+      - osmo-tetra
+
+      - osmo-hlr:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - osmo-trx:
+          slave_axis: !!python/tuple [OsmocomBuild1]
+
+      - osmo-ggsn:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - osmo-pcap:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libsmpp34:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - openggsn:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libosmo-sccp:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libosmo-netif:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libosmo-abis:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libasn1c:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - cellmgr-ng:
+          concurrent: true
+          cmd: >
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            -e IU="$IU" -e SMPP="$SMPP" -e MGCP="$MGCP" -w /build -i -u build -v $PWD:/build \
+            osmocom:amd64 /build/contrib/jenkins.sh'
+
+      - osmo-bsc:
+          cmd: >
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build -i -u build \
+            -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+            osmocom:amd64 /build/contrib/jenkins.sh'
+
+      - osmo-gsm-tester:
+          slave_axis: !!python/tuple [OsmocomBuild1]
+          cmd: 'make deps; make check'
+
+      - osmo-bts:
+          a1_name: FIRMWARE_VERSION
+          a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, origin/nrw/litecell15-next]
+          a2_name: BTS_MODEL
+          a2: !!python/tuple [sysmo, oct, trx, oct+trx, lc15]
+          combination_filter: >
+            FIRMWARE_VERSION == "master" ||
+            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15") ||
+            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "lc15")
+          cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+
+      - openBSC:
+          a1_name: SMPP
+          a1: !!python/tuple [--enable-smpp]
+          a2_name: MGCP
+          a2: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
+          a3_name: IU
+          a3: !!python/tuple [--disable-iu]
+          cmd: >
+            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
+            mkdir -p "$ARTIFACT_STORE"
+
+            docker run --rm=true -e HOME=/build -e ARTIFACT_STORE=/artifact_store \
+              -e JOB_NAME="$JOB_NAME" -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e IU="$IU" -e SMPP="$SMPP" -e MGCP="$MGCP" -e PATH="$PATH:/build_bin" \
+              -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build -i -u build -v "$PWD:/build" \
+              -v "$HOME/bin:/build_bin" -v "$ARTIFACT_STORE:/artifact_store" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+      - libosmocore:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+          a1_name: arch
+          a1: !!python/tuple [arm-none-eabi, amd64]
+          combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
+          cmd: >
+            if [[ "$JOB_NAME" == *"arch=arm-none-eabi,label=linux_amd64_debian8"* ]]; then
+              ./contrib/jenkins-arm.sh
+            else
+              ./contrib/jenkins.sh
+            fi
+
+      - osmo-mgw:
+          a1_name: MGCP
+          a1: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
+          cmd: >
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e MGCP="$MGCP" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build \
+              -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh'
+
+      - osmo-msc:
+          a1_name: IU
+          a1: !!python/tuple [--enable-iu, --disable-iu]
+          cmd: >
+            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
+            mkdir -p "$ARTIFACT_STORE"
+
+            docker run --rm=true -i -e HOME=/build -e ARTIFACT_STORE=/artifact_store \
+              -e JOB_NAME="$JOB_NAME" -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -w /build -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+      - osmo-pcu:
+          a1_name: FIRMWARE_VERSION
+          a1: !!python/tuple [master, v2017.01, origin/nrw/litecell15-next]
+          a2_name: with_vty
+          a2: !!python/tuple [yes ,no]
+          a3_name: with_dsp
+          a3: !!python/tuple [sysmo, lc15, none]
+          combination_filter: >
+            (with_vty == "yes" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master") ||
+            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="master") ||
+            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01") ||
+            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15-next") ||
+            (with_vty == "no" && with_dsp == "none" && FIRMWARE_VERSION=="master")
+
+      - osmo-sgsn:
+          concurrent: true
+          a1_name: IU
+          a1: !!python/tuple [--enable-iu, --disable-iu]
+          cmd: >
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build \
+              -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+    jobs:
+      - '{repos}-gerrit'
+
+- job-template:
+    name: '{repos}-gerrit'
+    project-type: matrix
+    node: '{node}'
+    concurrent: '{obj:concurrent}'
+    disabled: '{obj:disabled}'
+    retry-count: 3 # scm checkout
+    build-discarder:
+      daysToKeep: 30
+      numToKeep: 120
+      artifactDaysToKeep: -1
+      artifactNumToKeep: -1
+    description: 'Pending reviews: https://gerrit.osmocom.org/#/q/status:open+project:{repos} '
+
+    execution-strategy:
+      combination-filter: |
+        {obj:combination_filter}
+    axes:
+      - axis:
+          type: slave
+          name: label
+          values: '{obj:slave_axis}'
+      - axis:
+          type: user-defined
+          name: '{obj:a1_name}'
+          values: '{obj:a1}'
+      - axis:
+          type: user-defined
+          name: '{obj:a2_name}'
+          values: '{obj:a2}'
+      - axis:
+          type: user-defined
+          name: '{obj:a3_name}'
+          values: '{obj:a3}'
+      - axis:
+          type: user-defined
+          name: '{obj:a4_name}'
+          values: '{obj:a4}'
+
+    scm:
+      - git:
+         url: ssh://jenkins@gerrit.osmocom.org:29418/{repos}
+         credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+         branches:
+           - $GERRIT_BRANCH
+         choosing-strategy: gerrit
+         wipe-workspace: false
+         skip-tag: true
+         clean:
+           before: true
+
+    triggers:
+      - gerrit:
+          trigger-on:
+            - patchset-created-event
+          projects:
+            - project-compare-type: 'PLAIN'
+              project-pattern: '{repos}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**'
+          skip-vote:
+              successful: true
+              failed: true
+              unstable: true
+              notbuilt: true
+          silent: false
+          escape-quotes: false
+          no-name-and-email: false
+          trigger-for-unreviewed-patches: true
+          server-name: gerrit.osmocom.org
+
+    builders:
+      - shell: '{obj:cmd}'
+
+    publishers:
+       - warnings:
+           console-log-parsers:
+             - 'GNU C Compiler 4 (gcc)'
+           resolve-relative-paths: true

@@ -1,0 +1,31 @@
+This "jobs" folder holds
+https://docs.openstack.org/infra/jenkins-job-builder/index.html[Jenkins Job Builder]
+YAML files, which define jenkins' jobs.
+
+One can declare a single job per file or create a job-template to declare several jobs of the same kind.
+The gerrit-verifications.yaml file for example holds all gerrit verification jobs.
+
+'''
+*WIP:* Furthermore, we're planning to automatically deploy merged changes by having two jobs based on gerrit events:
+
+pre-merge:
+
+- test generation of XML
+
+post-merge:
+
+- test generation of XML
+- deploy jobs
+
+'''
+The XML test generation is done by:
+
+ jenkins-jobs test jobs/
+
+
+The deployment will be done by:
+
+ jenkins-jobs --conf "$JJB_CONFIGFILE" update jobs/
+
+but it is not clear *yet* how we want to store/inject the `"$JJB_CONFIGFILE"` part.
+
