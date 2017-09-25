@@ -13,7 +13,7 @@ for proj in \
   libosmo-sccp \
   libsmpp34 \
   openbsc \
-  openggsn \
+  osmo-ggsn \
   osmo-bts \
   osmo-gmr \
   osmo-iuh \

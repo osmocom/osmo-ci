@@ -90,11 +90,9 @@ build_osmocom() {
   checkout libasn1c
   checkout osmo-iuh
   checkout osmo-hlr
-  checkout osmo-ggsn
   checkout osmo-mgw
   checkout osmo-bsc
   checkout osmo-msc
-  checkout osmo-sgsn
 
   build libosmocore
   build libosmo-abis
@@ -104,11 +102,9 @@ build_osmocom() {
   build libasn1c
   build osmo-iuh
   build osmo-hlr
-  build osmo-ggsn
   build osmo-mgw
   build osmo-bsc
   build osmo-msc
-  build osmo-sgsn
 
   post
 }

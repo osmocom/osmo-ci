@@ -69,8 +69,8 @@ build_libosmosccp() {
 	popd
 }
 
-build_openggsn() {
-	pushd openggsn
+build_osmoggsn() {
+	pushd osmo-ggsn
 	do_build
 	popd
 }
@@ -155,7 +155,7 @@ build_libosmoabis
 build_libosmonetif
 build_libosmosccp
 build_libsmpp34
-build_openggsn
+build_osmoggsn
 #IU build_osmoiuh
 build_osmopcu
 build_osmobts
