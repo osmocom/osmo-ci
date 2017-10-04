@@ -51,8 +51,8 @@ build libosmo-sccp
 build libosmo-abis
 build libosmo-netif
 build libsmpp34
-build osmo-sgsn
 build osmo-ggsn
+build osmo-sgsn
 build openbsc
 build osmo-pcap
 build osmo-stp
