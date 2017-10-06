@@ -14,6 +14,7 @@ git clone git://git.osmocom.org/libosmo-sccp
 git clone git://git.osmocom.org/libosmo-abis
 git clone git://git.osmocom.org/libosmo-netif
 git clone git://git.osmocom.org/libsmpp34
+git clone git://git.osmocom.org/libasn1c
 git clone git://git.osmocom.org/osmo-iuh
 git clone git://git.osmocom.org/osmo-sgsn
 git clone git://git.osmocom.org/osmo-ggsn
@@ -52,6 +53,7 @@ build libosmo-sccp
 build libosmo-abis
 build libosmo-netif
 build libsmpp34
+build libasn1c
 build osmo-iuh
 build osmo-ggsn
 build osmo-sgsn
