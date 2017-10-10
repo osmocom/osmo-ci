@@ -62,14 +62,6 @@ build osmo-pcap
 build osmo-stp
 build osmo-trx
 build osmo-sip-connector
-
-cp openbsc/openbsc/include/openbsc/gsm_data_shared.h osmo-bts/include/openbsc/
-cp openbsc/openbsc/src/libcommon/gsm_data_shared.c osmo-bts/src/common/gsm_data_shared.c
-cd osmo-bts
-git add include/openbsc/gsm_data_shared.h
-git add src/common/gsm_data_shared.c
-git commit -m "Copy OpenBSC files needed for the build"
-cd ../
 build osmo-bts
 build osmo-pcu
 build osmo-hlr
