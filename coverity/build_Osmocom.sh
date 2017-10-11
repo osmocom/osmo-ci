@@ -51,13 +51,9 @@ build_openbsc() {
 }
 
 build_osmobts() {
-	#IU pushd openbsc/openbsc
-	#IU git checkout master
-	#IU git pull --rebase
-	#IU popd
 	pushd osmo-bts
 
-	do_build --enable-sysmocom-bts --with-openbsc="$src_dir/openbsc/openbsc/include"
+	do_build --enable-sysmocom-bts
 	popd
 }
 
