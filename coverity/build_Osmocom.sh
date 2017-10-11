@@ -18,7 +18,7 @@ do_build() {
 	autoreconf --install --force
 	./configure --prefix="$prefix" $*
 
-	make
+	make $PARALLEL_MAKE
 	make install
 }
 
