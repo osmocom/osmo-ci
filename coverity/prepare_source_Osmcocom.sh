@@ -1,7 +1,8 @@
 #!/bin/sh
-mkdir -p source-Osmocom
+BASEDIR=source-Osmocom
 
-cd source-Osmocom
+[ -d $BASEDIR ] || mkdir -p $BASEDIR
+cd $BASEDIR
 
 for proj in \
   asn1c \
@@ -23,7 +24,11 @@ for proj in \
   osmo-hlr \
   ; do
 
-  git clone git://git.osmocom.org/$proj
+	if [ -d $proj ]; then
+		(cd $proj && git fetch && git checkout -f -B master origin/master)
+	else
+		git clone git://git.osmocom.org/$proj
+	fi
 done
 
 git clone git://git.sysmocom.de/sysmo-bts/layer1-api
