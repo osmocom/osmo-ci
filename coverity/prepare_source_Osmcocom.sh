@@ -14,7 +14,11 @@ for proj in \
   libosmo-sccp \
   libsmpp34 \
   openbsc \
+  osmo-bsc \
+  osmo-msc \
+  osmo-mgw \
   osmo-ggsn \
+  osmo-sgsn \
   osmo-bts \
   osmo-gmr \
   osmo-iuh \
