@@ -22,16 +22,16 @@ do_build() {
 	make install
 }
 
+build_default() {
+	pushd $1
+	do_build
+	popd
+}
+
 build_layer1api() {
 	pushd layer1-api
 	install -d "$prefix/include/sysmocom/femtobts/"
 	cp include/*.h "$prefix/include/sysmocom/femtobts/"
-	popd
-}
-
-build_asn1c() {
-	pushd asn1c
-	do_build
 	popd
 }
 
@@ -42,50 +42,11 @@ build_libasn1c() {
 	popd
 }
 
-build_osmoiuh() {
-	pushd osmo-iuh
-	do_build
-	popd
-}
-
-build_libosmocore() {
-	pushd libosmocore
-
-	do_build
-	popd
-}
-
-build_libosmoabis() {
-	pushd libosmo-abis
-
-	do_build
-	popd
-}
-
-build_libosmosccp() {
-	pushd libosmo-sccp
-
-	do_build
-	popd
-}
-
-build_osmoggsn() {
-	pushd osmo-ggsn
-	do_build
-	popd
-}
-
 build_openbsc() {
 	pushd openbsc/openbsc
 	#IU git checkout sysmocom/iu
 
 	do_build --enable-osmo-bsc --enable-nat --enable-smpp --enable-mgcp-transcoding #IU --enable-iu
-	popd
-}
-
-build_osmohlr() {
-	pushd osmo-hlr
-	do_build
 	popd
 }
 
@@ -107,66 +68,29 @@ build_osmopcu() {
 	popd
 }
 
-build_libosmodsp() {
-	pushd libosmo-dsp
-	do_build
-	popd
-}
-
-build_libosmonetif() {
-	pushd libosmo-netif
-	do_build
-	popd
-}
-
-build_osmogmr() {
-	pushd osmo-gmr
-	do_build
-	popd
-}
-
-build_libsmpp34() {
-	pushd libsmpp34
-	do_build
-	popd
-}
-
-build_osmosipconnector() {
-	pushd osmo-sip-connector
-	do_build
-	popd
-}
-
-build_osmotrx() {
-	pushd osmo-trx
-	do_build
-	popd
-}
-
 cd "$src_dir"
 
 rm -rf "$prefix"
 
 build_layer1api
-build_asn1c
-build_libosmocore
+build_default asn1c
+build_default libosmocore
 build_libasn1c
-build_libosmoabis
-build_libosmonetif
-build_libosmosccp
-build_libsmpp34
-build_osmoggsn
-#IU build_osmoiuh
+build_default libosmo-abis
+build_default libosmo-netif
+build_default libosmo-sccp
+build_default libsmpp34
+build_default osmo-ggsn
+#IU build_default osmo-iuh
 build_osmopcu
 build_osmobts
 build_openbsc
-build_osmohlr
 
 # GMR
-build_libosmodsp
-build_osmogmr
+build_default libosmo-dsp
+build_default osmo-gmr
 
 # MNCC to SIP
-build_osmosipconnector
+build_default osmo-sip-connector
 
-build_osmotrx
+build_default osmo-trx
