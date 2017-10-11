@@ -53,7 +53,7 @@ build_openbsc() {
 build_osmobts() {
 	pushd osmo-bts
 
-	do_build --enable-sysmocom-bts
+	do_build --enable-sysmocom-bts --enable-trx
 	popd
 }
 
