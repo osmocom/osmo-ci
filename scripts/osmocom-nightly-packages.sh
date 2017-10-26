@@ -20,7 +20,6 @@ git clone git://git.osmocom.org/osmo-sgsn
 git clone git://git.osmocom.org/osmo-ggsn
 git clone git://git.osmocom.org/openbsc
 git clone git://git.osmocom.org/osmo-pcap
-git clone git://git.osmocom.org/cellmgr-ng osmo-stp
 git clone git://git.osmocom.org/osmo-trx
 git clone git://git.osmocom.org/osmo-bts
 git clone git://git.osmocom.org/osmo-pcu
@@ -59,7 +58,6 @@ build osmo-ggsn
 build osmo-sgsn
 build openbsc
 build osmo-pcap
-build osmo-stp
 build osmo-trx
 build osmo-sip-connector
 build osmo-bts
