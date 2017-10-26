@@ -24,6 +24,8 @@ git clone git://git.osmocom.org/osmo-trx
 git clone git://git.osmocom.org/osmo-bts
 git clone git://git.osmocom.org/osmo-pcu
 git clone git://git.osmocom.org/osmo-hlr
+git clone git://git.osmocom.org/osmo-mgw
+git clone git://git.osmocom.org/osmo-msc
 
 
 PROJ=network:osmocom:nightly
@@ -63,6 +65,8 @@ build osmo-sip-connector
 build osmo-bts
 build osmo-pcu
 build osmo-hlr
+build osmo-mgw
+build osmo-msc
 
 cd $PROJ
 osc ci -m "Snapshot $DT"
