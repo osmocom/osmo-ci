@@ -44,4 +44,4 @@ fi
 
 cd layer1-headers
 git fetch origin
-git reset --hard "$version"
+git checkout -f "$version"

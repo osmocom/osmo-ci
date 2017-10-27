@@ -16,5 +16,5 @@ git fetch origin
 # the dep subdir separately:
 osmo-clean-workspace.sh
 
-git reset --hard "$branch"
+git checkout -f "$branch"
 git rev-parse HEAD
