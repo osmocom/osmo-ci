@@ -1,12 +1,14 @@
 #!/bin/sh
 set -ex
+project="$1"
+branch="${2:-origin/master}"
 
-if ! test -d $1;
+if ! test -d "$project";
 then
-  git clone git://git.osmocom.org/$1 $1
+  git clone "git://git.osmocom.org/$project" "$project"
 fi
 
-cd $1
+cd "$project"
 git fetch origin
 
 # Cleanup should already have happened during a global osmo-clean-workspace.sh,
@@ -14,5 +16,5 @@ git fetch origin
 # the dep subdir separately:
 osmo-clean-workspace.sh
 
-git reset --hard origin/master
+git reset --hard "$branch"
 git rev-parse HEAD

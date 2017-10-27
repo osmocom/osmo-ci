@@ -40,12 +40,8 @@ set -x
 
 mkdir -p "$deps"
 cd "$deps"
-osmo-deps.sh "$project"
+osmo-deps.sh "$project" "$branch"
 cd "$project"
-if [ -n "$branch" ]; then
-	git checkout "$branch"
-fi
-git rev-parse HEAD # log current HEAD
 
 autoreconf --install --force
 ./configure --prefix="$inst" $cfg
