@@ -40,7 +40,6 @@ set -x
 
 mkdir -p "$deps"
 cd "$deps"
-rm -rf "$project"
 osmo-deps.sh "$project"
 cd "$project"
 if [ -n "$branch" ]; then
