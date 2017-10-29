@@ -223,6 +223,8 @@
          credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
          branches:
            - $GERRIT_BRANCH
+         refspec: $GERRIT_REFSPEC
+         name:
          choosing-strategy: gerrit
          wipe-workspace: false
          skip-tag: true
