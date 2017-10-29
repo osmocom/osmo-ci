@@ -234,7 +234,9 @@
     triggers:
       - gerrit:
           trigger-on:
-            - patchset-created-event
+            - patchset-created-event:
+                exclude-drafts: true
+                exclude-no-code-change: true
             - comment-added-event:
                 approval-category: 'Verified'
                 approval-value: 1
