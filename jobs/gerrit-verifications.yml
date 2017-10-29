@@ -21,41 +21,9 @@
     # most common build invocation
     cmd: ./contrib/jenkins.sh
 
+    # in alphabetical order
     repos:
-      - osmo-iuh
-      - osmo-gsm-manuals
-      - osmo-sip-connector
-      - osmocom-bb
-      - osmo-tetra
-
-      - osmo-hlr:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - osmo-trx:
-          slave_axis: !!python/tuple [OsmocomBuild1]
-
-      - osmo-ggsn:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - osmo-pcap:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libsmpp34:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - openggsn:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libosmo-sccp:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libosmo-netif:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libosmo-abis:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libasn1c:
+      - asn1c:
           slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
 
       - cellmgr-ng:
@@ -65,32 +33,32 @@
             -e IU="$IU" -e SMPP="$SMPP" -e MGCP="$MGCP" -w /build -i -u build -v $PWD:/build \
             osmocom:amd64 /build/contrib/jenkins.sh'
 
-      - osmo-bsc:
+      - libasn1c:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libosmo-abis:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libosmo-netif:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libosmo-sccp:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - libosmocore:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+          a1_name: arch
+          a1: !!python/tuple [arm-none-eabi, amd64]
+          combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
           cmd: >
-            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
-            -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build -i -u build \
-            -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-            osmocom:amd64 /build/contrib/jenkins.sh'
+            if [[ "$JOB_NAME" == *"arch=arm-none-eabi,label=linux_amd64_debian8"* ]]; then
+              ./contrib/jenkins-arm.sh
+            else
+              ./contrib/jenkins.sh
+            fi
 
-      - osmo-gsm-tester:
-          slave_axis: !!python/tuple [OsmocomBuild1]
-          cmd: 'make deps; make check'
-
-      - osmo-bts:
-          a1_name: FIRMWARE_VERSION
-          a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, origin/nrw/litecell15-next]
-          a2_name: BTS_MODEL
-          a2: !!python/tuple [sysmo, oct, trx, oct+trx, lc15]
-          combination_filter: >
-            FIRMWARE_VERSION == "master" ||
-            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15") ||
-            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "lc15")
-          cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+      - libsmpp34:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
 
       - openBSC:
           a1_name: SMPP
@@ -110,17 +78,41 @@
               -v "$HOME/bin:/build_bin" -v "$ARTIFACT_STORE:/artifact_store" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - libosmocore:
+      - openggsn:
           slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-          a1_name: arch
-          a1: !!python/tuple [arm-none-eabi, amd64]
-          combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
+
+      - osmo-bsc:
           cmd: >
-            if [[ "$JOB_NAME" == *"arch=arm-none-eabi,label=linux_amd64_debian8"* ]]; then
-              ./contrib/jenkins-arm.sh
-            else
-              ./contrib/jenkins.sh
-            fi
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build -i -u build \
+            -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+            osmocom:amd64 /build/contrib/jenkins.sh'
+
+      - osmo-bts:
+          a1_name: FIRMWARE_VERSION
+          a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, origin/nrw/litecell15-next]
+          a2_name: BTS_MODEL
+          a2: !!python/tuple [sysmo, oct, trx, oct+trx, lc15]
+          combination_filter: >
+            FIRMWARE_VERSION == "master" ||
+            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15") ||
+            (FIRMWARE_VERSION == "origin/nrw/litecell15-next" && BTS_MODEL == "lc15")
+          cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+
+      - osmo-ggsn:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+
+      - osmo-gsm-manuals
+
+      - osmo-hlr:
+          slave_axis: !!python/tuple [linux_amd64_debian8, linux_amd63_debian9]
+
+      - osmo-iuh
 
       - osmo-mgw:
           a1_name: MGCP
@@ -143,6 +135,9 @@
               -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
+
+      - osmo-pcap:
+          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
 
       - osmo-pcu:
           a1_name: FIRMWARE_VERSION
@@ -167,6 +162,14 @@
               -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build \
               -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
+
+      - osmo-sip-connector
+
+      - osmo-trx:
+          slave_axis: !!python/tuple [OsmocomBuild1]
+
+      - osmocom-bb
+      - osmo-tetra
 
     jobs:
       - '{repos}-gerrit'
