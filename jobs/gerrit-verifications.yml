@@ -23,8 +23,7 @@
 
     # in alphabetical order
     repos:
-      - asn1c:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+      - asn1c
 
       - cellmgr-ng:
           concurrent: true
@@ -35,20 +34,12 @@
               -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - libasn1c:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libosmo-abis:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libosmo-netif:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
-      - libosmo-sccp:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+      - libasn1c
+      - libosmo-abis
+      - libosmo-netif
+      - libosmo-sccp
 
       - libosmocore:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
@@ -60,8 +51,7 @@
               ./contrib/jenkins.sh
             fi
 
-      - libsmpp34:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+      - libsmpp34
 
       - openBSC:
           a1_name: SMPP
@@ -82,8 +72,7 @@
               -v "$HOME/bin:/build_bin" -v "$ARTIFACT_STORE:/artifact_store" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - openggsn:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+      - openggsn
 
       - osmo-bsc:
           concurrent: true
@@ -110,9 +99,7 @@
             (FIRMWARE_VERSION == "origin/nrw/litecell15-next" && BTS_MODEL == "lc15")
           cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
-      - osmo-ggsn:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
-
+      - osmo-ggsn
       - osmo-gsm-manuals
 
       - osmo-hlr:
@@ -146,8 +133,7 @@
               -v "$ARTIFACT_STORE:/artifact_store" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - osmo-pcap:
-          slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
+      - osmo-pcap
 
       - osmo-pcu:
           a1_name: FIRMWARE_VERSION
