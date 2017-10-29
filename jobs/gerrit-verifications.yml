@@ -172,10 +172,10 @@
       - osmo-tetra
 
     jobs:
-      - '{repos}-gerrit'
+      - 'gerrit-{repos}'
 
 - job-template:
-    name: '{repos}-gerrit'
+    name: 'gerrit-{repos}'
     project-type: matrix
     node: '{node}'
     concurrent: '{obj:concurrent}'
