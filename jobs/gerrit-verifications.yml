@@ -187,7 +187,8 @@
       artifactDaysToKeep: -1
       artifactNumToKeep: -1
     description: |
-      Pending reviews of https://gerrit.osmocom.org/#/q/status:open+project:{repos}
+      Pending gerrit code reviews of
+      <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>
       <br/><br/>
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
