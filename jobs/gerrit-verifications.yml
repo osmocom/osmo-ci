@@ -30,8 +30,9 @@
           concurrent: true
           cmd: >
             docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
-            -e IU="$IU" -e SMPP="$SMPP" -e MGCP="$MGCP" -w /build -i -u build -v $PWD:/build \
-            osmocom:amd64 /build/contrib/jenkins.sh'
+              -e PATH="$PATH:/build_bin" -w /build \
+              -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh
 
       - libasn1c:
           slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
