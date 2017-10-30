@@ -4,3 +4,4 @@ install-*
 tokens.txt
 .*.sw?
 jenkins_jobs.ini
+jenkins-jobs.ini
