@@ -134,6 +134,7 @@
               -e JOB_NAME="$JOB_NAME" -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$ARTIFACT_STORE:/artifact_store" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
       - osmo-pcap:
