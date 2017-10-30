@@ -229,8 +229,6 @@
          choosing-strategy: gerrit
          wipe-workspace: false
          skip-tag: true
-         clean:
-           before: true
 
     triggers:
       - gerrit:
