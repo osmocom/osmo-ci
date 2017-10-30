@@ -1,31 +1,67 @@
-This "jobs" folder holds
+These jenkins.osmocom.org job definitions, managed by
 https://docs.openstack.org/infra/jenkins-job-builder/index.html[Jenkins Job Builder]
-YAML files, which define jenkins' jobs.
 
-One can declare a single job per file or create a job-template to declare several jobs of the same kind.
-The gerrit-verifications.yaml file for example holds all gerrit verification jobs.
+*Prepare:*
 
-'''
-*WIP:* Furthermore, we're planning to automatically deploy merged changes by having two jobs based on gerrit events:
+Install jenkins-job-builder:
 
-pre-merge:
+  apt-get install jenkins-job-builder
 
-- test generation of XML
+Have a jenkins-job-builder.ini file. Convenient is to place a system wide one,
+if you're the only one using the system, at /etc/jenkins_jobs/jenkins_jobs.ini;
+otherwise place one in here and pass it to jenkins-jobs using the --conf file.
 
-post-merge:
+Make sure the file not world readable to minimally safeguard your jenkins password.
 
-- test generation of XML
-- deploy jobs
+jenkins_jobs.ini:
 
-'''
-The XML test generation is done by:
+    [jenkins]
+    user=my_user_name
+    password=my_password
+    url=https://jenkins.osmocom.org/jenkins
 
- jenkins-jobs test jobs/
+and
 
+    chmod go-rwx jenkins_jobs.ini
 
-The deployment will be done by:
+*Update a single job on jenkins.osmocom.org:*
 
- jenkins-jobs --conf "$JJB_CONFIGFILE" update jobs/
+    jenkins-jobs --conf jenkins_jobs.ini update gerrit-verifications.yml gerrit-osmo-msc
 
-but it is not clear *yet* how we want to store/inject the `"$JJB_CONFIGFILE"` part.
+NOTE: when you supply a name not defined in that yml file, you will not get an
+error message, just nothing will happen.
 
+*Update all jobs of one file:*
+
+    jenkins-jobs --conf jenkins_jobs.ini update gerrit-verifications.yml
+
+*Update all jobs in all files:*
+
+    jenkins-jobs --conf jenkins_jobs.ini update ./
+
+*Troubleshooting:*
+
+- 'jenkins.JenkinsException: create[gerrit-osmo-msc] failed'
+
+jenkins.osmocom.org is not reachable, or URL in the config file is erratic.
+Make sure it is exactly
+
+    url=https://jenkins.osmocom.org/jenkins
+
+- newlines:
+
+The build commands may be multiline, but especially in the
+gerrit-verifications.yml, where the commands are first stored in 'cmd' and
+later inserted in a 'shell' section, the newlines between individual shell
+lines don't all survive. Interestingly enough, only a line that has more
+indenting than the first line also receives an actual newline in the resulting
+jenkins Execute Shell section; take a look at the job's config page on jenkins.
+Hence we often have a '# keep first line with less indent' comment. The safest
+way to ensure the commands work is to insert ';' at the end of each and every
+shell command. Still keep '\' at the end of lines to be combined, because you
+can't rely on newlines being omitted, either.
+
+- jobs named on cmdline are not updated:
+
+Make sure the job name is correct, or just issue an entire yml file without
+individual job names.
