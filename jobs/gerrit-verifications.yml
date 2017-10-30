@@ -51,6 +51,7 @@
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
           cmd: >
+           # keep first line with less indent to preserve newlines
             if [[ "$JOB_NAME" == *"arch=arm-none-eabi,label=linux_amd64_debian8"* ]]; then
               ./contrib/jenkins-arm.sh
             else
@@ -68,9 +69,9 @@
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
           cmd: >
+           # keep first line with less indent to preserve newlines
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
-
             docker run --rm=true -e HOME=/build -e ARTIFACT_STORE=/artifact_store \
               -e JOB_NAME="$JOB_NAME" -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e IU="$IU" -e SMPP="$SMPP" -e MGCP="$MGCP" -e PATH="$PATH:/build_bin" \
@@ -127,9 +128,9 @@
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
           cmd: >
+           # keep first line with less indent to preserve newlines
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
-
             docker run --rm=true -i -e HOME=/build -e ARTIFACT_STORE=/artifact_store \
               -e JOB_NAME="$JOB_NAME" -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
