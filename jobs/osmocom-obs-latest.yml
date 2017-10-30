@@ -20,3 +20,5 @@
           git-config-email: 'jenkins@osmocom.org'
     triggers:
       - timed: "@midnight"
+
+# vim: expandtab tabstop=2 shiftwidth=2

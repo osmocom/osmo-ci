@@ -265,3 +265,5 @@
            console-log-parsers:
              - 'GNU C Compiler 4 (gcc)'
            resolve-relative-paths: true
+
+# vim: expandtab tabstop=2 shiftwidth=2
