@@ -70,6 +70,7 @@
           a2: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
+          concurrent: true
           cmd: >
            # keep first line with less indent to preserve newlines
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
@@ -85,6 +86,7 @@
           slave_axis: !!python/tuple [linux_amd64_debian8, FreeBSD_amd64]
 
       - osmo-bsc:
+          concurrent: true
           cmd: >
            # keep first line with less indent to preserve newlines
             docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
@@ -121,6 +123,7 @@
       - osmo-mgw:
           a1_name: MGCP
           a1: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
+          concurrent: true
           cmd: >
            # keep first line with less indent to preserve newlines
             docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
@@ -131,6 +134,7 @@
       - osmo-msc:
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
+          concurrent: true
           cmd: >
            # keep first line with less indent to preserve newlines
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
@@ -163,6 +167,7 @@
           concurrent: true
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
+          concurrent: true
           cmd: >
            # keep first line with less indent to preserve newlines
             docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
