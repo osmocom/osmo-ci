@@ -53,7 +53,7 @@
 
       - libsmpp34
 
-      - openBSC:
+      - openbsc:
           a1_name: SMPP
           a1: !!python/tuple [--enable-smpp]
           a2_name: MGCP
