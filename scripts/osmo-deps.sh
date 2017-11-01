@@ -1,7 +1,7 @@
 #!/bin/sh
 set -ex
 project="$1"
-branch="${2:-origin/master}"
+branch="origin/${2:-master}"
 
 if ! test -d "$project";
 then
