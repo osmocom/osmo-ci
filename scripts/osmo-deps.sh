@@ -9,6 +9,7 @@ then
 fi
 
 cd "$project"
+git fetch --tags origin
 git fetch origin
 
 # Cleanup should already have happened during a global osmo-clean-workspace.sh,
