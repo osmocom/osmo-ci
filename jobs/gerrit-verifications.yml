@@ -35,6 +35,7 @@
               osmocom:amd64 /build/contrib/jenkins.sh
 
       - libasn1c
+      - libgtpnl
       - libosmo-abis
       - libosmo-netif
       - libosmo-sccp
