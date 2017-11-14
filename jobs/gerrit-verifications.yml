@@ -73,7 +73,10 @@
               -v "$HOME/bin:/build_bin" -v "$ARTIFACT_STORE:/artifact_store" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - openggsn
+      - openggsn:
+          a1_name: GTP
+          a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
+          cmd: GTP="$GTP" ./contrib/jenkins.sh
 
       - osmo-bsc:
           concurrent: true
@@ -100,7 +103,11 @@
             (FIRMWARE_VERSION == "origin/nrw/litecell15-next" && BTS_MODEL == "lc15")
           cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
-      - osmo-ggsn
+      - osmo-ggsn:
+          a1_name: gtp-linux
+          a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
+          cmd: GTP="$GTP" ./contrib/jenkins.sh
+
       - osmo-gsm-manuals
 
       - osmo-hlr:
