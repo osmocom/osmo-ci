@@ -1,0 +1,333 @@
+# This file holds all gerrit verifications https://jenkins.osmocom.org/jenkins/view/Jenkins-Gerrit/.
+# One cane simply add a gerrit job by adding project's repository to repos list.
+
+- project:
+    name: normal_build
+    # following default values can be overridden by each repo
+    disabled: false
+    concurrent: false
+    node: linux_amd64_debian8
+    # axes related defaults
+    slave_axis: !!python/tuple [linux_amd64_debian8]
+    a1_name: a1
+    a1: !!python/tuple [default]
+    a2_name: a2
+    a2: !!python/tuple [default]
+    a3_name: a3
+    a3: !!python/tuple [default]
+    a4_name: a4
+    a4: !!python/tuple [default]
+    combination_filter: ''
+    # most common build invocation
+    cmd: ./contrib/jenkins.sh
+
+    # in alphabetical order
+    repos:
+      - asn1c
+
+      - cellmgr-ng:
+          concurrent: true
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e PATH="$PATH:/build_bin" -w /build \
+              -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+      - libasn1c
+      - libgtpnl
+      - libosmo-abis:
+          publishers:
+            downstream-ext:
+              projects:
+                - openbsc
+
+      - libosmo-dsp:
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            autoreconf --install --force
+            ./configure
+            $MAKE $PARALLEL_MAKE
+            $MAKE distcheck
+          publishers:
+            downstream-ext:
+              projects:
+                - osmo-gmr
+
+      - libosmo-netif:
+          publishers:
+            downstream-ext:
+              projects:
+                - libosmo-sccp
+                - openbsc
+                - osmo-mgw
+
+      - libosmo-sccp:
+          publishers:
+            downstream-ext:
+              projects:
+                - openbsc
+                - osmo-gsm-tester_build-osmo-stp
+
+      - libosmocore:
+          a1_name: arch
+          a1: !!python/tuple [arm-none-eabi, amd64]
+          combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            if [[ "$JOB_NAME" == *"arch=arm-none-eabi,label=linux_amd64_debian8"* ]]; then
+              ./contrib/jenkins-arm.sh
+            else
+              ./contrib/jenkins.sh
+            fi
+          publishers:
+            downstream-ext:
+              projects:
+                - libosmo-sccp
+                - libosmo-abis
+                - openbsc
+                - osmo-pcap
+                - OsmoTETRA
+                - osmo-pcu
+                - SIMtrace
+                - osmo-gmr
+                - osmo-bts
+                - OsmocomBB
+                - xgoldmon
+
+      - libsmpp34:
+          publishers:
+            downstream-ext:
+              projects:
+                - openbsc
+                - osmo-msc
+
+      - libtelnet
+
+      - openbsc:
+          a1_name: SMPP
+          a1: !!python/tuple [--enable-smpp]
+          a2_name: MGCP
+          a2: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
+          a3_name: IU
+          a3: !!python/tuple [--disable-iu]
+          concurrent: true
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
+            mkdir -p "$ARTIFACT_STORE"
+            docker run --rm=true -e HOME=/build -e ARTIFACT_STORE=/artifact_store \
+              -e JOB_NAME="$JOB_NAME" -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e IU="$IU" -e SMPP="$SMPP" -e MGCP="$MGCP" -e PATH="$PATH:/build_bin" \
+              -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build -i -u build -v "$PWD:/build" \
+              -v "$HOME/bin:/build_bin" -v "$ARTIFACT_STORE:/artifact_store" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+      - openggsn:
+          a1_name: GTP
+          a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
+          cmd: GTP="$GTP" ./contrib/jenkins.sh
+
+      - osmo-bsc:
+          concurrent: true
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build -i -u build \
+            -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+            osmocom:amd64 /build/contrib/jenkins.sh
+
+      - osmo-bts:
+          a1_name: FIRMWARE_VERSION
+          a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, origin/nrw/litecell15-next]
+          a2_name: BTS_MODEL
+          a2: !!python/tuple [sysmo, oct, trx, oct+trx, lc15]
+          combination_filter: >
+            FIRMWARE_VERSION == "master" ||
+            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo") ||
+            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15") ||
+            (FIRMWARE_VERSION == "origin/nrw/litecell15-next" && BTS_MODEL == "lc15")
+          cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+
+      - osmo-ggsn:
+          a1_name: gtp-linux
+          a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
+          cmd: GTP="$GTP" ./contrib/jenkins.sh
+          publishers:
+            downstream-ext:
+              projects:
+                - osmo-gsm-tester_build-osmo-ggsn
+                - osmo-sgsn
+
+      - osmo-gmr
+
+      - osmo-gsm-manuals:
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            git clean -dxf .
+            rm -rf libosmocore
+            git clone git://git.osmocom.org/libosmocore
+            make LIBOSMO_DIR=$PWD/libosmocore
+            mkdir out/
+            cp */*.pdf out/
+            rsync -avz --delete -e "ssh -p 48" ./out/ docs@osmocom.org:web-files/latest/
+          publishers:
+            - archive:
+                artifacts: '*/*.pdf'
+                allow-empty: true
+
+      - osmo-hlr:
+          slave_axis: !!python/tuple [linux_amd64_debian8, linux_amd64_debian9]
+
+      - osmo-iuh
+
+      - osmo-mgw:
+          a1_name: MGCP
+          a1: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
+          concurrent: true
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e MGCP="$MGCP" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build \
+              -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+      - osmo-msc:
+          a1_name: IU
+          a1: !!python/tuple [--enable-iu, --disable-iu]
+          triggers:
+            - pollscm:
+                cron: "H/5 * * * *"
+                ignore-post-commit-hooks: false
+            - reverse:
+                jobs:
+                  - osmo-iuh
+                  - osmo-mgw
+          concurrent: true
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
+            mkdir -p "$ARTIFACT_STORE"
+            docker run --rm=true -i -e HOME=/build -e ARTIFACT_STORE=/artifact_store \
+              -e JOB_NAME="$JOB_NAME" -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -w /build -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$ARTIFACT_STORE:/artifact_store" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+      - osmo-pcap
+
+      - osmo-pcu:
+          scm:
+            - git:
+                branches:
+                  - '*/master'
+                  - '*/jerlbeck/master'
+          a1_name: FIRMWARE_VERSION
+          a1: !!python/tuple [master, v2017.01, origin/nrw/litecell15-next]
+          a2_name: with_vty
+          a2: !!python/tuple [yes ,no]
+          a3_name: with_dsp
+          a3: !!python/tuple [sysmo, lc15, none]
+          combination_filter: >
+            (with_vty == "yes" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master") ||
+            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="master") ||
+            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01") ||
+            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15-next") ||
+            (with_vty == "no" && with_dsp == "none" && FIRMWARE_VERSION=="master")
+
+      - osmo-sgsn:
+          concurrent: true
+          a1_name: IU
+          a1: !!python/tuple [--enable-iu, --disable-iu]
+          concurrent: true
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e IU="$IU" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build \
+              -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh
+
+      - osmo-sip-connector
+      - osmo-tetra
+
+      - osmo-trx:
+          slave_axis: !!python/tuple [OsmocomBuild1]
+
+      - osmocom-bb
+
+    jobs:
+      - '{repos}'
+
+- job-template:
+    name: '{repos}'
+    project-type: matrix
+    node: '{node}'
+    concurrent: '{obj:concurrent}'
+    disabled: '{obj:disabled}'
+    retry-count: 3 # scm checkout
+    build-discarder:
+      daysToKeep: 30
+      numToKeep: 120
+      artifactDaysToKeep: -1
+      artifactNumToKeep: -1
+    description: |
+      Automatic jenkins test job of
+      <a href="http://git.osmocom.org/{repos}">{repos}</a>
+      <br/><br/>
+      <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
+
+    execution-strategy:
+      combination-filter: |
+        {obj:combination_filter}
+    axes:
+      - axis:
+          type: slave
+          name: label
+          values: '{obj:slave_axis}'
+      - axis:
+          type: user-defined
+          name: '{obj:a1_name}'
+          values: '{obj:a1}'
+      - axis:
+          type: user-defined
+          name: '{obj:a2_name}'
+          values: '{obj:a2}'
+      - axis:
+          type: user-defined
+          name: '{obj:a3_name}'
+          values: '{obj:a3}'
+      - axis:
+          type: user-defined
+          name: '{obj:a4_name}'
+          values: '{obj:a4}'
+
+    scm:
+      - git:
+         url: git://git.osmocom.org/{repos}
+         branches:
+           - '*/master'
+         refspec:
+         name:
+         wipe-workspace: false
+         skip-tag: true
+
+    triggers:
+      - pollscm:
+          cron: "H/5 * * * *"
+          ignore-post-commit-hooks: false
+
+    builders:
+      - shell: '{obj:cmd}'
+
+    publishers:
+       - warnings:
+           console-log-parsers:
+             - 'GNU C Compiler 4 (gcc)'
+           resolve-relative-paths: true
+
+# vim: expandtab tabstop=2 shiftwidth=2
