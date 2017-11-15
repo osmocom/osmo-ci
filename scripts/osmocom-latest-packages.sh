@@ -6,6 +6,7 @@ set -e
 PROJ=network:osmocom:latest
 
 DT=`date +%Y%m%d`
+TOP=$(pwd)
 
 # start with a checkout of the project
 if [ -d $PROJ ]; then
@@ -17,19 +18,20 @@ fi
 build() {
   echo
   echo "====> Building $1"
+  cd $TOP
   rm -rf data
   [ -d $1 ] || git clone git://git.osmocom.org/$1
   cd $1
   git fetch
   VER=`git describe --abbrev=0 --tags --match "*.*.*" origin/master`
   git checkout -f -B $VER refs/tags/$VER
-  gbp buildpackage -d -S -uc -us --git-export-dir=$PWD/../data --git-debian-branch=$VER
-  cd ../$PROJ/$1
+  gbp buildpackage -d -S -uc -us --git-export-dir=$TOP/data --git-debian-branch=$VER
+  cd $TOP/$PROJ/$1
   osc rm * || true
-  mv ../../data/*.dsc .
-  mv ../../data/*.tar* .
+  mv $TOP/data/*.dsc .
+  mv $TOP/data/*.tar* .
   osc add *
-  cd ../../
+  cd $TOP
 }
 
 PACKAGES="
@@ -58,5 +60,5 @@ for p in $PACKAGES; do
 	build $p
 done
 
-cd $PROJ
+cd $TOP/$PROJ
 osc ci -m "Latest Tagged versions of $DT"
