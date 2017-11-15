@@ -5,7 +5,7 @@ set -e
 # OBS project name
 PROJ=network:osmocom:latest
 
-DT=`date +%Y%m%d`
+DT=$(date +%Y%m%d)
 TOP=$(pwd)
 
 # start with a checkout of the project
@@ -18,20 +18,20 @@ fi
 build() {
   echo
   echo "====> Building $1"
-  cd $TOP
+  cd "$TOP"
   rm -rf data
-  [ -d $1 ] || git clone git://git.osmocom.org/$1
-  cd $1
+  [ -d "$1" ] || git clone "git://git.osmocom.org/$1"
+  cd "$1"
   git fetch
-  VER=`git describe --abbrev=0 --tags --match "*.*.*" origin/master`
-  git checkout -f -B $VER refs/tags/$VER
-  gbp buildpackage -d -S -uc -us --git-export-dir=$TOP/data --git-debian-branch=$VER
-  cd $TOP/$PROJ/$1
-  osc rm * || true
+  VER=$(git describe --abbrev=0 --tags --match "*.*.*" origin/master)
+  git checkout -f -B "$VER" "refs/tags/$VER"
+  gbp buildpackage -d -S -uc -us "--git-export-dir=$TOP/data" "--git-debian-branch=$VER"
+  cd "$TOP/$PROJ/$1"
+  osc rm ./* || true
   mv $TOP/data/*.dsc .
   mv $TOP/data/*.tar* .
-  osc add *
-  cd $TOP
+  osc add ./*
+  cd "$TOP"
 }
 
 PACKAGES="
@@ -57,8 +57,8 @@ PACKAGES="
 	"
 
 for p in $PACKAGES; do
-	build $p
+	build "$p"
 done
 
-cd $TOP/$PROJ
+cd "$TOP/$PROJ"
 osc ci -m "Latest Tagged versions of $DT"
