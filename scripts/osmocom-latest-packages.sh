@@ -16,21 +16,36 @@ else
 fi
 
 build() {
+  project=$1
+  output=$2
   echo
-  echo "====> Building $1"
+  echo "====> Building $project"
   cd "$TOP"
-  rm -rf data
   [ -d "$1" ] || git clone "git://git.osmocom.org/$1"
   cd "$1"
   git fetch
   VER=$(git describe --abbrev=0 --tags --match "*.*.*" origin/master)
   git checkout -f -B "$VER" "refs/tags/$VER"
-  gbp buildpackage -d -S -uc -us "--git-export-dir=$TOP/data" "--git-debian-branch=$VER"
-  cd "$TOP/$PROJ/$1"
-  osc rm ./* || true
-  mv $TOP/data/*.dsc .
-  mv $TOP/data/*.tar* .
-  osc add ./*
+  gbp buildpackage -d -S -uc -us "--git-export-dir=$output" "--git-debian-branch=$VER"
+
+  if [ ! -d "$TOP/$PROJ/$1" ] ; then
+    # creating a new package is different from using old ones
+    mkdir "$TOP/$PROJ/$1"
+    mv "$output/"*.dsc "$TOP/$PROJ/$1/"
+    cd "$TOP/$PROJ"
+    osc add "$1"
+  else
+    cd "$TOP/$PROJ/$1"
+
+    # update OBS only if the filename doesn't match
+    file=$(cd "$output/" ; ls ./*.dsc)
+    if [ ! -e "$file" ] ; then
+      osc rm ./* || true
+      mv "$output/"*.dsc .
+      mv "$output/"*.tar* .
+        osc add ./*
+      fi
+  fi
   cd "$TOP"
 }
 
@@ -56,8 +71,11 @@ PACKAGES="
 	osmo-bsc
 	"
 
+[ -d "$TOP/debsrc" ] && rm -rf "$TOP/debsrc"
+mkdir "$TOP/debsrc"
+
 for p in $PACKAGES; do
-	build "$p"
+	build "$p" "$TOP/debsrc/$p"
 done
 
 cd "$TOP/$PROJ"
