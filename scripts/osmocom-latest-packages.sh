@@ -1,6 +1,6 @@
 #!/bin/sh
 
-#set -e
+set -e
 
 # OBS project name
 PROJ=network:osmocom:latest
