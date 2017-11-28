@@ -5,7 +5,7 @@
       - axis:
           type: slave
           name: label
-          values: [ OsmocomBuild1 , build1-debian9-lxc , build2-deb8build ]
+          values: [ OsmocomBuild1 , build1-debian9-lxc ]
     build-discarder:
       daysToKeep: 30
       numToKeep: 120
