@@ -5,6 +5,8 @@ https://docs.openstack.org/infra/jenkins-job-builder/index.html[Jenkins Job Buil
 
 Install jenkins-job-builder:
 
+For debian 9, see troubleshooting below. Otherwise:
+
   apt-get install jenkins-job-builder
 
 Have a jenkins-job-builder.ini file. Convenient is to place a system wide one,
@@ -68,3 +70,21 @@ Make sure the job name is correct, or just issue an entire yml file without
 individual job names.
 
 Also be aware that jobs are only actually updated when anything changed.
+
+- debian 9
+
+For jenkins-job-builder to work on debian 9:
+
+add 'testing' to /etc/apt/sources.list like
+
+  deb http://ftp.de.debian.org/debian/ testing main
+
+then
+
+    sudo apt-get update
+    sudo apt-get -t testing install python-jenkins
+    sudo apt-get install jenkins-job-builder
+
+and make sure to *not* pick the python3 versions
+(or you'll need to add catching of HTTPError to jenkins/__init__.py in
+'def maybe_add_crumb')
