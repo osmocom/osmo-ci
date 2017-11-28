@@ -37,7 +37,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bc
 # and all
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y doxygen g++ libtalloc-dev libpcsclite-dev make gcc pkgconf libtool autoconf autoconf-archive automake libortp-dev asciidoc mscgen git libsctp-dev libpcap-dev osc libc-ares-dev libgps-dev  libsofia-sip-ua-glib-dev  libssl-dev libsqlite3-dev libusb-dev libffi-dev libfftw3-dev flex bison libdbi-dev  libsnmp-dev libncurses5-dev libgsm1-dev python-minimal python3 libdbd-sqlite3 cppcheck htop  libgmp-dev gawk texinfo flex bison bc  libsigsegv-dev libffi-dev libusb-1.0-0-dev  libreadline-dev debhelper devscripts gcc-arm-none-eabi git-buildpackage dh-systemd dh-autoreconf bc openssh-client 
 
-RUN git clone git://git.osmocom.org/python/osmo-python-tests && cd osmo-python-tests && python2 ./setup.py install # 2017-03-06
+RUN git clone git://git.osmocom.org/python/osmo-python-tests && cd osmo-python-tests && python2 ./setup.py install && python3 ./setup.py install
 
 
 RUN echo "#!/bin/sh \n\
