@@ -1,0 +1,23 @@
+- job:
+    name: update-osmo-ci-on-slaves
+    project-type: matrix
+    axes:
+      - axis:
+          type: slave
+          name: label
+          values: [ OsmocomBuild1 , build1-debian9-lxc , build2-deb8build ]
+    build-discarder:
+      daysToKeep: 30
+      numToKeep: 120
+    scm:
+      - git:
+          url: git://git.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          skip-tag: true
+    builders:
+      - shell: './contrib/jenkins.sh'
+    description: |
+      <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
+
+# vim: expandtab tabstop=2 shiftwidth=2
