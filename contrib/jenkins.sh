@@ -5,7 +5,7 @@ cd ~/osmo-ci || (cd ~/ && git clone git://git.osmocom.org/osmo-ci && cd ~/osmo-c
 git rev-parse HEAD
 git status
 
-git pull origin
+git fetch && git checkout -f -B master origin/master
 
 git rev-parse HEAD
 git status
