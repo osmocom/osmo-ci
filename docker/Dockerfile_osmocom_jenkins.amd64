@@ -40,19 +40,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y doxygen g++ libtalloc-dev 
 RUN git clone git://git.osmocom.org/python/osmo-python-tests && cd osmo-python-tests && python2 ./setup.py install && python3 ./setup.py install
 
 
-RUN echo "#!/bin/sh \n\
- \n\
-if ! test -d \$1; \n\
-then \n\
-  git clone git://git.osmocom.org/\$1 \$1 \n\
-fi \n\
-\n\
-cd \$1 \n\
-git fetch origin \n\
-git reset --hard origin/master" > /usr/local/bin/osmo-deps.sh
-RUN chmod +x /usr/local/bin/osmo-deps.sh
-
-
 RUN git clone http://git.savannah.gnu.org/r/smalltalk.git
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends flex libsigsegv-dev bison libgmp-dev texinfo zip libltdl-dev 
 RUN cd smalltalk && autoreconf --install --force && ./configure && make install
