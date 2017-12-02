@@ -66,6 +66,8 @@
             downstream-ext:
               projects:
                 - openbsc
+                - osmo-iuh
+                - osmo-bsc
 
       - libosmocore:
           a1_name: arch
