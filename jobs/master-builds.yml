@@ -1,5 +1,4 @@
-# This file holds all gerrit verifications https://jenkins.osmocom.org/jenkins/view/Jenkins-Gerrit/.
-# One cane simply add a gerrit job by adding project's repository to repos list.
+# All master branch verification builds, https://jenkins.osmocom.org/jenkins/view/master/
 
 - project:
     name: master_build
@@ -67,7 +66,6 @@
             downstream-ext:
               projects:
                 - openbsc
-                - osmo-gsm-tester_build-osmo-stp
 
       - libosmocore:
           a1_name: arch
@@ -160,7 +158,6 @@
           publishers:
             downstream-ext:
               projects:
-                - osmo-gsm-tester_build-osmo-ggsn
                 - osmo-sgsn
 
       - osmo-gmr
@@ -183,7 +180,11 @@
       - osmo-hlr:
           slave_axis: !!python/tuple [linux_amd64_debian8, linux_amd64_debian9]
 
-      - osmo-iuh
+      - osmo-iuh:
+          publishers:
+            downstream-ext:
+              projects:
+                - osmo-msc
 
       - osmo-mgw:
           a1_name: MGCP
@@ -195,18 +196,14 @@
               -e MGCP="$MGCP" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build \
               -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
+          publishers:
+            downstream-ext:
+              projects:
+                - osmo-msc
 
       - osmo-msc:
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
-          triggers:
-            - pollscm:
-                cron: "H/5 * * * *"
-                ignore-post-commit-hooks: false
-            - reverse:
-                jobs:
-                  - osmo-iuh
-                  - osmo-mgw
           concurrent: true
           cmd: >
            # keep first line with less indent to preserve newlines
@@ -310,7 +307,7 @@
       - git:
          url: git://git.osmocom.org/{repos}
          branches:
-           - '*/master'
+           - 'refs/remotes/origin/master'
          refspec:
          name:
          wipe-workspace: false
