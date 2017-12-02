@@ -200,6 +200,7 @@
             downstream-ext:
               projects:
                 - osmo-msc
+                - osmo-bsc
 
       - osmo-msc:
           a1_name: IU
