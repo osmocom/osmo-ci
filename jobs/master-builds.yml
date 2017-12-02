@@ -2,7 +2,7 @@
 # One cane simply add a gerrit job by adding project's repository to repos list.
 
 - project:
-    name: normal_build
+    name: master_build
     # following default values can be overridden by each repo
     disabled: false
     concurrent: false
@@ -261,10 +261,10 @@
       - osmocom-bb
 
     jobs:
-      - '{repos}'
+      - 'master-{repos}'
 
 - job-template:
-    name: '{repos}'
+    name: 'master-{repos}'
     project-type: matrix
     node: '{node}'
     concurrent: '{obj:concurrent}'
