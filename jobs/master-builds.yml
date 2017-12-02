@@ -185,6 +185,7 @@
             downstream-ext:
               projects:
                 - osmo-msc
+                - osmo-sgsn
 
       - osmo-mgw:
           a1_name: MGCP
