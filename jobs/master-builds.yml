@@ -117,7 +117,7 @@
           cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
       - osmo-ggsn:
-          a1_name: gtp-linux
+          a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
           cmd: GTP="$GTP" ./contrib/jenkins.sh
           trigger: master-osmo-sgsn
