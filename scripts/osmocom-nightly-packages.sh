@@ -9,6 +9,11 @@ if [ -n "$(ls)" ]; then
   exit 1
 fi
 
+if ! which osc >/dev/null 2>/dev/null ; then
+  echo "osc binary not found"
+  exit 1
+fi
+
 set -x -e
 
 git clone git://git.osmocom.org/osmo-sip-connector

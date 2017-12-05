@@ -11,6 +11,11 @@ PROJ=network:osmocom:latest
 DT=$(date +%Y%m%d)
 TOP=$(pwd)
 
+if ! which osc >/dev/null 2>/dev/null ; then
+  echo "osc binary not found"
+  exit 1
+fi
+
 # start with a checkout of the project
 if [ -d $PROJ ]; then
 	(cd $PROJ && osc up)
