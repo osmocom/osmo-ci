@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# requirements
+# apt install git-buildpackage osc git
+
 set -e
 
 # OBS project name

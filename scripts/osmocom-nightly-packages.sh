@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# requirements
+# apt install devscripts git-buildpackage osc git
+
 # rather than including a dangerous 'rm -rf *' here, lets delegate to the user:
 if [ -n "$(ls)" ]; then
   echo "ERROR: I need to run in an empty directory."
