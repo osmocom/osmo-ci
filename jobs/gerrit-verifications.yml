@@ -187,11 +187,12 @@
     concurrent: '{obj:concurrent}'
     disabled: '{obj:disabled}'
     retry-count: 3 # scm checkout
-    build-discarder:
-      daysToKeep: 30
-      numToKeep: 120
-      artifactDaysToKeep: -1
-      artifactNumToKeep: -1
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+          artifact-days-to-keep: -1
+          artifact-num-to-keep: -1
     description: |
       Pending gerrit code reviews of
       <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>

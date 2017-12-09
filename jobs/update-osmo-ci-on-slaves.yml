@@ -6,9 +6,10 @@
           type: slave
           name: label
           values: [ OsmocomBuild1 , build1-debian9-lxc ]
-    build-discarder:
-      daysToKeep: 30
-      numToKeep: 120
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
     scm:
       - git:
           url: git://git.osmocom.org/osmo-ci

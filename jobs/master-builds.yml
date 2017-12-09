@@ -271,11 +271,12 @@
     concurrent: '{obj:concurrent}'
     disabled: '{obj:disabled}'
     retry-count: 3 # scm checkout
-    build-discarder:
-      daysToKeep: 30
-      numToKeep: 120
-      artifactDaysToKeep: -1
-      artifactNumToKeep: -1
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+          artifact-days-to-keep: -1
+          artifact-num-to-keep: -1
     description: |
       Automatic jenkins test job of
       <a href="http://git.osmocom.org/{repos}">{repos}</a>
