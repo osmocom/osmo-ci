@@ -91,11 +91,6 @@
               -v "$HOME/bin:/build_bin" -v "$ARTIFACT_STORE:/artifact_store" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - openggsn:
-          a1_name: GTP
-          a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
-          cmd: GTP="$GTP" ./contrib/jenkins.sh
-
       - osmo-bsc:
           concurrent: true
           cmd: >
