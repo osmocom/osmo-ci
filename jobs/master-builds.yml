@@ -19,6 +19,7 @@
     combination_filter: ''
     # most common build invocation
     cmd: ./contrib/jenkins.sh
+    trigger:
 
     # in alphabetical order
     repos:
@@ -36,10 +37,7 @@
       - libasn1c
       - libgtpnl
       - libosmo-abis:
-          publishers:
-            downstream-ext:
-              projects:
-                - openbsc
+          trigger: master-openbsc
 
       - libosmo-dsp:
           cmd: >
@@ -48,26 +46,13 @@
             ./configure
             $MAKE $PARALLEL_MAKE
             $MAKE distcheck
-          publishers:
-            downstream-ext:
-              projects:
-                - osmo-gmr
+          trigger: master-osmo-gmr
 
       - libosmo-netif:
-          publishers:
-            downstream-ext:
-              projects:
-                - libosmo-sccp
-                - openbsc
-                - osmo-mgw
+          trigger: master-libosmo-sccp, master-osmo-mgw, master-openbsc
 
       - libosmo-sccp:
-          publishers:
-            downstream-ext:
-              projects:
-                - openbsc
-                - osmo-iuh
-                - osmo-bsc
+          trigger: master-osmo-iuh, master-osmo-bsc, master-openbsc
 
       - libosmocore:
           a1_name: arch
@@ -80,27 +65,12 @@
             else
               ./contrib/jenkins.sh
             fi
-          publishers:
-            downstream-ext:
-              projects:
-                - libosmo-sccp
-                - libosmo-abis
-                - openbsc
-                - osmo-pcap
-                - OsmoTETRA
-                - osmo-pcu
-                - SIMtrace
-                - osmo-gmr
-                - osmo-bts
-                - OsmocomBB
-                - xgoldmon
+          trigger: >
+            master-libosmo-abis, master-libosmo-sccp, master-openbsc, master-osmo-pcap, master-osmo-tetra,
+            master-osmo-pcu, master-osmo-gmr, master-osmo-bts, master-osmocom-bb, SIMtrace, xgoldmon
 
       - libsmpp34:
-          publishers:
-            downstream-ext:
-              projects:
-                - openbsc
-                - osmo-msc
+          trigger: master-osmo-msc, master-openbsc
 
       - libtelnet
 
@@ -157,10 +127,7 @@
           a1_name: gtp-linux
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
           cmd: GTP="$GTP" ./contrib/jenkins.sh
-          publishers:
-            downstream-ext:
-              projects:
-                - osmo-sgsn
+          trigger: master-osmo-sgsn
 
       - osmo-gmr
 
@@ -183,11 +150,7 @@
           slave_axis: !!python/tuple [linux_amd64_debian8, linux_amd64_debian9]
 
       - osmo-iuh:
-          publishers:
-            downstream-ext:
-              projects:
-                - osmo-msc
-                - osmo-sgsn
+          trigger: master-osmo-msc, master-osmo-sgsn
 
       - osmo-mgw:
           a1_name: MGCP
@@ -199,11 +162,7 @@
               -e MGCP="$MGCP" -e PATH="$PATH:/build_bin" -e OSMOPY_DEBUG_TCP_SOCKETS="1" -w /build \
               -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
-          publishers:
-            downstream-ext:
-              projects:
-                - osmo-msc
-                - osmo-bsc
+          trigger: master-osmo-msc, master-osmo-bsc
 
       - osmo-msc:
           a1_name: IU
@@ -331,5 +290,7 @@
            console-log-parsers:
              - 'GNU C Compiler 4 (gcc)'
            resolve-relative-paths: true
+       - trigger:
+           project: '{obj:trigger}'
 
 # vim: expandtab tabstop=2 shiftwidth=2
