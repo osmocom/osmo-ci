@@ -14,8 +14,6 @@
     a2: !!python/tuple [default]
     a3_name: a3
     a3: !!python/tuple [default]
-    a4_name: a4
-    a4: !!python/tuple [default]
     combination_filter: ''
     # most common build invocation
     cmd: ./contrib/jenkins.sh
@@ -262,10 +260,6 @@
           type: user-defined
           name: '{obj:a3_name}'
           values: '{obj:a3}'
-      - axis:
-          type: user-defined
-          name: '{obj:a4_name}'
-          values: '{obj:a4}'
 
     scm:
       - git:
