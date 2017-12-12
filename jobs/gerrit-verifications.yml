@@ -177,6 +177,15 @@
       - osmocom-bb
       - osmo-tetra
 
+      - osmo-ttcn3-hacks:
+          scm:
+            - git:
+                url: https://gerrit.osmocom.org/{repos}
+          node: build2-deb9build
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            make clean; make compile
+
     jobs:
       - 'gerrit-{repos}'
 
