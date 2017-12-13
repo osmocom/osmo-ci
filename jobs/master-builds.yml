@@ -260,7 +260,7 @@
       - git:
          url: git://git.osmocom.org/{repos}
          branches:
-           - 'refs/remotes/origin/master'
+           - 'origin/master'
          refspec:
          name:
          wipe-workspace: false
