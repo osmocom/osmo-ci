@@ -42,14 +42,6 @@ build_libasn1c() {
 	popd
 }
 
-build_openbsc() {
-	pushd openbsc/openbsc
-	#IU git checkout sysmocom/iu
-
-	do_build --enable-osmo-bsc --enable-nat --enable-smpp --enable-mgcp-transcoding #IU --enable-iu
-	popd
-}
-
 build_osmobts() {
 	pushd osmo-bts
 
@@ -89,7 +81,6 @@ build_default osmo-ggsn
 #IU build_default osmo-iuh
 build_osmopcu
 build_osmobts
-build_openbsc
 build_default osmo-mgw
 build_default osmo-bsc
 build_default osmo-msc
