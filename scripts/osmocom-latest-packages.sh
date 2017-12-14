@@ -64,6 +64,7 @@ PACKAGES="
 	libosmo-netif
 	libsmpp34
 	libasn1c
+	libgtpnl
 	osmo-iuh
 	osmo-ggsn
 	osmo-sgsn
