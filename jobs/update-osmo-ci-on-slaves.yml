@@ -16,6 +16,12 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true
+
+    triggers:
+      - pollscm:
+          cron: "H/5 * * * *"
+          ignore-post-commit-hooks: false
+
     builders:
       - shell: './contrib/jenkins.sh'
     description: |
