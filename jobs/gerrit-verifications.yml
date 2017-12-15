@@ -21,6 +21,7 @@
     # most common build invocation
     cmd: ./contrib/jenkins.sh
     repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/{repos}'
+    gerrit_project: '{repos}'
 
     # in alphabetical order
     repos:
@@ -160,6 +161,7 @@
 
       - osmo-python-tests:
           repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/python/{repos}'
+          gerrit_project: 'python/{repos}'
 
       - osmo-sgsn:
           concurrent: true
@@ -255,7 +257,7 @@
                 exclude-no-code-change: true
           projects:
             - project-compare-type: 'PLAIN'
-              project-pattern: '{repos}'
+              project-pattern: '{obj:gerrit_project}'
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**'
