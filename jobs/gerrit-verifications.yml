@@ -158,7 +158,8 @@
             (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15-next") ||
             (with_vty == "no" && with_dsp == "none" && FIRMWARE_VERSION=="master")
 
-      - osmo-python-tests
+      - osmo-python-tests:
+          repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/python/{repos}'
 
       - osmo-sgsn:
           concurrent: true
