@@ -141,19 +141,11 @@
       - osmo-gmr
 
       - osmo-gsm-manuals:
+          # publishing once is plenty
+          slave_axis: !!python/tuple [OsmocomBuild1]
           cmd: >
            # keep first line with less indent to preserve newlines
-            git clean -dxf .
-            rm -rf libosmocore
-            git clone git://git.osmocom.org/libosmocore
-            make LIBOSMO_DIR=$PWD/libosmocore
-            mkdir out/
-            cp */*.pdf out/
-            rsync -avz --delete -e "ssh -p 48" ./out/ docs@osmocom.org:web-files/latest/
-          publishers:
-            - archive:
-                artifacts: '*/*.pdf'
-                allow-empty: true
+            ./contrib/jenkins.sh --publish
 
       - osmo-hlr:
           slave_axis: !!python/tuple [linux_amd64_debian8, linux_amd64_debian9]
