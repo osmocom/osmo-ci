@@ -1,0 +1,37 @@
+- job:
+    name: update-osmo-python-on-slaves
+    project-type: matrix
+    axes:
+      - axis:
+          type: slave
+          name: label
+          values: [ OsmocomBuild1, build1-debian9-lxc, build2-deb8build ]
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/python/osmo-python-tests
+          branches:
+            - 'origin/master'
+          skip-tag: true
+          wipe-workspace: true
+
+    triggers:
+      - pollscm:
+          cron: "H/5 * * * *"
+          ignore-post-commit-hooks: false
+
+    builders:
+      - shell: './contrib/jenkins.sh'
+    description: |
+      <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
+
+    # make sure to update the osmo-python in docker images, rebuilt from osmo-ci/contrib/jenkins.sh
+    publishers:
+       - trigger:
+           project: update-osmo-ci-on-slaves
+           threshold: FAILURE
+
+# vim: expandtab tabstop=2 shiftwidth=2
