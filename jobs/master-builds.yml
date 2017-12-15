@@ -35,7 +35,7 @@
       - libasn1c
       - libgtpnl
       - libosmo-abis:
-          trigger: master-openbsc
+          trigger: master-openbsc, master-libosmo-netif
 
       - libosmo-dsp:
           cmd: >
@@ -65,7 +65,8 @@
             fi
           trigger: >
             master-libosmo-abis, master-libosmo-sccp, master-openbsc, master-osmo-pcap, master-osmo-tetra,
-            master-osmo-pcu, master-osmo-gmr, master-osmo-bts, master-osmocom-bb, SIMtrace, xgoldmon
+            master-osmo-pcu, master-osmo-gmr, master-osmo-bts, master-osmocom-bb, SIMtrace, xgoldmon,
+            master-osmo-sip-connector
 
       - libsmpp34:
           trigger: master-osmo-msc, master-openbsc
