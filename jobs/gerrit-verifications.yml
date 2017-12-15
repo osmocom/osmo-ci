@@ -20,6 +20,7 @@
     combination_filter: ''
     # most common build invocation
     cmd: ./contrib/jenkins.sh
+    repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/{repos}'
 
     # in alphabetical order
     repos:
@@ -237,7 +238,7 @@
 
     scm:
       - git:
-         url: ssh://jenkins@gerrit.osmocom.org:29418/{repos}
+         url: '{obj:repos_url}'
          credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
          branches:
            - $GERRIT_BRANCH
