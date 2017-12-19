@@ -35,7 +35,7 @@
       - libasn1c
       - libgtpnl
       - libosmo-abis:
-          trigger: master-openbsc, master-libosmo-netif
+          trigger: master-openbsc, master-libosmo-netif, master-osmo-hlr
 
       - libosmo-dsp:
           cmd: >
