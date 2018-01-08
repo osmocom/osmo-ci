@@ -27,4 +27,8 @@
     description: |
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
+    publishers:
+      - email:
+          recipients: intern@lists.sysmocom.de
+
 # vim: expandtab tabstop=2 shiftwidth=2

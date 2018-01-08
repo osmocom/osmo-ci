@@ -33,5 +33,7 @@
        - trigger:
            project: update-osmo-ci-on-slaves
            threshold: FAILURE
+       - email:
+           recipients: intern@lists.sysmocom.de
 
 # vim: expandtab tabstop=2 shiftwidth=2
