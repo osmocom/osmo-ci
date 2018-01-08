@@ -236,6 +236,9 @@
 
       - osmo-trx:
           slave_axis: !!python/tuple [OsmocomBuild1]
+          a1_name: INSTR
+          a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
+          concurrent: true
 
       - osmocom-bb
 
