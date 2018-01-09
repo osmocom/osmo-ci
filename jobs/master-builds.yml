@@ -308,5 +308,8 @@
            resolve-relative-paths: true
        - trigger:
            project: '{obj:trigger}'
+       - email:
+           recipients: gerrit-log@lists.osmocom.org
+           send-to-individuals: true
 
 # vim: expandtab tabstop=2 shiftwidth=2
