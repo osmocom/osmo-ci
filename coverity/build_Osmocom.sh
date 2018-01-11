@@ -78,7 +78,7 @@ build_default libosmo-netif
 build_default libosmo-sccp
 build_libsmpp34
 build_default osmo-ggsn
-#IU build_default osmo-iuh
+build_default osmo-iuh
 build_osmopcu
 build_osmobts
 build_default osmo-mgw

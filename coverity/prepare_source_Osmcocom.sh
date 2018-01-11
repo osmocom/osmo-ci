@@ -35,7 +35,3 @@ for proj in \
 done
 
 git clone git://git.sysmocom.de/sysmo-bts/layer1-api
-
-#IU git -C asn1c checkout aper-prefix
-#IU git -C libosmo-netif checkout sysmocom/sctp
-#IU git -C libosmo-sccp checkout sysmocom/iu
