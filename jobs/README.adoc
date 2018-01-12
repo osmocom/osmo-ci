@@ -9,9 +9,12 @@ For debian 9, see troubleshooting below. Otherwise:
 
   apt-get install jenkins-job-builder
 
-Have a jenkins-job-builder.ini file. Convenient is to place a system wide one,
-if you're the only one using the system, at /etc/jenkins_jobs/jenkins_jobs.ini;
-otherwise place one in here and pass it to jenkins-jobs using the --conf file.
+Have a jenkins-job-builder.ini file. One of
+
+    ~/.config/jenkins_jobs/jenkins_jobs.ini
+    /etc/jenkins_jobs/jenkins_jobs.ini
+
+or place one in here and pass it to jenkins-jobs using the --conf file.
 
 Make sure the file not world readable to minimally safeguard your jenkins password.
 
