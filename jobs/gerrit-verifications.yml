@@ -149,15 +149,15 @@
           a1_name: FIRMWARE_VERSION
           a1: !!python/tuple [master, v2017.01, origin/nrw/litecell15-next]
           a2_name: with_vty
-          a2: !!python/tuple [yes ,no]
+          a2: !!python/tuple [True, False]
           a3_name: with_dsp
           a3: !!python/tuple [sysmo, lc15, none]
           combination_filter: >
-            (with_vty == "yes" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master") ||
-            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="master") ||
-            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01") ||
-            (with_vty == "yes" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15-next") ||
-            (with_vty == "no" && with_dsp == "none" && FIRMWARE_VERSION=="master")
+            (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15-next") ||
+            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master")
 
       - osmo-python-tests:
           repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/python/{repos}'
