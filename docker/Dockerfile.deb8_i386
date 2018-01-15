@@ -6,7 +6,7 @@ RUN dpkg --add-architecture i386 && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget make
 
 # building
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libtool pkg-config automake autoconf
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libtool pkg-config automake autoconf stow
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc g++ make git
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends sudo
