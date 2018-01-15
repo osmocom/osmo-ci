@@ -215,7 +215,6 @@
             (with_vty == "no" && with_dsp == "none" && FIRMWARE_VERSION=="master")
 
       - osmo-sgsn:
-          concurrent: true
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
           concurrent: true
