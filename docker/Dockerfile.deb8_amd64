@@ -32,7 +32,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gc
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libtool pkg-config automake autoconf stow
 
 # for osmo-python-tests
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3-setuptools python-setuptools
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3-setuptools python-setuptools python3-pip python-pip
 
 # Linux kernel
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bc
