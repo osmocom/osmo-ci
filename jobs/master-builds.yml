@@ -207,6 +207,7 @@
           a2: !!python/tuple [True, False]
           a3_name: with_dsp
           a3: !!python/tuple [sysmo, lc15, none]
+          sequential: true
           combination_filter: >
             (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master") ||
