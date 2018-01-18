@@ -46,13 +46,7 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: >
-           # keep first line with less indent to preserve newlines
-            if [[ "$JOB_NAME" == *"arch=arm-none-eabi,label=linux_amd64_debian8"* ]]; then
-              ./contrib/jenkins-arm.sh
-            else
-              ./contrib/jenkins.sh
-            fi
+          cmd: './contrib/jenkins_arch.sh "$arch"'
 
       - libsmpp34
       - libusrp
