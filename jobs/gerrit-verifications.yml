@@ -165,7 +165,6 @@
           gerrit_project: 'python/{repos}'
 
       - osmo-sgsn:
-          concurrent: true
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
           concurrent: true
