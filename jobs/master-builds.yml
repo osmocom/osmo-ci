@@ -300,6 +300,7 @@
       - pollscm:
           cron: "H/5 * * * *"
           ignore-post-commit-hooks: false
+      - timed: "H H * * *"
 
     builders:
       - shell: '{obj:cmd}'
