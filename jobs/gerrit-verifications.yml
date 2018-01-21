@@ -55,6 +55,7 @@
             fi
 
       - libsmpp34
+      - libusrp
 
       - openbsc:
           a1_name: SMPP

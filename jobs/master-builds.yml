@@ -72,6 +72,7 @@
           trigger: master-osmo-msc, master-openbsc
 
       - libtelnet
+      - libusrp
 
       - openbsc:
           a1_name: SMPP
