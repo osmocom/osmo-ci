@@ -10,10 +10,6 @@ install -d "$prefix"
 
 export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
 
-git_branch() {
-  echo "$(git status)" | grep 'On branch' | sed 's/On branch //'
-}
-
 do_build() {
 	autoreconf --install --force
 	./configure --prefix="$prefix" $*
