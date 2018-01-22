@@ -15,6 +15,7 @@
     a3_name: a3
     a3: !!python/tuple [default]
     combination_filter: ''
+    sequential: false
     # most common build invocation
     cmd: ./contrib/jenkins.sh
     trigger:
@@ -261,6 +262,7 @@
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
     execution-strategy:
+      sequential: '{obj:sequential}'
       combination-filter: |
         {obj:combination_filter}
     axes:

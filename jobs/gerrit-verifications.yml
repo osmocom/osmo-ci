@@ -18,6 +18,7 @@
     a4_name: a4
     a4: !!python/tuple [default]
     combination_filter: ''
+    sequential: false
     # most common build invocation
     cmd: ./contrib/jenkins.sh
     repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/{repos}'
@@ -211,6 +212,7 @@
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
     execution-strategy:
+      sequential: '{obj:sequential}'
       combination-filter: |
         {obj:combination_filter}
     axes:
