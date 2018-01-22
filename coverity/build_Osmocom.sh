@@ -45,7 +45,7 @@ build_libasn1c() {
 build_osmobts() {
 	pushd osmo-bts
 
-	do_build --enable-sysmocom-bts --enable-trx
+	do_build --enable-sysmocom-bts --with-sysmobts="$prefix/include/" --enable-trx
 	popd
 }
 
