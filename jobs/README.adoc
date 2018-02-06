@@ -17,6 +17,9 @@ Have a jenkins-job-builder.ini file. One of
 or place one in here and pass it to jenkins-jobs using the --conf file.
 
 Make sure the file not world readable to minimally safeguard your jenkins password.
+Instead of using your jenkins password, use an *API Token*. To retrieve your token go
+to Jenkins via a Webbrowser, click on your Username in the right corner, click on configure,
+click on *Show API Toke...*.
 
 jenkins_jobs.ini:
 
