@@ -33,10 +33,16 @@
               -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - libasn1c
-      - libgtpnl
+      - libasn1c:
+          trigger: master-osmo-iuh, master-osmo-msc
+
+      - libgtpnl:
+          trigger: master-osmo-ggsn, openggsn
+
       - libosmo-abis:
-          trigger: master-openbsc, master-libosmo-netif, master-osmo-hlr
+          trigger: >
+            master-libosmo-netif, master-osmo-bsc, master-osmo-bts, master-osmo-hlr,
+            master-osmo-msc, master-osmo-sgsn, master-openbsc
 
       - libosmo-dsp:
           cmd: >
@@ -48,10 +54,13 @@
           trigger: master-osmo-gmr
 
       - libosmo-netif:
-          trigger: master-libosmo-sccp, master-osmo-mgw, master-openbsc
+          trigger: >
+            master-libosmo-sccp, master-openbsc, mastere-osmo-hlr, master-osmo-iuh,
+            master-osmo-mgw, master-osmo-msc, master-osmo-sgsn
 
       - libosmo-sccp:
-          trigger: master-osmo-iuh, master-osmo-bsc, master-openbsc
+          trigger: >
+            master-openbsc, master-osmo-bsc, master-osmo-iuh, master-osmo-msc, master-osmo-sgsn
 
       - libosmocore:
           a1_name: arch
@@ -59,15 +68,18 @@
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
           cmd: './contrib/jenkins_arch.sh "$arch"'
           trigger: >
-            master-libosmo-abis, master-libosmo-sccp, master-openbsc, master-osmo-pcap, master-osmo-tetra,
-            master-osmo-pcu, master-osmo-gmr, master-osmo-bts, master-osmocom-bb, SIMtrace, xgoldmon,
-            master-osmo-sip-connector
+            master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp, master-openbsc,
+            master-osmo-bsc, master-osmo-bts, master-osmo-ggsn, master-osmo-gmr, master-osmo-hlr,
+            master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-pcap, master-osmo-pcu,
+            master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra,
+            master-osmocom-bb, SIMtrace, xgoldmon
 
       - libsmpp34:
           trigger: master-osmo-msc, master-openbsc
 
       - libtelnet
-      - libusrp
+      - libusrp:
+          trigger: master-osmo-trx
 
       - openbsc:
           a1_name: SMPP
