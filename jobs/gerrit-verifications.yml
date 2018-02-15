@@ -187,7 +187,7 @@
           slave_axis: !!python/tuple [build2-deb9build]
           cmd: >
            # keep first line with less indent to preserve newlines
-            make clean; make compile
+            make clean; make deps-update && make compile
 
     jobs:
       - 'gerrit-{repos}'
