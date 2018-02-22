@@ -322,7 +322,7 @@
        - trigger:
            project: '{obj:trigger}'
        - email:
-           recipients: gerrit-log@lists.osmocom.org
+           recipients: gerrit-log@lists.osmocom.org, laforge@gnumonks.org
            send-to-individuals: true
 
 # vim: expandtab tabstop=2 shiftwidth=2
