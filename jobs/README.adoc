@@ -102,3 +102,5 @@ Please use the following labels
 
 - osmocom-master-debian8: are nodes which can build osmocom-master and is a debian 8
 - osmocom-master-debian9: are nodes which can build osmocom-master and is a debian 9
+- osmocom-gerrit-debian8: are nodes which can build osmocom-gerrit and is a debian 8
+- osmocom-gerrit-debian9: are nodes which can build osmocom-gerrit and is a debian 9
