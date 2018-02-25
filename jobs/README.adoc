@@ -94,3 +94,11 @@ then
 and make sure to *not* pick the python3 versions
 (or you'll need to add catching of HTTPError to jenkins/__init__.py in
 'def maybe_add_crumb')
+
+*Jenkins labels*
+
+The build jobs are using labels to specify on which nodes the job should be run.
+Please use the following labels
+
+- osmocom-master-debian8: are nodes which can build osmocom-master and is a debian 8
+- osmocom-master-debian9: are nodes which can build osmocom-master and is a debian 9

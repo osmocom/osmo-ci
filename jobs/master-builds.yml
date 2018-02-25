@@ -5,9 +5,9 @@
     # following default values can be overridden by each repo
     disabled: false
     concurrent: false
-    node: linux_amd64_debian8
+    node: osmocom-master-debian8
     # axes related defaults
-    slave_axis: !!python/tuple [linux_amd64_debian8]
+    slave_axis: !!python/tuple [osmocom-master-debian8]
     a1_name: a1
     a1: !!python/tuple [default]
     a2_name: a2
@@ -156,7 +156,7 @@
             ./contrib/jenkins.sh --publish
 
       - osmo-hlr:
-          slave_axis: !!python/tuple [linux_amd64_debian8, linux_amd64_debian9]
+          slave_axis: !!python/tuple [osmocom-master-debian8, osmocom-master-debian9]
 
       - osmo-iuh:
           trigger: master-osmo-msc, master-osmo-sgsn
@@ -244,7 +244,7 @@
       - osmo-tetra
 
       - osmo-trx:
-          slave_axis: !!python/tuple [linux_amd64_debian9]
+          slave_axis: !!python/tuple [osmocom-master-debian9]
           a1_name: INSTR
           a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
           concurrent: true
