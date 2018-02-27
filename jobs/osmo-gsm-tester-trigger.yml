@@ -1,0 +1,29 @@
+# Only contains osmo-gsm-tester_build-trigger-all
+# Manually kick off all osmo-gsm-tester_build-osmo-* builds at once.
+- project:
+    name: osmo-gsm-tester-trigger
+    jobs:
+      - 'osmo-gsm-tester_build-trigger-all'
+
+- job:
+    name: 'osmo-gsm-tester_build-trigger-all'
+    description: 'Manually kick off all osmo-gsm-tester_build-osmo-* builds at once.'
+    project-type: freestyle
+    node: osmo-gsm-tester-build
+    publishers:
+      # hopefully the trigger will support lists in the future
+      - trigger:
+          project: >
+            osmo-gsm-tester_build-osmo-bsc,
+            osmo-gsm-tester_build-osmo-bts,
+            osmo-gsm-tester_build-osmo-ggsn,
+            osmo-gsm-tester_build-osmo-hlr,
+            osmo-gsm-tester_build-osmo-mgw,
+            osmo-gsm-tester_build-osmo-msc,
+            osmo-gsm-tester_build-osmo-pcu,
+            osmo-gsm-tester_build-osmo-sgsn,
+            osmo-gsm-tester_build-osmo-trx,
+            osmo-gsm-tester_build-osmo-nitb,
+            osmo-gsm-tester_build-osmo-stp,
+            osmo-gsm-tester_build-osmo-bts-sysmo,
+            osmo-gsm-tester_build-osmo-pcu-sysmo
