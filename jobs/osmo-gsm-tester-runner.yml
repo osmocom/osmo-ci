@@ -1,0 +1,118 @@
+## run jobs
+- project:
+    name: osmo-gsm-testers-runner
+    stage:
+      - prod
+      - rnd
+    jobs:
+      - 'osmo-gsm-tester_run-{stage}'
+
+# The repo must be used seperate to workaround the bug "Can not expand OSMO_GSM_TESTER_BRANCH".
+# The safe-guard check to not use un-defined variables seems to be broken.
+- scm:
+    name: osmo-gsm-tester-repo
+    scm:
+      - git:
+          url: git://git.osmocom.org/osmo-gsm-tester
+          branches:
+            - ${OSMO_GSM_TESTER_BRANCH}
+          wipe-workspace: false
+          skip-tag: true
+          basedir: osmo-gsm-tester
+
+- builder:
+    name: copy_artifact
+    builders:
+      - copyartifact:
+          project: '{repo}'
+          filter: '*.tgz, *.md5'
+          which-build: last-successful
+          stable: true
+
+# all artifact in one place
+- builder:
+    name: copy_artifact_all
+    builders:
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-bsc
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-bts
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-ggsn
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-hlr
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-mgw
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-msc
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-pcu
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-sgsn
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-trx
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-nitb
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-stp
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-bts-sysmo
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-pcu-sysmo
+
+- defaults:
+    name: runner
+    description: 'Run an actual GSM hardware test using the binaries from the osmo-gsm-tester_build* jobs'
+    node: 'osmo-gsm-tester-prod'
+    project-type: freestyle
+    properties:
+      - build-discarder:
+          num-to-keep: 60
+    parameters:
+      - string:
+          name: "OSMO_GSM_TESTER_BRANCH"
+          default: "origin/master"
+          description: "Which branch/sha should be used for testing"
+      - string:
+          name: "OSMO_GSM_TESTER_OPTS"
+          default: ""
+          description: "pass additional command line options to osmo-gsm-tester.py, e.g. to select specific suites:scenarios. Default: leave empty."
+
+- job-template:
+    name: 'osmo-gsm-tester_run-{stage}'
+    defaults: runner
+    node: 'osmo-gsm-tester-{stage}'
+    triggers:
+      - timed: "H H/2 * * *"
+      - pollscm:
+          cron: "H/5 * * * *"
+      - reverse:
+            jobs:
+                - osmo-gsm-tester_build-osmo-bsc
+                - osmo-gsm-tester_build-osmo-bts
+                - osmo-gsm-tester_build-osmo-ggsn
+                - osmo-gsm-tester_build-osmo-hlr
+                - osmo-gsm-tester_build-osmo-mgw
+                - osmo-gsm-tester_build-osmo-msc
+                - osmo-gsm-tester_build-osmo-pcu
+                - osmo-gsm-tester_build-osmo-sgsn
+                - osmo-gsm-tester_build-osmo-trx
+                - osmo-gsm-tester_build-osmo-nitb
+                - osmo-gsm-tester_build-osmo-stp
+                - osmo-gsm-tester_build-osmo-bts-sysmo
+                - osmo-gsm-tester_build-osmo-pcu-sysmo
+    builders:
+      - copy_artifact_all
+      - shell: !include-raw: osmo-gsm-tester_run-{stage}.sh
+    publishers:
+      - archive:
+          artifacts: '*-run.tgz, *-bin.tgz'
+          default-excludes: false
+      - junit:
+          results: 'trial-*/last_run/trial-*.xml'
+          allow-empty-results: true
+      - email:
+          recipients: 'pespin@sysmocom.de'
+          notify-every-unstable-build: true
+    scm:
+      - 'osmo-gsm-tester-repo'
