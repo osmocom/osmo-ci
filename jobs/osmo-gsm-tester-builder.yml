@@ -1,0 +1,99 @@
+---
+# All job in here builds the binaries
+# which will be used by the runner jobs
+#
+- project:
+    name: osmo-gsm-tester-builder
+
+    repo:
+      - osmo-bsc
+      - osmo-bts
+      - osmo-ggsn
+      - osmo-hlr
+      - osmo-mgw
+      - osmo-msc
+      - osmo-pcu
+      - osmo-sgsn
+      - osmo-trx
+      - osmo-nitb:
+          triggered-by: master-openbsc
+      - osmo-stp:
+          triggered-by: master-libosmo-sccp
+      - osmo-bts-sysmo:
+          triggered-by: master-osmo-bts
+      - osmo-pcu-sysmo:
+          triggered-by: master-osmo-pcu
+    triggered-by: 'master-{repo}'
+
+    jobs:
+      - 'osmo-gsm-tester_build-{repo}'
+
+- parameter:
+    name: add_param_build_branch
+    parameters:
+      - string:
+          name: "{name}"
+          default: ""
+          description: "Default: leave empty. Branch to build from, in the form my/branch or origin/my/branch (do not prepend 'refs/heads/')"
+
+- job-template:
+    name: 'osmo-gsm-tester_build-{repo}'
+    project-type: freestyle
+    node: osmo-gsm-tester-build
+    builders:
+      - shell: |
+          set -e -x
+          ./osmo-gsm-tester/contrib/jenkins-build-{repo}.sh
+    triggers:
+      - reverse:
+            jobs: '{triggered-by}'
+    publishers:
+      - archive:
+          artifacts: '*.tgz, *.md5'
+          only-if-success: 'true'
+          default-excludes: false
+    properties:
+      - build-discarder:
+          num-to-keep: 20
+    parameters:
+      - string:
+          name: "OSMO_GSM_TESTER_BRANCH"
+          default: "origin/master"
+          description: "Which branch/sha should be used for testing"
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_libosmo-abis
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_libosmocore
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_libosmo-netif
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_libosmo_sccp
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_octphy_2g_headers
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmo_bts
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmo_mgw
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmo-mgw
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmo_msc
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmo_pcu
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmo_trx
+    scm:
+      - osmo-gsm-tester-repo
+
+# The repo must be used seperate to workaround the bug "Can not expand OSMO_GSM_TESTER_BRANCH".
+# The safe-guard check to not use un-defined variables seems to be broken.
+- scm:
+    name: osmo-gsm-tester-repo
+    scm:
+      - git:
+          url: git://git.osmocom.org/osmo-gsm-tester
+          branches:
+            - ${OSMO_GSM_TESTER_BRANCH}
+          wipe-workspace: false
+          skip-tag: true
+          basedir: osmo-gsm-tester
