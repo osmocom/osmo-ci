@@ -31,12 +31,12 @@ git clean -dxf -e "$deps" -e "layer1-headers"
 # but clean each git of build artifacts.
 if [ -d "$deps" ]; then
   for dep_dir in "$deps"/* ; do
-    git checkout -f HEAD
+    git -C "$dep_dir" checkout -f HEAD
     git -C "$dep_dir" clean -dxf
   done
 fi
 
 if [ -d "layer1-headers" ]; then
-  git checkout -f HEAD
+  git -C "layer1-headers" checkout -f HEAD
   git -C "layer1-headers" clean -dxf
 fi
