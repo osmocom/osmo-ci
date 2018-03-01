@@ -6,6 +6,23 @@
       - rnd
     jobs:
       - 'osmo-gsm-tester_run-{stage}'
+      - 'osmo-gsm-tester_gerrit'
+
+- scm:
+    name: osmo-gsm-tester-gerrit
+    scm:
+      - git:
+          url: ssh://jenkins@gerrit.osmocom.org:29418/osmo-gsm-tester
+          credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+          branches:
+            - $GERRIT_BRANCH
+          refspec: $GERRIT_REFSPEC
+          wipe-workspace: false
+          skip-tag: true
+          basedir: osmo-gsm-tester
+          clean:
+            before: true
+          choosing-strategy: 'gerrit'
 
 # The repo must be used seperate to workaround the bug "Can not expand OSMO_GSM_TESTER_BRANCH".
 # The safe-guard check to not use un-defined variables seems to be broken.
@@ -116,3 +133,36 @@
           notify-every-unstable-build: true
     scm:
       - 'osmo-gsm-tester-repo'
+
+# gerrit job
+- job:
+    name: 'osmo-gsm-tester_gerrit'
+    defaults: runner
+    scm:
+      - 'osmo-gsm-tester-gerrit'
+    triggers:
+      - gerrit:
+          server-name: 'gerrit.osmocom.org'
+          trigger-on:
+            - patchset-created-event:
+                exclude-no-code-change: true
+            - draft-published-event
+          projects:
+            - project-compare-type: 'PLAIN'
+              project-pattern: 'osmo-gsm-tester'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**'
+    builders:
+      - shell: |
+          # make sure no bin artifacts from a previous run remain
+          rm -f *.tgz *.md5
+      - copy_artifact_all
+      - shell: !include-raw: osmo-gsm-tester_run-gerrit.sh
+    publishers:
+      - archive:
+          artifacts: '*-run.tgz, *-bin.tgz'
+          default-excludes: false
+      - junit:
+          results: 'trial-*/last_run/trial-*.xml'
+          allow-empty-results: true
