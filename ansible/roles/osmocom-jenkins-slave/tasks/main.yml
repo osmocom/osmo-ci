@@ -1,0 +1,102 @@
+---
+
+- name: install jenkins packages
+  include: debian.yml
+  when: ansible_distribution == 'Debian'
+
+- name: install build utilities
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - asciidoc
+    - autoconf
+    - automake
+    - bc
+    - bison
+    - coccinelle
+    - cppcheck
+    - debhelper
+    - devscripts
+    - dh-autoreconf
+    - dh-systemd
+    - doxygen
+    - flex
+    - g++
+    - gawk
+    - gcc
+    - gcc-arm-none-eabi
+    - git
+    - git-buildpackage
+    - libtool
+    - libboost-all-dev
+    - make
+    - mscgen
+    - osc
+    - pkgconf
+    - python-minimal
+    - python-setuptools
+    - python3
+    - python3-setuptools
+    - stow
+    - texinfo
+
+- name: install build dependencies and libraries
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - libc-ares-dev
+    - libdbd-sqlite3
+    - libdbi-dev
+    - libffi-dev
+    - libffi-dev
+    - libfftw3-dev
+    - libgmp-dev
+    - libgnutls28-dev
+    - libgps-dev
+    - libgsm1-dev
+    - libmnl-dev
+    - libncurses5-dev
+    - libortp-dev
+    - libpcap-dev
+    - libpcsclite-dev
+    - libreadline-dev
+    - libsctp-dev
+    - libsigsegv-dev
+    - libsnmp-dev
+    - libsofia-sip-ua-glib-dev
+    - libsqlite3-dev
+    - libssl-dev
+    - libsystemd-dev
+    - libtalloc-dev
+    - libusb-1.0-0-dev
+    - libusb-dev
+    - libzmq3-dev
+    - sqlite3
+    - libboost-dev
+    - libuhd-dev
+
+- name: add user jenkins
+  user:
+    name: "{{ jenkins_user }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_type: rsa
+    shell: /bin/bash
+
+- name: setup jenkins ssh key
+  authorized_key:
+    user: "{{ jenkins_user }}"
+    key: "{{ lookup('file', 'jenkins.osmocom.org.pub') }}"
+
+- name: include generic slave
+  include: generic-slave.yml
+  when: generic_slave
+
+- name: copy .gitconfig
+  copy:
+    src: gitconfig
+    dest: "/home/{{ jenkins_user }}/.gitconfig"

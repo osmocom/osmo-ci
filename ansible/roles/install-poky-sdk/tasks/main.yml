@@ -1,0 +1,42 @@
+---
+
+- name: install bzip2 and tar
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - tar
+    - bzip2
+
+- name: copy poky installer
+  copy:
+    src: "{{ poky_installer_file }}"
+    dest: "/tmp/{{ poky_installer_file }}"
+    mode: 750
+  register: poky_copy
+  ignore_errors: yes
+  tags: [poky]
+
+- name: execute poky installer
+  command: "/tmp/{{ poky_installer_file }}"
+  args:
+    creates: "/opt/poky/{{ poky_version }}"
+  when: poky_copy.failed == false
+  tags: [poky]
+
+- name: change owner/group to jenkins user
+  file:
+    path: /opt/poky
+    owner: "{{ jenkins_user }}"
+    group: "{{ jenkins_user }}"
+    recurse: yes
+  when: poky_copy.failed == false
+  tags: [poky]
+
+- name: "Please download {{ poky_installer_file }} to your ansible directory to allow ansible to install poky"
+  debug:
+    msg: "Ansible can not find or copy {{ poky_installer_file }}"
+  when: poky_copy.failed
+  tags: [poky]
+

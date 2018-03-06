@@ -1,0 +1,8 @@
+---
+
+# OS user
+jenkins_user: jenkins
+
+# E.g. a generic_slave requires different tasks as a
+# special slave including the gsm-tester
+generic_slave: true

@@ -1,0 +1,7 @@
+---
+# OS user
+jenkins_user: jenkins
+
+poky_installer_file: poky-glibc-x86_64-meta-toolchain-osmo-armv5te-toolchain-osmo-2.3.2.sh
+poky_version: 2.3.2
+

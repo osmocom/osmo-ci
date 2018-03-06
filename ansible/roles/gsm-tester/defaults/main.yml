@@ -1,0 +1,7 @@
+---
+
+# how many modem are connected?
+# This is used when reseting the modems via quad_modem_power_cycle.sh,
+# because some modems take longer and the script waits until all
+# modems connected
+gsm_modems: 4

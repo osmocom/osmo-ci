@@ -1,0 +1,45 @@
+---
+# modems
+- name: install dependecies for usrp
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - libuhd-dev
+    - uhd-host
+  register: uhd_installed
+
+- name: download firmware for uhd/usrp
+  command: uhd_images_downloader
+  args:
+    creates: /usr/share/uhd/images
+  when: uhd_installed | changed
+
+- name: allow jenkins to access USRP
+  user:
+    name: jenkins
+    groups: usrp
+    append: yes
+
+- name: install gobi2000 packages 
+  apt:
+    name: gobi-loader
+    cache_valid_time: 3600
+    update_cache: yes
+
+- name: gobi firmwares
+  file: path=/lib/firmware/gobi state=directory
+
+- name: copy gobi firmwares
+  copy:
+    src: "{{ item.file }}"
+    dest: "/lib/firmware/{{ item.file }}"
+  with_items:
+    - file: gobi/amss.mbn
+      checksum: sha256:18d161dc5e9db5e795b1f1026e47d0590b6cc0ed9bef824ac0c4b771b529c364
+    - file: gobi/apps.mbn
+      checksum: sha256:cd7d9adaccf59f02b3bc8261334ed83c7644fbdbf697055189533467d6c882b2
+    - file: gobi/UQCN.mbn
+      checksum: sha256:37dfc789f899d0ec4c8ba2c403a1a4bc266c9017c94f2b90912e1b7e978c42e7
+  ignore_errors: yes

@@ -1,0 +1,39 @@
+---
+- name: setup osmo-gsm-tester apu
+  hosts: gsm-tester
+  user: root
+  tasks:
+    - name: install common utilities
+      apt:
+        name: "{{ item }}"
+        cache_valid_time: 3600
+        update_cache: yes
+      with_items:
+        - vim
+        - tmux
+        - screen
+        - ca-certificates
+        - wget
+        - curl
+  roles:
+    - name: gsm-tester
+      # how many modems are connected via a quadmodem?
+      gsm_modems: 4
+      tags:
+        - gsm-tester
+
+    - name: gsm-tester-modems
+      tags:
+        - gsm-tester
+        - gsm-tester-modems
+
+    - name: gsm-tester-network
+      bts_interface: enp2s0
+      tags:
+        - gsm-tester
+
+    - name: osmocom-jenkins-slave
+      jenkins_user: jenkins
+      generic_slave: false
+      tags:
+        - jenkins-slave

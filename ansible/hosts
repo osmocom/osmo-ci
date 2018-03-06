@@ -1,0 +1,11 @@
+[gsm-tester]
+# rnd
+10.9.25.101
+# production
+10.9.25.107
+
+[jenkins-slaves]
+# admin2-deb9build
+2a01:4f8:13b:828::1:300
+# admin2-deb8build
+2a01:4f8:13b:828::1:400

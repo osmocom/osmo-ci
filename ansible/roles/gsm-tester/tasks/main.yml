@@ -1,0 +1,244 @@
+---
+# gsm tester would only need the libraries, not the dev packages.
+# But the name of the -dev packages are more stable over multiple release.
+- name: install osmocom runtime dependencies
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - build-essential
+    - git
+    - automake
+    - libdbi-dev
+    - libdbd-sqlite3
+    - sqlite3
+    - libsctp-dev
+    - libortp-dev
+    - libpcap-dev
+    - libc-ares-dev
+    - libtool
+    - shtool
+    - pkg-config
+    - libtalloc-dev
+    - libpcsclite-dev
+    - libgnutls28-dev
+    - libmnl-dev
+    - libssl-dev
+    - libczmq-dev
+    - libsofia-sip-ua-glib-dev
+    - libsqlite3-dev
+    - libasound2-dev
+    - mdbus2
+
+- name: install ofono build dependencies
+  apt:
+    name: ofono
+    state: build-dep
+    cache_valid_time: 3600
+    update_cache: yes
+
+- name: install libqmi-glib a dependency of sysmocom ofono
+  apt:
+    name: libqmi-glib-dev
+    cache_valid_time: 3600
+    update_cache: yes
+
+- name: install uhub dependencies
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - libusb-1.0-0-dev
+
+- name: setup uhubctl repository
+  git:
+    repo: "https://github.com/mvp/uhubctl.git"
+    dest: /root/uhubctl
+    version: master
+    clone: yes
+    update: no
+
+- name: build uhubctl
+  shell: |
+      make && \
+      make install
+  args:
+    chdir: /root/uhubctl
+    creates: /usr/sbin/uhubctl
+
+# TODO: move this into restart-modems.d directory
+- name: copy quad_modem_power_cycle.sh
+  template:
+    src: quad_modem_power_cycle.sh
+    dest: /usr/local/bin/quad_modem_power_cycle.sh
+    mode: 0755
+  tags:
+    - ofono
+
+- name: setup ofono repository
+  git:
+    repo: 'git://git.sysmocom.de/ofono'
+    dest: /root/ofono
+    version: osmo-gsm-tester
+    clone: yes
+    update: no
+  tags:
+    - ofono
+
+- name: build ofono
+  shell: |
+      ./bootstrap && \
+      CFLAGS="-g" ./configure --disable-bluez4 && \
+      CFLAGS="-g" make -j3 && \
+      make install && \
+      systemctl daemon-reload
+  args:
+    chdir: /root/ofono
+    creates: /usr/local/sbin/ofonod
+  tags:
+    - ofono
+
+- name: ensure ofono is started
+  service:
+    name: ofono
+    state: started
+    enabled: yes
+  tags:
+    - ofono
+
+- name: install gsm tester dependencies
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - dbus
+    - tcpdump
+    - sqlite3
+    - python3
+    - python3-yaml
+    - python3-mako
+    - python3-gi
+    - ofono
+    - patchelf
+    - sudo
+    - libcap2-bin
+    - python3-pip
+
+- name: install gsm tester pip dependencies
+  pip:
+    name: "{{ item }}"
+    executable: pip3
+    editable: no
+  with_items:
+    - "git+https://github.com/podshumok/python-smpplib.git@master#egg=smpplib"
+    - pydbus
+  tags: [pip]
+
+- name: create group osmo-gsm-tester
+  group:
+    name: osmo-gsm-tester
+
+- name: add jenkins to osmo-gsm-tester and systemd-journal
+  user:
+    name: jenkins
+    groups: "{{ item }}"
+    append: yes
+    shell: /bin/bash
+  with_items:
+    - systemd-journal
+    - osmo-gsm-tester
+
+- name: setup state directory
+  file:
+    path: /var/tmp/osmo-gsm-tester/state
+    state: directory
+    group: osmo-gsm-tester
+    mode: g+rwxs
+
+- name: install acl
+  apt:
+    name: acl
+
+# Ensure the group always has access to all files
+- name: add acl to state directory
+  acl:
+    path: /var/tmp/osmo-gsm-tester/state
+    state: present
+    etype: group
+    entity: osmo-gsm-tester
+    default: yes
+    permissions: rwx
+
+- name: create trials directory
+  file:
+    path: /var/tmp/osmo-gsm-tester/trials
+    state: directory
+    group: osmo-gsm-tester
+    mode: g+rwxs
+
+- name: allow osmo-gsm-tester to access ofono
+  copy:
+    src: dbus_osmo-gsm-tester.conf
+    dest: /etc/dbus-1/system.d/osmo-gsm-tester.conf
+
+- name: ensure tcpdump can be called by osmo-gsm-tester
+  file:
+    path: /usr/sbin/tcpdump
+    group: osmo-gsm-tester
+    mode: 750
+
+- name: create a symlink for tcpdump
+  file:
+    src: /usr/sbin/tcpdump
+    dest: /usr/local/bin/tcpdump
+    state: link
+
+- name: add correct capabilities to tcpdump
+  capabilities:
+    path: /usr/sbin/tcpdump
+    capability: cap_net_raw,cap_net_admin=eip
+    state: present
+
+- name: allow core files for the group osmo-gsm-tester
+  copy:
+    content: "@osmo-gsm-tester - core unlimited"
+    dest: /etc/security/limits.d/osmo-gsm-tester_allowcore.conf
+
+- name: allow rt priority for the group osmo-gsm-tester
+  copy:
+    content: "@osmo-gsm-tester - rtprio 99"
+    dest: /etc/security/limits.d/osmo-gsm-tester_rtprio.conf
+
+- name: create a wrapper script to add CAP_NET_RAW
+  copy:
+    src: osmo-gsm-tester_setcap_net_raw.sh
+    dest: /usr/local/bin/osmo-gsm-tester_setcap_net_raw.sh
+    mode: 755
+
+- name: allow osmo-gsm-tester sudo osmo-gsm-tester_setcap_net_raw.sh
+  copy:
+    content: |
+      %osmo-gsm-tester ALL=(root) NOPASSWD: /usr/local/bin/osmo-gsm-tester_setcap_net_raw.sh
+    dest: /etc/sudoers.d/osmo-gsm-tester_setcap_net_raw
+    mode: 0440
+
+- name: create a wrapper script to add CAP_NET_ADMIN
+  copy:
+    src: osmo-gsm-tester_setcap_net_admin.sh
+    dest: /usr/local/bin/osmo-gsm-tester_setcap_net_admin.sh
+    mode: 755
+
+- name: allow osmo-gsm-tester sudo osmo-gsm-tester_setcap_net_admin.sh
+  copy:
+    content: |
+      %osmo-gsm-tester ALL=(root) NOPASSWD: /usr/local/bin/osmo-gsm-tester_setcap_net_admin.sh
+    dest: /etc/sudoers.d/osmo-gsm-tester_setcap_net_admin
+    mode: 0440
+
+- name: logrotate limit filesizes to 10M
+  copy:
+    content: "maxsize 10M"
+    dest: /etc/logrotate.d/maxsize

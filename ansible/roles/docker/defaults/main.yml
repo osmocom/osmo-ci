@@ -1,0 +1,4 @@
+---
+
+# Adds this user to the group docker which is allowed to access docker
+jenkins_user: jenkins

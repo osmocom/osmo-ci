@@ -1,0 +1,35 @@
+---
+- name: setup jenkins slaves
+  hosts: jenkins-slaves
+  user: root
+  tasks:
+    - name: install common utilities
+      apt:
+        name: "{{ item }}"
+        cache_valid_time: 3600
+        update_cache: yes
+      with_items:
+        - vim
+        - tmux
+        - screen
+        - ca-certificates
+  roles:
+    - name: docker
+      jenkins_user: osmocom-build
+      tags:
+        - docker
+
+    - name: install-poky-sdk
+      jenkins_user: osmocom-build
+      tags:
+        - poky
+
+    - name: osmocom-jenkins-slave
+      jenkins_user: osmocom-build
+      generic_slave: true
+      tags:
+        - jenkins-slave
+
+    - name: install-coverity
+      tags:
+        - coverity

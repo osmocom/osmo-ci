@@ -1,0 +1,6 @@
+---
+
+- name: setup the network configuration
+  template:
+    src: interface.j2
+    dest: /etc/network/interfaces.d/gsm-tester

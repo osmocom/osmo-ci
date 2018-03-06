@@ -1,0 +1,39 @@
+---
+- name: copy coverity installer
+  copy:
+    src: "{{ coverity_installer_file }}"
+    dest: "/tmp/{{ coverity_installer_file }}"
+    mode: 750
+  register: coverity_copy
+  ignore_errors: yes
+  tags: [coverity]
+
+- name: create /opt/coverity
+  file:
+    path: /opt/coverity/
+    state: directory
+  when: coverity_copy.failed == False
+  tags: [coverity]
+
+- name: unpack coverity
+  unarchive:
+    src: "/tmp/{{ coverity_installer_file }}"
+    dest: /opt/coverity/
+    remote_src: yes
+  when: coverity_copy.failed == False
+  tags: [coverity]
+
+- name: create link /opt/coverity/last
+  file:
+    src: /opt/coverity/cov-analysis-linux64-{{ coverity_version }}
+    dest: /opt/coverity/current
+    state: link
+  when: coverity_copy.failed == False
+  tags: [coverity]
+
+- name: "Please download {{ coverity_installer_file }} to your ansible directory to allow ansible to install coverity"
+  debug:
+    msg: "Ansible can not find {{ coverity_installer_file }}"
+  when: coverity_copy.failed
+  tags: [coverity]
+

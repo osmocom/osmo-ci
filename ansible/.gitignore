@@ -1,0 +1,5 @@
+poky-*
+cov-analysis-*.tar.gz
+*.retry
+*.swo
+*.swp

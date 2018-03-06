@@ -1,0 +1,39 @@
+---
+
+- name: install jenkins utilities
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - htop
+    - virt-manager
+    - qemu
+    - qemu-user-static
+    - qemu-system-arm
+    - proot
+    - debootstrap
+    - fakeroot
+
+- name: enable backports for jessie
+  apt_repository:
+    repo: 'deb http://ftp.debian.org/debian jessie-backports main'
+    filename: 'backports'
+    update_cache: yes
+
+- name: install java for jessie
+  apt:
+    name: openjdk-8-jre-headless
+    cache_valid_time: 3600
+    update_cache: yes
+    default_release: jessie-backports
+  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'jessie'
+
+- name: install java for stretch
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - openjdk-8-jre-headless
+  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'stretch'

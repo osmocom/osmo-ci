@@ -1,0 +1,15 @@
+---
+
+- name: chown /usr/local/ to the jenkins user
+  file:
+    path: /usr/local/
+    recurse: yes
+    group: "{{ jenkins_user }}"
+    mode: "2775"
+
+- name: set jenkins user bin to osmo-ci
+  file:
+    src: "/home/{{ jenkins_user }}/osmo-ci/scripts"
+    dest: "/home/{{ jenkins_user }}/bin"
+    state: link
+    force: yes
