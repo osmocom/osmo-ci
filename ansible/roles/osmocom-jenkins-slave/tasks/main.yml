@@ -48,6 +48,7 @@
     cache_valid_time: 3600
     update_cache: yes
   with_items:
+    - libboost-dev
     - libc-ares-dev
     - libdbd-sqlite3
     - libdbi-dev
@@ -72,12 +73,11 @@
     - libssl-dev
     - libsystemd-dev
     - libtalloc-dev
+    - libuhd-dev
     - libusb-1.0-0-dev
     - libusb-dev
     - libzmq3-dev
     - sqlite3
-    - libboost-dev
-    - libuhd-dev
 
 - name: add user jenkins
   user:
