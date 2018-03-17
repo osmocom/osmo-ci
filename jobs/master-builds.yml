@@ -246,7 +246,9 @@
       - osmo-trx:
           slave_axis: !!python/tuple [osmocom-master-debian9]
           a1_name: INSTR
-          a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
+          # ARM variants temporarily disabled due to issue OS#3061
+          # a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
+          a1: !!python/tuple [--with-sse]
           concurrent: true
 
       - osmocom-bb
