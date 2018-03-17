@@ -48,6 +48,7 @@
     cache_valid_time: 3600
     update_cache: yes
   with_items:
+    - docbook5-xml
     - libboost-dev
     - libc-ares-dev
     - libdbd-sqlite3
