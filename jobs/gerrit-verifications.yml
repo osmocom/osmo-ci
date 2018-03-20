@@ -189,7 +189,8 @@
           slave_axis: !!python/tuple [ttcn3]
           cmd: >
            # keep first line with less indent to preserve newlines
-            make clean; make deps-update && make compile
+            set -e
+            make deps; make clean; make compile
 
     jobs:
       - 'gerrit-{repos}'
