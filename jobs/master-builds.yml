@@ -5,7 +5,6 @@
     # following default values can be overridden by each repo
     disabled: false
     concurrent: false
-    node: osmocom-master-debian8
     # axes related defaults
     slave_axis: !!python/tuple [osmocom-master-debian8]
     a1_name: a1
@@ -259,7 +258,6 @@
 - job-template:
     name: 'master-{repos}'
     project-type: matrix
-    node: '{node}'
     concurrent: '{obj:concurrent}'
     disabled: '{obj:disabled}'
     retry-count: 3 # scm checkout
