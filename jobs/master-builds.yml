@@ -33,15 +33,24 @@
               osmocom:amd64 /build/contrib/jenkins.sh
 
       - libasn1c:
-          trigger: master-osmo-iuh, master-osmo-msc
+          # Full triggers would be:
+          # trigger: master-osmo-iuh, master-osmo-msc
+          # Optimized:
+          # osmo-iuh triggers osmo-msc
+          trigger: master-osmo-iuh
 
       - libgtpnl:
           trigger: master-osmo-ggsn, openggsn
 
       - libosmo-abis:
+          # Full triggers would be:
+          # trigger: >
+          #   master-libosmo-netif, master-osmo-bsc, master-osmo-bts, master-osmo-hlr,
+          #   master-osmo-msc, master-osmo-sgsn, master-openbsc
+          # Optimized:
+          # (see comment at libosmocore)
           trigger: >
-            master-libosmo-netif, master-osmo-bsc, master-osmo-bts, master-osmo-hlr,
-            master-osmo-msc, master-osmo-sgsn, master-openbsc
+            master-libosmo-netif, master-osmo-bts
 
       - libosmo-dsp:
           cmd: >
@@ -53,25 +62,73 @@
           trigger: master-osmo-gmr
 
       - libosmo-netif:
+          # Full triggers would be:
+          # trigger: >
+          #   master-libosmo-sccp, master-openbsc, mastere-osmo-hlr, master-osmo-iuh,
+          #   master-osmo-mgw, master-osmo-msc, master-osmo-sgsn
+          # Optimized:
+          # (see comment at libosmocore)
           trigger: >
-            master-libosmo-sccp, master-openbsc, mastere-osmo-hlr, master-osmo-iuh,
-            master-osmo-mgw, master-osmo-msc, master-osmo-sgsn
+            master-libosmo-sccp,
+            master-osmo-hlr,
+            master-osmo-mgw,
+            master-osmo-sgsn
 
       - libosmo-sccp:
+          # Full triggers would be:
+          # trigger: >
+          #   master-openbsc, master-osmo-bsc, master-osmo-iuh, master-osmo-msc, master-osmo-sgsn
+          # Optimized:
+          # (see comment at libosmocore)
           trigger: >
-            master-openbsc, master-osmo-bsc, master-osmo-iuh, master-osmo-msc, master-osmo-sgsn
+            master-openbsc,
+            master-osmo-bsc,
+            master-osmo-iuh,
+            master-osmo-msc,
+            master-osmo-sgsn
 
       - libosmocore:
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
           cmd: './contrib/jenkins_arch.sh "$arch"'
+          # Full triggers would be:
+          # trigger: >
+          #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp, master-openbsc,
+          #   master-osmo-bsc, master-osmo-bts, master-osmo-ggsn, master-osmo-gmr, master-osmo-hlr,
+          #   master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-pcap, master-osmo-pcu,
+          #   master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra,
+          #   master-osmocom-bb, SIMtrace, xgoldmon
+          # Optimized:
+          # libosmocore
+          # -> master-libosmo-abis
+          #    -> master-libosmo-netif
+          #       -> master-libosmo-sccp
+          #          -> master-openbsc
+          #          -> master-osmo-bsc
+          #          -> master-osmo-iuh
+          #             -> master-osmo-msc
+          #             -> master-osmo-sgsn
+          #          -> master-osmo-msc
+          #          -> master-osmo-sgsn
+          #       -> master-osmo-hlr
+          #       -> master-osmo-mgw
+          #       -> master-osmo-sgsn
+          #    -> master-osmo-bts
+          # -> master-osmo-ggsn
+          #    -> master-osmo-sgsn
+          # [...]
           trigger: >
-            master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp, master-openbsc,
-            master-osmo-bsc, master-osmo-bts, master-osmo-ggsn, master-osmo-gmr, master-osmo-hlr,
-            master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-pcap, master-osmo-pcu,
-            master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra,
-            master-osmocom-bb, SIMtrace, xgoldmon
+            master-libosmo-abis,
+            master-osmo-ggsn,
+            master-osmo-gmr,
+            master-osmo-pcap,
+            master-osmo-pcu,
+            master-osmo-sip-connector,
+            master-osmo-tetra,
+            master-osmocom-bb,
+            SIMtrace,
+            xgoldmon
 
       - libsmpp34:
           trigger: master-osmo-msc, master-openbsc
@@ -157,7 +214,13 @@
       - osmo-hlr
 
       - osmo-iuh:
-          trigger: master-osmo-msc, master-osmo-sgsn
+          # Full triggers would be:
+          # trigger: master-osmo-msc, master-osmo-sgsn
+          # Optimized:
+          # (see comment at libosmocore)
+          trigger: >
+            master-osmo-msc,
+            master-osmo-sgsn
 
       - osmo-mgw:
           a1_name: MGCP
