@@ -6,7 +6,7 @@
     disabled: false
     concurrent: false
     # axes related defaults
-    slave_axis: !!python/tuple [osmocom-master-debian8]
+    slave_axis: !!python/tuple [osmocom-master-debian9]
     a1_name: a1
     a1: !!python/tuple [default]
     a2_name: a2
@@ -154,8 +154,7 @@
            # keep first line with less indent to preserve newlines
             ./contrib/jenkins.sh --publish
 
-      - osmo-hlr:
-          slave_axis: !!python/tuple [osmocom-master-debian8, osmocom-master-debian9]
+      - osmo-hlr
 
       - osmo-iuh:
           trigger: master-osmo-msc, master-osmo-sgsn
@@ -243,7 +242,6 @@
       - osmo-tetra
 
       - osmo-trx:
-          slave_axis: !!python/tuple [osmocom-master-debian9]
           a1_name: INSTR
           # ARM variants temporarily disabled due to issue OS#3061
           # a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
