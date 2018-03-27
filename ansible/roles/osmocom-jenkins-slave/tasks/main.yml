@@ -47,6 +47,7 @@
     name: "{{ item }}"
     cache_valid_time: 3600
     update_cache: yes
+    install_recommends: no
   with_items:
     - docbook5-xml
     - libboost-dev
