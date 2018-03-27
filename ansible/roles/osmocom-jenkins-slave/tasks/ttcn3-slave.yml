@@ -1,0 +1,15 @@
+---
+
+- name: ensure jenkins folder exists
+  become: yes
+  become_user: "{{ jenkins_user }}"
+  file:
+    path: "/home/{{ jenkins_user }}/jenkins"
+    state: directory
+
+- name: setup the docker-playground
+  become: yes
+  become_user: "{{ jenkins_user }}"
+  git:
+    repo: "https://git.osmocom.org/docker-playground"
+    dest: "/home/{{ jenkins_user }}/jenkins/docker-playground"

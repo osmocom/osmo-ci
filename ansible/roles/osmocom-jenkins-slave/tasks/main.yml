@@ -96,6 +96,10 @@
   include: generic-slave.yml
   when: generic_slave
 
+- name: install ttcn3 dependencies
+  include: ttcn3-slave.yml
+  when: ttcn3_slave
+
 - name: copy .gitconfig
   copy:
     src: gitconfig
