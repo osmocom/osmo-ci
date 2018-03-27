@@ -30,6 +30,10 @@
       tags:
         - jenkins-slave
 
+- name: setup coverity slaves
+  hosts: coverity-slaves
+  user: root
+  roles:
     - name: install-coverity
       tags:
         - coverity
