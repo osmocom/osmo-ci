@@ -7,9 +7,12 @@
 [coverity-slaves]
 admin2-deb9build ansible_host=2a01:4f8:13b:828::1:300
 build2-deb9build-ansible ansible_host=2a01:4f8:10b:2ad9::1:6
+host2-deb9build-ansible ansible_host=2a01:4f8:120:8470::1:3
 
 [jenkins-slaves]
 admin2-deb8build ansible_host=2a01:4f8:13b:828::1:400
 admin2-deb9build ansible_host=2a01:4f8:13b:828::1:300
 build2-deb8build-ansible ansible_host=2a01:4f8:10b:2ad9::1:7
 build2-deb9build-ansible ansible_host=2a01:4f8:10b:2ad9::1:6
+host2-deb8build-ansible ansible_host=2a01:4f8:120:8470::1:2
+host2-deb9build-ansible ansible_host=2a01:4f8:120:8470::1:3
