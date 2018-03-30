@@ -100,7 +100,7 @@
 
 - name: install ttcn3 dependencies
   include: ttcn3-slave.yml
-  when: ttcn3_slave
+  when: ttcn3_slave and ansible_distribution == 'Debian' and ansible_distribution_release == 'stretch'
 
 - name: copy .gitconfig
   copy:
