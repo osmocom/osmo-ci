@@ -1,7 +1,12 @@
 #!/bin/sh
 set -ex
 project="$1"
-branch="origin/${2:-master}"
+branch="${2:-master}"
+# If ref is really a branch, we want to track the remote one:
+if [ "x$(git branch -a | grep -c "remotes/origin/$branch\$")" != "x0" ]; then
+        branch="origin/$branch"
+fi
+
 
 if ! test -d "$project";
 then
