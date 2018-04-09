@@ -28,16 +28,37 @@ git checkout -f HEAD
 # Git automatically excludes subdirs that are git clones.
 git clean -dxf
 
+git_clean() {
+  repos="$1"
+  if [ ! -d "$repos" ]; then
+    return
+  fi
+
+  if [ ! -d "$repos/.git" ]; then
+    echo "Not a git clone, removing: $repos"
+    rm -rf "$repos"
+    return
+  fi
+  if ! git -C "$repos" checkout -f HEAD; then
+    echo "Cleaning failed, removing: $repos"
+    rm -rf "$repos"
+    return
+  fi
+  if ! git -C "$repos" clean -dxf; then
+    echo "Cleaning failed, removing: $repos"
+    rm -rf "$repos"
+    return
+  fi
+}
+
 # leave the deps checkouts around, to not clone entire git history every time,
 # but clean each git of build artifacts.
 if [ -d "$deps" ]; then
   for dep_dir in "$deps"/* ; do
-    git -C "$dep_dir" checkout -f HEAD
-    git -C "$dep_dir" clean -dxf
+    git_clean "$dep_dir"
   done
 fi
 
 if [ -d "layer1-headers" ]; then
-  git -C "layer1-headers" checkout -f HEAD
-  git -C "layer1-headers" clean -dxf
+  git_clean "layer1-headers"
 fi
