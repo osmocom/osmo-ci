@@ -25,7 +25,8 @@ chmod -R +w .
 git checkout -f HEAD
 
 # wipe all unversioned leftovers, except deps gits.
-git clean -dxf -e "$deps" -e "layer1-headers"
+# Git automatically excludes subdirs that are git clones.
+git clean -dxf
 
 # leave the deps checkouts around, to not clone entire git history every time,
 # but clean each git of build artifacts.
