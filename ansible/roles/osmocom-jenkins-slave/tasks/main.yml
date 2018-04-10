@@ -41,6 +41,9 @@
     - python3-setuptools
     - stow
     - texinfo
+    # by gsm-manuals
+    - python-nwdiag
+    - python-pychart
 
 - name: install build dependencies and libraries
   apt:
