@@ -1,0 +1,4 @@
+---
+udhcpd_static_leases:
+  - mac: 00:02:95:00:41:b3
+    ip: 10.42.42.53
