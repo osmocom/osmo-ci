@@ -109,3 +109,10 @@
   copy:
     src: gitconfig
     dest: "/home/{{ jenkins_user }}/.gitconfig"
+
+- name: call fstrim periodically
+  cron:
+    name: "fstrim"
+    hour: "*/12"
+    job: "fstrim / >/dev/null 2>/dev/null || true"
+  when: osmocom_jenkins_slave_fstrim

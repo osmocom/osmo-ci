@@ -9,3 +9,6 @@ generic_slave: true
 
 # Setup the ttcn3 requirements
 ttcn3_slave: true
+
+# call fstrim peridically
+osmocom_jenkins_slave_fstrim: false
