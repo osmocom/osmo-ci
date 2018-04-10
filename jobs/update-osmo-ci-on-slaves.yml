@@ -8,7 +8,6 @@
           values:
             - OsmocomBuild1
             - build1-debian9-lxc
-            - build2-deb8build
             - admin2-deb8build
             - admin2-deb9build
             - host2-deb8build-ansible
