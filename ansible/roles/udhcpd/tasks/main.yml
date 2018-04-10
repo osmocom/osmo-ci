@@ -1,0 +1,14 @@
+---
+- name: udhcpd | update apt-cache
+  apt:
+    cache_valid_time: 3600
+    update_cache: yes
+
+- name: udhcpd | install
+  apt:
+    name: udhcpd
+
+- name: configure udhcpd
+  template:
+    src: etc/udhcpd.conf
+    dest: /etc/udhcpd.conf

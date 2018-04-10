@@ -1,0 +1,16 @@
+---
+
+udhcpd_range_start: 192.168.1.100
+udhcpd_range_end: 192.168.1.200
+
+udhcpd_subnet: 255.255.255.0
+udhcpd_router:  192.168.1.1
+udhcpd_dns: "{{ udhcpd_router }}"
+
+# in seconds
+# default: 10 days
+udhcpd_lease_time: 864000
+
+udhcpd_interface: eth0
+
+udhcpd_static_leases: []
