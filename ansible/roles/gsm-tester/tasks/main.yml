@@ -242,3 +242,7 @@
   copy:
     content: "maxsize 10M"
     dest: /etc/logrotate.d/maxsize
+
+- name: install sispmctl (usb power socket)
+  apt:
+    name: sispmctl
