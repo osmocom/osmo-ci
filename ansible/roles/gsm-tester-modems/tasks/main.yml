@@ -1,15 +1,15 @@
 ---
 # modems
-- name: install gobi2000 packages 
+- name: gsm-tester-modems | gobi install apt dependencies
   apt:
     name: gobi-loader
     cache_valid_time: 3600
     update_cache: yes
 
-- name: gobi firmwares
+- name: gsm-tester-modems | gobi create firmware directory
   file: path=/lib/firmware/gobi state=directory
 
-- name: copy gobi firmwares
+- name: gsm-tester-modems | gobi copy firmwares if available
   copy:
     src: "{{ item.file }}"
     dest: "/lib/firmware/{{ item.file }}"
