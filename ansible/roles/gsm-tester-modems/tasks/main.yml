@@ -1,27 +1,5 @@
 ---
 # modems
-- name: install dependecies for usrp
-  apt:
-    name: "{{ item }}"
-    cache_valid_time: 3600
-    update_cache: yes
-  with_items:
-    - libuhd-dev
-    - uhd-host
-  register: uhd_installed
-
-- name: download firmware for uhd/usrp
-  command: uhd_images_downloader
-  args:
-    creates: /usr/share/uhd/images
-  when: uhd_installed | changed
-
-- name: allow jenkins to access USRP
-  user:
-    name: jenkins
-    groups: usrp
-    append: yes
-
 - name: install gobi2000 packages 
   apt:
     name: gobi-loader

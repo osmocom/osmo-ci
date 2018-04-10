@@ -12,3 +12,25 @@
   pip:
     name: pysispm
     executable: pip3
+
+- name: gsm-tester-bts | usrp install apt dependecies
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - libuhd-dev
+    - uhd-host
+  register: uhd_installed
+
+- name: gsm-tester-bts | usrp download firmware
+  command: uhd_images_downloader
+  args:
+    creates: /usr/share/uhd/images
+  when: uhd_installed | changed
+
+- name: gsm-tester-bts | usrp allow jenkins to access
+  user:
+    name: jenkins
+    groups: usrp
+    append: yes
