@@ -34,3 +34,22 @@
     name: jenkins
     groups: usrp
     append: yes
+
+- name: gsm-tester-bts | add apt-key of OBS network:osmocom:nightly
+  apt_key:
+    data: "{{ lookup('file', 'Release.key') }}"
+    state: present
+
+- name: gsm-tester-bts | add apt-repo of OBS network:osmocom:nightly
+  apt_repo:
+    name: obs_network_osmocom_latest
+    repo: "deb http://download.opensuse.org/repositories/network:/osmocom:/nightly/Debian_{{ ansible_distribution_major_version }}.0/ ./"
+    update_cache: yes
+
+- name: gsm-tester-bts | install osmocom utilities
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - abisip-find
+    - osmo-bsc-ipaccess-utils
+    - osmo-bsc-bs11-utils
