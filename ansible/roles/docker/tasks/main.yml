@@ -26,3 +26,11 @@
     name: "{{ jenkins_user }}"
     groups: docker
     append: yes
+
+- name: cleanup old docker images
+  cron:
+    name: cleanup-docker-images
+    minute: 0
+    hour: '*/3'
+    user: "{{ jenkins_user }}"
+    job: "test -x /home/{{ jenkins_user }}/osmo-ci/scripts/docker-cleanup.sh && /home/{{ jenkins_user }}/osmo-ci/scripts/docker-cleanup.sh >/dev/null"
