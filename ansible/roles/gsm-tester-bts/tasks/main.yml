@@ -1,0 +1,14 @@
+---
+- name: gsm-tester-bts | update apt-cache
+  apt:
+    cache_valid_time: 3600
+    update_cache: yes
+
+- name: gsm-tester-bts | ip.access install apt dependencies
+  apt:
+    name: python3-usb
+
+- name: gsm-tester-bts | ip.access install pip3 dependencies
+  pip:
+    name: pysispm
+    executable: pip3
