@@ -17,6 +17,7 @@
     sequential: false
     # most common build invocation
     cmd: ./contrib/jenkins.sh
+    wrappers: []
     trigger:
 
     # in alphabetical order
@@ -206,10 +207,14 @@
 
       - osmo-gsm-manuals:
           # publishing once is plenty
-          slave_axis: !!python/tuple [OsmocomBuild1]
           cmd: >
            # keep first line with less indent to preserve newlines
             ./contrib/jenkins.sh --publish
+          # requires to have a ssh-key credentials called "api" (Id)
+          wrappers:
+            - ssh-agent-credentials:
+                  users:
+                      - api
 
       - osmo-hlr
 
@@ -385,5 +390,6 @@
        - email:
            recipients: gerrit-log@lists.osmocom.org, laforge@gnumonks.org
            send-to-individuals: true
+    wrappers: '{obj:wrappers}'
 
 # vim: expandtab tabstop=2 shiftwidth=2
