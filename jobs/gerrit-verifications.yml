@@ -186,7 +186,7 @@
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
-          slave_axis: !!python/tuple [build2-deb9build]
+          slave_axis: !!python/tuple [ttcn3]
           cmd: >
            # keep first line with less indent to preserve newlines
             make clean; make deps-update && make compile
