@@ -114,5 +114,6 @@
   cron:
     name: "fstrim"
     hour: "*/12"
+    minute: 0
     job: "fstrim / >/dev/null 2>/dev/null || true"
   when: osmocom_jenkins_slave_fstrim
