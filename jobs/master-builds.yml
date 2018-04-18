@@ -317,6 +317,7 @@
           concurrent: true
 
       - osmocom-bb
+      - rtl-sdr
 
     jobs:
       - 'master-{repos}'
