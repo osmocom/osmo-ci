@@ -6,8 +6,6 @@
           type: slave
           name: label
           values:
-            - OsmocomBuild1
-            - build1-debian9-lxc
             - admin2-deb8build
             - admin2-deb9build
             - host2-deb8build-ansible
