@@ -29,6 +29,7 @@
     - gcc-arm-none-eabi
     - git
     - git-buildpackage
+    - graphviz
     - libtool
     - libboost-all-dev
     - make
