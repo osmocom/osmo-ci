@@ -65,6 +65,7 @@ PACKAGES="
 	libsmpp34
 	libasn1c
 	libgtpnl
+	libusrp
 	osmo-iuh
 	osmo-ggsn
 	osmo-sgsn

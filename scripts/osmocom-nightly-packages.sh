@@ -127,6 +127,7 @@ build_osmocom() {
   checkout libsmpp34
   checkout libasn1c
   checkout libgtpnl
+  checkout libusrp
   checkout osmo-iuh
   checkout osmo-ggsn
   checkout osmo-sgsn
@@ -149,6 +150,7 @@ build_osmocom() {
   build libsmpp34
   build libasn1c
   build libgtpnl
+  build libusrp
   build osmo-iuh
   build osmo-ggsn
   build osmo-sgsn
