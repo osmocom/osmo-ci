@@ -37,6 +37,25 @@ prepare() {
   osc co "$PROJ"
 }
 
+get_commit_version() {
+  # return a version based on the commit
+  local version
+  local date
+
+  # git version
+  version=$(test -x ./git-version-gen && ./git-version-gen . 2>/dev/null)
+  # debian doesn't allow '-' in version.
+  version=$(echo "$version" | sed  's/-/./g' )
+
+  # deb version
+  if [ -z "$version" ] ; then
+    version=$(head -1 debian/changelog | cut -d ' ' -f 2 | sed 's,(,,'  | sed 's,),,')
+    version="$version.$DT"
+  fi
+
+  echo -n "$version"
+}
+
 build() {
   local name=$1
   local changelog=$2
@@ -62,9 +81,9 @@ build() {
   cd "$repodir"
 
   if [ "$changelog" = "commit" ] ; then
-    VER=$(head -1 debian/changelog | cut -d ' ' -f 2 | sed 's,(,,'  | sed 's,),,')
-    dch -v "$VER.$DT" -m "Snapshot build"
-    git commit -m "$DT snapshot" debian/
+    VER=$(get_commit_version)
+    dch -b -v "$VER" -m "Snapshot build"
+    git commit -m "$VER snapshot" debian/
   fi
 
   mkdir -p "$DATA/$name"
