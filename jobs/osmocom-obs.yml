@@ -4,6 +4,7 @@
     jobs:
       - Osmocom_OBS_{type}
     type:
+      - nightly
       - latest
 
 - job-template:
