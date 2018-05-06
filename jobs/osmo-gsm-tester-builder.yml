@@ -52,6 +52,9 @@
           artifacts: '*.tgz, *.md5'
           only-if-success: 'true'
           default-excludes: false
+      - email:
+          recipients: 'pespin@sysmocom.de'
+          notify-every-unstable-build: true
     properties:
       - build-discarder:
           num-to-keep: 20
