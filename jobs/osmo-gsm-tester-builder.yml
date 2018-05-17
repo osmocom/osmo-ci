@@ -15,6 +15,7 @@
       - osmo-pcu
       - osmo-sgsn
       - osmo-trx
+      - osmocom-bb
       - osmo-nitb:
           triggered-by: master-openbsc
       - osmo-stp:
@@ -85,6 +86,8 @@
          name: OSMO_GSM_TESTER_BUILD_osmo_pcu
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_osmo_trx
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmocom_bb
     scm:
       - osmo-gsm-tester-repo
 
