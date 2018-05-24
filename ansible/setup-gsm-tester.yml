@@ -38,6 +38,11 @@
       tags:
         - jenkins-slave
 
+    - name: docker
+      jenkins_user: jenkins
+      tags:
+        - docker
+
     - name: udhcpd
       udhcpd_router: 10.42.42.1
       udhcpd_range_start: 10.42.42.230
