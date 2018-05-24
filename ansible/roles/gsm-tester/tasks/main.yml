@@ -150,6 +150,7 @@
   with_items:
     - systemd-journal
     - osmo-gsm-tester
+    - dialout
 
 - name: setup state directory
   file:
