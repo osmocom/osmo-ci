@@ -18,4 +18,7 @@ files/gobi/apps.mbn
 # Steps after the playbook ran
 
 The jenkins user needs to know the ssh-keys of all BTS which get accessed via ssh.
-E.g. the gsm-tester is connecting to a sysmobts via ssh.
+	E.g. the gsm-tester is connecting to a sysmobts via ssh.
+
+The main unit needs to be logged in with docker repo registry.sysmocom.de:
+	docker login -u "osmo-gsm-tester" registry.sysmocom.de
