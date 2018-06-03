@@ -80,6 +80,7 @@ PACKAGES="
 	osmo-msc
 	osmo-bsc
 	rtl-sdr
+	osmo-fl2k
 	"
 
 [ -d "$TOP/debsrc" ] && rm -rf "$TOP/debsrc"
