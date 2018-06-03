@@ -79,6 +79,7 @@ PACKAGES="
 	osmo-mgw
 	osmo-msc
 	osmo-bsc
+	rtl-sdr
 	"
 
 [ -d "$TOP/debsrc" ] && rm -rf "$TOP/debsrc"

@@ -160,6 +160,7 @@ build_osmocom() {
   checkout osmo-mgw
   checkout osmo-msc
   checkout osmo-bsc
+  checkout rtl-sdr
   checkout_limesuite
 
   build libosmocore
@@ -183,6 +184,7 @@ build_osmocom() {
   build osmo-mgw
   build osmo-msc
   build osmo-bsc
+  build rtl-sdr
 
   download_bumpversion
   build limesuite no_commit --git-upstream-tree=v17.12.0
