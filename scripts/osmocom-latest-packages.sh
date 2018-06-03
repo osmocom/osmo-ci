@@ -79,9 +79,10 @@ PACKAGES="
 	osmo-mgw
 	osmo-msc
 	osmo-bsc
-	rtl-sdr
-	osmo-fl2k
 	"
+# add those two once they have tagged any versions that include the 'debian' sub-dir
+	#rtl-sdr
+	#osmo-fl2k
 
 [ -d "$TOP/debsrc" ] && rm -rf "$TOP/debsrc"
 mkdir "$TOP/debsrc"
