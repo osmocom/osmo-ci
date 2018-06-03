@@ -19,6 +19,7 @@
     cmd: ./contrib/jenkins.sh
     wrappers: []
     trigger:
+    email: gerrit-log@lists.osmocom.org laforge@gnumonks.org
 
     # in alphabetical order
     repos:
@@ -61,6 +62,7 @@
             $MAKE $PARALLEL_MAKE
             $MAKE distcheck
           trigger: master-osmo-gmr
+          email: gerrit-log@lists.osmocom.org laforge@gnumonks.org 246tnt@gmail.com
 
       - libosmo-netif:
           # Full triggers would be:
@@ -203,7 +205,8 @@
           cmd: GTP="$GTP" ./contrib/jenkins.sh
           trigger: master-osmo-sgsn
 
-      - osmo-gmr
+      - osmo-gmr:
+          email: gerrit-log@lists.osmocom.org 246tnt@gmail.com
 
       - osmo-gsm-manuals:
           # publishing once is plenty
@@ -306,8 +309,11 @@
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - osmo-sip-connector
-      - osmo-tetra
+      - osmo-sip-connector:
+          email: gerrit-log@lists.osmocom.org laforge@gnumonks.org holger@freyther.de
+
+      - osmo-tetra:
+          email: gerrit-log@lists.osmocom.org laforge@gnumonks.org 246tnt@gmail.com
 
       - osmo-trx:
           a1_name: INSTR
@@ -317,7 +323,9 @@
           concurrent: true
 
       - osmocom-bb
-      - rtl-sdr
+
+      - rtl-sdr:
+          email: laforge@gnumonks.org steve@steve-m.de
 
     jobs:
       - 'master-{repos}'
@@ -389,7 +397,7 @@
        - trigger:
            project: '{obj:trigger}'
        - email:
-           recipients: gerrit-log@lists.osmocom.org, laforge@gnumonks.org
+           recipients: '{obj:email}'
            send-to-individuals: true
     wrappers: '{obj:wrappers}'
 
