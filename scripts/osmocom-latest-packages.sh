@@ -32,7 +32,7 @@ build() {
   [ -d "$1" ] || git clone "git://git.osmocom.org/$1"
   cd "$1"
   git fetch
-  VER=$(git tag -l --sort=v:refname | grep "^v\?[0-9]*.[0-9]*.[0-9]*$" | tail -n 1)
+  VER=$(git tag -l --sort=v:refname | grep "^[0-9]*.[0-9]*.[0-9]*$" | tail -n 1)
   git checkout -f -B "$VER" "refs/tags/$VER"
   gbp buildpackage -d -S -uc -us "--git-export-dir=$output" "--git-debian-branch=$VER"
 
