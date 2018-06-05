@@ -4,3 +4,8 @@
   template:
     src: interface.j2
     dest: /etc/network/interfaces.d/gsm-tester
+  register: gsm_tester_network_interface
+
+- name: start all network interface
+  command: ifup -a
+  when: gsm_tester_network_interface | changed
