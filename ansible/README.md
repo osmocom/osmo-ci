@@ -4,7 +4,7 @@ Ansible is an automisation, provisioning and configuration management utility.
 
 # How to use it?
 
-- you need ansible installed (version 2.4, other might work as well)
+- you need ansible installed (**version 2.4**, other might work as well)
 
 # How to setup the gsm-tester?
 
