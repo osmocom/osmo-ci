@@ -12,6 +12,7 @@
   with_items:
     - asciidoc
     - autoconf
+    - autoconf-archive
     - automake
     - bc
     - bison
