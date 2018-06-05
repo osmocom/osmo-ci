@@ -183,6 +183,7 @@
 
       - osmocom-bb
       - osmo-tetra
+      - osmo-sysmon
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
