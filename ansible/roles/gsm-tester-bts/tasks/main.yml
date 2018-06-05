@@ -1,19 +1,19 @@
 ---
-- name: gsm-tester-bts | update apt-cache
+- name: update apt-cache
   apt:
     cache_valid_time: 3600
     update_cache: yes
 
-- name: gsm-tester-bts | ip.access install apt dependencies
+- name: ip.access install apt dependencies
   apt:
     name: python3-usb
 
-- name: gsm-tester-bts | ip.access install pip3 dependencies
+- name: ip.access install pip3 dependencies
   pip:
     name: pysispm
     executable: pip3
 
-- name: gsm-tester-bts | usrp install apt dependecies
+- name: usrp install apt dependecies
   apt:
     name: "{{ item }}"
     cache_valid_time: 3600
@@ -23,30 +23,30 @@
     - uhd-host
   register: uhd_installed
 
-- name: gsm-tester-bts | usrp download firmware
+- name: usrp download firmware
   command: uhd_images_downloader
   args:
     creates: /usr/share/uhd/images
   when: uhd_installed | changed
 
-- name: gsm-tester-bts | usrp allow jenkins to access
+- name: usrp allow jenkins to access
   user:
     name: jenkins
     groups: usrp
     append: yes
 
-- name: gsm-tester-bts | add apt-key of OBS network:osmocom:nightly
+- name: add apt-key of OBS network:osmocom:nightly
   apt_key:
     data: "{{ lookup('file', 'Release.key') }}"
     state: present
 
-- name: gsm-tester-bts | add apt-repo of OBS network:osmocom:nightly
+- name: add apt-repo of OBS network:osmocom:nightly
   apt_repo:
     name: obs_network_osmocom_latest
     repo: "deb http://download.opensuse.org/repositories/network:/osmocom:/nightly/Debian_{{ ansible_distribution_major_version }}.0/ ./"
     update_cache: yes
 
-- name: gsm-tester-bts | install osmocom utilities
+- name: install osmocom utilities
   apt:
     name: "{{ item }}"
   with_items:
