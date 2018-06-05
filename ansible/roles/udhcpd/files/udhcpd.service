@@ -1,0 +1,13 @@
+[Unit]
+Description=udhcpcd DHCP server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/sbin/udhcpd -f
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

@@ -12,3 +12,20 @@
   template:
     src: etc/udhcpd.conf
     dest: /etc/udhcpd.conf
+
+- name: copy systemd unit file
+  copy:
+    src: udhcpd.service
+    dest: /lib/systemd/system/udhcpd.service
+  register: udhcpdservice
+
+- name: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
+  when: udhcpdservice | changed
+
+- name: ensure the systemd service is installed
+  systemd:
+    name: udhcpd.service
+    state: started
+    enabled: yes
