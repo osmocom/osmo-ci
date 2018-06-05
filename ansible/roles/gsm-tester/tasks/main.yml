@@ -131,6 +131,8 @@
   with_items:
     - "git+https://github.com/podshumok/python-smpplib.git@master#egg=smpplib"
     - pydbus
+    - pyusb
+    - pysispm
   tags: [pip]
 
 - name: create group osmo-gsm-tester
