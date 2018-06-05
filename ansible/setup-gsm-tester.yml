@@ -27,6 +27,11 @@
         - gsm-tester
         - gsm-tester-modems
 
+    - name: gsm-tester-bts
+      tags:
+        - gsm-tester
+        - gsm-tester-bts
+
     - name: gsm-tester-network
       bts_interface: enp2s0
       tags:
