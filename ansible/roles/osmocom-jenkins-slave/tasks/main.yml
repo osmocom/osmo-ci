@@ -1,7 +1,7 @@
 ---
 
 - name: install jenkins packages
-  include: debian.yml
+  include_tasks: debian.yml
   when: ansible_distribution == 'Debian'
 
 - name: install build utilities
@@ -100,11 +100,11 @@
     key: "{{ lookup('file', 'jenkins.osmocom.org.pub') }}"
 
 - name: include generic slave
-  include: generic-slave.yml
+  include_tasks: generic-slave.yml
   when: generic_slave
 
 - name: install ttcn3 dependencies
-  include: ttcn3-slave.yml
+  include_tasks: ttcn3-slave.yml
   when: ttcn3_slave and ansible_distribution == 'Debian' and ansible_distribution_release == 'stretch'
 
 - name: copy .gitconfig
