@@ -1,9 +1,9 @@
 #!/bin/sh
 set -ex
-uhubctl -p 123456 -a 0
+uhubctl -p 123456 -a 0 -n 1d50:4002
 # give a lot of time to discharge capacitors on the board
 sleep 20
-uhubctl -p 123456 -a 1
+uhubctl -p 123456 -a 1 -n 1d50:4002
 attempts=30
 while [ "x$(uhubctl | grep -e 05c6 -e 1199 -c)" != "x{{ gsm_modems }}" ]; do
 	attempts=$(($attempts - 1))
