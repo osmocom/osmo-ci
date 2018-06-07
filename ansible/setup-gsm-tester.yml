@@ -17,8 +17,6 @@
         - curl
   roles:
     - name: gsm-tester
-      # how many modems are connected via a quadmodem?
-      gsm_modems: 4
       tags:
         - gsm-tester
 

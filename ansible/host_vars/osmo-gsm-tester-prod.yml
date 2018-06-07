@@ -4,3 +4,6 @@ udhcpd_static_leases:
     ip: 10.42.42.53
   - mac: 00:02:95:00:5a:a4
     ip: 10.42.42.54
+
+# how many modems are connected via a quadmodem?
+gsm_modems: 3
