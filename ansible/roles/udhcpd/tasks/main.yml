@@ -22,7 +22,7 @@
 - name: systemctl daemon-reload
   systemd:
     daemon_reload: yes
-  when: udhcpdservice | changed
+  when: udhcpdservice is changed
 
 - name: ensure the systemd service is installed
   systemd:

@@ -8,4 +8,4 @@
 
 - name: start all network interface
   command: ifup -a
-  when: gsm_tester_network_interface | changed
+  when: gsm_tester_network_interface is changed

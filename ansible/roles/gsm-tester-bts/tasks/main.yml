@@ -27,7 +27,7 @@
   command: uhd_images_downloader
   args:
     creates: /usr/share/uhd/images
-  when: uhd_installed | changed
+  when: uhd_installed is changed
 
 - name: usrp allow jenkins to access
   user:
