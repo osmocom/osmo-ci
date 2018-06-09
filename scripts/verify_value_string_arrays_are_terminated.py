@@ -18,7 +18,7 @@ value_string_array_re = re.compile(
   re.MULTILINE | re.DOTALL)
 
 members = r'(\.(value|str)\s*=\s*)?'
-terminator_re = re.compile('{\s*' + members + '(0|NULL)\s*,'
+terminator_re = re.compile('{}|{\s*' + members + '(0|NULL)\s*,'
                            '\s*' + members + '(0|NULL)\s*}')
 errors_found = 0
 
