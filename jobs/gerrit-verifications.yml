@@ -8,7 +8,7 @@
     concurrent: false
     node: osmocom-gerrit-debian8
     # axes related defaults
-    slave_axis: !!python/tuple [osmocom-gerrit-debian8]
+    slave_axis: !!python/tuple [osmocom-gerrit-debian9]
     a1_name: a1
     a1: !!python/tuple [default]
     a2_name: a2
@@ -108,8 +108,7 @@
 
       - osmo-gsm-manuals
 
-      - osmo-hlr:
-          slave_axis: !!python/tuple [osmocom-gerrit-debian8, osmocom-gerrit-debian9]
+      - osmo-hlr
 
       - osmo-iuh
 
@@ -174,7 +173,6 @@
       - osmo-sip-connector
 
       - osmo-trx:
-          slave_axis: !!python/tuple [osmocom-gerrit-debian9]
           a1_name: INSTR
           # ARM variants temporarily disabled due to issue OS#3061
           # a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
