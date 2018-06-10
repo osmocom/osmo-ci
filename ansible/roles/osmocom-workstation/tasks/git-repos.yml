@@ -1,0 +1,123 @@
+---
+
+- name: install osmocom git repos
+  become: yes
+  become_user: "{{ osmocom_user }}"
+  git:
+     repo: git://git.osmocom.org/{{ item }}.git
+     dest: "{{ git_destination }}/{{ item }}"
+     accept_hostkey: yes
+     force: no
+     recursive: no
+  with_items:
+     - libosmo-abis
+     - libosmo-dsp
+     - libosmo-netif
+     - libosmo-sccp
+     - libosmocore
+     - libsmpp34
+     - openpcd
+     - osmo-sim-auth
+     - pysim
+     - sim/hello-stk
+     - sim/sim-tools
+     - simtrace
+     - simtrace2
+     - libgtpnl
+     - libtelnet
+     - mncc-python
+     - octphy-2g-headers
+     - openbsc
+     - openggsn
+     - osmo-bsc
+     - osmo-bts
+     - osmo-e1-recorder
+     - osmo-ggsn
+     - osmo-gsm-manuals
+     - osmo-gtp-kernel
+     - osmo-hlr
+     - osmo-iuh
+     - osmo-mgw
+     - osmo-msc
+     - osmo-pcu
+     - osmo-rbs
+     - osmo-sgsn
+     - osmo-sip-connector
+     - osmo-trx
+     - osmocom-lcs
+     - dct3-gsmtap
+     - osmo-qcdiag
+     - osmocom-bb
+     - osmocom-docs
+     - ot290-gsmtap
+       #- quectel-experiments
+     - osmo-bts-amp
+     - osmo-e1-xcvr
+     - osmo-lea6t-gps
+     - osmo-nvs-gps
+     - osmo-ocxo
+     - osmo-small-hardware
+     - 3gpp-etsi-pdf-links
+     - artwork
+     - docker-playground
+     - gapk
+     - gen_ladder
+     - osmo-ci
+     - osmo-dev
+     - osmo-gsm-tester
+     - osmo-pcap
+     - osmo-sysmon
+     - osmo-tacdb
+     - osmo-ttcn3-hacks
+     - erlang/mgw_nat
+     - erlang/osmo_map
+     - erlang/osmo_sccp
+     - erlang/osmo_ss7
+     - erlang/signerl
+     - osmo-map-masq
+     - meta-telephony
+     - osmo-abi-check
+     - python/osmo-python-tests
+     - gr-gsm
+     - gr-iqbal
+     - gr-osmosdr
+     - libusrp
+     - osmo-adsb-gen
+     - osmo-fl2k
+     - osmo-sdr
+     - rtl-sdr
+     - asn1c
+     - libasn1c
+     - libosmo-asn1-map
+     - libosmo-asn1-tcap
+     - libosmo-tcap
+     - libsua
+     - nplab/m3ua-testtool
+     - nplab/sua-testtool
+     - osmo-auc
+     - osmo-tcap-map
+     - osmo-tetra
+
+
+- name: install sysmocom git repos
+  git: repo=git://git.sysmocom.de/{{ item }}.git
+       dest={{ git_destination }}/{{ item }}
+       accept_hostkey=yes
+       force=yes
+       recursive=no
+  with_items:
+     - sysmo-bts/layer1-api
+     - poky/meta-sysmocom-bsp
+     - rs-backup-suite
+     - sysmo-usim-tool
+
+
+- name: install github git repos
+  git: repo=git://github.com/{{ item }}.git
+       dest={{ git_destination }}/{{ item }}
+       accept_hostkey=yes
+       force=yes
+       recursive=no
+  with_items:
+     - myriadrf/LimeSuite
+     - gustafj/vim-ttcn

@@ -1,0 +1,22 @@
+---
+- hosts: desktops
+  user: root
+  roles:
+    - name: docker
+      jenkins_user: osmocom-build
+      tags:
+        - docker
+
+    - name: install-poky-sdk
+      jenkins_user: osmocom-build
+      tags:
+        - poky
+
+    - name: osmocom-jenkins-slave
+      jenkins_user: osmocom-build
+      generic_slave: true
+      tags:
+        - jenkins-slave
+
+    - name: osmocom-workstation
+      osmocom_user: laforge

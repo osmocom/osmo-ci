@@ -1,0 +1,32 @@
+---
+
+- name: add user
+  user:
+    name: "{{ osmocom_user }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_type: rsa
+    shell: /usr/bin/zsh
+
+- name: include git repos
+  include: git-repos.yml
+
+- name: install distribution packages
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - iceweasel
+    - vim
+    - evince
+    - valgrind
+    - gdb
+    - libc6-dbg
+    - wireshark
+    - tcpdump
+    - ccache
+    - gnupg
+    - openssh-client
+    - openssh-server
+

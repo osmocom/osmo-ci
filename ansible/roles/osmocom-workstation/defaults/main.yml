@@ -1,0 +1,4 @@
+---
+
+osmocom_user: laforge
+git_destination: "/home/{{ osmocom_user}}/projects/git"
