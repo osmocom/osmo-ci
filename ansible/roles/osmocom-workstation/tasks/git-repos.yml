@@ -98,6 +98,10 @@
      - osmo-tcap-map
      - osmo-tetra
 
+- name: install TTCN3 dependency git repos
+  command: make deps
+  args:
+     chdir: "{{ git_destination }}/osmo-ttcn3-hacks"
 
 - name: install sysmocom git repos
   git: repo=git://git.sysmocom.de/{{ item }}.git
