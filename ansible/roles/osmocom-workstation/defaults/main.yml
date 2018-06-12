@@ -1,4 +1,4 @@
 ---
 
-osmocom_user: laforge
+osmocom_user: osmocom
 git_destination: "/home/{{ osmocom_user}}/projects/git"
