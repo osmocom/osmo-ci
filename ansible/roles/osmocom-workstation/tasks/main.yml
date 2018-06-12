@@ -7,6 +7,7 @@
     ssh_key_bits: 4096
     ssh_key_type: rsa
     shell: /usr/bin/zsh
+    groups: docker
 
 - name: include git repos
   include: git-repos.yml
