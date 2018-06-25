@@ -118,7 +118,7 @@ download_bumpversion() {
 }
 
 checkout_limesuite() {
-  TAG="v17.12.0"
+  TAG="01e2d00c5005b85d1f94cca02881756a72e35e2a"
 
   cd "$REPO"
   git clone https://github.com/myriadrf/LimeSuite limesuite
@@ -164,7 +164,7 @@ build_osmocom() {
   checkout rtl-sdr
   checkout osmo-fl2k
 
-  build limesuite no_commit --git-upstream-tree=v17.12.0
+  build limesuite no_commit --git-upstream-tree=01e2d00c5005b85d1f94cca02881756a72e35e2a
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
