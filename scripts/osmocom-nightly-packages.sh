@@ -139,6 +139,7 @@ build_osmocom() {
 
   prepare
 
+  checkout_limesuite
   checkout libosmocore
   checkout libosmo-sccp
   checkout libosmo-abis
@@ -162,8 +163,8 @@ build_osmocom() {
   checkout osmo-bsc
   checkout rtl-sdr
   checkout osmo-fl2k
-  checkout_limesuite
 
+  build limesuite no_commit --git-upstream-tree=v17.12.0
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
@@ -189,7 +190,6 @@ build_osmocom() {
   build osmo-fl2k
 
   download_bumpversion
-  build limesuite no_commit --git-upstream-tree=v17.12.0
 
   post
 }
