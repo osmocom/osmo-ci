@@ -161,6 +161,7 @@ build_osmocom() {
   checkout osmo-mgw
   checkout osmo-msc
   checkout osmo-bsc
+  checkout python/osmo-python-tests
   checkout rtl-sdr
   checkout osmo-fl2k
 
@@ -186,6 +187,7 @@ build_osmocom() {
   build osmo-mgw
   build osmo-msc
   build osmo-bsc
+  build osmo-python-tests
   build rtl-sdr
   build osmo-fl2k
 
