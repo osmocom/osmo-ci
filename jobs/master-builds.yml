@@ -5,6 +5,7 @@
     # following default values can be overridden by each repo
     disabled: false
     concurrent: false
+    node: ''
     # axes related defaults
     slave_axis: !!python/tuple [osmocom-master-debian9]
     a1_name: a1
@@ -209,6 +210,7 @@
           email: gerrit-log@lists.osmocom.org 246tnt@gmail.com
 
       - osmo-gsm-manuals:
+          node: 'osmocom-master-debian9'
           # publishing once is plenty
           cmd: >
            # keep first line with less indent to preserve newlines
@@ -354,6 +356,7 @@
       sequential: '{obj:sequential}'
       combination-filter: |
         {obj:combination_filter}
+    node: '{obj:node}'
     axes:
       - axis:
           type: slave
