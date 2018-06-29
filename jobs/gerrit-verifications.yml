@@ -184,6 +184,7 @@
       - osmocom-bb
       - osmo-tetra
       - osmo-sysmon
+      - simtrace2
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
