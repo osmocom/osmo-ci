@@ -46,6 +46,9 @@
     # by gsm-manuals
     - python-nwdiag
     - python-pychart
+    # by gapk
+    - libasound-dev
+    - libopencore-amrnb-dev
 
 - name: install build dependencies and libraries
   apt:

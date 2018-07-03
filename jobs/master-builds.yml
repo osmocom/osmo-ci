@@ -327,6 +327,7 @@
       - osmocom-bb
       - osmo-sysmon
       - simtrace2
+      - gapk
 
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de
