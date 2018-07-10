@@ -326,7 +326,12 @@
 
       - osmocom-bb
       - osmo-sysmon
-      - simtrace2
+
+      - simtrace2:
+          cmd: >
+           # keep first line with less indent to preserve newlines
+            ./contrib/jenkins.sh --publish
+
       - gapk
 
       - rtl-sdr:
