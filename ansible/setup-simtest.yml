@@ -1,0 +1,32 @@
+---
+- name: setup jenkins slaves
+  hosts: simtester
+  user: root
+  tasks:
+    - name: apt-get update
+      apt:
+        cache_valid_time: 3600
+        update_cache: yes
+
+    - name: install common utilities
+      apt:
+        name: "{{ item }}"
+        install_recommends: no
+      with_items:
+        - vim
+        - ca-certificates
+        - python-minimal
+        - python-setuptools
+        - python-pip
+        - python-serial
+        - python-pyscard
+        - virtualenv
+
+  roles:
+    - name: osmocom-jenkins-slave
+      generic_slave: false
+      install_jenkins_utilities: false
+      install_osmocom_build_deps: false
+      ttcn3_slave: false
+      tags:
+        - jenkins-slave

@@ -14,3 +14,6 @@ build2-deb8build-ansible ansible_host=2a01:4f8:10b:2ad9::1:7
 build2-deb9build-ansible ansible_host=2a01:4f8:10b:2ad9::1:6 osmocom_jenkins_slave_fstrim=True
 host2-deb8build-ansible ansible_host=2a01:4f8:120:8470::1:2
 host2-deb9build-ansible ansible_host=2a01:4f8:120:8470::1:3 osmocom_jenkins_slave_fstrim=True
+
+[simtester]
+simtest ansible_host=10.9.25.80
