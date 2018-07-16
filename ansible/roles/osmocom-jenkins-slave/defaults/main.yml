@@ -3,6 +3,9 @@
 # OS user
 jenkins_user: jenkins
 
+# install all osmocom runtime and build time dependencies
+install_osmocom_build_deps: true
+
 # E.g. a generic_slave requires different tasks as a
 # special slave including the gsm-tester
 generic_slave: true
