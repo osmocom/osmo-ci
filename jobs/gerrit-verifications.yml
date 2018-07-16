@@ -185,6 +185,9 @@
       - simtrace2
       - gapk
 
+      - pysim:
+          slave_axis: !!python/tuple [simtester]
+
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
           slave_axis: !!python/tuple [ttcn3]
