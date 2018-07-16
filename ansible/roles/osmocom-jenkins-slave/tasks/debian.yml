@@ -15,6 +15,7 @@
     - proot
     - debootstrap
     - fakeroot
+  when: install_jenkins_utilities
 
 - name: enable backports for jessie
   apt_repository:
