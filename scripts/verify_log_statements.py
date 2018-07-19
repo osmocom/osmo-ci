@@ -63,59 +63,62 @@ def check_file(f):
   if not (f.endswith('.h') or f.endswith('.c') or f.endswith('.cpp')):
     return []
 
-  errors_found = []
+  try:
+    errors_found = []
 
-  file_content = codecs.open(f, "r", "utf-8").read()
+    file_content = codecs.open(f, "r", "utf-8").read()
 
-  for log in log_statement_re.finditer(file_content):
-    quoted = log.group(2)
+    for log in log_statement_re.finditer(file_content):
+      quoted = log.group(2)
 
-    # Skip 'LOG("bla" fmt )' strings that typically appear as #defines.
-    if fmt_re.match(quoted):
-      if debug:
-        errors_found.append(error_found(f, log.start(), 'Skipping define', log.group(0)))
-      continue
+      # Skip 'LOG("bla" fmt )' strings that typically appear as #defines.
+      if fmt_re.match(quoted):
+        if debug:
+          errors_found.append(error_found(f, log.start(), 'Skipping define', log.group(0)))
+        continue
 
-    # Drop PRI* parts of 'LOG("bla %"PRIu64" foo")'
-    for n in (16,32,64):
-      quoted = quoted.replace('PRIu' + str(n), '')
-      quoted = quoted.replace('PRId' + str(n), '')
-    quoted = ''.join(osmo_stringify_re.split(quoted))
+      # Drop PRI* parts of 'LOG("bla %"PRIu64" foo")'
+      for n in (16,32,64):
+        quoted = quoted.replace('PRIu' + str(n), '')
+        quoted = quoted.replace('PRId' + str(n), '')
+      quoted = ''.join(osmo_stringify_re.split(quoted))
 
-    # Use py eval to join separate string constants: drop any tabs/newlines
-    # that are not in quotes, between separate string constants.
-    try:
-      quoted = eval('(' + quoted + '\n)' )
-    except:
-      # hopefully eval broke because of some '## args' macro def
-      if debug:
-        ignored.append(error_found(f, log.start(), 'Ignoring', log.group(0)))
-      continue
+      # Use py eval to join separate string constants: drop any tabs/newlines
+      # that are not in quotes, between separate string constants.
+      try:
+        quoted = eval('(' + quoted + '\n)' )
+      except:
+        # hopefully eval broke because of some '## args' macro def
+        if debug:
+          ignored.append(error_found(f, log.start(), 'Ignoring', log.group(0)))
+        continue
 
-    # check for errors...
+      # check for errors...
 
-    # final newline
-    if not quoted.endswith('\n'):
-      errors_found.append(error_found(f, log.start(), 'Missing final newline', log.group(0)))
+      # final newline
+      if not quoted.endswith('\n'):
+        errors_found.append(error_found(f, log.start(), 'Missing final newline', log.group(0)))
 
-    # disallowed chars and extra newlines
-    for c in quoted[:-1]:
-      if not c.isprintable() and not c == '\t':
-        if c == '\n':
-          msg = 'Extraneous newline'
-        else:
-          msg = 'Illegal char'
-        errors_found.append(error_found(f, log.start(), msg + ' %r' % c, log.group(0)))
+      # disallowed chars and extra newlines
+      for c in quoted[:-1]:
+        if not c.isprintable() and not c == '\t':
+          if c == '\n':
+            msg = 'Extraneous newline'
+          else:
+            msg = 'Illegal char'
+          errors_found.append(error_found(f, log.start(), msg + ' %r' % c, log.group(0)))
 
-  if not error_found:
-    return []
+    if not error_found:
+      return []
 
-  line_idx = make_line_idx(file_content)
-  for r, line in zip(errors_found, char_pos_2_line(line_idx, [rr.charpos for rr in errors_found])):
-    r.line = line
+    line_idx = make_line_idx(file_content)
+    for r, line in zip(errors_found, char_pos_2_line(line_idx, [rr.charpos for rr in errors_found])):
+      r.line = line
 
-  return errors_found
-
+    return errors_found
+  except:
+    print("ERROR WHILE PROCESSING %r" % f, file=sys.stderr)
+    raise
 
 all_errors_found = []
 for f in args:
