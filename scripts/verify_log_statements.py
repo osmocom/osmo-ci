@@ -21,6 +21,7 @@ import os.path
 log_statement_re = re.compile(r'^[ \t]*LOG[_A-Z]+\(([^";,]*,)*[ \t\r\n]*(("[^"]*"[^";,]*)*)(,[^;]*|)\);',
                               re.MULTILINE | re.DOTALL)
 fmt_re = re.compile(r'("[^"]*".*)*fmt')
+osmo_stringify_re = re.compile("OSMO_STRINGIFY[_A-Z]*\([^)]*\)")
 
 debug = ('-d' in sys.argv) or ('--debug' in sys.argv)
 
@@ -79,6 +80,7 @@ def check_file(f):
     for n in (16,32,64):
       quoted = quoted.replace('PRIu' + str(n), '')
       quoted = quoted.replace('PRId' + str(n), '')
+    quoted = ''.join(osmo_stringify_re.split(quoted))
 
     # Use py eval to join separate string constants: drop any tabs/newlines
     # that are not in quotes, between separate string constants.
