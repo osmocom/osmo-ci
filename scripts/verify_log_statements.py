@@ -18,8 +18,8 @@ import os.path
 # This regex matches the entire LOGxx(...) statement over multiple lines.
 # It pinpoints the format string by looking for the first arg that contains quotes.
 # It then matches any number of separate quoted strings, and accepts 0 or more args after that.
-log_statement_re = re.compile(r'^[ \t]*LOG[_A-Z]+\(([^";,]*,)* *(("[^"]*"[^";,]*)*)(,[^;]*|)\);',
-			      re.MULTILINE | re.DOTALL)
+log_statement_re = re.compile(r'^[ \t]*LOG[_A-Z]+\(([^";,]*,)*[ \t\r\n]*(("[^"]*"[^";,]*)*)(,[^;]*|)\);',
+                              re.MULTILINE | re.DOTALL)
 fmt_re = re.compile(r'("[^"]*".*)*fmt')
 
 errors_found = 0
