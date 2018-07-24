@@ -79,7 +79,7 @@
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_osmo_mgw
       - add_param_build_branch:
-         name: OSMO_GSM_TESTER_BUILD_osmo-mgw
+         name: OSMO_GSM_TESTER_BUILD_osmo_bsc
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_osmo_msc
       - add_param_build_branch:
