@@ -134,6 +134,16 @@ checkout_limesuite() {
   git checkout "$TAG"
 }
 
+create_osmo_trx_debian8_jessie() {
+  # The package must be already checked out via `checkout osmo-trx`
+  cd "$REPO"
+  cp -a osmo-trx osmo-trx-debian8-jessie
+  cd osmo-trx-debian8-jessie/
+  patch -p1 < debian/patches/build-for-debian8.patch
+  git commit -m 'auto-commit: allow debian8 to build' debian/
+  cd ..
+}
+
 build_osmocom() {
   BASE=$PWD
   DATA=$BASE/data
@@ -173,6 +183,8 @@ build_osmocom() {
   checkout rtl-sdr
   checkout osmo-fl2k
 
+  create_osmo_trx_debian8_jessie
+
   build limesuite no_commit --git-upstream-tree=01e2d00c5005b85d1f94cca02881756a72e35e2a
   build libosmocore
   build libosmo-sccp
@@ -188,6 +200,7 @@ build_osmocom() {
   build openbsc
   build osmo-pcap
   build osmo-trx
+  build osmo-trx-debian8-jessie
   build osmo-sip-connector
   build osmo-bts
   build osmo-pcu
