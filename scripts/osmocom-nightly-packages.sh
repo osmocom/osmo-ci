@@ -128,6 +128,7 @@ checkout_limesuite() {
   git clone https://github.com/myriadrf/LimeSuite limesuite
   cd limesuite
   git checkout "$TAG"
+  touch .tarball-version
 }
 
 build_osmocom() {
