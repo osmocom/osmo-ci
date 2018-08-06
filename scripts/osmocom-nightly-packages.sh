@@ -89,10 +89,14 @@ build() {
 
   mkdir -p "$DATA/$name"
   # source code build without dependency checks and unsigned source and unsigned change log
-  gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$DATA/$name" \
-		   --git-ignore-new \
-		   --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/' \
-		   $gitbpargs
+  if [ -f .tarball-version ]; then
+    gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$DATA/$name" \
+		     --git-ignore-new $gitbpargs \
+		     --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/'
+  else
+    gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$DATA/$name" \
+		     --git-ignore-new $gitbpargs
+  fi
 
   mv "$DATA/$name/"*.tar* "$DATA/$name/"*.dsc "$oscdir/"
 
@@ -128,7 +132,6 @@ checkout_limesuite() {
   git clone https://github.com/myriadrf/LimeSuite limesuite
   cd limesuite
   git checkout "$TAG"
-  touch .tarball-version
 }
 
 build_osmocom() {
