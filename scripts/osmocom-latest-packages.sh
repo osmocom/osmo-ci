@@ -34,7 +34,10 @@ build() {
   git fetch
   VER=$(git tag -l --sort=v:refname | grep "^[0-9]*.[0-9]*.[0-9]*$" | tail -n 1)
   git checkout -f -B "$VER" "refs/tags/$VER"
-  gbp buildpackage -d -S -uc -us "--git-export-dir=$output" "--git-debian-branch=$VER"
+  test -x ./git-version-gen && ./git-version-gen . > .tarball-version 2>/dev/null
+  gbp buildpackage -d -S -uc -us "--git-export-dir=$output" "--git-debian-branch=$VER" \
+		   --git-ignore-new \
+		   --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/'
 
   if [ ! -d "$TOP/$PROJ/$1" ] ; then
     # creating a new package is different from using old ones

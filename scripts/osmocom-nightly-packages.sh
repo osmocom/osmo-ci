@@ -42,8 +42,9 @@ get_commit_version() {
   local version
   local date
 
-  # git version
-  version=$(test -x ./git-version-gen && ./git-version-gen . 2>/dev/null)
+  # determine git version *and generate the .tarball-version file*
+  test -x ./git-version-gen && ./git-version-gen . > .tarball-version 2>/dev/null
+  version=$(cat .tarball-version)
   # debian doesn't allow '-' in version.
   version=$(echo "$version" | sed  's/-/./g' )
 
@@ -88,7 +89,10 @@ build() {
 
   mkdir -p "$DATA/$name"
   # source code build without dependency checks and unsigned source and unsigned change log
-  gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$DATA/$name" $gitbpargs
+  gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$DATA/$name" \
+		   --git-ignore-new \
+		   --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/' \
+		   $gitbpargs
 
   mv "$DATA/$name/"*.tar* "$DATA/$name/"*.dsc "$oscdir/"
 
