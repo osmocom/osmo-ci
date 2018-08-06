@@ -43,6 +43,7 @@ build() {
     # creating a new package is different from using old ones
     mkdir "$TOP/$PROJ/$1"
     mv "$output/"*.dsc "$TOP/$PROJ/$1/"
+    mv "$output/"*.tar* "$TOP/$PROJ/$1/"
     cd "$TOP/$PROJ"
     osc add "$1"
   else
