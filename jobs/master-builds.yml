@@ -337,6 +337,11 @@
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de
 
+      - sysmo-usim-tool:
+          cmd: cd ./tests; ./run-tests
+          slave_axis: !!python/tuple [simtester]
+          git_base_url: git.sysmocom.de
+
     jobs:
       - 'master-{repos}'
 
