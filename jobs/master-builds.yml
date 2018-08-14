@@ -21,6 +21,7 @@
     wrappers: []
     trigger:
     email: gerrit-log@lists.osmocom.org laforge@gnumonks.org
+    git_base_url: git.osmocom.org
 
     # in alphabetical order
     repos:
@@ -359,7 +360,7 @@
           artifact-num-to-keep: -1
     description: |
       Automatic jenkins test job of
-      <a href="http://git.osmocom.org/{repos}">{repos}</a>
+      <a href="http://{git_base_url}/{repos}">{repos}</a>
       <br/><br/>
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
@@ -388,7 +389,7 @@
 
     scm:
       - git:
-         url: git://git.osmocom.org/{repos}
+         url: git://{git_base_url}/{repos}
          branches:
            - 'origin/master'
          refspec:
