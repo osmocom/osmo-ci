@@ -182,6 +182,7 @@ build_osmocom() {
   checkout python/osmo-python-tests
   checkout rtl-sdr
   checkout osmo-fl2k
+  checkout simtrace2
 
   create_osmo_trx_debian8_jessie
 
@@ -211,6 +212,7 @@ build_osmocom() {
   build osmo-python-tests
   build rtl-sdr
   build osmo-fl2k
+  build simtrace2
 
   download_bumpversion
 
