@@ -88,6 +88,7 @@ PACKAGES="
 	osmo-mgw
 	osmo-msc
 	osmo-bsc
+	simtrace2
 	"
 # add those two once they have tagged any versions that include the 'debian' sub-dir
 	#rtl-sdr
