@@ -85,3 +85,22 @@
     - libusb-dev
     - libzmq3-dev
     - sqlite3
+
+- name: install liblua for jessie
+  apt:
+    name: liblua5.3-dev
+    cache_valid_time: 3600
+    update_cache: yes
+    install_recommends: no
+    default_release: jessie-backports
+  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'jessie'
+
+- name: install liblua for stretch
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+    install_recommends: no
+  with_items:
+    - liblua5.3-dev
+  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'stretch'

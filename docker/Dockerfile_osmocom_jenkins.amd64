@@ -1,6 +1,8 @@
 FROM debian:jessie
 
-RUN dpkg --add-architecture i386 && \
+RUN \
+    echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \
+    dpkg --add-architecture i386 && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget make
@@ -26,7 +28,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends fl
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libortp-dev libpcsclite-dev libsctp-dev libfftw3-dev libsnmp-dev  libusb-1.0-0-dev libtalloc-dev libgnutls28-dev
 
 # OsmocomBB
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc-arm-none-eabi
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc-arm-none-eabi liblua5.3-dev/jessie-backports
 
 # building
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libtool pkg-config automake autoconf
