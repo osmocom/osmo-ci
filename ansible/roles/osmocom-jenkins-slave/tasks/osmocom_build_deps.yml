@@ -44,6 +44,8 @@
     # by gapk
     - libasound-dev
     - libopencore-amrnb-dev
+    # by LimeSuite
+    - cmake
 
 - name: install build dependencies and libraries
   apt:
