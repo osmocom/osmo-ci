@@ -49,7 +49,7 @@ cd "$project"
 mkdir -p "$inst/stow"
 
 autoreconf --install --force
-./configure --prefix="$inst/stow/$project" $cfg
+./configure --prefix="$inst/stow/$project" --with-systemdsystemunitdir="$inst/stow/$project/lib/systemd/system" $cfg
 $MAKE $PARALLEL_MAKE install
 
 # Make the dependencies available through symlinks in $deps ($PWD/..).
