@@ -62,6 +62,8 @@
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmo-mgw
       - copy_artifact:
+         repo: osmo-gsm-tester_build-osmo-iuh
+      - copy_artifact:
          repo: osmo-gsm-tester_build-osmo-msc
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmo-pcu
