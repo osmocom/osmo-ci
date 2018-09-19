@@ -5,3 +5,4 @@ tokens.txt
 .*.sw?
 jenkins_jobs.ini
 jenkins-jobs.ini
+__pycache__/
