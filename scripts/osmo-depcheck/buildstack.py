@@ -70,29 +70,15 @@ def print_dict(stack):
         print(" * " + program + ":" + version)
 
 
-def temp_install_folder():
-    """ Generate a temporary installation folder
-
-        It will be used as configure prefix, so when running 'make install',
-        the files will get copied in there instead of "/usr/local/". The folder
-        will get removed when the script has finished.
-
-        :returns: the path to the temporary folder """
-    ret = tempfile.mkdtemp(prefix="depcheck_")
-    atexit.register(shutil.rmtree, ret)
-    print("Temporary install folder: " + ret)
-    return ret
-
-
-def set_environment(jobs, tempdir):
+def set_environment(jobs, prefix):
     """ Configure the environment variables before running configure, make etc.
 
         :param jobs: parallel build jobs (for make)
-        :param tempdir: temporary installation dir (see temp_install_folder())
+        :param prefix: installation folder
     """
-    # Add tempdir to PKG_CONFIG_PATH and LD_LIBRARY_PATH
-    extend = {"PKG_CONFIG_PATH": tempdir + "/lib/pkgconfig",
-              "LD_LIBRARY_PATH": tempdir + "/lib"}
+    # Add prefix to PKG_CONFIG_PATH and LD_LIBRARY_PATH
+    extend = {"PKG_CONFIG_PATH": prefix + "/lib/pkgconfig",
+              "LD_LIBRARY_PATH": prefix + "/lib"}
     for env_var, folder in extend.items():
         old = os.environ[env_var] if env_var in os.environ else ""
         os.environ[env_var] = old + ":" + folder
@@ -101,10 +87,10 @@ def set_environment(jobs, tempdir):
     os.environ["JOBS"] = str(jobs)
 
 
-def build(gitdir, jobs, stack):
+def build(workdir, jobs, stack):
     """ Build one program with all its dependencies.
 
-        :param gitdir: folder to which the sources will be cloned
+        :param workdir: path to where all data (git, build, install) is stored
         :param jobs: parallel build jobs (for make)
         :param stack: the build stack as returned by generate() above
 
@@ -122,18 +108,23 @@ def build(gitdir, jobs, stack):
           anymore in case they decide to compile the code again manually from
           the source folder. """
     # Prepare the install folder and environment
-    tempdir = temp_install_folder()
-    unitdir = tempdir + "/lib/systemd/system/"
-    set_environment(jobs, tempdir)
+    prefix = workdir + "/install"
+    unitdir = prefix + "/lib/systemd/system/"
+    set_environment(jobs, prefix)
 
     # Iterate over stack
     for program, version in stack.items():
         print("Building " + program + ":" + version)
-        os.chdir(gitdir + "/" + program)
+
+        # Create and enter the build folder
+        builddir = workdir + "/build/" + program
+        os.mkdir(builddir)
+        os.chdir(builddir)
 
         # Run the build commands
-        commands = [["autoreconf", "-fi"],
-                    ["./configure", "--prefix", tempdir,
+        gitdir = workdir + "/git/" + program
+        commands = [["autoreconf", "-fi", gitdir],
+                    [gitdir + "/configure", "--prefix", prefix,
                      "--with-systemdsystemunitdir=" + unitdir],
                     ["make", "clean"],
                     ["make"],

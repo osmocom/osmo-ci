@@ -4,6 +4,7 @@
 
 import argparse
 import os
+import shutil
 import sys
 
 # Same folder
@@ -17,16 +18,16 @@ def parse_arguments():
     description = ("This script verifies that Osmocom programs really build"
                    " with the dependency versions they claim to support in"
                    " configure.ac. In order to do that, it clones the"
-                   " dependency repositories if they don't exist in gitdir"
+                   " dependency repositories if they don't exist in workdir"
                    " already, and checks out the minimum version tag. This"
                    " happens recursively for their dependencies as well.")
     parser = argparse.ArgumentParser(description=description)
 
     # Git sources folder
-    gitdir_default = os.path.expanduser("~") + "/code"
-    parser.add_argument("-g", "--gitdir", default=gitdir_default,
+    workdir_default = os.path.expanduser("~") + "/osmo-depcheck-work"
+    parser.add_argument("-w", "--workdir", default=workdir_default,
                         help="folder to which the sources will be cloned"
-                             " (default: " + gitdir_default + ")")
+                             " (default: " + workdir_default + ")")
 
     # Build switch
     parser.add_argument("-b", "--build", action="store_true",
@@ -55,17 +56,33 @@ def parse_arguments():
                              " revision is 'master')",
                         metavar="project[:revision]")
 
-    # Gitdir must exist
+    # Workdir must exist
     ret = parser.parse_args()
-    if not os.path.exists(ret.gitdir):
-        print("ERROR: gitdir does not exist: " + ret.gitdir)
+    if not os.path.exists(ret.workdir):
+        print("ERROR: workdir does not exist: " + ret.workdir)
         sys.exit(1)
     return ret
 
 
+def workdir_prepare(workdir):
+    """ Delete old binaries and create the subfolders in workdir
+        :param workdir: path to where all data is stored """
+    # Delete folders with binaries from previous runs
+    for subfolder in ("build", "install"):
+        full = workdir + "/" + subfolder
+        if os.path.exists(full):
+            shutil.rmtree(full)
+
+    # Create all subfolders
+    for subfolder in ("build", "install", "git"):
+        os.makedirs(workdir + "/" + subfolder, exist_ok=True)
+
+
 def main():
-    # Iterate over projects
     args = parse_arguments()
+
+    # Iterate over projects
+    cache_git_fetch = []
     for project_rev in args.projects_revs:
         # Split the git revision from the project name
         project = project_rev
@@ -74,7 +91,9 @@ def main():
             project, rev = project_rev.split(":", 1)
 
         # Clone and parse the repositories
-        depends = dependencies.generate(args.gitdir, args.prefix, project, rev)
+        workdir_prepare(args.workdir)
+        depends = dependencies.generate(args.workdir, args.prefix,
+                                        cache_git_fetch, project, rev)
         print("---")
         dependencies.print_dict(depends)
         stack = buildstack.generate(depends)
@@ -84,12 +103,12 @@ def main():
         # Old versions
         if args.old:
             print("---")
-            dependencies.print_old(args.gitdir, depends)
+            dependencies.print_old(args.workdir, depends)
 
         # Build
         if args.build:
             print("---")
-            buildstack.build(args.gitdir, args.jobs, stack)
+            buildstack.build(args.workdir, args.jobs, stack)
 
         # Success
         print("---")
