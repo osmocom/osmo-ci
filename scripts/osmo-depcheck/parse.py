@@ -84,16 +84,16 @@ def library_version(line_i, condition):
                   operator + "'")
 
 
-def configure_ac(gitdir, repo):
+def configure_ac(workdir, repo):
     """ Parse the PKG_CHECK_MODULES statements of a configure.ac file.
 
-        :param gitdir: parent folder of all locally cloned git repositories
+        :param workdir: path to where all data (git, build, install) is stored
         :param repo: the repository to look at (e.g. "osmo-bts")
         :returns: a dictionary like the following:
                   {"libosmocore": "0.11.0",
                    "libosmo-abis": "0.5.0"} """
     # Read configure.ac
-    path = gitdir + "/" + repo + "/configure.ac"
+    path = workdir + "/git/" + repo + "/configure.ac"
     with open(path) as handle:
         lines = handle.readlines()
 

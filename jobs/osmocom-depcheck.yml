@@ -52,13 +52,13 @@
           # Build the arguments
           args="$PROJECTS"
           args="$args -j 5"
-          args="$args -g $PWD/DEPCHECK_GITDIR"
+          args="$args -w $PWD/DEPCHECK_WORKDIR"
           args="$args -u $GIT_URL_PREFIX"
           [ "$BUILD" = "true" ] && args="$args -b"
           [ "$PRINT_OLD_DEPENDS" = "true" ] && args="$args -o"
 
           # Run osmo-depcheck
-          mkdir DEPCHECK_GITDIR
+          mkdir DEPCHECK_WORKDIR
           export PYTHONUNBUFFERED=1
           scripts/osmo-depcheck/osmo-depcheck.py $args
     scm:
