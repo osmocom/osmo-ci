@@ -126,7 +126,7 @@ download_bumpversion() {
 }
 
 checkout_limesuite() {
-  TAG="01e2d00c5005b85d1f94cca02881756a72e35e2a"
+  TAG="v18.10.0"
 
   cd "$REPO"
   git clone https://github.com/myriadrf/LimeSuite limesuite
@@ -186,7 +186,7 @@ build_osmocom() {
 
   create_osmo_trx_debian8_jessie
 
-  build limesuite no_commit --git-upstream-tree=01e2d00c5005b85d1f94cca02881756a72e35e2a
+  build limesuite no_commit --git-upstream-tree=v18.10.0
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
