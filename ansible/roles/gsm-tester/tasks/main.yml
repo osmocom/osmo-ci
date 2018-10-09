@@ -251,3 +251,9 @@
     src: 60-sispmctl.rules
     dest: /etc/udev/rules.d/
   notify: restart udev
+
+- name: allow group osmo-gsm-tester to access LMS devices
+  copy:
+    src: 64-limesuite.rules
+    dest: /etc/udev/rules.d/
+  notify: restart udev

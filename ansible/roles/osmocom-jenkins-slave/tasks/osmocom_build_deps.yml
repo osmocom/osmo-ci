@@ -66,6 +66,7 @@
     - libgnutls28-dev
     - libgps-dev
     - libgsm1-dev
+    - liblimesuite-dev
     - libmnl-dev
     - libncurses5-dev
     - libortp-dev
