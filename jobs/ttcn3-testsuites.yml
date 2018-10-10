@@ -1,0 +1,106 @@
+---
+- project:
+    name: 'ttcn3-testsuites'
+    concurrent: false
+    disabled: false
+    timer: "@midnight"
+    jobs:
+      - "{job-name}"
+    # Folders from docker-playground.git
+    job-name:
+      # nightly (overwrites the existing, manually created jobs!)
+      # - nplab-m3ua-test:
+      #     timer: 00 03 * * *
+      # - nplab-sua-test:
+      #     timer: 15 03 * * *
+      # - ttcn3-bsc-test:
+      #     timer: 00 06 * * *
+      # - ttcn3-bsc-test-sccplite:
+      #     timer: 30 08 * * *
+      # - ttcn3-bts-test:
+      #     timer: 00 07 * * *
+      # - ttcn3-ggsn-test:
+      #     timer: 00 04 * * *
+      # - ttcn3-hlr-test:
+      #     timer: 45 06 * * *
+      # - ttcn3-mgw-test:
+      #     timer: 30 06 * * *
+      # - ttcn3-msc-test:
+      #     timer: 30 04 * * *
+      # - ttcn3-sgsn-test:
+      #     timer: 30 05 * * *
+      # - ttcn3-sip-test:
+      #     timer: 00 07 * * *
+
+      # latest stable
+      - nplab-m3ua-test-latest
+      - nplab-sua-test-latest
+      - ttcn3-bsc-test-latest
+      - ttcn3-bsc-test-sccplite-latest:
+          disabled: true
+      - ttcn3-bts-test-latest
+      - ttcn3-ggsn-test-latest
+      - ttcn3-hlr-test-latest
+      - ttcn3-mgw-test-latest
+      - ttcn3-msc-test-latest
+      - ttcn3-sgsn-test-latest
+      - ttcn3-sip-test-latest
+- job-template:
+    name: '{job-name}'
+    project-type: freestyle
+    disabled: '{obj:disabled}'
+    defaults: global
+    description: |
+        Run the <code>{job-name}</code> testsuite from
+        <a href="https://git.osmocom.org/docker-playground/">docker-playground.git</a>.<br>
+        If this job ends in <code>-latest</code>, the job runs the latest stable versions of the Osmocom stack.
+        Otherwise the nightly builds.<br>
+        Generated with the jenkins-job-builder config introduced in
+        <a href="https://osmocom.org/issues/3268">OS#3268</a>.<br>
+        See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
+            TTCN3 Testsuite</a> for more information.
+    node: ttcn3
+    parameters:
+      - string:
+          name: BRANCH
+          description: |
+                Branch of <code>docker-playground.git</code>.
+                Only modify if you are hacking on the docker-playground scripts.
+          default: '*/master'
+
+    builders:
+      - shell: |-
+          case "{job-name}" in
+              *-latest)
+                  cd "$(echo "{job-name}" | sed s/\-latest$//)"
+                  IMAGE_SUFFIX="latest" ./jenkins.sh
+                  ;;
+              *)
+                  cd "{job-name}"
+                  IMAGE_SUFFIX="master" ./jenkins.sh
+                  ;;
+          esac
+    scm:
+      - git:
+          branches:
+            - '$BRANCH'
+          url: git://git.osmocom.org/docker-playground
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    triggers:
+      - timed: "{obj:timer}"
+    publishers:
+      - junit:
+          results: '**/junit-xml-*.log'
+          allow-empty-results: false
+      - email:
+          notify-every-unstable-build: true
+          recipients: laforge@gnumonks.org
+          send-to-individuals: false
+    properties:
+    - build-blocker:
+        use-build-blocker: true
+        blocking-jobs:
+          - "^{job-name}.*"
+
+# vim: expandtab tabstop=2 shiftwidth=2
