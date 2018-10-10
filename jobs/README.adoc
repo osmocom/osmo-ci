@@ -25,7 +25,7 @@ jenkins_jobs.ini:
 
     [jenkins]
     user=my_user_name
-    password=my_password
+    password=my_api_token
     url=https://jenkins.osmocom.org/jenkins
 
 and
