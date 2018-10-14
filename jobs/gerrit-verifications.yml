@@ -182,6 +182,7 @@
       - osmocom-bb
       - osmo-tetra
       - osmo-sysmon
+      - osmo-remsim
       - simtrace2
       - gapk
 

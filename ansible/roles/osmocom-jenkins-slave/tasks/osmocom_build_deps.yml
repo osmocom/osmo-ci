@@ -26,6 +26,7 @@
     - git
     - git-buildpackage
     - graphviz
+    - libcsv-dev
     - libtool
     - libboost-all-dev
     - make
