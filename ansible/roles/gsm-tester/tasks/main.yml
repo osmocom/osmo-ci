@@ -237,6 +237,19 @@
     dest: /etc/sudoers.d/osmo-gsm-tester_setcap_net_admin
     mode: 0440
 
+- name: create a wrapper script to run processes on modem netns
+  copy:
+    src: osmo-gsm-tester_netns_exec.sh
+    dest: /usr/local/bin/osmo-gsm-tester_netns_exec.sh
+    mode: 755
+
+- name: allow osmo-gsm-tester sudo osmo-gsm-tester_netns_exec.sh
+  copy:
+    content: |
+      %osmo-gsm-tester ALL=(root) NOPASSWD: /usr/local/bin/osmo-gsm-tester_netns_exec.sh
+    dest: /etc/sudoers.d/osmo-gsm-tester_netns_exec
+    mode: 0440
+
 - name: logrotate limit filesizes to 10M
   copy:
     content: "maxsize 10M"
