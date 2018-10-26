@@ -22,6 +22,10 @@ case "$1" in
 	uri="https://gitlab.com/nrw_litecell15/litecell15-fw"
 	version="origin/nrw/litecell15"
 	;;
+    oc2g)
+	uri="https://gitlab.com/nrw_oc2g/oc2g-fw"
+	version="origin/nrw/oc2g"
+	;;
     *)
 	echo "Unknown BTS model '$1'"
 	exit 1
