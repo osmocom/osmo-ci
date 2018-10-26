@@ -46,20 +46,25 @@ iface {{ bts_interface }}:7 inet static
 
 auto {{ bts_interface }}:8
 iface {{ bts_interface }}:8 inet static
-        address 10.42.42.50
+        address 10.42.42.10
         netmask 255.255.255.0
 
 auto {{ bts_interface }}:9
 iface {{ bts_interface }}:9 inet static
-        address 10.42.42.51
+        address 10.42.42.50
         netmask 255.255.255.0
 
 auto {{ bts_interface }}:10
 iface {{ bts_interface }}:10 inet static
-        address 10.42.42.52
+        address 10.42.42.51
         netmask 255.255.255.0
 
 auto {{ bts_interface }}:11
 iface {{ bts_interface }}:11 inet static
+        address 10.42.42.52
+        netmask 255.255.255.0
+
+auto {{ bts_interface }}:12
+iface {{ bts_interface }}:12 inet static
         address 10.42.42.53
         netmask 255.255.255.0
