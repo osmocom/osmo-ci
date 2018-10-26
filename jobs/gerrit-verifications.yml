@@ -87,9 +87,9 @@
 
       - osmo-bts:
           a1_name: FIRMWARE_VERSION
-          a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, origin/nrw/litecell15]
+          a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, origin/nrw/litecell15, origin/nrw/oc2g, origin/nrw/oc2g-next]
           a2_name: BTS_MODEL
-          a2: !!python/tuple [sysmo, oct, trx, oct+trx, lc15]
+          a2: !!python/tuple [sysmo, oct, trx, oct+trx, lc15, oc2g]
           combination_filter: >
             FIRMWARE_VERSION == "master" ||
             (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo") ||
@@ -98,7 +98,9 @@
             (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo") ||
             (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo") ||
             (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15") ||
-            (FIRMWARE_VERSION == "origin/nrw/litecell15" && BTS_MODEL == "lc15")
+            (FIRMWARE_VERSION == "origin/nrw/litecell15" && BTS_MODEL == "lc15") ||
+            (FIRMWARE_VERSION == "origin/nrw/oc2g" && BTS_MODEL == "oc2g") ||
+            (FIRMWARE_VERSION == "origin/nrw/oc2g-next" && BTS_MODEL == "oc2g")
           cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
       - osmo-ggsn:
