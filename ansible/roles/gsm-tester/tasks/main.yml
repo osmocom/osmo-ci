@@ -122,6 +122,8 @@
     - sudo
     - libcap2-bin
     - python3-pip
+    - udhcpc
+    - iperf3
 
 - name: install gsm tester pip dependencies
   pip:
