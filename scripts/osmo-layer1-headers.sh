@@ -12,18 +12,22 @@ set -e -x
 case "$1" in
     sysmo)
 	uri="git://git.sysmocom.de/sysmo-bts/layer1-api"
+	version_prefix=""
 	version="origin/master"
 	;;
     oct)
 	uri="git://git.osmocom.org/octphy-2g-headers"
+	version_prefix=""
 	version="origin/master"
 	;;
     lc15)
 	uri="https://gitlab.com/nrw_litecell15/litecell15-fw"
+	version_prefix="origin/nrw/"
 	version="origin/nrw/litecell15"
 	;;
     oc2g)
 	uri="https://gitlab.com/nrw_oc2g/oc2g-fw"
+	version_prefix="origin/nrw/"
 	version="origin/nrw/oc2g"
 	;;
     *)
@@ -48,4 +52,7 @@ fi
 
 cd layer1-headers
 git fetch origin
-git checkout -f "$version"
+# $version_prefix is an ugly workaround for jenkins not being able to deal with slash ('/')
+# in label names that comprise the axis of a matrxi buildjob, while nuran not using tags but
+# only branch names in their firmware repositories :(
+git checkout -f "$version" || git checkout -f "${version_prefix}${version}"
