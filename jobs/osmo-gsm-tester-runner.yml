@@ -105,9 +105,7 @@
     defaults: runner
     node: 'osmo-gsm-tester-{stage}'
     triggers:
-      - timed: "H H/2 * * *"
-      - pollscm:
-          cron: "H/5 * * * *"
+      - timed: "H 0 * * *"
       - reverse:
             jobs:
                 - osmo-gsm-tester_build-osmo-bsc
