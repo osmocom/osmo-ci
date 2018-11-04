@@ -47,6 +47,7 @@
     - libopencore-amrnb-dev
     # by LimeSuite
     - cmake
+    - patchelf
 
 - name: install build dependencies and libraries
   apt:

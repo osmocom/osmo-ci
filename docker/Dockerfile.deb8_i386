@@ -38,3 +38,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends py
 
 # Linux kernel
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bc
+
+# Add rpath to binaries
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y patchelf
