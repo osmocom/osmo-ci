@@ -97,6 +97,13 @@
           notify-every-unstable-build: true
           recipients: laforge@gnumonks.org
           send-to-individuals: false
+      - archive:
+          allow-empty: false
+          artifacts: logs/**/*
+          case-sensitive: true
+          default-excludes: true
+          fingerprint: false
+          only-if-success: false
     properties:
     - build-blocker:
         use-build-blocker: true
