@@ -105,7 +105,7 @@
     install_recommends: no
   with_items:
     - liblua5.3-dev
-  when: ansible_distribution == 'Debian' and ansible_distribution_version >= 9
+  when: ansible_distribution == 'Debian' and ansible_distribution_version >= '9'
 
 - name: install liblimesuite-dev for stretch or later
   apt:
@@ -115,4 +115,4 @@
     install_recommends: no
   with_items:
     - liblimesuite-dev
-  when: ansible_distribution == 'Debian' and ansible_distribution_version >= 9
+  when: ansible_distribution == 'Debian' and ansible_distribution_version >= '9'
