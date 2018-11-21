@@ -212,15 +212,9 @@
 
       - osmo-gsm-manuals:
           node: 'osmocom-master-debian9'
-          # publishing once is plenty
           cmd: >
            # keep first line with less indent to preserve newlines
-            ./contrib/jenkins.sh --publish
-          # requires to have a ssh-key credentials called "api" (Id)
-          wrappers:
-            - ssh-agent-credentials:
-                  users:
-                      - api
+            ./contrib/jenkins.sh
 
       - osmo-hlr
 
