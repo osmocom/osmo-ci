@@ -10,6 +10,7 @@ projects = ("osmo-bts",
             "osmo-hlr",
             "osmo-mgw",
             "osmo-msc",
+            "osmo-sysmon",
             "osmo-sgsn",
             "osmo-ggsn")
 
