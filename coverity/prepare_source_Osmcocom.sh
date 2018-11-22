@@ -22,6 +22,7 @@ for proj in \
   osmo-gmr \
   osmo-iuh \
   osmo-pcu \
+  osmo-sysmon \
   osmo-sip-connector \
   osmo-trx \
   osmo-hlr \
