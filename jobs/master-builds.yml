@@ -27,15 +27,6 @@
     repos:
       - asn1c
 
-      - cellmgr-ng:
-          concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
-            docker run --rm=true -e HOME=/build -e MAKE=make -e PARALLEL_MAKE="$PARALLEL_MAKE" \
-              -e PATH="$PATH:/build_bin" -w /build \
-              -i -u build -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              osmocom:amd64 /build/contrib/jenkins.sh
-
       - libasn1c:
           # Full triggers would be:
           # trigger: master-osmo-iuh, master-osmo-msc
