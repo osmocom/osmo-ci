@@ -36,6 +36,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends li
 # for osmo-python-tests
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3-setuptools python-setuptools python3-pip python-pip
 
+# for osmo-gsm-manuals
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xsltproc dblatex docbook5-xml graphviz python-pychart python-nwdiag libxml2-utils
+
 # Linux kernel
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bc
 
