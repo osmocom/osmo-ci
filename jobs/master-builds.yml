@@ -16,7 +16,7 @@
     a3: !!python/tuple [default]
     combination_filter: ''
     sequential: false
-    # most common build invocation
+    # most common build invocation (--publish is added to publish manual PDFs)
     cmd: ./contrib/jenkins.sh
     wrappers: []
     trigger:
@@ -82,6 +82,7 @@
             master-osmo-iuh,
             master-osmo-msc,
             master-osmo-sgsn
+          cmd: ./contrib/jenkins.sh --publish
 
       - libosmocore:
           a1_name: arch
@@ -174,7 +175,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              osmocom:amd64 /build/contrib/jenkins.sh --publish
 
       - osmo-bts:
           a1_name: FIRMWARE_VERSION
@@ -190,12 +191,12 @@
             (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo") ||
             (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15") ||
             (FIRMWARE_VERSION == "origin/nrw/litecell15" && BTS_MODEL == "lc15")
-          cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+          cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL" --publish'
 
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
-          cmd: GTP="$GTP" ./contrib/jenkins.sh
+          cmd: GTP="$GTP" ./contrib/jenkins.sh --publish
           trigger: master-osmo-sgsn
 
       - osmo-gmr:
@@ -207,7 +208,8 @@
            # keep first line with less indent to preserve newlines
             ./contrib/jenkins.sh
 
-      - osmo-hlr
+      - osmo-hlr:
+          cmd: ./contrib/jenkins.sh --publish
 
       - osmo-iuh:
           # Full triggers would be:
@@ -233,7 +235,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              osmocom:amd64 /build/contrib/jenkins.sh --publish
           trigger: master-osmo-msc, master-osmo-bsc
 
       - osmo-msc:
@@ -256,7 +258,7 @@
               -w /build -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$ARTIFACT_STORE:/artifact_store" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              osmocom:amd64 /build/contrib/jenkins.sh --publish
 
       - osmo-pcap
 
@@ -279,6 +281,7 @@
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15") ||
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master")
+          cmd: ./contrib/jenkins.sh --publish
 
       - osmo-sgsn:
           a1_name: IU
@@ -295,10 +298,11 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              osmocom:amd64 /build/contrib/jenkins.sh --publish
 
       - osmo-sip-connector:
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org holger@freyther.de
+          cmd: ./contrib/jenkins.sh --publish
 
       - osmo-tetra:
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org 246tnt@gmail.com
@@ -309,6 +313,7 @@
           # a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
           a1: !!python/tuple [--with-sse]
           concurrent: true
+          cmd: ./contrib/jenkins.sh --publish
 
       - osmocom-bb
       - osmo-sysmon
