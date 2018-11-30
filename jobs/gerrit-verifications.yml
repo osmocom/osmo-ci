@@ -46,7 +46,8 @@
       - libgtpnl
       - libosmo-abis
       - libosmo-netif
-      - libosmo-sccp
+      - libosmo-sccp:
+          cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
 
       - libosmocore:
           a1_name: arch
@@ -101,6 +102,7 @@
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e WITH_MANUALS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
@@ -110,27 +112,35 @@
           a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, litecell15, oc2g, oc2g-next]
           a2_name: BTS_MODEL
           a2: !!python/tuple [sysmo, oct, trx, oct+trx, lc15, oc2g]
+          a3_name: WITH_MANUALS
+          a3: !!python/tuple ["1", "0"]
           combination_filter: >
-            FIRMWARE_VERSION == "master" ||
-            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo") ||
-            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15") ||
-            (FIRMWARE_VERSION == "litecell15" && BTS_MODEL == "lc15") ||
-            (FIRMWARE_VERSION == "oc2g" && BTS_MODEL == "oc2g") ||
-            (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g")
+            (FIRMWARE_VERSION == "master" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo" && WITH_MANUALS == "1") ||
+            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "litecell15" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0") ||
+            (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0")
           cmd: './contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
+          a2_name: WITH_MANUALS
+          a2: !!python/tuple ["1", "0"]
+          combination_filter: >
+            (GTP == "--enable-gtp-linux" && WITH_MANUALS == "0") ||
+            (GTP == "--disable-gtp-linux" && WITH_MANUALS == "1")
           cmd: ./contrib/jenkins.sh
 
       - osmo-gsm-manuals
 
-      - osmo-hlr
+      - osmo-hlr:
+          cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
 
       - osmo-iuh
 
@@ -144,6 +154,7 @@
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e WITH_MANUALS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
@@ -151,7 +162,12 @@
       - osmo-msc:
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
+          a2_name: WITH_MANUALS
+          a2: !!python/tuple ["1", "0"]
           concurrent: true
+          combination_filter: >
+            (IU == "--enable-iu" && WITH_MANUALS == "0") ||
+            (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: >
            # keep first line with less indent to preserve newlines
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
@@ -163,6 +179,7 @@
               -e MAKE=make \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e IU="$IU" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -u build \
@@ -179,13 +196,15 @@
           a2: !!python/tuple [True, False]
           a3_name: with_dsp
           a3: !!python/tuple [sysmo, lc15, none]
+          a4_name: WITH_MANUALS
+          a4: !!python/tuple ["1", "0"]
           sequential: true
           combination_filter: >
-            (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master") ||
-            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master") ||
-            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01") ||
-            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15") ||
-            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master")
+            (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01" && WITH_MANUALS == "0") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0") ||
+            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1") ||
 
       - osmo-python-tests:
           repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/python/{repos}'
@@ -194,7 +213,12 @@
       - osmo-sgsn:
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
+          a2_name: WITH_MANUALS
+          a2: !!python/tuple ["1", "0"]
           concurrent: true
+          combination_filter: >
+            (IU == "--enable-iu" && WITH_MANUALS == "0") ||
+            (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: >
            # keep first line with less indent to preserve newlines
             docker run --rm=true \
@@ -202,6 +226,7 @@
               -e MAKE=make \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e IU="$IU" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
@@ -209,13 +234,18 @@
               osmocom:amd64 /build/contrib/jenkins.sh
 
       - osmo-sip-connector
+          cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
 
       - osmo-trx:
           a1_name: INSTR
-          # ARM variants temporarily disabled due to issue OS#3061
+          # ARM variants temporarily disabled due to issue OS#3061 (mind the combination_filter below!)
           # a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
           a1: !!python/tuple [--with-sse]
+          a2_name: WITH_MANUALS
+          a2: !!python/tuple ["1", "0"]
           concurrent: true
+          combination_filter: >
+            (INSTR == "--with-sse" && WITH_MANUALS == "1")
 
       - osmocom-bb
       - osmo-tetra
