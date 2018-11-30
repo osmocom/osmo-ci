@@ -175,6 +175,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
               osmocom:amd64 /build/contrib/jenkins.sh --publish
 
       - osmo-bts:
@@ -235,6 +236,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
               osmocom:amd64 /build/contrib/jenkins.sh --publish
           trigger: master-osmo-msc, master-osmo-bsc
 
@@ -258,6 +260,7 @@
               -w /build -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$ARTIFACT_STORE:/artifact_store" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
               osmocom:amd64 /build/contrib/jenkins.sh --publish
 
       - osmo-pcap
@@ -298,6 +301,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
               osmocom:amd64 /build/contrib/jenkins.sh --publish
 
       - osmo-sip-connector:
