@@ -222,8 +222,6 @@
             master-osmo-sgsn
 
       - osmo-mgw:
-          a1_name: MGCP
-          a1: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
           concurrent: true
           cmd: >
            # keep first line with less indent to preserve newlines
@@ -231,7 +229,6 @@
               -e HOME=/build \
               -e MAKE=make \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
-              -e MGCP="$MGCP" \
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -w /build -i -u build \
