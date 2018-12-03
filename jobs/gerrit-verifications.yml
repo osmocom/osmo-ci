@@ -89,7 +89,7 @@
       - openggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
-          cmd: GTP="$GTP" ./contrib/jenkins.sh
+          cmd: ./contrib/jenkins.sh
 
       - osmo-bsc:
           concurrent: true
@@ -126,7 +126,7 @@
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
-          cmd: GTP="$GTP" ./contrib/jenkins.sh
+          cmd: ./contrib/jenkins.sh
 
       - osmo-gsm-manuals
 

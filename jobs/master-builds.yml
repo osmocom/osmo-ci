@@ -197,7 +197,7 @@
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
-          cmd: GTP="$GTP" ./contrib/jenkins.sh --publish
+          cmd: ./contrib/jenkins.sh --publish
           trigger: master-osmo-sgsn
 
       - osmo-gmr:
