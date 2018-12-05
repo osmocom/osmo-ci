@@ -14,6 +14,8 @@
     a2: !!python/tuple [default]
     a3_name: a3
     a3: !!python/tuple [default]
+    a4_name: a4
+    a4: !!python/tuple [default]
     combination_filter: ''
     sequential: false
     # most common build invocation (PUBLISH=1 is prepended to publish manual PDFs)
@@ -408,6 +410,10 @@
           type: user-defined
           name: '{obj:a3_name}'
           values: '{obj:a3}'
+      - axis:
+          type: user-defined
+          name: '{obj:a4_name}'
+          values: '{obj:a4}'
 
     scm:
       - git:

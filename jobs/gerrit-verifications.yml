@@ -204,7 +204,7 @@
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0") ||
-            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1") ||
+            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1")
 
       - osmo-python-tests:
           repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/python/{repos}'
@@ -233,7 +233,7 @@
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
-      - osmo-sip-connector
+      - osmo-sip-connector:
           cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
 
       - osmo-trx:
