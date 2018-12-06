@@ -364,6 +364,7 @@
           cmd: >
            # keep first line with less indent to preserve newlines
             ./contrib/jenkins.sh --publish
+          email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
 
       - gapk
 
