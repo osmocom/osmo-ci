@@ -159,6 +159,8 @@
               -e MGCP="$MGCP" \
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e WITH_MANUALS="1" \
+              -e PUBLISH="1" \
               -w /build -i -u build \
               -v "$PWD:/build" \
               -v "$HOME/bin:/build_bin" \
@@ -219,6 +221,9 @@
           cmd: >
            # keep first line with less indent to preserve newlines
             ./contrib/jenkins.sh
+
+      - osmo-gsm-tester:
+          cmd: PUBLISH=1 ./contrib/jenkins-build-manuals.sh
 
       - osmo-hlr:
           cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
@@ -349,7 +354,9 @@
             (INSTR == "--with-sse" && WITH_MANUALS == "1")
           cmd: PUBLISH=1 ./contrib/jenkins.sh
 
-      - osmocom-bb
+      - osmocom-bb:
+          cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
+
       - osmo-sysmon
       - osmo-remsim
       - simtrace2:

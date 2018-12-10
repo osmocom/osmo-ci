@@ -81,6 +81,7 @@
               -e MGCP="$MGCP" \
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e WITH_MANUALS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" \
               -v "$HOME/bin:/build_bin" \
@@ -247,7 +248,8 @@
           combination_filter: >
             (INSTR == "--with-sse" && WITH_MANUALS == "1")
 
-      - osmocom-bb
+      - osmocom-bb:
+          cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
       - osmo-tetra
       - osmo-sysmon
       - osmo-remsim
