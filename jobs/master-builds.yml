@@ -164,6 +164,7 @@
               -w /build -i -u build \
               -v "$PWD:/build" \
               -v "$HOME/bin:/build_bin" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
               -v "$ARTIFACT_STORE:/artifact_store" \
               osmocom:amd64 /build/contrib/jenkins.sh
 
