@@ -34,6 +34,7 @@
     - libsqlite3-dev
     - libasound2-dev
     - mdbus2
+    - liblua5.3-dev
 
 - name: install ofono build dependencies
   apt:
