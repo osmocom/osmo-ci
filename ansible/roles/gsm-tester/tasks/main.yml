@@ -35,6 +35,7 @@
     - libasound2-dev
     - mdbus2
     - liblua5.3-dev
+    - lua-socket
 
 - name: install ofono build dependencies
   apt:
