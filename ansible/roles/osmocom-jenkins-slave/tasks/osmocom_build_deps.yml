@@ -48,6 +48,8 @@
     # by LimeSuite
     - cmake
     - patchelf
+    # by libusrp
+    - sdcc
 
 - name: install build dependencies and libraries
   apt:
