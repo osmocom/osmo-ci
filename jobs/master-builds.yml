@@ -360,6 +360,7 @@
 
       - osmo-sysmon
       - osmo-remsim
+      - osmo-asf4-dfu
       - simtrace2:
           cmd: >
            # keep first line with less indent to preserve newlines

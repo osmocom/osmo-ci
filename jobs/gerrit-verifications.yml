@@ -254,6 +254,7 @@
       - osmo-sysmon
       - osmo-remsim
       - simtrace2
+      - osmo-asf4-dfu
       - gapk
 
       - pysim:
