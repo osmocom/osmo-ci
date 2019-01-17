@@ -183,6 +183,7 @@ build_osmocom() {
   checkout rtl-sdr
   checkout osmo-fl2k
   checkout simtrace2
+  checkout libosmo-dsp
 
   create_osmo_trx_debian8_jessie
 
@@ -213,6 +214,7 @@ build_osmocom() {
   build rtl-sdr
   build osmo-fl2k
   build simtrace2
+  build libosmo-dsp
 
   download_bumpversion
 
