@@ -128,6 +128,7 @@ build_osmocom() {
   checkout osmo-msc
   checkout osmo-bsc
   checkout simtrace2
+  checkout libosmo-dsp
 
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
   build libosmocore
@@ -152,6 +153,7 @@ build_osmocom() {
   build osmo-msc
   build osmo-bsc
   build simtrace2
+  build libosmo-dsp
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"
