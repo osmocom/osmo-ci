@@ -49,7 +49,7 @@ checkout() {
   if [ "$project" = "limesuite" ]; then
      [ -d "$project" ] || git clone "https://github.com/myriadrf/LimeSuite" "$project"
   else
-    [ -d "$project" ] || git clone "git://git.osmocom.org/$project"
+    [ -d "$project" ] || git clone "https://git.osmocom.org/$project"
   fi
   cd "$project"
   git fetch

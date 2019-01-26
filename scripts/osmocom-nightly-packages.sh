@@ -16,7 +16,7 @@ PROJ=network:osmocom:nightly
 checkout() {
   local name=$1
   local branch=$2
-  local url="git://git.osmocom.org"
+  local url="https://git.osmocom.org"
 
   cd "$REPO"
 
