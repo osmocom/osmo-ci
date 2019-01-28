@@ -4,6 +4,8 @@
     concurrent: false
     disabled: false
     timer: "@midnight"
+    # Block *-latest for all master jobs (without suffix)
+    blocking: "^{job-name}.*"
     jobs:
       - "{job-name}"
     # Folders from docker-playground.git
@@ -33,17 +35,28 @@
           timer: 00 07 * * *
 
       # latest stable
-      - nplab-m3ua-test-latest
-      - nplab-sua-test-latest
-      - ttcn3-bsc-test-latest
-      - ttcn3-bsc-test-sccplite-latest
-      - ttcn3-bts-test-latest
-      - ttcn3-ggsn-test-latest
-      - ttcn3-hlr-test-latest
-      - ttcn3-mgw-test-latest
-      - ttcn3-msc-test-latest
-      - ttcn3-sgsn-test-latest
-      - ttcn3-sip-test-latest
+      - nplab-m3ua-test-latest:
+          blocking: "^nplab-m3ua-test.*"
+      - nplab-sua-test-latest:
+          blocking: "^nplab-sua-test.*"
+      - ttcn3-bsc-test-latest:
+          blocking: "^ttcn3-bsc-test.*"
+      - ttcn3-bsc-test-sccplite-latest:
+          blocking: "^ttcn3-bsc-test-sccplite.*"
+      - ttcn3-bts-test-latest:
+          blocking: "^ttcn3-bts-test.*"
+      - ttcn3-ggsn-test-latest:
+          blocking: "^ttcn3-ggsn-test.*"
+      - ttcn3-hlr-test-latest:
+          blocking: "^ttcn3-hlr-test.*"
+      - ttcn3-mgw-test-latest:
+          blocking: "^ttcn3-mgw-test.*"
+      - ttcn3-msc-test-latest:
+          blocking: "^ttcn3-msc-test.*"
+      - ttcn3-sgsn-test-latest:
+          blocking: "^ttcn3-sgsn-test.*"
+      - ttcn3-sip-test-latest:
+          blocking: "^ttcn3-sip-test.*"
 - job-template:
     name: '{job-name}'
     project-type: freestyle
@@ -107,7 +120,7 @@
     - build-blocker:
         use-build-blocker: true
         blocking-jobs:
-          - "^{job-name}.*"
+          - "{obj:blocking}"
     - build-discarder:
         days-to-keep: 30
         num-to-keep: 120
