@@ -36,8 +36,7 @@
       - nplab-m3ua-test-latest
       - nplab-sua-test-latest
       - ttcn3-bsc-test-latest
-      - ttcn3-bsc-test-sccplite-latest:
-          disabled: true
+      - ttcn3-bsc-test-sccplite-latest
       - ttcn3-bts-test-latest
       - ttcn3-ggsn-test-latest
       - ttcn3-hlr-test-latest
