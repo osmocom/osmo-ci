@@ -71,6 +71,8 @@
     - libgps-dev
     - libgsm1-dev
     - libmnl-dev
+    # by osmo-sysmon
+    - liboping-dev
     - libncurses5-dev
     - libortp-dev
     - libpcap-dev
