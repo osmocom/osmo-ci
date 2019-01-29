@@ -19,7 +19,7 @@
   tags: [poky]
 
 - name: execute poky installer
-  command: "/tmp/{{ poky_installer_file }}"
+  command: "/tmp/{{ poky_installer_file }} -y"
   args:
     creates: "/opt/poky/{{ poky_version }}"
   when: poky_copy.failed == false
