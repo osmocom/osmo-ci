@@ -25,6 +25,10 @@
   include_tasks: generic-slave.yml
   when: generic_slave
 
+- name: set-up osmo-ci repo
+  include_tasks: osmo-ci.yml
+  when: generic_slave
+
 - name: install ttcn3 dependencies
   include_tasks: ttcn3-slave.yml
   when: ttcn3_slave and ansible_distribution == 'Debian' and ansible_distribution_version >= '9'

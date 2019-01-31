@@ -1,0 +1,19 @@
+---
+
+# this is from the "update-osmo-ci-on-slaves" jenkins job.  However,
+# we need to initially install osmo-ci and the docker images *before*
+# that jenkins job can execute subsequent updates
+
+- name: deploy osmo-ci to home directory
+  become: yes
+  become_user: "{{ jenkins_user }}"
+  git:
+    repo: "https://git.osmocom.org/osmo-ci"
+    dest: "/home/{{ jenkins_user }}/osmo-ci"
+
+- name: rebuild osmocom docker images for jenkins build tests
+  become: yes
+  become_user: "{{ jenkins_user }}"
+  shell: ./rebuild_osmocom_jenkins_image.sh
+  args:
+    chdir: "/home/{{ jenkins_user }}/osmo-ci/docker"
