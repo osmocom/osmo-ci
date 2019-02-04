@@ -255,6 +255,7 @@
       - osmo-remsim
       - simtrace2
       - osmo-asf4-dfu
+      - osmo-ccid-firmware
       - gapk
 
       - pysim:
