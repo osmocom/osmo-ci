@@ -8,6 +8,7 @@
       - 'osmo-gsm-tester_run-{stage}'
       - 'osmo-gsm-tester_gerrit'
       - 'osmo-gsm-tester_ttcn3'
+      - 'osmo-gsm-tester_virtual'
 
 - scm:
     name: osmo-gsm-tester-gerrit
@@ -195,3 +196,59 @@
       - junit:
           results: 'trial-*/last_run/trial-*.xml'
           allow-empty-results: true
+
+# virtual tester job
+- job:
+    name: 'osmo-gsm-tester_virtual'
+    defaults: runner
+    node: 'osmocom-master-debian9'
+    scm:
+      - 'osmo-gsm-tester-repo'
+    triggers:
+      - timed: "H H/2 * * *"
+      - pollscm:
+          cron: "H/5 * * * *"
+    builders:
+      - shell: |
+          # make sure no bin artifacts from a previous run remain
+          rm -f *.tgz *.md5
+      - copy_artifact_all
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-osmocom-bb
+      - shell: >
+            unlink osmo-gsm-tester/example/resources.conf || true
+
+            ln -s resources.conf.virtual osmo-gsm-tester/example/resources.conf
+
+            # TODO: We (want to) grant CAP_SYS_NICE for osmo-bts-virtual
+            # but with newer cgroup support and the --cpu-rt-runtime/--ulimit
+            # rtprio=99 flags we can limit the damage a job can do.
+
+            docker run --rm=true \
+              -e HOME=/build \
+              -e JOB_NAME="$JOB_NAME" \
+              -e OSMO_GSM_TESTER_CONF="/build/osmo-gsm-tester/example" \
+              -e OSMO_GSM_TESTER_OPTS="$OSMO_GSM_TESTER_OPTS" \
+              -e BUILD_NUMBER="$BUILD_NUMBER" \
+              -w /build -i \
+              -v "$PWD:/build" \
+              -v "$HOME/bin:/build_bin" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
+              --cap-add=sys_nice \
+              osmocom:deb9_amd64 /bin/bash -c 'LANG="en_US.utf8" LC_ALL="en_US.UTF-8" LC_LANG="en_US.UTF-8" PATH="$PWD/osmo-gsm-tester/src:${PATH}" ./osmo-gsm-tester/contrib/jenkins-run.sh'
+    publishers:
+      - archive:
+          artifacts: '*-run.tgz, *-bin.tgz'
+          default-excludes: false
+      - junit:
+          results: 'trial-*/last_run/trial-*.xml'
+          allow-empty-results: true
+    parameters:
+      - string:
+          name: "OSMO_GSM_TESTER_OPTS"
+          default: "-s nitb_netreg_mass"
+          description: "pass additional command line options to osmo-gsm-tester.py, e.g. to select specific suites:scenarios. Default: leave empty."
+      - string:
+          name: "OSMO_GSM_TESTER_BRANCH"
+          default: "origin/master"
+          description: "Which branch/sha should be used for testing"
