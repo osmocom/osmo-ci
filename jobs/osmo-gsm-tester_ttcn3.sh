@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e -x
 
-# On our hardware, we actually use the example configuration as-is.
+# On our hardware, we actually use the ttcn3 configuration as-is.
 export OSMO_GSM_TESTER_CONF="$PWD/osmo-gsm-tester/ttcn3"
 
 # debug: provoke a failure
