@@ -48,5 +48,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y doxygen g++ libtalloc-dev 
 # Add rpath to binaries
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y patchelf
 
+# Be able to run the osmo-gsm-tester
+RUN DEBIAN_FRONTEND=noninteractive  apt-get install -y dbus tcpdump sqlite3 python3 python3-yaml python3-mako python3-gi ofono python3-pip
+RUN pip3 install git+git://github.com/podshumok/python-smpplib.git
+RUN pip3 install pydbus
+
 ADD http://git.osmocom.org/python/osmo-python-tests/patch /tmp/commit
 RUN git clone git://git.osmocom.org/python/osmo-python-tests && cd osmo-python-tests && ./contrib/jenkins.sh
