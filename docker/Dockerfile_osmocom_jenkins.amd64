@@ -1,4 +1,5 @@
-FROM debian:jessie
+ARG DEBIAN_VERSION=jessie
+FROM debian:${DEBIAN_VERSION}
 
 RUN \
     echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \
