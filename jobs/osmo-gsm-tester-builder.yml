@@ -25,6 +25,10 @@
           triggered-by: master-osmo-bts
       - osmo-pcu-sysmo:
           triggered-by: master-osmo-pcu
+      - osmo-bts-oc2g:
+          triggered-by: master-osmo-bts
+      - osmo-pcu-oc2g:
+          triggered-by: master-osmo-pcu
     triggered-by: 'master-{repo}'
 
     jobs:

@@ -26,4 +26,6 @@
             osmo-gsm-tester_build-osmo-nitb,
             osmo-gsm-tester_build-osmo-stp,
             osmo-gsm-tester_build-osmo-bts-sysmo,
-            osmo-gsm-tester_build-osmo-pcu-sysmo
+            osmo-gsm-tester_build-osmo-pcu-sysmo,
+            osmo-gsm-tester_build-osmo-bts-oc2g,
+            osmo-gsm-tester_build-osmo-pcu-oc2g
