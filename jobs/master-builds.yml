@@ -22,7 +22,7 @@
     cmd: ./contrib/jenkins.sh
     wrappers: []
     trigger:
-    email: gerrit-log@lists.osmocom.org laforge@gnumonks.org
+    email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
     git_base_url: git.osmocom.org
 
     # in alphabetical order

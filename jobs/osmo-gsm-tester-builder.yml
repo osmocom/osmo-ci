@@ -59,7 +59,7 @@
           only-if-success: 'true'
           default-excludes: false
       - email:
-          recipients: 'pespin@sysmocom.de'
+          recipients: pespin@sysmocom.de jenkins-notifications@lists.osmocom.org
           notify-every-unstable-build: true
     properties:
       - build-discarder:

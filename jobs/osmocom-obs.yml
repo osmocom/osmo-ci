@@ -24,4 +24,9 @@
     triggers:
       - timed: "@midnight"
 
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
 # vim: expandtab tabstop=2 shiftwidth=2
