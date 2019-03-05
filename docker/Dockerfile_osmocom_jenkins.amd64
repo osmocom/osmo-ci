@@ -54,6 +54,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y dbus tcpdump sqlite3 pytho
 RUN pip3 install git+git://github.com/podshumok/python-smpplib.git
 RUN pip3 install pydbus
 RUN pip3 install pysispm
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pyflakes
 
 ADD http://git.osmocom.org/python/osmo-python-tests/patch /tmp/commit
 RUN git clone git://git.osmocom.org/python/osmo-python-tests && cd osmo-python-tests && ./contrib/jenkins.sh
