@@ -120,3 +120,13 @@
   with_items:
     - liblimesuite-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version >= '9'
+
+- name: install osmo-remsim dependencies
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - libjansson-dev
+    - libulfius-dev
+  when: ansible_distribution == 'Debian' and ansible_distribution_version == '9'
