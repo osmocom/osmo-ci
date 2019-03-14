@@ -35,6 +35,8 @@
           timer: 00 07 * * *
       - ttcn3-pcu-test:
           timer: 00 05 * * *
+      - ttcn3-pcu-test-sns:
+          timer: 15 05 * * *
 
       # latest stable
       - nplab-m3ua-test-latest:
@@ -61,6 +63,8 @@
           blocking: "^ttcn3-sip-test.*"
       - ttcn3-pcu-test-latest:
           blocking: "^ttcn3-pcu-test.*"
+      - ttcn3-pcu-test-sns-latest:
+          blocking: "^ttcn3-pcu-test-sns.*"
 - job-template:
     name: '{job-name}'
     project-type: freestyle
