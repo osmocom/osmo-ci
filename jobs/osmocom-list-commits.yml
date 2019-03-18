@@ -1,0 +1,44 @@
+---
+- project:
+    name: Osmocom-list-commits
+    jobs:
+      - Osmocom-list-commits
+
+- job-template:
+    name: 'Osmocom-list-commits'
+    project-type: freestyle
+    defaults: global
+    description: |
+        Generate and upload a list of Osmocom git repositories and their latest tag and commits.
+        <b>The latest list is <a href="https://jenkins.osmocom.org/jenkins/job/Osmocom-list-commits/lastSuccessfulBuild/artifact/commits.txt/*view*/">here</a>.</b>
+    node: osmocom-master-debian9
+    parameters:
+      - string:
+          name: BRANCH
+          description: |
+                osmo-ci.git branch where the osmocom-list-commits.sh gets pulled from
+          default: '*/master'
+    builders:
+      - shell: |
+          scripts/osmocom-list-commits.sh > commits.txt
+          cat commits.txt
+    scm:
+      - git:
+          branches:
+            - '$BRANCH'
+          url: git://git.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    triggers:
+      - timed: "@midnight"
+    publishers:
+       - archive:
+          allow-empty: false
+          artifacts: commits.txt
+          case-sensitive: true
+          only-if-success: true
+       - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
+# vim: expandtab tabstop=2 shiftwidth=2
