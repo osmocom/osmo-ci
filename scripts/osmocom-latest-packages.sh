@@ -129,6 +129,8 @@ build_osmocom() {
   checkout osmo-bsc
   checkout simtrace2
   checkout libosmo-dsp
+  # TODO: enable once release after libosmocore 1.0.1 and libosmo-netif 0.4.0 are available
+  # checkout osmo-sysmon
 
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
   build libosmocore
@@ -154,6 +156,8 @@ build_osmocom() {
   build osmo-bsc
   build simtrace2
   build libosmo-dsp
+  # TODO: enable once release after libosmocore 1.0.1 and libosmo-netif 0.4.0 are available
+  # build osmo-sysmon
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"

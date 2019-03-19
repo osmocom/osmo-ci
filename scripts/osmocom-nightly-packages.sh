@@ -184,6 +184,7 @@ build_osmocom() {
   checkout osmo-fl2k
   checkout simtrace2
   checkout libosmo-dsp
+  checkout osmo-sysmon
 
   create_osmo_trx_debian8_jessie
 
@@ -215,6 +216,7 @@ build_osmocom() {
   build osmo-fl2k
   build simtrace2
   build libosmo-dsp
+  build osmo-sysmon
 
   download_bumpversion
 
