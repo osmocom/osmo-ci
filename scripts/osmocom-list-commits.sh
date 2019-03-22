@@ -54,7 +54,7 @@ get_last() {
 	# ...
 	ret="$(git ls-remote --tags "$URL/$1")"
 	ret="$(echo "$ret" | grep 'refs/tags/[0-9.]*$' || true)"
-	ret="$(echo "$ret" | sort -n -k2)"
+	ret="$(echo "$ret" | sort -V -t/ -k3)"
 	ret="$(echo "$ret" | tail -n 1)"
 
 	if [ -n "$ret" ]; then
