@@ -61,6 +61,12 @@ build_libsmpp34() {
 	popd
 }
 
+build_osmocombb() {
+	pushd osmocom-bb/src/
+	make nofirmware
+	popd
+}
+
 cd "$src_dir"
 
 rm -rf "$prefix"
@@ -92,3 +98,6 @@ build_default osmo-gmr
 build_default osmo-sip-connector
 
 build_default osmo-trx
+
+# OsmocomBB (without firmware)
+build_osmocombb

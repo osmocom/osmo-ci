@@ -26,6 +26,7 @@ for proj in \
   osmo-sip-connector \
   osmo-trx \
   osmo-hlr \
+  osmocom-bb \
   ; do
 
 	if [ -d $proj ]; then
