@@ -6,3 +6,5 @@ tokens.txt
 jenkins_jobs.ini
 jenkins-jobs.ini
 __pycache__/
+_temp/
+_deps/
