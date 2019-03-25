@@ -56,6 +56,11 @@ fi
 
 autoreconf --install --force
 ./configure --prefix="$inst/stow/$project" --with-systemdsystemunitdir="$inst/stow/$project/lib/systemd/system" $cfg
+
+if [ -n "$CHECK" ]; then
+	$MAKE $PARALLEL_MAKE check
+fi
+
 $MAKE $PARALLEL_MAKE install
 
 # Make the dependencies available through symlinks in $deps ($PWD/..).
