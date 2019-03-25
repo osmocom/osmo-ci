@@ -59,3 +59,13 @@ osmo_git_last_tags() {
 	ret="$(osmo_git_last_commits_tags "$1" "$2" "$3")"
 	echo "$ret" | cut -d/ -f 3
 }
+
+# Print the subdirectory of the repository where the source lies (configure.ac etc.).
+# Print nothing when the source is in the topdir of the repository.
+osmo_source_subdir() {
+	case "$1" in
+		openbsc)
+			echo "openbsc"
+			;;
+	esac
+}

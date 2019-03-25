@@ -1,4 +1,5 @@
 #!/bin/sh
+. "$(dirname "$0")/common.sh"
 
 project="$1"
 branch="$2"
@@ -47,6 +48,11 @@ cd "$project"
 # hierarchy before stowing them to avoid wrongly suggesting that they are part
 # of the -I and -L search paths
 mkdir -p "$inst/stow"
+
+subdir="$(osmo_source_subdir "$project")"
+if [ -n "$subdir" ]; then
+	cd "$subdir"
+fi
 
 autoreconf --install --force
 ./configure --prefix="$inst/stow/$project" --with-systemdsystemunitdir="$inst/stow/$project/lib/systemd/system" $cfg
