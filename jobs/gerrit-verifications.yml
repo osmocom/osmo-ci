@@ -192,7 +192,7 @@
 
       - osmo-pcu:
           a1_name: FIRMWARE_VERSION
-          a1: !!python/tuple [master, v2017.01, origin/nrw/litecell15, oc2g]
+          a1: !!python/tuple [master, v2017.01, litecell15, oc2g]
           a2_name: with_vty
           a2: !!python/tuple [True, False]
           a3_name: with_dsp
@@ -204,7 +204,7 @@
             (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01" && WITH_MANUALS == "0") ||
-            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="litecell15" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "oc2g" && FIRMWARE_VERSION=="oc2g" && WITH_MANUALS == "0") ||
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1")
 
