@@ -56,6 +56,9 @@ tags_to_ignore() {
 			echo "1.2.1" # depends on libosmo-legacy-mgcp
 			echo "1.4.0" # testsuite
 			;;
+		osmo-bts)
+			echo "1.0.0" # missing gsm0808.h include, fixed in 1.0.1
+			;;
 		osmo-mgw)
 			echo "1.3.0" # testsuite
 			echo "1.4.0" # testsuite
