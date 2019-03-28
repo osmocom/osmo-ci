@@ -10,33 +10,33 @@
       - "{job-name}"
     # Folders from docker-playground.git
     job-name:
-      # nightly
+      # nightly - order by time
       - nplab-m3ua-test:
           timer: 00 03 * * *
       - nplab-sua-test:
           timer: 15 03 * * *
-      - ttcn3-bsc-test:
-          timer: 00 06 * * *
-      - ttcn3-bsc-test-sccplite:
-          timer: 30 08 * * *
-      - ttcn3-bts-test:
-          timer: 00 07 * * *
       - ttcn3-ggsn-test:
           timer: 00 04 * * *
-      - ttcn3-hlr-test:
-          timer: 45 06 * * *
-      - ttcn3-mgw-test:
-          timer: 30 06 * * *
       - ttcn3-msc-test:
           timer: 30 04 * * *
-      - ttcn3-sgsn-test:
-          timer: 30 05 * * *
-      - ttcn3-sip-test:
-          timer: 00 07 * * *
       - ttcn3-pcu-test:
           timer: 00 05 * * *
       - ttcn3-pcu-test-sns:
           timer: 15 05 * * *
+      - ttcn3-sgsn-test:
+          timer: 30 05 * * *
+      - ttcn3-bsc-test:
+          timer: 00 06 * * *
+      - ttcn3-mgw-test:
+          timer: 30 06 * * *
+      - ttcn3-hlr-test:
+          timer: 45 06 * * *
+      - ttcn3-bts-test:
+          timer: 00 07 * * *
+      - ttcn3-sip-test:
+          timer: 30 07 * * *
+      - ttcn3-bsc-test-sccplite:
+          timer: 30 08 * * *
 
       # latest stable
       - nplab-m3ua-test-latest:
