@@ -35,6 +35,8 @@
           timer: 00 07 * * *
       - ttcn3-sip-test:
           timer: 30 07 * * *
+      - ttcn3-bscnat-test:
+          timer: 00 08 * * *
       - ttcn3-bsc-test-sccplite:
           timer: 30 08 * * *
 
@@ -65,6 +67,8 @@
           blocking: "^ttcn3-pcu-test.*"
       - ttcn3-pcu-test-sns-latest:
           blocking: "^ttcn3-pcu-test-sns.*"
+      - ttcn3-bscnat-test-latest:
+          blocking: "^ttcn3-bscnat-test.*"
 - job-template:
     name: '{job-name}'
     project-type: freestyle
