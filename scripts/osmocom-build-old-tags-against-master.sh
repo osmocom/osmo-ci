@@ -2,6 +2,7 @@
 # Environment variables:
 # * PARALLEL_MAKE: -jN argument for make (default: -j5).
 # * SKIP_MASTER: don't build REPOS_MASTER (assume that they were just built and keep _temp).
+# * SKIP_LEGACY: don't build libosmo-legacy-mgcp (assume that it was just built and keep _temp).
 #
 # Latest result:
 # https://jenkins.osmocom.org/jenkins/job/Osmocom-build-tags-against-master/lastBuild/console
@@ -53,7 +54,9 @@ tags_to_ignore() {
 			echo "1.0.0" # testsuite
 			;;
 		osmo-bsc)
-			echo "1.2.1" # depends on libosmo-legacy-mgcp
+			# Depends on libosmo-legacy-mgcp, but missing LIBOSMOLEGACYMGCP_CFLAGS so we can't build it with
+			# this script (we put that legacy lib into a different temp install dir). Fixed in 1.2.2.
+			echo "1.2.1"
 			echo "1.4.0" # testsuite
 			;;
 		osmo-bts)
@@ -97,9 +100,9 @@ tags_to_build() {
 # Delete existing temp dir and create a new one, output the path.
 prepare_temp_dir() {
 	TEMP="$(cd ..; pwd)/_temp"
-	if [ -n "$SKIP_MASTER" ]; then
+	if [ -n "$SKIP_MASTER" ] || [ -n "$SKIP_LEGACY" ]; then
 		if ! [ -d "$TEMP" ]; then
-			echo "ERROR: SKIP_MASTER is set, but temp dir not found: $TEMP"
+			echo "ERROR: SKIP_MASTER or SKIP_LEGACY is set, but temp dir not found: $TEMP"
 			exit 1
 		fi
 	else
@@ -136,20 +139,27 @@ show_errors_exit() {
 # $1: installation path (either $TEMP/inst_master or $TEMP/inst)
 # $2: repository
 # $3: branch, tag or commit
+# $4: run tests (set to 0 to disable tests, default is 1)
 # returns: 0 on sucessful build, 1 on error
 build_repo() {
-	local log="$TEMP/log/$2-$3.txt"
+	local inst="$1"
+	local repo="$2"
+	local branch="$3"
+	local check=""
+	if [ "$4" != "0" ]; then
+		check="1"
+	fi
 
 	if ! PATH="$PWD:$PATH"\
-		PKG_CONFIG_PATH="$TEMP/inst_master/lib/pkgconfig:$PKG_CONFIG_PATH" \
-		LD_LIBRARY_PATH="$TEMP/inst_master/lib:$LD_LIBRARY_PATH" \
+		PKG_CONFIG_PATH="$TEMP/inst_master/lib/pkgconfig:$TEMP/inst_legacy/lib/pkgconfig:$PKG_CONFIG_PATH" \
+		LD_LIBRARY_PATH="$TEMP/inst_master/lib:$TEMP/inst_legacy/lib:$LD_LIBRARY_PATH" \
 		MAKE="make" \
 		PARALLEL_MAKE="$PARALLEL_MAKE" \
-		CHECK="1" \
+		CHECK="$check" \
 		deps="../_deps" \
-		inst="$1" \
-		./osmo-build-dep.sh "$2" "$3" \
-		> "$log" 2>&1
+		inst="$inst" \
+		./osmo-build-dep.sh "$repo" "$branch" \
+		> "$TEMP/log/$repo-$branch.txt" 2>&1
 	then
 		return 1
 	fi
@@ -181,6 +191,29 @@ build_repos_master() {
 		fi
 		printf "\n"
 	done
+}
+
+# Build libosmo-legacy-mgcp and install to $TEMP/inst_legacy (osmo-bsc 1.2.1 depends on it).
+build_legacy_mgcp() {
+	echo "Building legacy libraries..."
+
+	if [ -n "$SKIP_LEGACY" ]; then
+		echo "=> SKIPPED (SKIP_LEGACY is set)"
+		return
+	fi
+
+	local repo="osmo-mgw"
+	local tag="1.4.0"
+
+	# Don't run "make check" here. The script tries it during build_repos_tags() instead.
+	local check="0"
+	printf "%-21s %10s %s" " * $repo" "$tag" "(provides libosmo-legacy-mgcp)"
+	if ! build_repo "$TEMP/inst_legacy" "$repo" "$tag" "$check"; then
+		printf "\n"
+		ERROR_LOGS="$ERROR_LOGS $TEMP/log/$repo-$tag.txt"
+		show_errors_exit
+	fi
+	printf "\n"
 }
 
 # $1: repository
@@ -231,5 +264,6 @@ build_repos_tags() {
 
 prepare_temp_dir
 build_repos_master
+build_legacy_mgcp
 build_repos_tags
 show_errors_exit
