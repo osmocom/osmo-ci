@@ -274,3 +274,15 @@
     src: 64-limesuite.rules
     dest: /etc/udev/rules.d/
   notify: restart udev
+
+- name: use persistent naming for modem network interfaces
+  copy:
+    src: 70-net-setup-link-modems.rules
+    dest: /etc/udev/rules.d/
+  notify: restart udev
+
+- name: avoid dhcpcd managing modem interfaces and racing with udev rename
+  lineinfile:
+    path: /etc/dhcpcd.conf
+    regexp: '^denyinterfaces'
+    line: 'denyinterfaces ww* r*'
