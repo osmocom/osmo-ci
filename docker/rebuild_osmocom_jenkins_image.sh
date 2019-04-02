@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Executes docker build with the given parameters and retry in case of error.
 function build_once() {
