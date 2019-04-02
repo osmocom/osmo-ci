@@ -2,9 +2,9 @@ ARG DEBIAN_VERSION=jessie
 FROM debian:${DEBIAN_VERSION}
 
 RUN \
-    echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \
+    echo "deb http://archive.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \
     dpkg --add-architecture i386 && \
-    DEBIAN_FRONTEND=noninteractive apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Check-Valid-Until=false update && \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget make
 
