@@ -2,7 +2,17 @@
 - project:
     name: osmocom-coverity
     jobs:
+      - osmocom-coverity-deps
       - osmocom-coverity
+
+- job:
+    name: 'osmocom-coverity-deps'
+    apt:
+      name: "{{ item }}"
+      cache_valid_time: 3600
+      update_cache: yes
+    with_items:
+      - curl
 
 - job:
     name: 'osmocom-coverity'
