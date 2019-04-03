@@ -185,6 +185,7 @@ build_osmocom() {
   checkout simtrace2
   checkout libosmo-dsp
   checkout osmo-sysmon
+  checkout osmo-remsim
 
   create_osmo_trx_debian8_jessie
 
@@ -217,6 +218,7 @@ build_osmocom() {
   build simtrace2
   build libosmo-dsp
   build osmo-sysmon
+  build osmo-remsim
 
   download_bumpversion
 

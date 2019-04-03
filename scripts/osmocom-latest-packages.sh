@@ -131,6 +131,8 @@ build_osmocom() {
   checkout libosmo-dsp
   # TODO: enable once release after libosmocore 1.0.1 and libosmo-netif 0.4.0 are available
   # checkout osmo-sysmon
+  # TODO: enable once libosmo-abis > 0.6.0 is available (IPA keepalive FSM)
+  # checkout osmo-remsim
 
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
   build libosmocore
@@ -158,6 +160,8 @@ build_osmocom() {
   build libosmo-dsp
   # TODO: enable once release after libosmocore 1.0.1 and libosmo-netif 0.4.0 are available
   # build osmo-sysmon
+  # TODO: enable once libosmo-abis > 0.6.0 is available (IPA keepalive FSM)
+  # build osmo-remsim
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"
