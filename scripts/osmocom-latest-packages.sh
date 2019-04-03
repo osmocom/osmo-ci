@@ -131,8 +131,7 @@ build_osmocom() {
   checkout osmo-bsc
   checkout simtrace2
   checkout libosmo-dsp
-  # TODO: enable once release after libosmocore 1.0.1 and libosmo-netif 0.4.0 are available
-  # checkout osmo-sysmon
+  checkout osmo-sysmon
   # TODO: enable once libosmo-abis > 0.6.0 is available (IPA keepalive FSM)
   # checkout osmo-remsim
 
@@ -160,8 +159,7 @@ build_osmocom() {
   build osmo-bsc
   build simtrace2
   build libosmo-dsp
-  # TODO: enable once release after libosmocore 1.0.1 and libosmo-netif 0.4.0 are available
-  # build osmo-sysmon
+  build osmo-sysmon
   # TODO: enable once libosmo-abis > 0.6.0 is available (IPA keepalive FSM)
   # build osmo-remsim
 
