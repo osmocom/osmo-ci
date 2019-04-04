@@ -5,6 +5,6 @@ IMPORT{builtin}="net_id"
 
 # If dev paths are too long (too many usb hubs in the path) (>IFNAMSIZ), ID_NET_NAME_PATH is not populated.
 ENV{DEVTYPE}=="wwan", ENV{ID_NET_NAME_PATH}!="", NAME="$env{ID_NET_NAME_PATH}"
-ENV{DEVTYPE}=="wwan", ENV{ID_NET_NAME_PATH}=="", PROGRAM="/bin/sh -ec 'echo ${DEVPATH} | sha1sum | head -c14'", NAME="r$result"
+ENV{DEVTYPE}=="wwan", ENV{ID_NET_NAME_PATH}=="", PROGRAM="/bin/sh -ec 'echo ${DEVPATH} | xargs dirname | sha1sum | head -c14'", NAME="r$result"
 
 LABEL="net_setup_link_end"
