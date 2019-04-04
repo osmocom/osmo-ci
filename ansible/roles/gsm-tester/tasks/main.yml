@@ -254,6 +254,19 @@
     dest: /etc/sudoers.d/osmo-gsm-tester_netns_exec
     mode: 0440
 
+- name: create a wrapper script to move modem net iface into its own netns
+  copy:
+    src: osmo-gsm-tester_netns_setup.sh
+    dest: /usr/local/bin/osmo-gsm-tester_netns_setup.sh
+    mode: 755
+
+- name: allow osmo-gsm-tester sudo osmo-gsm-tester_netns_setup.sh
+  copy:
+    content: |
+      %osmo-gsm-tester ALL=(root) NOPASSWD: /usr/local/bin/osmo-gsm-tester_netns_setup.sh
+    dest: /etc/sudoers.d/osmo-gsm-tester_netns_setup
+    mode: 0440
+
 - name: logrotate limit filesizes to 10M
   copy:
     content: "maxsize 10M"
