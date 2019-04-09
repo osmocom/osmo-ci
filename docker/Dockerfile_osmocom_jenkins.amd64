@@ -66,3 +66,7 @@ RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8
+
+# Code coverage tools
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y lcov
+RUN pip3 install git+https://github.com/eriwen/lcov-to-cobertura-xml/
