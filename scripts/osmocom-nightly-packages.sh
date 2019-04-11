@@ -171,6 +171,7 @@ build_osmocom() {
   prepare
 
   checkout_limesuite
+  checkout osmo-gsm-manuals
   checkout libosmocore
   checkout libosmo-sccp
   checkout libosmo-abis
@@ -203,6 +204,7 @@ build_osmocom() {
   create_osmo_trx_debian8_jessie
 
   build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
+  build osmo-gsm-manuals
   build libosmocore
   build libosmo-sccp
   build libosmo-abis

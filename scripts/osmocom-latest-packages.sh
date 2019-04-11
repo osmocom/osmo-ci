@@ -99,9 +99,10 @@ build() {
   cd "$TOP"
 }
 
-# add those two once they have tagged any versions that include the 'debian' sub-dir:
+# add those once they have tagged any versions that include the 'debian' sub-dir:
 #rtl-sdr
 #osmo-fl2k
+#osmo-gsm-manuals
 
 build_osmocom() {
   prepare
