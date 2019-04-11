@@ -18,6 +18,7 @@ if ! which osc >/dev/null 2>/dev/null ; then
   exit 1
 fi
 
+### OBS build
 prepare() {
   # start with a checkout of the project
   if [ -d $PROJ ]; then

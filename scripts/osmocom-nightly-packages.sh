@@ -1,33 +1,21 @@
 #!/bin/bash
+
 # requirements
 # apt install devscripts git-buildpackage osc git
 
 set -e
 set -x
 
+# OBS project name
+PROJ=network:osmocom:nightly
+
+DT=$(date +%Y%m%d)
+TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
+
 if ! which osc >/dev/null 2>/dev/null ; then
   echo "osc binary not found"
   exit 1
 fi
-DT=$(date +%Y%m%d)
-PROJ=network:osmocom:nightly
-
-### common
-checkout() {
-  local name=$1
-  local branch=$2
-  local url="https://git.osmocom.org"
-
-  cd "$REPO"
-
-  if [ -n "$branch" ] ; then
-    git clone "$url/$name" -b "$branch"
-  else
-    git clone "$url/$name"
-  fi
-
-  cd -
-}
 
 ### OBS build
 prepare() {
@@ -54,6 +42,23 @@ get_commit_version() {
   fi
 
   echo -n "$version"
+}
+
+### common
+checkout() {
+  local name=$1
+  local branch=$2
+  local url="https://git.osmocom.org"
+
+  cd "$REPO"
+
+  if [ -n "$branch" ] ; then
+    git clone "$url/$name" -b "$branch"
+  else
+    git clone "$url/$name"
+  fi
+
+  cd -
 }
 
 build() {
@@ -144,12 +149,11 @@ create_osmo_trx_debian8_jessie() {
 }
 
 build_osmocom() {
-  BASE=$PWD
-  DATA=$BASE/data
-  REPO=$BASE/repo
+  DATA=$TOP/data
+  REPO=$TOP/repo
 
   # rather than including a dangerous 'rm -rf *' here, lets delegate to the user:
-  if [ -n "$(ls)" ]; then
+  if [ -n "$(ls $TOP)" ]; then
     echo "ERROR: I need to run in an empty directory."
     exit 1
   fi
@@ -224,6 +228,4 @@ build_osmocom() {
   post
 }
 
-TMPDIR=$(mktemp -d nightly-3g_XXXXXX)
-cd "$TMPDIR"
 build_osmocom
