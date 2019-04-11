@@ -225,11 +225,6 @@ build_osmocom() {
   post
 }
 
-if ! which osc >/dev/null 2>/dev/null ; then
-  echo "osc binary is not installed"
-  exit 1
-fi
-
 TMPDIR=$(mktemp -d nightly-3g_XXXXXX)
 cd "$TMPDIR"
 build_osmocom
