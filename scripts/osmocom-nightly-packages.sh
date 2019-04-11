@@ -25,6 +25,17 @@ prepare() {
   osc co "$PROJ"
 }
 
+get_last_tag() {
+  project="$1"
+  if [ "$project" = "limesuite" ]; then
+    ver_regexp="^v[0-9]*.[0-9]*.[0-9]*$"
+  else
+    ver_regexp="^[0-9]*.[0-9]*.[0-9]*$"
+  fi
+  VER=$(git -C "${REPO}/${project}" tag -l --sort=v:refname | grep "$ver_regexp" | tail -n 1)
+  echo "${VER}"
+}
+
 get_commit_version() {
   # return a version based on the commit
   local version
@@ -130,10 +141,9 @@ download_bumpversion() {
 }
 
 checkout_limesuite() {
-  TAG="v18.10.0"
-
   cd "$REPO"
   git clone https://github.com/myriadrf/LimeSuite limesuite
+  TAG="$(get_last_tag limesuite)"
   cd limesuite
   git checkout "$TAG"
 }
@@ -192,7 +202,7 @@ build_osmocom() {
 
   create_osmo_trx_debian8_jessie
 
-  build limesuite no_commit --git-upstream-tree=v18.10.0
+  build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
