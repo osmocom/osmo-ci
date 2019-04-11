@@ -40,7 +40,6 @@ prepare() {
 get_commit_version() {
   # return a version based on the commit
   local version
-  local date
 
   # determine git version *and generate the .tarball-version file*
   test -x ./git-version-gen && ./git-version-gen . > .tarball-version 2>/dev/null
