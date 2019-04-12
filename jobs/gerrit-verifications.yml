@@ -30,8 +30,7 @@
 
       - cellmgr-ng:
           concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             docker run --rm=true \
               -e HOME=/build \
               -e MAKE=make \
@@ -66,8 +65,7 @@
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
           concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
             docker run --rm=true \
@@ -95,8 +93,7 @@
 
       - osmo-bsc:
           concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             docker run --rm=true \
               -e HOME=/build \
               -e MAKE=make \
@@ -147,8 +144,7 @@
 
       - osmo-mgw:
           concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             docker run --rm=true \
               -e HOME=/build \
               -e MAKE=make \
@@ -169,8 +165,7 @@
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
             docker run --rm=true -i \
@@ -221,8 +216,7 @@
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             docker run --rm=true \
               -e HOME=/build \
               -e MAKE=make \
@@ -265,8 +259,7 @@
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
           slave_axis: !!python/tuple [ttcn3]
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             set -e
             make deps; make clean; make compile
 

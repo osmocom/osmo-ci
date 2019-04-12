@@ -58,17 +58,14 @@ Make sure it is exactly
 
 - newlines:
 
-The build commands may be multiline, but especially in the
-gerrit-verifications.yml, where the commands are first stored in 'cmd' and
-later inserted in a 'shell' section, the newlines between individual shell
-lines don't all survive. Interestingly enough, only a line that has more
-indenting than the first line also receives an actual newline in the resulting
-jenkins Execute Shell section; take a look at the job's config page on jenkins.
-Hence we often have a '# keep first line with less indent' comment. Note that
-issuing backslashes to span a shell command across several lines will break the
-command if the newlines are not preserved, so we need a '# keep...' comment
-where there are more than one shell command, and where there are backslashes
-'\' to join multiple lines.
+Use 'key: |' to keep new lines in multiline values, e.g.:
+  - shell: |
+      echo hello
+      echo world
+
+See also:
+* https://yaml-multiline.info/
+* https://stackoverflow.com/a/21699210
 
 - jobs named on cmdline are not updated:
 

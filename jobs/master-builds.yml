@@ -50,8 +50,7 @@
             master-libosmo-netif, master-osmo-bts
 
       - libosmo-dsp:
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             autoreconf --install --force
             ./configure
             $MAKE $PARALLEL_MAKE
@@ -144,8 +143,7 @@
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
           concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
             docker run --rm=true \
@@ -170,8 +168,7 @@
 
       - osmo-bsc:
           concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             docker run --rm=true \
               -e HOME=/build \
               -e MAKE=make \
@@ -220,8 +217,7 @@
 
       - osmo-gsm-manuals:
           node: 'osmocom-master-debian9'
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             ./contrib/jenkins.sh
 
       - osmo-gsm-tester:
@@ -241,8 +237,7 @@
 
       - osmo-mgw:
           concurrent: true
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             docker run --rm=true \
               -e HOME=/build \
               -e MAKE=make \
@@ -266,8 +261,7 @@
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
             docker run --rm=true -i \
@@ -321,8 +315,7 @@
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             docker run --rm=true \
               -e HOME=/build \
               -e MAKE=make \
@@ -363,8 +356,7 @@
       - osmo-remsim
       - osmo-asf4-dfu
       - simtrace2:
-          cmd: >
-           # keep first line with less indent to preserve newlines
+          cmd: |
             ./contrib/jenkins.sh --publish
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
 
