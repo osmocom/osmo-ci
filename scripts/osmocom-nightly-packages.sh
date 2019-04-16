@@ -148,11 +148,12 @@ checkout_limesuite() {
   git checkout "$TAG"
 }
 
-create_osmo_trx_debian8_jessie() {
-  # The package must be already checked out via `checkout osmo-trx`
+# Copy an already checked out repository dir and apply its debian 8 patch.
+# $1: Osmocom repository
+checkout_copy_debian8_jessie() {
   cd "$REPO"
-  cp -a osmo-trx osmo-trx-debian8-jessie
-  cd osmo-trx-debian8-jessie/
+  cp -a "$1" "$1-debian8-jessie"
+  cd "$1-debian8-jessie"
   patch -p1 < debian/patches/build-for-debian8.patch
   git commit -m 'auto-commit: allow debian8 to build' debian/
   cd ..
@@ -201,10 +202,12 @@ build_osmocom() {
   checkout osmo-sysmon
   checkout osmo-remsim
 
-  create_osmo_trx_debian8_jessie
+  checkout_copy_debian8_jessie "osmo-gsm-manuals"
+  checkout_copy_debian8_jessie "osmo-trx"
 
   build limesuite no_commit --git-upstream-tree="357ad5dd0d71304179d476b38e67240527d917df"
   build osmo-gsm-manuals
+  build osmo-gsm-manuals-debian8-jessie
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
