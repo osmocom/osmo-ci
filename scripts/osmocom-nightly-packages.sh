@@ -143,7 +143,7 @@ download_bumpversion() {
 checkout_limesuite() {
   cd "$REPO"
   git clone https://github.com/myriadrf/LimeSuite limesuite
-  TAG="$(get_last_tag limesuite)"
+  TAG="357ad5dd0d71304179d476b38e67240527d917df"
   cd limesuite
   git checkout "$TAG"
 }
@@ -203,7 +203,7 @@ build_osmocom() {
 
   create_osmo_trx_debian8_jessie
 
-  build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
+  build limesuite no_commit --git-upstream-tree="357ad5dd0d71304179d476b38e67240527d917df"
   build osmo-gsm-manuals
   build libosmocore
   build libosmo-sccp
