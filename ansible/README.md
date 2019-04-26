@@ -18,3 +18,15 @@ Further information on this job can be found in **setup-gsm-tester.md**.
 `ansible-playbook -i hosts setup-jenkins-slave.yml`
 
 Further information on this job and around the setup can be found on the redmine wiki.
+
+If you don't have access to an IPv6 network from your local host, then you can
+use an ssh proxy to updates hosts in the `hosts` files being accessed only
+through an IPv6 addr. Your ssh proxy must of course have an IPv6 address able to
+reach the destination host.
+
+example `.ssh/config`:
+```
+Host 2a01:4f8:13b:828::1:*
+ProxyJump proxyuser@myhostproxy.com:22
+User root
+```
