@@ -1,5 +1,4 @@
 ---
-
 - name: install bzip2 and tar
   apt:
     name: "{{ item }}"
@@ -19,18 +18,25 @@
   tags: [poky]
 
 - name: execute poky installer
-  command: "/tmp/{{ poky_installer_file }} -y"
+  command: "/tmp/{{ poky_installer_file }} -y -d '{{ poky_dest }}'"
   args:
-    creates: "/opt/poky/{{ poky_version }}"
+    creates: "{{ poky_dest }}"
   when: poky_copy.failed == false
   tags: [poky]
 
 - name: change owner/group to jenkins user
   file:
-    path: /opt/poky
+    path: "{{ poky_dest }}"
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_user }}"
     recurse: yes
+  when: poky_copy.failed == false
+  tags: [poky]
+
+- name: remove poky installer
+  file:
+    path: "/tmp/{{ poky_installer_file }}"
+    state: absent
   when: poky_copy.failed == false
   tags: [poky]
 
