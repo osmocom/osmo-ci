@@ -251,6 +251,7 @@
       - simtrace2
       - osmo-asf4-dfu
       - osmo-ccid-firmware
+      - osmo-e1d
       - gapk
 
       - pysim:
