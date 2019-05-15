@@ -21,7 +21,7 @@
 
     - name: install-poky-sdk
       jenkins_user: osmocom-build
-      poky_install_file: poky-glibc-x86_64-meta-toolchain-osmo-cortexa15hf-neon-toolchain-osmo-2.3.4-20190426050512.sh
+      poky_installer_file: poky-glibc-x86_64-meta-toolchain-osmo-cortexa15hf-neon-toolchain-osmo-2.3.4.sh
       poky_dest: /opt/poky-oc2g/2.3.4/
       tags:
         - poky
