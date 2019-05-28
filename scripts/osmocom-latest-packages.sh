@@ -58,6 +58,22 @@ checkout() {
   git checkout -f -B "$VER" "refs/tags/$VER"
 }
 
+# Copy an already checked out repository dir and apply its debian 8 patch.
+# $1: Osmocom repository
+checkout_copy_debian8_jessie() {
+  echo
+  echo "====> Checking out $1-debian8-jessie"
+  cd "$TOP"
+  if [ -d "$1-debian8-jessie" ]; then
+    rm -rf "$1-debian8-jessie"
+  fi
+  cp -a "$1" "$1-debian8-jessie"
+  cd "$1-debian8-jessie"
+  patch -p1 < debian/patches/build-for-debian8.patch
+  git commit --amend --no-edit debian/
+  cd ..
+}
+
 build() {
   project=$1
   gitbpargs="$2"
@@ -101,12 +117,12 @@ build() {
 # add those once they have tagged any versions that include the 'debian' sub-dir:
 #rtl-sdr
 #osmo-fl2k
-#osmo-gsm-manuals
 
 build_osmocom() {
   prepare
 
   checkout limesuite
+  checkout osmo-gsm-manuals
   checkout libosmocore
   checkout libosmo-sccp
   checkout libosmo-abis
@@ -134,7 +150,11 @@ build_osmocom() {
   # TODO: enable once libosmo-abis > 0.6.0 is available (IPA keepalive FSM)
   # checkout osmo-remsim
 
+  checkout_copy_debian8_jessie "osmo-gsm-manuals"
+
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
+  build osmo-gsm-manuals
+  build osmo-gsm-manuals-debian8-jessie
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
