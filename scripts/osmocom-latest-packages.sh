@@ -66,7 +66,6 @@ build() {
   echo "====> Building $project"
   cd "$TOP/$project"
   VER=$(get_last_tag "$project")
-  git checkout -f -B "$VER" "refs/tags/$VER"
   if [ -x ./git-version-gen ]; then
     ./git-version-gen . > .tarball-version 2>/dev/null
     gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$output" \
