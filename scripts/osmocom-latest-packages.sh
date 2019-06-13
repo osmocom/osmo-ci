@@ -1,4 +1,5 @@
 #!/bin/sh
+. "$(dirname "$0")/common-obs.sh"
 
 # requirements
 # apt install git-buildpackage osc git
@@ -28,6 +29,9 @@ prepare() {
   fi
   [ -d "$DEBSRCDIR" ] && rm -rf "$DEBSRCDIR"
   mkdir "$DEBSRCDIR"
+
+  cd "$TOP"
+  osmo_obs_prepare_conflict "osmocom-latest" "osmocom-nightly"
 }
 
 get_last_tag() {
@@ -84,6 +88,11 @@ build() {
   VER=$(get_last_tag "$project")
   if [ -x ./git-version-gen ]; then
     ./git-version-gen . > .tarball-version 2>/dev/null
+  fi
+
+  osmo_obs_add_debian_dependency "./debian/control" "osmocom-latest"
+
+  if [ -x ./git-version-gen ]; then
     gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$output" \
 		     "--git-debian-branch=$VER" --git-ignore-new $gitbpargs \
 		     --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/'
@@ -152,6 +161,7 @@ build_osmocom() {
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
 
+  build osmocom-latest
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
   build osmo-gsm-manuals-debian8-jessie

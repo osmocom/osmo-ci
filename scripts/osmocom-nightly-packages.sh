@@ -1,4 +1,5 @@
 #!/bin/bash
+. "$(dirname "$0")/common-obs.sh"
 
 # requirements
 # apt install devscripts git-buildpackage osc git
@@ -23,6 +24,9 @@ prepare() {
   mkdir -p "$REPO/osc/"
   cd "$REPO/osc"
   osc co "$PROJ"
+
+  cd "$REPO"
+  osmo_obs_prepare_conflict "osmocom-nightly" "osmocom-latest"
 }
 
 get_last_tag() {
@@ -98,6 +102,7 @@ build() {
 
   if [ "$changelog" = "commit" ] ; then
     VER=$(get_commit_version)
+    osmo_obs_add_debian_dependency "./debian/control" "osmocom-nightly"
     dch -b -v "$VER" -m "Snapshot build"
     git commit -m "$VER snapshot" debian/
   fi
@@ -205,6 +210,7 @@ build_osmocom() {
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
   checkout_copy_debian8_jessie "osmo-trx"
 
+  build osmocom-nightly
   build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
   build osmo-gsm-manuals-debian8-jessie
