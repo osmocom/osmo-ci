@@ -16,7 +16,7 @@ osmo_git_head_commit() {
 # Print last tags and related commits for an Osmocom git repository, e.g.:
 # "ec798b89700dcca5c5b28edf1a1cd16ea311f30a        refs/tags/1.0.1"
 # $1: Osmocom repository
-# $2: amount of commit, tag pairs to print (default: 1)
+# $2: amount of commit, tag pairs to print (default: 1, set to "all" to print all)
 # $3: string to print when there are no tags (default: empty string)
 osmo_git_last_commits_tags() {
 	# git output:
@@ -31,7 +31,9 @@ osmo_git_last_commits_tags() {
 	ret="$(git ls-remote --tags "$OSMO_GIT_URL/$1")"
 	ret="$(echo "$ret" | grep 'refs/tags/[0-9.]*$' || true)"
 	ret="$(echo "$ret" | sort -V -t/ -k3)"
-	ret="$(echo "$ret" | tail -n "$2")"
+	if [ "$2" != "all" ]; then
+		ret="$(echo "$ret" | tail -n "$2")"
+	fi
 
 	if [ -n "$ret" ]; then
 		echo "$ret"
