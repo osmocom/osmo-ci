@@ -27,6 +27,8 @@ OSMO_RELEASE_REPOS="
 	osmocom-bb
 "
 
+OSMO_BRANCH_DOCKER_PLAYGROUND="${OSMO_BRANCH_DOCKER_PLAYGROUND:-master}"
+
 # Print commit of HEAD for an Osmocom git repository, e.g.:
 # "f90496f577e78944ce8db1aa5b900477c1e479b0"
 # $1: repository
@@ -95,4 +97,28 @@ osmo_source_subdir() {
 			echo "openbsc"
 			;;
 	esac
+}
+
+# Build docker images from docker-playground.git.
+# $1...$n: docker image names (e.g. "debian-stretch-build")
+docker_images_require() {
+	local oldpwd="$PWD"
+
+	# Get docker-plaground.git
+	if [ -d "_docker_playground" ]; then
+		git -C _docker_playground fetch
+	else
+		git clone https://git.osmocom.org/docker-playground/ _docker_playground
+	fi
+	cd _docker_playground
+	git checkout "$OSMO_BRANCH_DOCKER_PLAYGROUND"
+	git reset --hard "origin/$OSMO_BRANCH_DOCKER_PLAYGROUND"
+
+	# jenkins-common.sh expects to run from a subdir in docker-playground.git
+	cd "$1"
+
+	# Subshell: run docker_images_require from jenkins-common.sh, pass all arguments
+	(. ../jenkins-common.sh; docker_images_require "$@")
+
+	cd "$oldpwd"
 }

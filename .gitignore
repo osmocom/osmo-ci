@@ -9,6 +9,7 @@ __pycache__/
 _temp/
 _deps/
 _release_tarballs/
+_docker_playground
 
 # osmocom-nightly-packages.sh
 nightly-3g_*
