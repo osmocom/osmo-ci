@@ -1,0 +1,54 @@
+---
+- project:
+    name: Osmocom-release-tarballs
+    jobs:
+      - Osmocom-release-tarballs
+
+- job-template:
+    name: 'Osmocom-release-tarballs'
+    project-type: freestyle
+    defaults: global
+    description: |
+        For each relevant Osmocom repository and its tags, build release tarballs (<a href="https://osmocom.org/issues/3870">OS#3870</a>).
+    parameters:
+      - string:
+          name: BRANCH_OSMO_CI
+          description: |
+                osmo-ci.git branch where the osmocom-release-tarballs.sh gets pulled from
+          default: 'master'
+      - string:
+          name: BRANCH_DOCKER_PLAYGROUND
+          description: |
+                docker-playground.git branch where the Dockerfile gets pulled from
+          default: 'master'
+    builders:
+      - shell: |
+          export OSMO_BRANCH_DOCKER_PLAYGROUND="$BRANCH_DOCKER_PLAYGROUND"
+          . scripts/common.sh
+          docker_images_require "debian-stretch-build" "debian-stretch-build-dist"
+
+          docker run \
+            --rm=true \
+            -v "$PWD:/osmo-ci" \
+            -w /osmo-ci \
+            -e KEEP_TEMP="$KEEP_TEMP" \
+            "$USER/debian-stretch-build-dist" /osmo-ci/scripts/osmocom-release-tarballs.sh
+    scm:
+      - git:
+          branches:
+            - '$BRANCH_OSMO_CI'
+          url: git://git.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          # Don't wipe workspace to keep generated release tarballs
+          wipe-workspace: false
+    triggers:
+      - timed: "@midnight"
+    # Limit to one specific builder (so we don't regenerate all tarballs when switching to another builder)
+    node: build2-deb9build-ansible
+    publishers:
+       - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
+# vim: expandtab tabstop=2 shiftwidth=2
