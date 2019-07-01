@@ -2,6 +2,31 @@
 # Various functions and variables used in multiple osmo-ci shell scripts
 OSMO_GIT_URL="https://git.osmocom.org"
 
+# Osmocom repositories of which we want to build release tarballs automatically, and list the current versions at
+# https://jenkins.osmocom.org/jenkins/job/Osmocom-list-commits/lastSuccessfulBuild/artifact/commits.txt
+OSMO_RELEASE_REPOS="
+	libasn1c
+	libosmo-abis
+	libosmocore
+	libosmo-netif
+	libosmo-sccp
+	libsmpp34
+	libusrp
+	osmo-bsc
+	osmo-bts
+	osmo-ggsn
+	osmo-hlr
+	osmo-iuh
+	osmo-mgw
+	osmo-msc
+	osmo-pcu
+	osmo-sgsn
+	osmo-sip-connector
+	osmo-sysmon
+	osmo-trx
+	osmocom-bb
+"
+
 # Print commit of HEAD for an Osmocom git repository, e.g.:
 # "f90496f577e78944ce8db1aa5b900477c1e479b0"
 # $1: repository

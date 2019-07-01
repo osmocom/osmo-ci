@@ -4,28 +4,6 @@
 
 . "$(dirname "$0")/common.sh"
 FORMAT_STR="%-22s %-42s %9s %-40s %s\n"
-REPOS="
-	libasn1c
-	libosmo-abis
-	libosmocore
-	libosmo-netif
-	libosmo-sccp
-	libsmpp34
-	libusrp
-	osmo-bsc
-	osmo-bts
-	osmo-ggsn
-	osmo-hlr
-	osmo-iuh
-	osmo-mgw
-	osmo-msc
-	osmo-pcu
-	osmo-sgsn
-	osmo-sip-connector
-	osmo-sysmon
-	osmo-trx
-	osmocom-bb
-"
 
 # Header
 if [ -z "$NO_HEADER" ]; then
@@ -33,7 +11,7 @@ if [ -z "$NO_HEADER" ]; then
 fi
 
 # Table
-for repo in $REPOS; do
+for repo in $OSMO_RELEASE_REPOS; do
 	last_tag="$(osmo_git_last_tags "$repo" 1 "-")"
 	last_commit="$(osmo_git_last_commits "$repo" 1 "-")"
 	head_commit="$(osmo_git_head_commit "$repo")"
