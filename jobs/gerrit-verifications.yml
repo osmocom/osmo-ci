@@ -55,6 +55,7 @@
           cmd: './contrib/jenkins_arch.sh "$arch"'
 
       - libsmpp34
+      - libtelnet
       - libusrp
 
       - openbsc:
