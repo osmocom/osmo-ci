@@ -18,13 +18,19 @@
           <li> Check if Osmocom systemd services start properly (<a href="https://osmocom.org/issues/3369">OS#3369</a>)
         </ul>
     node: osmocom-master-debian9
+    parameters:
+      - string:
+          name: BRANCH
+          description: |
+                docker-playground.git branch
+          default: '*/master'
     builders:
       - shell:
           cd debian-repo-install-test && FEED={type} ./jenkins.sh
     scm:
       - git:
           branches:
-            - '*/master'
+            - '$BRANCH'
           url: git://git.osmocom.org/docker-playground
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
