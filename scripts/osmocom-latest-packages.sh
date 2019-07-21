@@ -156,8 +156,7 @@ build_osmocom() {
   checkout simtrace2
   checkout libosmo-dsp
   checkout osmo-sysmon
-  # TODO: enable once libosmo-abis > 0.6.0 is available (IPA keepalive FSM)
-  # checkout osmo-remsim
+  checkout osmo-remsim
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
 
@@ -189,8 +188,7 @@ build_osmocom() {
   build simtrace2
   build libosmo-dsp
   build osmo-sysmon
-  # TODO: enable once libosmo-abis > 0.6.0 is available (IPA keepalive FSM)
-  # build osmo-remsim
+  build osmo-remsim
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"
