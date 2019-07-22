@@ -89,6 +89,16 @@ osmo_git_last_tags() {
 	echo "$ret" | cut -d/ -f 3
 }
 
+# Pass all arguments to "git clone", but write the current date and time before the clone and on failure.
+# This helps analyzing errors with git.osmocom.org (OS#4083).
+osmo_git_clone_date() {
+	date "+%Y-%m-%d %H:%M:%S"
+	if ! git clone "$@"; then
+		date "+%Y-%m-%d %H:%M:%S"
+		exit 1
+	fi
+}
+
 # Print the subdirectory of the repository where the source lies (configure.ac etc.).
 # Print nothing when the source is in the topdir of the repository.
 osmo_source_subdir() {

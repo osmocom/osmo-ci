@@ -1,4 +1,5 @@
 #!/bin/bash
+. "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
 # requirements
@@ -68,9 +69,9 @@ checkout() {
   cd "$REPO"
 
   if [ -n "$branch" ] ; then
-    git clone "$url/$name" -b "$branch"
+    osmo_git_clone_date "$url/$name" -b "$branch"
   else
-    git clone "$url/$name"
+    osmo_git_clone_date "$url/$name"
   fi
 
   cd -
