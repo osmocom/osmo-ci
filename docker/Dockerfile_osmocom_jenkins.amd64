@@ -19,6 +19,7 @@ RUN \
 		bc \
 		bison \
 		bzip2 \
+		cmake \
 		coccinelle \
 		cppcheck \
 		dahdi-source \
