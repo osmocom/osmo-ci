@@ -141,7 +141,8 @@
       - osmo-hlr:
           cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
 
-      - osmo-iuh
+      - osmo-iuh:
+          cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
 
       - osmo-mgw:
           concurrent: true

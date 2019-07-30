@@ -227,6 +227,7 @@
           cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
 
       - osmo-iuh:
+          cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
           # Full triggers would be:
           # trigger: master-osmo-msc, master-osmo-sgsn
           # Optimized:
