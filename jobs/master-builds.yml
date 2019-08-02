@@ -19,7 +19,7 @@
     combination_filter: ''
     sequential: false
     # most common build invocation (PUBLISH=1 is prepended to publish manual PDFs)
-    cmd: ./contrib/jenkins.sh
+    cmd: ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
     wrappers: []
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
@@ -83,7 +83,7 @@
             master-osmo-iuh,
             master-osmo-msc,
             master-osmo-sgsn
-          cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
+          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - libosmocore:
           a1_name: arch
@@ -159,6 +159,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e WITH_MANUALS="1" \
               -e PUBLISH="1" \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
               -w /build -i -u build \
               -v "$PWD:/build" \
               -v "$HOME/bin:/build_bin" \
@@ -177,6 +178,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e WITH_MANUALS="1" \
               -e PUBLISH="1" \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
@@ -199,7 +201,7 @@
             (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
             (FIRMWARE_VERSION == "origin/nrw/litecell15" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
             (FIRMWARE_VERSION == "origin/nrw/oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0")
-          cmd: 'PUBLISH=1 ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+          cmd: 'PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
       - osmo-ggsn:
           a1_name: GTP
@@ -209,7 +211,7 @@
           combination_filter: >
             (GTP == "--enable-gtp-linux" && WITH_MANUALS == "0") ||
             (GTP == "--disable-gtp-linux" && WITH_MANUALS == "1")
-          cmd: PUBLISH=1 ./contrib/jenkins.sh
+          cmd: PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
           trigger: master-osmo-sgsn
 
       - osmo-gmr:
@@ -224,7 +226,7 @@
           cmd: PUBLISH=1 ./contrib/jenkins-build-manuals.sh
 
       - osmo-hlr:
-          cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
+          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - osmo-iuh:
           cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
@@ -247,6 +249,7 @@
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e WITH_MANUALS="1" \
               -e PUBLISH="1" \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
@@ -276,6 +279,7 @@
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e PUBLISH="1" \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
               -w /build -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$ARTIFACT_STORE:/artifact_store" \
@@ -305,7 +309,7 @@
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0") ||
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1")
-          cmd: PUBLISH=1 ./contrib/jenkins.sh
+          cmd: PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - osmo-sgsn:
           a1_name: IU
@@ -326,6 +330,7 @@
               -e PATH="$PATH:/build_bin" \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e PUBLISH="1" \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
@@ -333,7 +338,7 @@
 
       - osmo-sip-connector:
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org holger@freyther.de
-          cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
+          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - osmo-tetra:
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org 246tnt@gmail.com
@@ -348,10 +353,10 @@
           concurrent: true
           combination_filter: >
             (INSTR == "--with-sse" && WITH_MANUALS == "1")
-          cmd: PUBLISH=1 ./contrib/jenkins.sh
+          cmd: PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - osmocom-bb:
-          cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
+          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - osmo-sysmon
       - osmo-remsim
