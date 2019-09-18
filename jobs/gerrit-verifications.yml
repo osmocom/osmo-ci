@@ -200,7 +200,7 @@
           a3: !!python/tuple [sysmo, lc15, oc2g, none]
           a4_name: WITH_MANUALS
           a4: !!python/tuple ["1", "0"]
-          sequential: true
+          concurrent: true
           combination_filter: >
             (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
@@ -208,6 +208,20 @@
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="litecell15" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "oc2g" && FIRMWARE_VERSION=="oc2g" && WITH_MANUALS == "0") ||
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1")
+          cmd: |
+            docker run --rm=true \
+              -e HOME=/build \
+              -e MAKE=make \
+              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
+              -e with_vty="$with_vty" \
+              -e with_dsp="$with_dsp" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
+              -e PATH="$PATH:/build_bin" \
+              -w /build -i -u build \
+              -v "$PWD:/build" \
+              -v "$HOME/bin:/build_bin" \
+              osmocom:amd64 /build/contrib/jenkins.sh
 
       - osmo-python-tests:
           repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/python/{repos}'
