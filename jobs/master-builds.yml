@@ -19,6 +19,25 @@
     combination_filter: ''
     sequential: false
     # most common build invocation (PUBLISH=1 is prepended to publish manual PDFs)
+    docker_run: |
+            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
+            mkdir -p "$ARTIFACT_STORE"
+            docker run --rm=true \
+              -e ARTIFACT_STORE=/artifact_store \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e HOME=/build \
+              -e JOB_NAME="$JOB_NAME" \
+              -e MAKE=make \
+              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e PATH="$PATH:/build_bin" \
+              -e PUBLISH="1" \
+              -e WITH_MANUALS="1" \
+              -w /build -i -u build \
+              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$ARTIFACT_STORE:/artifact_store" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
+    docker_img: 'osmocom:amd64'
     cmd: ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
     wrappers: []
     trigger:
@@ -144,45 +163,15 @@
           a3: !!python/tuple [--disable-iu]
           concurrent: true
           cmd: |
-            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
-            mkdir -p "$ARTIFACT_STORE"
-            docker run --rm=true \
-              -e HOME=/build \
-              -e ARTIFACT_STORE=/artifact_store \
-              -e JOB_NAME="$JOB_NAME" \
-              -e MAKE=make \
-              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            {docker_run} \
               -e IU="$IU" \
               -e SMPP="$SMPP" \
               -e MGCP="$MGCP" \
-              -e PATH="$PATH:/build_bin" \
-              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e WITH_MANUALS="1" \
-              -e PUBLISH="1" \
-              -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -w /build -i -u build \
-              -v "$PWD:/build" \
-              -v "$HOME/bin:/build_bin" \
-              -v "$HOME/.ssh:/home/build/.ssh:ro" \
-              -v "$ARTIFACT_STORE:/artifact_store" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              {docker_img} /build/contrib/jenkins.sh
 
       - osmo-bsc:
           concurrent: true
-          cmd: |
-            docker run --rm=true \
-              -e HOME=/build \
-              -e MAKE=make \
-              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
-              -e PATH="$PATH:/build_bin" \
-              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e WITH_MANUALS="1" \
-              -e PUBLISH="1" \
-              -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -w /build -i -u build \
-              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              -v "$HOME/.ssh:/home/build/.ssh:ro" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
 
       - osmo-bts:
           a1_name: FIRMWARE_VERSION
@@ -240,20 +229,7 @@
 
       - osmo-mgw:
           concurrent: true
-          cmd: |
-            docker run --rm=true \
-              -e HOME=/build \
-              -e MAKE=make \
-              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
-              -e PATH="$PATH:/build_bin" \
-              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e WITH_MANUALS="1" \
-              -e PUBLISH="1" \
-              -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -w /build -i -u build \
-              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              -v "$HOME/.ssh:/home/build/.ssh:ro" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
           trigger: master-osmo-msc, master-osmo-bsc
 
       - osmo-msc:
@@ -266,25 +242,10 @@
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: |
-            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
-            mkdir -p "$ARTIFACT_STORE"
-            docker run --rm=true -i \
-              -e HOME=/build \
-              -e ARTIFACT_STORE=/artifact_store \
-              -e JOB_NAME="$JOB_NAME" \
-              -e MAKE=make \
-              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            {docker_run} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              -e PATH="$PATH:/build_bin" \
-              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e PUBLISH="1" \
-              -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -w /build -u build \
-              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              -v "$ARTIFACT_STORE:/artifact_store" \
-              -v "$HOME/.ssh:/home/build/.ssh:ro" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              {docker_img} /build/contrib/jenkins.sh
 
       - osmo-pcap
 
@@ -310,22 +271,12 @@
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0") ||
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1")
           cmd: |
-            docker run --rm=true \
-              -e HOME=/build \
-              -e MAKE=make \
-              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            {docker_run} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              -e PATH="$PATH:/build_bin" \
-              -e PUBLISH="1" \
-              -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -w /build -i -u build \
-              -v "$PWD:/build" \
-              -v "$HOME/bin:/build_bin" \
-              -v "$HOME/.ssh:/home/build/.ssh:ro" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              {docker_img} /build/contrib/jenkins.sh
 
       - osmo-sgsn:
           a1_name: IU
@@ -337,20 +288,10 @@
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: |
-            docker run --rm=true \
-              -e HOME=/build \
-              -e MAKE=make \
-              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            {docker_run} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              -e PATH="$PATH:/build_bin" \
-              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e PUBLISH="1" \
-              -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -w /build -i -u build \
-              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              -v "$HOME/.ssh:/home/build/.ssh:ro" \
-              osmocom:amd64 /build/contrib/jenkins.sh
+              {docker_img} /build/contrib/jenkins.sh
 
       - osmo-sip-connector:
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org holger@freyther.de
