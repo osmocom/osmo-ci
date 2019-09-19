@@ -18,7 +18,8 @@
     a4: !!python/tuple [default]
     combination_filter: ''
     sequential: false
-    # most common build invocation (PUBLISH=1 is prepended to publish manual PDFs)
+    # most common build invocation
+    # PUBLISH=1 is for uploading manual PDFs
     # SYS_PTRACE is needed for ASAN (https://github.com/google/sanitizers/issues/764)
     docker_run: |
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
@@ -40,7 +41,7 @@
               -v "$ARTIFACT_STORE:/artifact_store" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
     docker_img: 'osmocom:deb9_amd64'
-    cmd: ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+    cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
     wrappers: []
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
@@ -72,10 +73,12 @@
 
       - libosmo-dsp:
           cmd: |
-            autoreconf --install --force
-            ./configure
-            $MAKE $PARALLEL_MAKE
-            $MAKE distcheck
+            {docker_run} \
+              {docker_img} sh -ex -c \
+                'autoreconf -fi; \
+                 ./configure; \
+                 $MAKE $PARALLEL_MAKE; \
+                 $MAKE distcheck'
           trigger: master-osmo-gmr
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org 246tnt@gmail.com
 
@@ -104,13 +107,12 @@
             master-osmo-iuh,
             master-osmo-msc,
             master-osmo-sgsn
-          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - libosmocore:
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: './contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins_arch.sh "$arch"'
           # Full triggers would be:
           # trigger: >
           #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp, master-openbsc,
@@ -173,7 +175,6 @@
 
       - osmo-bsc:
           concurrent: true
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
 
       - osmo-bts:
           a1_name: FIRMWARE_VERSION
@@ -202,7 +203,11 @@
           combination_filter: >
             (GTP == "--enable-gtp-linux" && WITH_MANUALS == "0") ||
             (GTP == "--disable-gtp-linux" && WITH_MANUALS == "1")
-          cmd: PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+          cmd: |
+            {docker_run} \
+              -e GTP="$GTP" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
+              {docker_img} /build/contrib/jenkins.sh
           trigger: master-osmo-sgsn
 
       - osmo-gmr:
@@ -210,17 +215,13 @@
 
       - osmo-gsm-manuals:
           node: 'osmocom-master-debian9'
-          cmd: |
-            ./contrib/jenkins.sh
 
       - osmo-gsm-tester:
-          cmd: PUBLISH=1 ./contrib/jenkins-build-manuals.sh
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins-build-manuals.sh'
 
-      - osmo-hlr:
-          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+      - osmo-hlr
 
       - osmo-iuh:
-          cmd: WITH_MANUALS=1 PUBLISH=1 ./contrib/jenkins.sh
           # Full triggers would be:
           # trigger: master-osmo-msc, master-osmo-sgsn
           # Optimized:
@@ -231,7 +232,6 @@
 
       - osmo-mgw:
           concurrent: true
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
           trigger: master-osmo-msc, master-osmo-bsc
 
       - osmo-msc:
@@ -297,7 +297,6 @@
 
       - osmo-sip-connector:
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org holger@freyther.de
-          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
 
       - osmo-tetra:
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org 246tnt@gmail.com
@@ -312,17 +311,14 @@
           concurrent: true
           combination_filter: >
             (INSTR == "--with-sse" && WITH_MANUALS == "1")
-          cmd: PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+          cmd: 'PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh'
 
-      - osmocom-bb:
-          cmd: WITH_MANUALS=1 PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
-
+      - osmocom-bb
       - osmo-sysmon
       - osmo-remsim
       - osmo-asf4-dfu
       - simtrace2:
-          cmd: |
-            ./contrib/jenkins.sh --publish
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
 
       - gapk

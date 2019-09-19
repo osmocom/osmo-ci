@@ -39,7 +39,7 @@
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$ARTIFACT_STORE:/artifact_store" \
     docker_img: 'osmocom:deb9_amd64'
-    cmd: ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+    cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
     repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/{repos}'
     gerrit_project: '{repos}'
 
@@ -49,20 +49,18 @@
 
       - cellmgr-ng:
           concurrent: true
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
 
       - libasn1c
       - libgtpnl
       - libosmo-abis
       - libosmo-netif
-      - libosmo-sccp:
-          cmd: WITH_MANUALS=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+      - libosmo-sccp
 
       - libosmocore:
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: './contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins_arch.sh "$arch"'
 
       - libsmpp34
       - libtelnet
@@ -90,7 +88,6 @@
 
       - osmo-bsc:
           concurrent: true
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
 
       - osmo-bts:
           a1_name: FIRMWARE_VERSION
@@ -120,19 +117,18 @@
           combination_filter: >
             (GTP == "--enable-gtp-linux" && WITH_MANUALS == "0") ||
             (GTP == "--disable-gtp-linux" && WITH_MANUALS == "1")
-          cmd: ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+          cmd: |
+            {docker_run} \
+              -e GTP="$GTP" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
+              {docker_img} /build/contrib/jenkins.sh
 
       - osmo-gsm-manuals
-
-      - osmo-hlr:
-          cmd: WITH_MANUALS=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
-
-      - osmo-iuh:
-          cmd: WITH_MANUALS=1 ./contrib/jenkins.sh
+      - osmo-hlr
+      - osmo-iuh
 
       - osmo-mgw:
           concurrent: true
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
 
       - osmo-msc:
           a1_name: IU
@@ -195,8 +191,7 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} /build/contrib/jenkins.sh
 
-      - osmo-sip-connector:
-          cmd: WITH_MANUALS=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+      - osmo-sip-connector
 
       - osmo-trx:
           a1_name: INSTR
@@ -208,9 +203,9 @@
           concurrent: true
           combination_filter: >
             (INSTR == "--with-sse" && WITH_MANUALS == "1")
+          cmd: 'ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh'
 
-      - osmocom-bb:
-          cmd: WITH_MANUALS=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
+      - osmocom-bb
       - osmo-tetra
       - osmo-sysmon
       - osmo-remsim
@@ -222,6 +217,7 @@
 
       - pysim:
           slave_axis: !!python/tuple [simtester]
+          cmd: './contrib/jenkins.sh'
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
