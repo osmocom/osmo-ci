@@ -4,7 +4,7 @@
     name: master_build
     # following default values can be overridden by each repo
     disabled: false
-    concurrent: false
+    concurrent: true
     node: 'osmocom-master-debian8'
     # axes related defaults
     slave_axis: !!python/tuple [osmocom-master-debian9]
@@ -165,7 +165,6 @@
           a2: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
-          concurrent: true
           cmd: |
             {docker_run} \
               -e IU="$IU" \
@@ -173,8 +172,7 @@
               -e MGCP="$MGCP" \
               {docker_img} /build/contrib/jenkins.sh
 
-      - osmo-bsc:
-          concurrent: true
+      - osmo-bsc
 
       - osmo-bts:
           a1_name: FIRMWARE_VERSION
@@ -193,6 +191,7 @@
             (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
             (FIRMWARE_VERSION == "origin/nrw/litecell15" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
             (FIRMWARE_VERSION == "origin/nrw/oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0")
+          concurrent: false
           cmd: 'PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
       - osmo-ggsn:
@@ -231,7 +230,6 @@
             master-osmo-sgsn
 
       - osmo-mgw:
-          concurrent: true
           trigger: master-osmo-msc, master-osmo-bsc
 
       - osmo-msc:
@@ -239,7 +237,6 @@
           a1: !!python/tuple [--enable-iu, --disable-iu]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
@@ -265,7 +262,6 @@
           a3: !!python/tuple [sysmo, lc15, none]
           a4_name: WITH_MANUALS
           a4: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
@@ -285,7 +281,6 @@
           a1: !!python/tuple [--enable-iu, --disable-iu]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
@@ -308,7 +303,6 @@
           a1: !!python/tuple [--with-sse]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (INSTR == "--with-sse" && WITH_MANUALS == "1")
           cmd: 'PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh'
@@ -327,6 +321,7 @@
           email: laforge@gnumonks.org steve@steve-m.de
 
       - sysmo-usim-tool:
+          concurrent: false
           cmd: cd ./tests; ./run-tests
           slave_axis: !!python/tuple [simtester]
           git_base_url: git.sysmocom.de

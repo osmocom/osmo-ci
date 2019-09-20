@@ -5,7 +5,7 @@
     name: gerrit
     # following default values can be overridden by each repo
     disabled: false
-    concurrent: false
+    concurrent: true
     node: osmocom-gerrit-debian8
     # axes related defaults
     slave_axis: !!python/tuple [osmocom-gerrit-debian9]
@@ -46,10 +46,7 @@
     # in alphabetical order
     repos:
       - asn1c
-
-      - cellmgr-ng:
-          concurrent: true
-
+      - cellmgr-ng
       - libasn1c
       - libgtpnl
       - libosmo-abis
@@ -73,7 +70,6 @@
           a2: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
-          concurrent: true
           cmd: |
             {docker_run} \
               -e IU="$IU" \
@@ -84,10 +80,10 @@
       - openggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
+          concurrent: false
           cmd: ./contrib/jenkins.sh
 
-      - osmo-bsc:
-          concurrent: true
+      - osmo-bsc
 
       - osmo-bts:
           a1_name: FIRMWARE_VERSION
@@ -107,6 +103,7 @@
             (FIRMWARE_VERSION == "litecell15" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
             (FIRMWARE_VERSION == "oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0") ||
             (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0")
+          concurrent: false
           cmd: 'ASCIIDOC_WARNINGS_CHECK="1" ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
       - osmo-ggsn:
@@ -126,16 +123,13 @@
       - osmo-gsm-manuals
       - osmo-hlr
       - osmo-iuh
-
-      - osmo-mgw:
-          concurrent: true
+      - osmo-mgw
 
       - osmo-msc:
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
@@ -156,7 +150,6 @@
           a3: !!python/tuple [sysmo, lc15, oc2g, none]
           a4_name: WITH_MANUALS
           a4: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
@@ -181,7 +174,6 @@
           a1: !!python/tuple [--enable-iu, --disable-iu]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
@@ -200,7 +192,6 @@
           a1: !!python/tuple [--with-sse]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
-          concurrent: true
           combination_filter: >
             (INSTR == "--with-sse" && WITH_MANUALS == "1")
           cmd: 'ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh'
@@ -217,11 +208,13 @@
 
       - pysim:
           slave_axis: !!python/tuple [simtester]
+          concurrent: false
           cmd: './contrib/jenkins.sh'
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
           slave_axis: !!python/tuple [ttcn3]
+          concurrent: false
           cmd: |
             set -e
             make deps; make clean; make compile
