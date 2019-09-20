@@ -22,6 +22,5 @@ function build_container() {
 	build_once "-t" "${tag_name}" "--build-arg" DEBIAN_VERSION="${debian_version}"
 }
 
-# Create containers using jessie (Debian 8.0) and stretch (Debian 9.0) as base.
-build_container osmocom:amd64 jessie
+# Create containers using stretch (Debian 9.0) as base.
 build_container osmocom:deb9_amd64 stretch

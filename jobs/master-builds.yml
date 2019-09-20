@@ -19,10 +19,12 @@
     combination_filter: ''
     sequential: false
     # most common build invocation (PUBLISH=1 is prepended to publish manual PDFs)
+    # SYS_PTRACE is needed for ASAN (https://github.com/google/sanitizers/issues/764)
     docker_run: |
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
             docker run --rm=true \
+              --cap-add SYS_PTRACE \
               -e ARTIFACT_STORE=/artifact_store \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
@@ -37,7 +39,7 @@
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$ARTIFACT_STORE:/artifact_store" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
-    docker_img: 'osmocom:amd64'
+    docker_img: 'osmocom:deb9_amd64'
     cmd: ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh
     wrappers: []
     trigger:

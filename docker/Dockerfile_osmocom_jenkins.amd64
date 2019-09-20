@@ -1,10 +1,9 @@
-ARG DEBIAN_VERSION=jessie
+ARG DEBIAN_VERSION=stretch
 FROM debian:${DEBIAN_VERSION}
 
 RUN \
-    echo "deb http://archive.debian.org/debian jessie-backports main" >> /etc/apt/sources.list && \
     dpkg --add-architecture i386 && \
-    DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Check-Valid-Until=false update && \
+    DEBIAN_FRONTEND=noninteractive apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget make
 
@@ -29,7 +28,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends fl
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libortp-dev libpcsclite-dev libsctp-dev libfftw3-dev libsnmp-dev  libusb-1.0-0-dev libtalloc-dev libgnutls28-dev
 
 # OsmocomBB
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc-arm-none-eabi liblua5.3-dev/jessie-backports
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc-arm-none-eabi liblua5.3-dev
 
 # building
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libtool pkg-config automake autoconf
@@ -38,7 +37,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends li
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3-setuptools python-setuptools python3-pip python-pip
 
 # for osmo-gsm-manuals
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xsltproc dblatex docbook5-xml graphviz python-pychart python-nwdiag libxml2-utils
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xsltproc dblatex docbook5-xml graphviz python-pychart python-nwdiag libxml2-utils asciidoc-dblatex
 
 # Linux kernel
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bc
