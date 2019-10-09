@@ -91,6 +91,7 @@
     - libusb-dev
     - libzmq3-dev
     - sqlite3
+    - libaio-dev
 
 - name: install liblua for jessie
   apt:
