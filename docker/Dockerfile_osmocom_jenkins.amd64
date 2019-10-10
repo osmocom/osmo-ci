@@ -1,6 +1,10 @@
 ARG DEBIAN_VERSION=stretch
 FROM debian:${DEBIAN_VERSION}
 
+# Make "$DEBIAN_VERSION" available after FROM
+# https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+ARG DEBIAN_VERSION
+
 RUN \
     dpkg --add-architecture i386 && \
     DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -43,7 +47,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xs
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bc
 
 # and all
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y doxygen g++ libtalloc-dev libpcsclite-dev make gcc pkgconf libtool autoconf autoconf-archive automake libortp-dev asciidoc mscgen git libsctp-dev libpcap-dev osc libc-ares-dev libgps-dev  libsofia-sip-ua-glib-dev  libssl-dev libsqlite3-dev libusb-dev libffi-dev libfftw3-dev flex bison libdbi-dev  libsnmp-dev libncurses5-dev libgsm1-dev python-minimal python3 libdbd-sqlite3 cppcheck htop  libgmp-dev gawk texinfo flex bison bc  libsigsegv-dev libffi-dev libusb-1.0-0-dev  libreadline-dev debhelper devscripts gcc-arm-none-eabi git-buildpackage dh-systemd dh-autoreconf bc openssh-client stow
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y doxygen g++ libtalloc-dev libpcsclite-dev make gcc pkgconf libtool autoconf autoconf-archive automake libortp-dev asciidoc mscgen git libsctp-dev libpcap-dev osc libc-ares-dev libgps-dev  libsofia-sip-ua-glib-dev  libssl-dev libsqlite3-dev libusb-dev libffi-dev libfftw3-dev flex bison libdbi-dev  libsnmp-dev libncurses5-dev libgsm1-dev python-minimal python3 libdbd-sqlite3 cppcheck htop  libgmp-dev gawk texinfo flex bison bc  libsigsegv-dev libffi-dev libusb-1.0-0-dev  libreadline-dev debhelper devscripts gcc-arm-none-eabi git-buildpackage dh-systemd dh-autoreconf bc openssh-client stow libnewlib-arm-none-eabi libaio-dev libasound2-dev libzmq3-dev libmnl-dev libboost-all-dev sdcc liboping-dev libcsv-dev systemd
 
 # Add rpath to binaries
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y patchelf
@@ -69,3 +73,14 @@ ENV LANG en_US.UTF-8
 # Code coverage tools
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y lcov
 RUN pip3 install git+https://github.com/eriwen/lcov-to-cobertura-xml/
+
+# osmo-remsim needs libulfius (which indirectly depends on systemd, installed above)
+ARG LIBULFIUS_VER="2.6.4"
+ARG LIBULFIUS_PATH="https://github.com/babelouest/ulfius/releases/download/v${LIBULFIUS_VER}"
+ADD ${LIBULFIUS_PATH}/libulfius-dev_${LIBULFIUS_VER}_debian_${DEBIAN_VERSION}_x86_64.deb /tmp/ulfius/libulfius-dev.deb
+ADD ${LIBULFIUS_PATH}/ulfius-dev-full_${LIBULFIUS_VER}_debian_${DEBIAN_VERSION}_x86_64.tar.gz /tmp/ulfius/all.tar.gz
+RUN cd /tmp/ulfius && \
+	tar -xvf all.tar.gz && \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y /tmp/ulfius/*.deb && \
+	cd ~ && \
+	rm -r /tmp/ulfius
