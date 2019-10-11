@@ -152,7 +152,6 @@ build_repo() {
 
 	if ! PATH="$PWD:$PATH"\
 		PKG_CONFIG_PATH="$TEMP/inst_master/lib/pkgconfig:$TEMP/inst_legacy/lib/pkgconfig:$PKG_CONFIG_PATH" \
-		LD_LIBRARY_PATH="$TEMP/inst_master/lib:$TEMP/inst_legacy/lib:$LD_LIBRARY_PATH" \
 		MAKE="make" \
 		PARALLEL_MAKE="$PARALLEL_MAKE" \
 		CHECK="$check" \
