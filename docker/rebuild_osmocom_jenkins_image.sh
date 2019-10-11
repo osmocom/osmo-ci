@@ -2,12 +2,8 @@
 
 # Executes docker build with the given parameters and retry in case of error.
 function build_once() {
-	# In case the debian apt archive has become out of sync, try a
-	# --no-cache build if it fails.
-
 	# shellcheck disable=SC2068
-	docker build $@ -f Dockerfile_osmocom_jenkins.amd64 . \
-	|| docker build --no-cache $@ -f Dockerfile_osmocom_jenkins.amd64 .
+	docker build $@ -f Dockerfile_osmocom_jenkins.amd64 .
 }
 
 # Builds a container with a debian version and tag name as parameter.

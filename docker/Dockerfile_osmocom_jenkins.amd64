@@ -5,15 +5,115 @@ FROM debian:${DEBIAN_VERSION}
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG DEBIAN_VERSION
 
+# Install apt dependencies (keep in alphabetic order)
 RUN \
-    dpkg --add-architecture i386 && \
-    DEBIAN_FRONTEND=noninteractive apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends wget make
+	dpkg --add-architecture i386 && \
+	DEBIAN_FRONTEND=noninteractive apt-get update && \
+	DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+		asciidoc \
+		asciidoc-dblatex \
+		autoconf \
+		autoconf-archive \
+		automake \
+		bc \
+		bison \
+		bzip2 \
+		coccinelle \
+		cppcheck \
+		dblatex \
+		dbus \
+		debhelper \
+		devscripts \
+		dh-autoreconf \
+		dh-systemd \
+		docbook5-xml \
+		doxygen \
+		flex \
+		g++ \
+		gawk \
+		gcc \
+		gcc-arm-none-eabi \
+		git \
+		git-buildpackage \
+		graphviz \
+		htop \
+		lcov \
+		libaio-dev \
+		libasound2-dev \
+		libboost-all-dev \
+		libc-ares-dev \
+		libcsv-dev \
+		libdbd-sqlite3 \
+		libdbi-dev \
+		libffi-dev \
+		libfftw3-dev \
+		libgmp-dev \
+		libgnutls28-dev \
+		libgps-dev \
+		libgsm1-dev \
+		liblua5.3-dev \
+		libmnl-dev \
+		libncurses5-dev \
+		libnewlib-arm-none-eabi \
+		liboping-dev \
+		libortp-dev \
+		libpcap-dev \
+		libpcsclite-dev \
+		libreadline-dev \
+		libsctp-dev \
+		libsigsegv-dev \
+		libsnmp-dev \
+		libsofia-sip-ua-glib-dev \
+		libsqlite3-dev \
+		libssl-dev \
+		libtalloc-dev \
+		libtool \
+		libusb-1.0-0-dev \
+		libusb-dev \
+		libxml2-utils \
+		libzmq3-dev \
+		locales \
+		lua-socket \
+		make \
+		mscgen \
+		ofono \
+		openssh-client \
+		osc \
+		patchelf \
+		pkg-config \
+		python \
+		python3 \
+		python3-gi \
+		python3-mako \
+		python3-pip \
+		python3-pyflakes \
+		python3-setuptools \
+		python3-usb \
+		python3-yaml \
+		python-minimal \
+		python-nwdiag \
+		python-pip \
+		python-pychart \
+		python-setuptools \
+		rsync \
+		sdcc \
+		sqlite3 \
+		stow \
+		sudo \
+		systemd \
+		tcpdump \
+		texinfo \
+		unzip \
+		wget \
+		xsltproc
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc g++ make git
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends sudo
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends unzip bzip2  python
+# Install pip dependencies (keep in alphabetic order)
+RUN pip3 install \
+	git+https://github.com/podshumok/python-smpplib.git \
+	git+https://github.com/eriwen/lcov-to-cobertura-xml.git \
+	pydbus \
+	pysispm
 
 # match the outside user
 RUN useradd --uid=1000 build
@@ -22,57 +122,15 @@ RUN useradd --uid=1000 build
 RUN mkdir /build
 RUN chown build:build /build
 
-# still generic
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends doxygen git asciidoc rsync coccinelle
-
-# for GNU smalltalk
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends flex bison libsigsegv-dev libffi-dev texinfo
-
-# libosmo-sccp/abis/etc
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libortp-dev libpcsclite-dev libsctp-dev libfftw3-dev libsnmp-dev  libusb-1.0-0-dev libtalloc-dev libgnutls28-dev
-
-# OsmocomBB
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gcc-arm-none-eabi liblua5.3-dev
-
-# building
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libtool pkg-config automake autoconf
-
-# for osmo-python-tests
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends python3-setuptools python-setuptools python3-pip python-pip
-
-# for osmo-gsm-manuals
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xsltproc dblatex docbook5-xml graphviz python-pychart python-nwdiag libxml2-utils asciidoc-dblatex
-
-# Linux kernel
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y bc
-
-# and all
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y doxygen g++ libtalloc-dev libpcsclite-dev make gcc pkgconf libtool autoconf autoconf-archive automake libortp-dev asciidoc mscgen git libsctp-dev libpcap-dev osc libc-ares-dev libgps-dev  libsofia-sip-ua-glib-dev  libssl-dev libsqlite3-dev libusb-dev libffi-dev libfftw3-dev flex bison libdbi-dev  libsnmp-dev libncurses5-dev libgsm1-dev python-minimal python3 libdbd-sqlite3 cppcheck htop  libgmp-dev gawk texinfo flex bison bc  libsigsegv-dev libffi-dev libusb-1.0-0-dev  libreadline-dev debhelper devscripts gcc-arm-none-eabi git-buildpackage dh-systemd dh-autoreconf bc openssh-client stow libnewlib-arm-none-eabi libaio-dev libasound2-dev libzmq3-dev libmnl-dev libboost-all-dev sdcc liboping-dev libcsv-dev systemd
-
-# Add rpath to binaries
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y patchelf
-
-# Be able to run the osmo-gsm-tester
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y dbus tcpdump sqlite3 python3 python3-yaml python3-mako python3-gi ofono python3-pip python3-usb lua-socket
-RUN pip3 install git+git://github.com/podshumok/python-smpplib.git
-RUN pip3 install pydbus
-RUN pip3 install pysispm
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y python3-pyflakes
-
+# Install osmo-python-tests
 ADD http://git.osmocom.org/python/osmo-python-tests/patch /tmp/commit
 RUN git clone git://git.osmocom.org/python/osmo-python-tests && cd osmo-python-tests && ./contrib/jenkins.sh
 
 # Set a UTF-8 locale
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y locales
-
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
     dpkg-reconfigure --frontend=noninteractive locales && \
     update-locale LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8
-
-# Code coverage tools
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y lcov
-RUN pip3 install git+https://github.com/eriwen/lcov-to-cobertura-xml/
 
 # osmo-remsim needs libulfius (which indirectly depends on systemd, installed above)
 ARG LIBULFIUS_VER="2.6.4"
@@ -81,6 +139,7 @@ ADD ${LIBULFIUS_PATH}/libulfius-dev_${LIBULFIUS_VER}_debian_${DEBIAN_VERSION}_x8
 ADD ${LIBULFIUS_PATH}/ulfius-dev-full_${LIBULFIUS_VER}_debian_${DEBIAN_VERSION}_x86_64.tar.gz /tmp/ulfius/all.tar.gz
 RUN cd /tmp/ulfius && \
 	tar -xvf all.tar.gz && \
+	DEBIAN_FRONTEND=noninteractive apt-get update && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y /tmp/ulfius/*.deb && \
 	cd ~ && \
 	rm -r /tmp/ulfius
