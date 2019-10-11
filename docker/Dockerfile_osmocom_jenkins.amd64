@@ -84,3 +84,6 @@ RUN cd /tmp/ulfius && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y /tmp/ulfius/*.deb && \
 	cd ~ && \
 	rm -r /tmp/ulfius
+
+# osmo-python-tests' contrib/jenkins.sh writes to /usr/local as user
+RUN chown -R build:build /usr/local
