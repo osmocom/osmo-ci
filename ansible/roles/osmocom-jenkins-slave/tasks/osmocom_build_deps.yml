@@ -58,6 +58,7 @@
     update_cache: yes
     install_recommends: no
   with_items:
+    - dahdi-source
     - docbook5-xml
     - libboost-dev
     - libc-ares-dev
