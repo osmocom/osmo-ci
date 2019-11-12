@@ -21,6 +21,7 @@ RUN \
 		bzip2 \
 		coccinelle \
 		cppcheck \
+		dahdi-source \
 		dblatex \
 		dbus \
 		debhelper \
