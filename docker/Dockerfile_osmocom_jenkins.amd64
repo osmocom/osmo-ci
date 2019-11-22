@@ -6,6 +6,7 @@ FROM debian:${DEBIAN_VERSION}
 ARG DEBIAN_VERSION
 
 # Install apt dependencies (keep in alphabetic order)
+# python-nwdiag: can be removed once osmo-gsm-manuals Ia2c0c833329f8ecab1c427e0d2c002f17ab49a94 is merged
 RUN \
 	dpkg --add-architecture i386 && \
 	DEBIAN_FRONTEND=noninteractive apt-get update && \
@@ -86,6 +87,7 @@ RUN \
 		python3 \
 		python3-gi \
 		python3-mako \
+		python3-nwdiag \
 		python3-pip \
 		python3-pyflakes \
 		python3-setuptools \
