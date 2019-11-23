@@ -40,7 +40,7 @@
     - stow
     - texinfo
     # by gsm-manuals
-    - python-nwdiag
+    - python3-nwdiag
     - python-pychart
     # by gapk
     - libasound-dev
