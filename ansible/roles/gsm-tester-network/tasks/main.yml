@@ -9,3 +9,15 @@
 - name: start all network interface
   command: ifup -a
   when: gsm_tester_network_interface is changed
+
+- name: allow ip forwarding and masquerading traffic from internal network (iptables)
+  template:
+    src: etc/iptables-ogt
+    dest: /etc/network/if-up.d/iptables-ogt
+    mode: 0755
+
+- name: allow ip forwarding from internal network (sysctl)
+  copy:
+    src: ogt-sysctl.conf
+    dest: /etc/sysctl.d
+  notify: restart udev

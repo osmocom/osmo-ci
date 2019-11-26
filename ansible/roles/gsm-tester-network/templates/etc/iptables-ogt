@@ -1,0 +1,17 @@
+#!/bin/sh
+
+IPT="/sbin/iptables"
+
+if [ "$IFACE" = "{{ gw_interface }}" ]; then
+  # Apply masquerading if not yet applied:
+  if [ "x$($IPT -t nat -S | grep "\-A POSTROUTING -o {{ gw_interface }} -j MASQUERADE" -c)" = "x0" ]; then
+        $IPT -t nat -A POSTROUTING -o {{ gw_interface }} -j MASQUERADE
+  fi
+
+  # Allow IP forwarding if not yet enabled:
+  if [ "x$($IPT -t filter -S | grep "\-A FORWARD -j ACCEPT" -c)" = "x0" ]; then
+    $IPT -t filter -A FORWARD -j ACCEPT
+  fi
+
+  echo "osmo-gsm-tester iptables rules loaded."
+fi
