@@ -3,7 +3,7 @@
   copy:
     src: "{{ coverity_installer_file }}"
     dest: "/tmp/{{ coverity_installer_file }}"
-    mode: 750
+    mode: 0750
   register: coverity_copy
   ignore_errors: yes
   tags: [coverity]
@@ -36,4 +36,3 @@
     msg: "Ansible can not find {{ coverity_installer_file }}"
   when: coverity_copy.failed
   tags: [coverity]
-

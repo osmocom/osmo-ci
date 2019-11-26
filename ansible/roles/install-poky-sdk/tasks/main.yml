@@ -12,7 +12,7 @@
   copy:
     src: "{{ poky_installer_file }}"
     dest: "/tmp/{{ poky_installer_file }}"
-    mode: 750
+    mode: 0750
   register: poky_copy
   ignore_errors: yes
   tags: [poky]
@@ -45,4 +45,3 @@
     msg: "Ansible can not find or copy {{ poky_installer_file }}"
   when: poky_copy.failed
   tags: [poky]
-

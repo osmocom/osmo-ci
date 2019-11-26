@@ -191,7 +191,7 @@
   file:
     path: /usr/sbin/tcpdump
     group: osmo-gsm-tester
-    mode: 750
+    mode: 0750
 
 - name: create a symlink for tcpdump
   file:
@@ -219,7 +219,7 @@
   copy:
     src: osmo-gsm-tester_setcap_net_raw.sh
     dest: /usr/local/bin/osmo-gsm-tester_setcap_net_raw.sh
-    mode: 755
+    mode: 0755
 
 - name: allow osmo-gsm-tester sudo osmo-gsm-tester_setcap_net_raw.sh
   copy:
@@ -232,7 +232,7 @@
   copy:
     src: osmo-gsm-tester_setcap_net_admin.sh
     dest: /usr/local/bin/osmo-gsm-tester_setcap_net_admin.sh
-    mode: 755
+    mode: 0755
 
 - name: allow osmo-gsm-tester sudo osmo-gsm-tester_setcap_net_admin.sh
   copy:
@@ -245,7 +245,7 @@
   copy:
     src: osmo-gsm-tester_netns_exec.sh
     dest: /usr/local/bin/osmo-gsm-tester_netns_exec.sh
-    mode: 755
+    mode: 0755
 
 - name: allow osmo-gsm-tester sudo osmo-gsm-tester_netns_exec.sh
   copy:
@@ -258,7 +258,7 @@
   copy:
     src: osmo-gsm-tester_netns_setup.sh
     dest: /usr/local/bin/osmo-gsm-tester_netns_setup.sh
-    mode: 755
+    mode: 0755
 
 - name: allow osmo-gsm-tester sudo osmo-gsm-tester_netns_setup.sh
   copy:
