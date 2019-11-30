@@ -310,7 +310,12 @@
       - osmocom-bb
       - osmo-sysmon
       - osmo-remsim
-      - osmo-asf4-dfu
+      - osmo-asf4-dfu:
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          email: gerrit-log@lists.osmocom.org laforge@gnumonks.org ewild@sysmocom.de
+      - osmo-ccid-firmware:
+          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          email: gerrit-log@lists.osmocom.org laforge@gnumonks.org ewild@sysmocom.de
       - simtrace2:
           cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
