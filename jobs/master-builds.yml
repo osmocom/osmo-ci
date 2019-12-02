@@ -194,17 +194,7 @@
           concurrent: false
           cmd: 'PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
-      - osmo-fl2k:
-          concurrent: true
-          cmd: |
-            docker run --rm=true \
-              -e HOME=/build \
-              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
-              -e PATH="$PATH:/build_bin" \
-              -w /build -i -u build \
-              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
-              osmocom:amd64 /build/contrib/jenkins.sh
-
+      - osmo-fl2k
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
