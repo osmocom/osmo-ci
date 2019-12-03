@@ -206,6 +206,8 @@
       - osmo-asf4-dfu
       - osmo-ccid-firmware
       - osmo-e1d
+      - osmo-cbc
+      - osmo-e1-recorder
       - gapk
 
       - pysim:
