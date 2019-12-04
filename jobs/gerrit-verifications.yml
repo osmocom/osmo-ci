@@ -21,6 +21,8 @@
     sequential: false
     # most common build invocation
     # SYS_PTRACE is needed for ASAN (https://github.com/google/sanitizers/issues/764)
+    # Documentation for variables (keep in sync!):
+    # https://osmocom.org/projects/osmocom-servers/wiki/Jenkins_build_verification_jobs
     docker_run: |
             ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
             mkdir -p "$ARTIFACT_STORE"
