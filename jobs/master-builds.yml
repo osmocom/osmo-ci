@@ -322,6 +322,9 @@
           cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
 
+      - osmo-e1d
+      - osmo-cbc
+      - osmo-e1-recorder
       - gapk
 
       - rtl-sdr:
