@@ -85,7 +85,6 @@ RUN \
 		osc \
 		patchelf \
 		pkg-config \
-		python \
 		python3 \
 		python3-gi \
 		python3-mako \
@@ -95,10 +94,6 @@ RUN \
 		python3-setuptools \
 		python3-usb \
 		python3-yaml \
-		python-minimal \
-		python-pip \
-		python-pychart \
-		python-setuptools \
 		rsync \
 		sdcc \
 		sqlite3 \
