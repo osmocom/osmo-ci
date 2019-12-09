@@ -42,6 +42,7 @@
     # by gsm-manuals
     - python3-nwdiag
     - python-pychart
+    - inkscape
     # by gapk
     - libasound-dev
     - libopencore-amrnb-dev
