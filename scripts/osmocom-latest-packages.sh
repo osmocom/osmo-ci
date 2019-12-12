@@ -55,7 +55,7 @@ checkout() {
   if [ "$project" = "limesuite" ]; then
      [ -d "$project" ] || git clone "https://github.com/myriadrf/LimeSuite" "$project"
   else
-    [ -d "$project" ] || osmo_git_clone_date "https://git.osmocom.org/$project"
+    [ -d "$project" ] || osmo_git_clone_date "$(osmo_git_clone_url "$project")"
   fi
   cd "$project"
   git fetch
@@ -131,6 +131,7 @@ build() {
 build_osmocom() {
   prepare
 
+  # NOTE: when adding a repository that is not in gerrit, adjust osmo_git_clone_url()
   checkout limesuite
   checkout osmo-gsm-manuals
   checkout libosmocore

@@ -1,6 +1,7 @@
 #!/bin/sh
 # Various functions and variables used in multiple osmo-ci shell scripts
 OSMO_GIT_URL="https://git.osmocom.org"
+OSMO_GIT_URL_GERRIT="https://gerrit.osmocom.org"
 
 # Osmocom repositories of which we want to build release tarballs automatically, and list the current versions at
 # https://jenkins.osmocom.org/jenkins/job/Osmocom-list-commits/lastSuccessfulBuild/artifact/commits.txt
@@ -97,6 +98,20 @@ osmo_git_clone_date() {
 		date "+%Y-%m-%d %H:%M:%S"
 		exit 1
 	fi
+}
+
+# Print git clone URL for an Osmocom git repository. Prefer the gerrit clone URL, because cloning from the regular URL
+# sometimes results in the "garbage at end of loose object" error (OS#4083).
+# $1: Osmocom project (e.g. "osmo-hlr")
+osmo_git_clone_url() {
+	case "$1" in
+		rtl-sdr|osmo-fl2k|libosmo-dsp|libgtpnl|libasn1c|libusrp|libsmpp34)
+			echo "$OSMO_GIT_URL"/"$1"
+			;;
+		*)
+			echo "$OSMO_GIT_URL_GERRIT"/"$1"
+			;;
+	esac
 }
 
 # Print the subdirectory of the repository where the source lies (configure.ac etc.).

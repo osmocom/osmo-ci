@@ -64,14 +64,13 @@ get_commit_version() {
 checkout() {
   local name=$1
   local branch=$2
-  local url="https://git.osmocom.org"
 
   cd "$REPO"
 
   if [ -n "$branch" ] ; then
-    osmo_git_clone_date "$url/$name" -b "$branch"
+    osmo_git_clone_date "$(osmo_git_clone_url "$name")" -b "$branch"
   else
-    osmo_git_clone_date "$url/$name"
+    osmo_git_clone_date "$(osmo_git_clone_url "$name")"
   fi
 
   cd -
@@ -177,6 +176,7 @@ build_osmocom() {
 
   prepare
 
+  # NOTE: when adding a repository that is not in gerrit, adjust osmo_git_clone_url()
   checkout_limesuite
   checkout osmo-gsm-manuals
   checkout libosmocore
