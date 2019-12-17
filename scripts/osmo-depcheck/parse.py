@@ -3,6 +3,7 @@
 
 import sys
 import fnmatch
+import re
 
 # Same folder
 import config
@@ -52,6 +53,8 @@ def parse_condition(line):
                   * a string like "libosmocore  >= 0.1.0" """
     # Only look at PKG_CHECK_MODULES lines
     if "PKG_CHECK_MODULES" not in line:
+        return
+    if re.search('#.*PKG_CHECK_MODULES', line):
         return
 
     # Extract the condition
