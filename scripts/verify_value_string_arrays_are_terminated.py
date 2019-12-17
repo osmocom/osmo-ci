@@ -27,7 +27,7 @@ def check_file(f):
   global errors_found
   if not (f.endswith('.h') or f.endswith('.c') or f.endswith('.cpp')):
     return
-  arrays = value_string_array_re.findall(codecs.open(f, "r", "utf-8").read())
+  arrays = value_string_array_re.findall(codecs.open(f, "r", "utf-8", errors='ignore').read())
   for array_def, name in arrays:
     if not terminator_re.search(array_def):
       print('ERROR: file contains unterminated value_string %r: %r'

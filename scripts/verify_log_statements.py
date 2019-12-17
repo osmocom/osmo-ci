@@ -66,7 +66,7 @@ def check_file(f):
   try:
     errors_found = []
 
-    file_content = codecs.open(f, "r", "utf-8").read()
+    file_content = codecs.open(f, "r", "utf-8", errors='ignore').read()
 
     for log in log_statement_re.finditer(file_content):
       quoted = log.group(2)
