@@ -106,6 +106,9 @@ osmo_source_subdir() {
 		openbsc)
 			echo "openbsc"
 			;;
+		simtrace2)
+			echo "host"
+			;;
 	esac
 }
 
