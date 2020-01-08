@@ -40,7 +40,7 @@
               -w /build -i -u build \
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$ARTIFACT_STORE:/artifact_store" \
-    docker_img: 'osmocom:deb9_amd64'
+    docker_img: '$USER/debian-stretch-jenkins'
     cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'

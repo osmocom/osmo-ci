@@ -11,6 +11,5 @@ git rev-parse HEAD
 git status
 
 if [ `uname` = "Linux" ]; then
- cd docker
- ./rebuild_osmocom_jenkins_image.sh
+	scripts/osmo-ci-docker-rebuild.sh
 fi

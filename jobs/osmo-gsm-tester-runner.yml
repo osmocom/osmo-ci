@@ -241,7 +241,8 @@
               -v "$HOME/bin:/build_bin" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
               --cap-add=sys_nice \
-              osmocom:deb9_amd64 /bin/bash -c 'LANG="en_US.utf8" LC_ALL="en_US.UTF-8" LC_LANG="en_US.UTF-8" PATH="$PWD/osmo-gsm-tester/src:${PATH}" ./osmo-gsm-tester/contrib/jenkins-run.sh'
+              $USER/debian-stretch-jenkins \
+              /bin/bash -c 'LANG="en_US.utf8" LC_ALL="en_US.UTF-8" LC_LANG="en_US.UTF-8" PATH="$PWD/osmo-gsm-tester/src:${PATH}" ./osmo-gsm-tester/contrib/jenkins-run.sh'
     publishers:
       - archive:
           artifacts: '*-run.tgz, *-bin.tgz'
