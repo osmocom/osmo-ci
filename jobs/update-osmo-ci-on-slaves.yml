@@ -22,6 +22,8 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true
+          branches:
+            - 'origin/master'
 
     triggers:
       - pollscm:
