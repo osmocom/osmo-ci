@@ -42,7 +42,8 @@
               -v "$ARTIFACT_STORE:/artifact_store" \
     docker_img: 'osmocom:deb9_amd64'
     cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
-    repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/{repos}'
+    gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
+    repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
 
     # in alphabetical order
@@ -168,7 +169,7 @@
               {docker_img} /build/contrib/jenkins.sh
 
       - osmo-python-tests:
-          repos_url: 'ssh://jenkins@gerrit.osmocom.org:29418/python/{repos}'
+          repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
 
       - osmo-sgsn:
