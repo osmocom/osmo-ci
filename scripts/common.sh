@@ -117,18 +117,24 @@ osmo_source_subdir() {
 docker_images_require() {
 	local oldpwd="$PWD"
 
-	# Get docker-plaground.git
-	if [ -d "_docker_playground" ]; then
-		git -C _docker_playground fetch
+	if [ -L "_docker_playground" ]; then
+		echo "NOTE: _docker_playground is a symlink, skipping fetch, checkout, reset"
+		cd "_docker_playground/$1"
 	else
-		git clone https://git.osmocom.org/docker-playground/ _docker_playground
-	fi
-	cd _docker_playground
-	git checkout "$OSMO_BRANCH_DOCKER_PLAYGROUND"
-	git reset --hard "origin/$OSMO_BRANCH_DOCKER_PLAYGROUND"
+		# Get docker-plaground.git
+		if [ -d "_docker_playground" ]; then
+			git -C _docker_playground fetch
+		else
+			git clone https://git.osmocom.org/docker-playground/ _docker_playground
+		fi
 
-	# jenkins-common.sh expects to run from a subdir in docker-playground.git
-	cd "$1"
+		cd _docker_playground
+		git checkout "$OSMO_BRANCH_DOCKER_PLAYGROUND"
+		git reset --hard "origin/$OSMO_BRANCH_DOCKER_PLAYGROUND"
+
+		# jenkins-common.sh expects to run from a subdir in docker-playground.git
+		cd "$1"
+	fi
 
 	# Subshell: run docker_images_require from jenkins-common.sh, pass all arguments
 	(. ../jenkins-common.sh; docker_images_require "$@")

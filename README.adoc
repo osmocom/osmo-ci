@@ -12,3 +12,14 @@ for more information about deployment.
 scripts: used by jenkins jobs. Various osmo*/contrib/jenkins.sh scripts assume
 osmo-ci to be checked out in the build slave user's home, i.e. using a PATH of
 $HOME/osmo-ci/scripts.
+
+_docker_playground: Clone of docker-playground.git, so the scripts can build
+required docker images. This dir gets created on demand by scripts/common.sh,
+and automatically fetched and reset to "origin/master" (override with
+$OSMO_BRANCH_DOCKER_PLAYGROUND). The fetch and reset gets skipped if
+_docker_playground is a symlink. For development, set it up as follows:
+
+ $ git clone https://git.osmocom.org/docker-playground
+ $ git clone https://git.osmocom.org/osmo-ci
+ $ cd osmo-ci
+ $ ln -s ../docker-playground _docker_playground
