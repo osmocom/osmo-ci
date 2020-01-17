@@ -43,7 +43,6 @@
     docker_img: '$USER/debian-stretch-jenkins'
     docker_img_erlang: '$USER/debian-buster-erlang'
     cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
-    cmd_erlang: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
@@ -114,7 +113,7 @@
       - osmo_dia2gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{cmd_erlang}'
+          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
 
       - osmo-ggsn:
           a1_name: GTP
@@ -135,7 +134,7 @@
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{cmd_erlang}'
+          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
 
       - osmo-hlr
       - osmo-iuh
@@ -232,7 +231,7 @@
       - ss7:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{cmd_erlang}'
+          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
