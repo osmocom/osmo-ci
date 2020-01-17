@@ -10,6 +10,8 @@
     defaults: global
     description: |
         For each relevant Osmocom repository and its tags, build release tarballs (<a href="https://osmocom.org/issues/3870">OS#3870</a>).
+        <br><br>
+        Publishes to: <a href="https://ftp.osmocom.org/releases/">https://ftp.osmocom.org/releases</a>
     parameters:
       - string:
           name: BRANCH_OSMO_CI
@@ -33,6 +35,10 @@
             -w /osmo-ci \
             -e KEEP_TEMP="$KEEP_TEMP" \
             "$USER/debian-stretch-build-dist" /osmo-ci/scripts/osmocom-release-tarballs.sh
+
+          SSH_COMMAND="ssh -p 48"
+          cd _release_tarballs
+          rsync -avz --delete -e "$SSH_COMMAND" . releases@rita.osmocom.org:web-files/
     scm:
       - git:
           branches:
@@ -50,5 +56,9 @@
        - email:
           notify-every-unstable-build: true
           recipients: 'jenkins-notifications@lists.osmocom.org'
+    wrappers:
+      - ssh-agent-credentials:
+          users:
+          - releases
 
 # vim: expandtab tabstop=2 shiftwidth=2
