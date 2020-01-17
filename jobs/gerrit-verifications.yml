@@ -198,6 +198,11 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} /build/contrib/jenkins.sh
 
+      - osmo_ss7:
+          repos_url: '{gerrit_url}/erlang/{repos}'
+          gerrit_project: 'erlang/{repos}'
+          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
+
       - osmo-sip-connector
 
       - osmo-trx:
@@ -227,11 +232,6 @@
           slave_axis: !!python/tuple [simtester]
           concurrent: false
           cmd: './contrib/jenkins.sh'
-
-      - ss7:
-          repos_url: '{gerrit_url}/erlang/{repos}'
-          gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
