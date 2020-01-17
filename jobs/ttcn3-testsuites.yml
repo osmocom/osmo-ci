@@ -43,6 +43,8 @@
           timer: 00 09 * * *
       - ttcn3-stp-test:
           timer: 30 09 * * *
+      - ttcn3-sccp-test:
+          timer: 00 10 * * *
 
       # latest stable
       - nplab-m3ua-test-latest:
@@ -77,6 +79,8 @@
           blocking: "^ttcn3-remsim-test.*"
       - ttcn3-stp-test-latest:
           blocking: "^ttcn3-stp-test.*"
+      #- ttcn3-sccp-test-latest:
+      #    blocking: "^ttcn3-sccp-test.*"
 - job-template:
     name: '{job-name}'
     project-type: freestyle
