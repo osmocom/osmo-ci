@@ -14,6 +14,6 @@
 - name: rebuild osmocom docker images for jenkins build tests
   become: yes
   become_user: "{{ jenkins_user }}"
-  shell: ./rebuild_osmocom_jenkins_image.sh
+  shell: ./scripts/osmo-ci-docker-rebuild.sh
   args:
-    chdir: "/home/{{ jenkins_user }}/osmo-ci/docker"
+    chdir: "/home/{{ jenkins_user }}/osmo-ci"
