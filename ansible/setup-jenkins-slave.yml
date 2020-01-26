@@ -20,6 +20,7 @@
         - docker
 
     - name: install-poky-sdk
+      when: ansible_architecture == "x86_64"
       jenkins_user: osmocom-build
       poky_installer_file: poky-glibc-x86_64-meta-toolchain-osmo-cortexa15hf-neon-toolchain-osmo-2.3.4.sh
       poky_dest: /opt/poky-oc2g/2.3.4/
@@ -27,6 +28,7 @@
         - poky
 
     - name: install-poky-sdk
+      when: ansible_architecture == "x86_64"
       jenkins_user: osmocom-build
       poky_installer_file: poky-glibc-x86_64-meta-toolchain-osmo-armv5te-toolchain-osmo-2.3.4.sh
       poky_dest: /opt/poky-sdk/2.3.4/
