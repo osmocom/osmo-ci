@@ -29,6 +29,7 @@
           triggered-by: master-osmo-bts
       - osmo-pcu-oc2g:
           triggered-by: master-osmo-pcu
+      - srslte
     triggered-by: 'master-{repo}'
 
     jobs:
@@ -99,6 +100,8 @@
          name: OSMO_GSM_TESTER_BUILD_osmo_trx
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_osmocom_bb
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_srslte
     scm:
       - osmo-gsm-tester-repo
 

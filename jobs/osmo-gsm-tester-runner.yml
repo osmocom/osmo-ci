@@ -86,6 +86,8 @@
          repo: osmo-gsm-tester_build-osmo-bts-oc2g
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmo-pcu-oc2g
+      - copy_artifact:
+         repo: osmo-gsm-tester_build-srslte
 
 - defaults:
     name: runner
@@ -128,6 +130,7 @@
                 - osmo-gsm-tester_build-osmo-pcu-sysmo
                 - osmo-gsm-tester_build-osmo-bts-oc2g
                 - osmo-gsm-tester_build-osmo-pcu-oc2g
+                - osmo-gsm-tester_build-srslte
     builders:
       - copy_artifact_all
       - shell: !include-raw: osmo-gsm-tester_run-{stage}.sh
