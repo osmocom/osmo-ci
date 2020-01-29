@@ -133,3 +133,19 @@
     - libjansson-dev
     - libulfius-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version == '9'
+
+- name: install srsLTE build dependencies
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - cmake
+    - libfftw3-dev
+    - libmbedtls-dev
+    - libboost-program-options-dev
+    - libconfig++-dev
+    - libsctp-dev
+    - libpcsclite-dev
+    - libuhd-dev
+    - libczmq-dev
