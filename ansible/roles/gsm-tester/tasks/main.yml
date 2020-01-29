@@ -33,9 +33,16 @@
     - libsofia-sip-ua-glib-dev
     - libsqlite3-dev
     - libasound2-dev
-    - mdbus2
     - liblua5.3-dev
     - lua-socket
+
+# mdbus2 is not available in debian10. TODO: compile it for >9
+- name: install mdbus2
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - mdbus2
+  when: ansible_distribution == 'Debian' and ansible_distribution_version <= '9'
 
 - name: install srsLTE runtime dependencies
   apt:
