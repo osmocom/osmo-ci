@@ -37,6 +37,20 @@
     - liblua5.3-dev
     - lua-socket
 
+- name: install srsLTE runtime dependencies
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - cmake
+    - libfftw3-dev
+    - libmbedtls-dev
+    - libboost-program-options-dev
+    - libconfig++-dev
+    - libsctp-dev
+    - libpcsclite-dev
+    - libuhd-dev
+    - libczmq-dev
+
 - name: install ofono build dependencies
   apt:
     name: ofono
