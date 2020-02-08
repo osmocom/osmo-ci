@@ -12,9 +12,9 @@ Place 3rd party firmware/sdk files here.
 # role: install-coverity
 
 The filename depends on the variable `coverity_version`.
-`coverity_version: 2017.07`
+`coverity_version: 2019.03`
 
-E.g: `./cov-analysis-linux64-2017.07.tar.gz`
+E.g: `./cov-analysis-linux64-2019.03.tar.gz`
 
 # role: install-poky-sdk
 
