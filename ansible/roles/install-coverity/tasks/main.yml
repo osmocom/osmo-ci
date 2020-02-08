@@ -1,4 +1,10 @@
 ---
+- name: install coverity-required debian packages
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - curl
+
 - name: copy coverity installer
   copy:
     src: "{{ coverity_installer_file }}"
