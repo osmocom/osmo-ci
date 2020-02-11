@@ -129,6 +129,31 @@
   tags:
     - ofono
 
+# patchelf 0.9 available in debian has bugs with certain binaries. Version 0.10
+# fails on other binaries, so we need both 0.9 and 0.10 versions installed.
+- name: setup patchelf v0.10 repository
+  git:
+    repo: 'https://github.com/NixOS/patchelf.git'
+    dest: /root/patchelf
+    version: "0.10"
+    clone: yes
+    update: no
+  tags:
+    - patchelf
+
+- name: build patchelf v0.10
+  shell: |
+      autoreconf -fi && \
+      ./configure --prefix=/opt && \
+      make && \
+      mkdir -p /opt/bin/ && \
+      cp src/patchelf /opt/bin/patchelf-v0.10
+  args:
+    chdir: /root/patchelf
+    creates: /opt/bin/patchelf-v0.10
+  tags:
+    - patchelf
+
 - name: install gsm tester dependencies
   apt:
     name: "{{ item }}"
