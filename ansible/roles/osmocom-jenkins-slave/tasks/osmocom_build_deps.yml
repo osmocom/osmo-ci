@@ -149,3 +149,4 @@
     - libpcsclite-dev
     - libuhd-dev
     - libczmq-dev
+    - libsoapysdr-dev

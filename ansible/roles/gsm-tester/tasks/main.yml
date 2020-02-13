@@ -57,6 +57,7 @@
     - libpcsclite-dev
     - libuhd-dev
     - libczmq-dev
+    - libsoapysdr-dev
 
 - name: install ofono build dependencies
   apt:
