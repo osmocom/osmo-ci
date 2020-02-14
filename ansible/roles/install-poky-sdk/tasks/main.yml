@@ -21,7 +21,7 @@
   command: "/tmp/{{ poky_installer_file }} -y -d '{{ poky_dest }}'"
   args:
     creates: "{{ poky_dest }}"
-  when: poky_copy.failed == false
+  when: poky_copy.failed == False
   tags: [poky]
 
 - name: change owner/group to jenkins user
@@ -30,18 +30,18 @@
     owner: "{{ jenkins_user }}"
     group: "{{ jenkins_user }}"
     recurse: yes
-  when: poky_copy.failed == false
+  when: poky_copy.failed == False
   tags: [poky]
 
 - name: remove poky installer
   file:
     path: "/tmp/{{ poky_installer_file }}"
     state: absent
-  when: poky_copy.failed == false
+  when: poky_copy.failed == False
   tags: [poky]
 
 - name: "Please download {{ poky_installer_file }} to your ansible directory to allow ansible to install poky"
   debug:
     msg: "Ansible can not find or copy {{ poky_installer_file }}"
-  when: poky_copy.failed
+  when: poky_copy.failed == True
   tags: [poky]
