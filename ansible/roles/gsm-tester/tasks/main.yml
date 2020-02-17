@@ -49,7 +49,7 @@
     - ofono
     - modem
 
-- name: install srsLTE runtime dependencies
+- name: install srsLTE build-only dependencies
   apt:
     name: "{{ item }}"
   with_items:
@@ -63,7 +63,24 @@
     - libuhd-dev
     - libczmq-dev
     - libsoapysdr-dev
+  tags:
+    - srs
+
+- name: install srsLTE runtime extra dependencies (Debian)
+  apt:
+    name: "{{ item }}"
+  with_items:
     - soapysdr0.7-module-lms7
+  when: ansible_distribution == 'Debian'
+  tags:
+    - srs
+
+- name: install srsLTE runtime extra dependencies (Ubuntu)
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - soapysdr0.6-module-lms7
+  when: ansible_distribution == 'Ubuntu'
   tags:
     - srs
 
