@@ -35,6 +35,8 @@
     - libasound2-dev
     - liblua5.3-dev
     - lua-socket
+  tags:
+    - osmocom
 
 # mdbus2 is not available in debian10. TODO: compile it for >9
 - name: install mdbus2
@@ -43,6 +45,9 @@
   with_items:
     - mdbus2
   when: ansible_distribution == 'Debian' and ansible_distribution_version <= '9'
+  tags:
+    - ofono
+    - modem
 
 - name: install srsLTE runtime dependencies
   apt:
@@ -59,21 +64,31 @@
     - libczmq-dev
     - libsoapysdr-dev
     - soapysdr0.7-module-lms7
+  tags:
+    - srs
 
 - name: install ofono build dependencies
   apt:
     name: ofono
     state: build-dep
+  tags:
+    - ofono
+    - modem
 
 - name: install libqmi-glib a dependency of sysmocom ofono
   apt:
     name: libqmi-glib-dev
+  tags:
+    - ofono
+    - modem
 
 - name: install uhub dependencies
   apt:
     name: "{{ item }}"
   with_items:
     - libusb-1.0-0-dev
+  tags:
+    - modem
 
 - name: setup uhubctl repository
   git:
@@ -82,6 +97,8 @@
     version: master
     clone: yes
     update: no
+  tags:
+    - modem
 
 - name: build uhubctl
   shell: |
@@ -90,6 +107,8 @@
   args:
     chdir: /root/uhubctl
     creates: /usr/sbin/uhubctl
+  tags:
+    - modem
 
 # TODO: move this into restart-modems.d directory
 - name: copy quad_modem_power_cycle.sh
@@ -98,7 +117,7 @@
     dest: /usr/local/bin/quad_modem_power_cycle.sh
     mode: 0755
   tags:
-    - ofono
+    - modem
 
 - name: setup ofono repository
   git:
@@ -109,6 +128,7 @@
     update: no
   tags:
     - ofono
+    - modem
 
 - name: build ofono
   shell: |
@@ -122,6 +142,7 @@
     creates: /usr/local/sbin/ofonod
   tags:
     - ofono
+    - modem
 
 - name: ensure ofono is started
   service:
@@ -130,6 +151,7 @@
     enabled: yes
   tags:
     - ofono
+    - modem
 
 # patchelf 0.9 available in debian has bugs with certain binaries. Version 0.10
 # fails on other binaries, so we need both 0.9 and 0.10 versions installed.
@@ -142,6 +164,7 @@
     update: no
   tags:
     - patchelf
+    - osmo-gsm-tester-proc
 
 - name: build patchelf v0.10
   shell: |
@@ -155,13 +178,12 @@
     creates: /opt/bin/patchelf-v0.10
   tags:
     - patchelf
+    - osmo-gsm-tester-proc
 
-- name: install gsm tester dependencies
+- name: install gsm tester dependencies (main)
   apt:
     name: "{{ item }}"
   with_items:
-    - dbus
-    - tcpdump
     - sqlite3
     - python3
     - python3-setuptools
@@ -170,11 +192,23 @@
     - python3-gi
     - ofono
     - patchelf
-    - sudo
     - libcap2-bin
     - python3-pip
     - udhcpc
+  tags:
+    - osmo-gsm-tester-main
+
+- name: install gsm tester dependencies (proc)
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - tcpdump
+    - patchelf
+    - libcap2-bin
     - iperf3
+    - sudo
+  tags:
+    - osmo-gsm-tester-proc
 
 - name: install gsm tester pip dependencies
   pip:
@@ -186,11 +220,16 @@
     - pydbus
     - pyusb
     - pysispm
-  tags: [pip]
+  tags:
+    - pip
+    - osmo-gsm-tester-main
 
 - name: create group osmo-gsm-tester
   group:
     name: osmo-gsm-tester
+  tags:
+    - osmo-gsm-tester-main
+    - osmo-gsm-tester-proc
 
 - name: add jenkins to osmo-gsm-tester and systemd-journal
   user:
@@ -202,6 +241,8 @@
     - systemd-journal
     - osmo-gsm-tester
     - dialout
+  tags:
+    - osmo-gsm-tester-main
 
 - name: setup state directory
   file:
@@ -209,10 +250,14 @@
     state: directory
     group: osmo-gsm-tester
     mode: g+rwxs
+  tags:
+    - osmo-gsm-tester-main
 
 - name: install acl
   apt:
     name: acl
+  tags:
+    - osmo-gsm-tester-main
 
 # Ensure the group always has access to all files
 - name: add acl to state directory
@@ -223,6 +268,8 @@
     entity: osmo-gsm-tester
     default: yes
     permissions: rwx
+  tags:
+    - osmo-gsm-tester-main
 
 - name: create trials directory
   file:
@@ -230,39 +277,57 @@
     state: directory
     group: osmo-gsm-tester
     mode: g+rwxs
+  tags:
+    - osmo-gsm-tester-main
 
 - name: allow osmo-gsm-tester to access ofono
   copy:
     src: dbus_osmo-gsm-tester.conf
     dest: /etc/dbus-1/system.d/osmo-gsm-tester.conf
+  tags:
+    - ofono
+    - modem
 
 - name: ensure tcpdump can be called by osmo-gsm-tester
   file:
     path: /usr/sbin/tcpdump
     group: osmo-gsm-tester
     mode: 0750
+  tags:
+    - osmo-gsm-tester-proc
+    - tcpdump
 
 - name: create a symlink for tcpdump
   file:
     src: /usr/sbin/tcpdump
     dest: /usr/local/bin/tcpdump
     state: link
+  tags:
+    - osmo-gsm-tester-proc
+    - tcpdump
 
 - name: add correct capabilities to tcpdump
   capabilities:
     path: /usr/sbin/tcpdump
     capability: cap_net_raw,cap_net_admin=eip
     state: present
+  tags:
+    - osmo-gsm-tester-proc
+    - tcpdump
 
 - name: allow core files for the group osmo-gsm-tester
   copy:
     content: "@osmo-gsm-tester - core unlimited"
     dest: /etc/security/limits.d/osmo-gsm-tester_allowcore.conf
+  tags:
+    - osmo-gsm-tester-proc
 
 - name: allow rt priority for the group osmo-gsm-tester
   copy:
     content: "@osmo-gsm-tester - rtprio 99"
     dest: /etc/security/limits.d/osmo-gsm-tester_rtprio.conf
+  tags:
+    - osmo-gsm-tester-proc
 
 - name: setup osmo-gsm-tester repository
   git:
@@ -272,7 +337,7 @@
     clone: yes
     update: no
   tags:
-    - osmo-gsm-tester
+    - osmo-gsm-tester-proc
 
 - name: Install osmo-gsm-tester script helpers to /usr/local/bin (PATH)
   shell: |
@@ -281,7 +346,7 @@
   args:
     chdir: /root/osmo-gsm-tester
   tags:
-    - osmo-gsm-tester
+    - osmo-gsm-tester-proc
 
 - name: Install osmo-gsm-tester sudoers.d files to /etc/sudoers.d/ (PATH)
   shell: |
@@ -290,37 +355,51 @@
   args:
     chdir: /root/osmo-gsm-tester
   tags:
-    - osmo-gsm-tester
+    - osmo-gsm-tester-proc
 
 - name: logrotate limit filesizes to 10M
   copy:
     content: "maxsize 10M"
     dest: /etc/logrotate.d/maxsize
+  tags:
+    - osmo-gsm-tester-main
 
 - name: install sispmctl (usb power socket)
   apt:
     name: sispmctl
+  tags:
+    - sispm
 
 - name: allow group osmo-gsm-tester to access sispm devices
   copy:
     src: 60-sispmctl.rules
     dest: /etc/udev/rules.d/
   notify: restart udev
+  tags:
+    - sispm
 
 - name: allow group osmo-gsm-tester to access LMS devices
   copy:
     src: 64-limesuite.rules
     dest: /etc/udev/rules.d/
   notify: restart udev
+  tags:
+    - lms
 
 - name: use persistent naming for modem network interfaces
   copy:
     src: 70-net-setup-link-modems.rules
     dest: /etc/udev/rules.d/
   notify: restart udev
+  tags:
+    - modem
 
 - name: avoid dhcpcd managing modem interfaces and racing with udev rename
   lineinfile:
     path: /etc/dhcpcd.conf
     regexp: '^denyinterfaces'
     line: 'denyinterfaces ww* r*'
+  tags:
+  tags:
+    - osmo-gsm-tester-main
+    - dhcpcd
