@@ -58,6 +58,7 @@
     - libuhd-dev
     - libczmq-dev
     - libsoapysdr-dev
+    - soapysdr0.7-module-lms7
 
 - name: install ofono build dependencies
   apt:
