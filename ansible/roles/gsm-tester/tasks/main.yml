@@ -365,18 +365,22 @@
   tags:
     - osmo-gsm-tester-proc
 
+- name: Install osmo-gsm-tester script helpers to /usr/local/bin (PATH) (mkdir)
+  file: path=/usr/local/bin state=directory
+
 - name: Install osmo-gsm-tester script helpers to /usr/local/bin (PATH)
   shell: |
-      mkdir -p /usr/local/bin/ && \
       cp utils/bin/*.sh /usr/local/bin/
   args:
     chdir: /root/osmo-gsm-tester
   tags:
     - osmo-gsm-tester-proc
 
+- name: Install osmo-gsm-tester sudoers.d files to /etc/sudoers.d/ (PATH (mkdir)
+  file: path=/etc/sudoers.d/ state=directory
+
 - name: Install osmo-gsm-tester sudoers.d files to /etc/sudoers.d/ (PATH)
   shell: |
-      mkdir -p /etc/sudoers.d/ && \
       cp utils/sudoers.d/* /etc/sudoers.d/
   args:
     chdir: /root/osmo-gsm-tester
