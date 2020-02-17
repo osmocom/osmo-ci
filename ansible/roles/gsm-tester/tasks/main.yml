@@ -170,6 +170,15 @@
     - ofono
     - modem
 
+- name: install patchelf build dependencies
+  apt:
+    name: "{{ item }}"
+  with_items:
+    - autoconf
+  tags:
+    - patchelf
+    - osmo-gsm-tester-proc
+
 # patchelf 0.9 available in debian has bugs with certain binaries. Version 0.10
 # fails on other binaries, so we need both 0.9 and 0.10 versions installed.
 - name: setup patchelf v0.10 repository
