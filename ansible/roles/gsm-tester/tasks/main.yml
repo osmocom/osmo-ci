@@ -424,6 +424,22 @@
   tags:
     - modem
 
+- name: create remote rundir directories
+  file:
+    path: "/osmo-gsm-tester-{{ item }}"
+    state: directory
+    group: osmo-gsm-tester
+    mode: g+rwxs
+  with_items:
+    - srsenb
+    - srsepc
+    - srsue
+    - trx
+  tags:
+    - osmo-gsm-tester-proc
+    - osmocom
+    - srs
+
 - name: avoid dhcpcd managing modem interfaces and racing with udev rename
   lineinfile:
     path: /etc/dhcpcd.conf
