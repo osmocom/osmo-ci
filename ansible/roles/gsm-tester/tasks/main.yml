@@ -257,15 +257,26 @@
     - osmo-gsm-tester-main
     - osmo-gsm-tester-proc
 
-- name: add jenkins to osmo-gsm-tester and systemd-journal
+- name: Add jenkins user to osmo-gsm-tester group
   user:
-    name: jenkins
+    name: "{{ jenkins_user }}"
+    groups: "{{ item }}"
+    append: yes
+    shell: /bin/bash
+  with_items:
+    - osmo-gsm-tester
+  tags:
+    - osmo-gsm-tester-main
+    - osmo-gsm-tester-proc
+
+- name: add jenkins user to systemd-journal and dialout groups
+  user:
+    name: "{{ jenkins_user }}"
     groups: "{{ item }}"
     append: yes
     shell: /bin/bash
   with_items:
     - systemd-journal
-    - osmo-gsm-tester
     - dialout
   tags:
     - osmo-gsm-tester-main
