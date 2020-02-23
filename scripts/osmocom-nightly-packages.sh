@@ -108,8 +108,11 @@ build() {
   fi
 
   mkdir -p "$DATA/$name"
-  # source code build without dependency checks and unsigned source and unsigned change log
-  if [ -f .tarball-version ]; then
+  if [ "$name" = "open5gs" ]; then
+    # we cannot control the output directory of the generated source :(
+    dpkg-buildpackage -S -uc -us -d
+    mv "../$name"*.tar* "../$name"*.dsc "$DATA/$name/"
+  elif [ -f .tarball-version ]; then
     gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$DATA/$name" \
 		     --git-ignore-new $gitbpargs \
 		     --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/'
@@ -152,6 +155,14 @@ checkout_limesuite() {
   cd limesuite
   git checkout "$TAG"
 }
+
+checkout_open5gs() {
+  cd "$REPO"
+  git clone https://github.com/open5gs/open5gs
+  cd open5gs
+  meson subprojects download freeDiameter
+}
+
 
 # Copy an already checked out repository dir and apply its debian 8 patch.
 # $1: Osmocom repository
@@ -207,6 +218,7 @@ build_osmocom() {
   checkout libosmo-dsp
   checkout osmo-sysmon
   checkout osmo-remsim
+  checkout_open5gs
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
   checkout_copy_debian8_jessie "osmo-trx"
@@ -244,6 +256,7 @@ build_osmocom() {
   build libosmo-dsp
   build osmo-sysmon
   build osmo-remsim
+  build open5gs
 
   download_bumpversion
 

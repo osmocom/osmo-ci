@@ -37,7 +37,7 @@ prepare() {
 
 get_last_tag() {
   project="$1"
-  if [ "$project" = "limesuite" ]; then
+  if [ "$project" = "limesuite" ] || [ "$project" = "open5gs" ]; then
     ver_regexp="^v[0-9]*.[0-9]*.[0-9]*$"
   else
     ver_regexp="^[0-9]*.[0-9]*.[0-9]*$"
@@ -54,6 +54,10 @@ checkout() {
   cd "$TOP"
   if [ "$project" = "limesuite" ]; then
      [ -d "$project" ] || git clone "https://github.com/myriadrf/LimeSuite" "$project"
+  elif [ "$project" = "open5gs" ]; then
+    if [ ! -d "$project" ]; then
+      git clone "https://github.com/open5gs/open5gs" "$project"
+    fi
   else
     [ -d "$project" ] || osmo_git_clone_date "$(osmo_git_clone_url "$project")"
   fi
@@ -61,6 +65,9 @@ checkout() {
   git fetch
   VER=$(get_last_tag "$project")
   git checkout -f -B "$VER" "refs/tags/$VER"
+  if [ "$project" = "open5gs" ]; then
+      meson subprojects download freeDiameter
+  fi
 }
 
 # Copy an already checked out repository dir and apply its debian 8 patch.
@@ -93,7 +100,12 @@ build() {
 
   osmo_obs_add_debian_dependency "./debian/control" "osmocom-latest"
 
-  if [ -x ./git-version-gen ]; then
+  if [ "$project" = "open5gs" ]; then
+    # we cannot control the output directory of the generated source :(
+    dpkg-buildpackage -S -uc -us -d
+    mkdir -p "$output"
+    mv "../$name"*.tar* "../$name"*.dsc "$output"
+  elif [ -x ./git-version-gen ]; then
     gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$output" \
 		     "--git-debian-branch=$VER" --git-ignore-new $gitbpargs \
 		     --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/'
@@ -159,6 +171,7 @@ build_osmocom() {
   checkout libosmo-dsp
   checkout osmo-sysmon
   checkout osmo-remsim
+  checkout open5gs
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
 
@@ -191,6 +204,7 @@ build_osmocom() {
   build libosmo-dsp
   build osmo-sysmon
   build osmo-remsim
+  build open5gs
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"
