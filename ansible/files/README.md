@@ -20,4 +20,4 @@ E.g: `./cov-analysis-linux64-2019.03.tar.gz`
 
 The filename depends on the variable `poky_installer_file`.
 
-`./poky-glibc-x86_64-meta-toolchain-osmo-armv5te-toolchain-osmo-2.3.2.sh`
+`./poky-glibc-x86_64-meta-toolchain-osmo-armv5te-toolchain-osmo-2.3.4.sh`
