@@ -15,11 +15,11 @@
       with_items:
         - vim
         - ca-certificates
-        - python-minimal
-        - python-setuptools
-        - python-pip
-        - python-serial
-        - python-pyscard
+        - python3-minimal
+        - python3-setuptools
+        - python3-pip
+        - python3-serial
+        - python3-pyscard
         - virtualenv
 
   roles:
