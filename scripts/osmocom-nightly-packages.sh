@@ -63,14 +63,19 @@ get_commit_version() {
 ### common
 checkout() {
   local name=$1
-  local branch=$2
+  local url=$2
+  local branch=$3
+
+  if [ -z "$url" ]; then
+    url="$(osmo_git_clone_url "$name")"
+  fi
 
   cd "$REPO"
 
   if [ -n "$branch" ] ; then
-    osmo_git_clone_date "$(osmo_git_clone_url "$name")" -b "$branch"
+    osmo_git_clone_date "$url" -b "$branch"
   else
-    osmo_git_clone_date "$(osmo_git_clone_url "$name")"
+    osmo_git_clone_date "$url"
   fi
 
   cd -
