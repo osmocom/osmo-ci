@@ -48,19 +48,17 @@ get_last_tag() {
 
 checkout() {
   project=$1
+  url=$2
   gitbpargs=""
+
+  if [ -z "$url" ]; then
+    url="$(osmo_git_clone_url "$project")"
+  fi
+
   echo
   echo "====> Checking out $project"
   cd "$TOP"
-  if [ "$project" = "limesuite" ]; then
-     [ -d "$project" ] || git clone "https://github.com/myriadrf/LimeSuite" "$project"
-  elif [ "$project" = "open5gs" ]; then
-    if [ ! -d "$project" ]; then
-      git clone "https://github.com/open5gs/open5gs" "$project"
-    fi
-  else
-    [ -d "$project" ] || osmo_git_clone_date "$(osmo_git_clone_url "$project")"
-  fi
+  [ -d "$project" ] || osmo_git_clone_date "$url" "$project"
   cd "$project"
   git fetch
   VER=$(get_last_tag "$project")
@@ -144,7 +142,7 @@ build_osmocom() {
   prepare
 
   # NOTE: when adding a repository that is not in gerrit, adjust osmo_git_clone_url()
-  checkout limesuite
+  checkout limesuite https://github.com/myriadrf/LimeSuite
   checkout osmo-gsm-manuals
   checkout libosmocore
   checkout libosmo-sccp
@@ -171,7 +169,7 @@ build_osmocom() {
   checkout libosmo-dsp
   checkout osmo-sysmon
   checkout osmo-remsim
-  checkout open5gs
+  checkout open5gs https://github.com/open5gs/open5gs
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
 
