@@ -170,6 +170,7 @@ build_osmocom() {
   checkout osmo-sysmon
   checkout osmo-remsim
   checkout open5gs https://github.com/open5gs/open5gs
+  checkout neocon https://github.com/laf0rge/neocon
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
 
@@ -203,6 +204,7 @@ build_osmocom() {
   build osmo-sysmon
   build osmo-remsim
   build open5gs
+  build neocon
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"

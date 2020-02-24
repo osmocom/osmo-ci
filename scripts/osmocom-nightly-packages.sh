@@ -224,6 +224,7 @@ build_osmocom() {
   checkout osmo-sysmon
   checkout osmo-remsim
   checkout_open5gs
+  checkout neocon https://github.com/laf0rge/neocon
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
   checkout_copy_debian8_jessie "osmo-trx"
@@ -262,6 +263,7 @@ build_osmocom() {
   build osmo-sysmon
   build osmo-remsim
   build open5gs
+  build neocon
 
   download_bumpversion
 
