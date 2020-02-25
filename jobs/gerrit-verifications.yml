@@ -90,6 +90,7 @@
       - osmo-bsc
 
       - osmo-bts:
+          slave_axis: !!python/tuple [osmocom-master-debian9, rpi4-deb9build-ansible]
           a1_name: FIRMWARE_VERSION
           a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, litecell15, oc2g, oc2g-next]
           a2_name: BTS_MODEL
@@ -97,16 +98,17 @@
           a3_name: WITH_MANUALS
           a3: !!python/tuple ["1", "0"]
           combination_filter: >
-            (FIRMWARE_VERSION == "master" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo" && WITH_MANUALS == "1") ||
-            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "litecell15" && BTS_MODEL == "lc15" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0") ||
-            (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0")
+            (FIRMWARE_VERSION == "master" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "master" && BTS_MODEL == "trx" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible") ||
+            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo" && WITH_MANUALS == "1" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "superfemto_v5.1" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "v2017.01" && BTS_MODEL == "lc15" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "litecell15" && BTS_MODEL == "lc15" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9")
           concurrent: false
           cmd: 'ASCIIDOC_WARNINGS_CHECK="1" ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
