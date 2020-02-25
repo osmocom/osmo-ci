@@ -253,6 +253,7 @@
       - osmo-pcap
 
       - osmo-pcu:
+          slave_axis: !!python/tuple [osmocom-master-debian9, rpi4-deb9build-ansible]
           a1_name: FIRMWARE_VERSION
           a1: !!python/tuple [master, v2017.01, origin/nrw/litecell15]
           a2_name: with_vty
@@ -262,11 +263,12 @@
           a4_name: WITH_MANUALS
           a4: !!python/tuple ["1", "0"]
           combination_filter: >
-            (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
-            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0") ||
-            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01" && WITH_MANUALS == "0") ||
-            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0") ||
-            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1")
+            (with_vty == "True" && with_dsp == "sysmo" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1" && label == "osmocom-master-debian9") ||
+            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible")
           cmd: |
             {docker_run} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
