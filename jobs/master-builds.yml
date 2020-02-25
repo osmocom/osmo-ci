@@ -253,11 +253,6 @@
       - osmo-pcap
 
       - osmo-pcu:
-          scm:
-            - git:
-                branches:
-                  - '*/master'
-                  - '*/jerlbeck/master'
           a1_name: FIRMWARE_VERSION
           a1: !!python/tuple [master, v2017.01, origin/nrw/litecell15]
           a2_name: with_vty
