@@ -150,3 +150,18 @@
     - libuhd-dev
     - libczmq-dev
     - libsoapysdr-dev
+
+- name: install open5gs build dependencies
+  apt:
+    name: "{{ item }}"
+    cache_valid_time: 3600
+    update_cache: yes
+  with_items:
+    - meson
+    - ninja-build
+    - libgcrypt-dev
+    - libidn11-dev
+    - libmongoc-dev
+    - libbson-dev
+    - libyaml-dev
+  when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 10
