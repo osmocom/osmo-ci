@@ -153,6 +153,7 @@ docker_images_require() {
 
 	# Subshell: run docker_images_require from jenkins-common.sh, pass all arguments
 	(. ../jenkins-common.sh; docker_images_require "$@")
-
+	ret=$?
 	cd "$oldpwd"
+	return $ret
 }
