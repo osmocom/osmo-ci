@@ -12,6 +12,7 @@
             - host2-deb9build-ansible
             - build2-deb8build-ansible
             - build2-deb9build-ansible
+            - rpi4-deb9build-ansible
     properties:
       - build-discarder:
           days-to-keep: 30
