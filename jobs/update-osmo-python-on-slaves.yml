@@ -6,7 +6,6 @@
           type: slave
           name: label
           values:
-            - simtester
             - admin2-deb8build
             - admin2-deb9build
             - host2-deb8build-ansible
