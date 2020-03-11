@@ -51,6 +51,8 @@
     - patchelf
     # by libusrp
     - sdcc
+    # by mingw upload job
+    - rsync
 
 - name: install build dependencies and libraries
   apt:
