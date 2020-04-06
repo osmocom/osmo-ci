@@ -447,6 +447,9 @@
     - srsepc
     - srsue
     - trx
+    - amarisoftenb
+    - amarisoftepc
+    - amarisoftue
   tags:
     - osmo-gsm-tester-proc
     - osmocom
