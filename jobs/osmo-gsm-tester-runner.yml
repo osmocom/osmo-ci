@@ -225,9 +225,9 @@
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmocom-bb
       - shell: >
-            unlink osmo-gsm-tester/example/resources.conf || true
+            unlink osmo-gsm-tester/sysmocom/resources.conf || true
 
-            ln -s resources.conf.virtual osmo-gsm-tester/example/resources.conf
+            ln -s resources.conf.virtual osmo-gsm-tester/sysmocom/resources.conf
 
             # TODO: We (want to) grant CAP_SYS_NICE for osmo-bts-virtual
             # but with newer cgroup support and the --cpu-rt-runtime/--ulimit
@@ -236,7 +236,7 @@
             docker run --rm=true \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
-              -e OSMO_GSM_TESTER_CONF="/build/osmo-gsm-tester/example" \
+              -e OSMO_GSM_TESTER_CONF="/build/osmo-gsm-tester/sysmocom" \
               -e OSMO_GSM_TESTER_OPTS="$OSMO_GSM_TESTER_OPTS" \
               -e BUILD_NUMBER="$BUILD_NUMBER" \
               -w /build -i \
