@@ -318,14 +318,6 @@
   tags:
     - osmo-gsm-tester-main
 
-- name: allow osmo-gsm-tester to access ofono
-  copy:
-    src: dbus_osmo-gsm-tester.conf
-    dest: /etc/dbus-1/system.d/osmo-gsm-tester.conf
-  tags:
-    - ofono
-    - modem
-
 - name: ensure tcpdump can be called by osmo-gsm-tester
   file:
     path: /usr/sbin/tcpdump
@@ -398,6 +390,15 @@
     chdir: /root/osmo-gsm-tester
   tags:
     - osmo-gsm-tester-proc
+
+- name: Install dbus policy file to allow osmo-gsm-tester group to access ofono
+  shell: |
+      cp utils/dbus-1/* /etc/dbus-1/system.d/
+  args:
+    chdir: /root/osmo-gsm-tester
+  tags:
+    - ofono
+    - modem
 
 - name: logrotate limit filesizes to 10M
   copy:
