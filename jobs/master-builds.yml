@@ -326,6 +326,7 @@
       - osmo-cbc
       - osmo-e1-recorder
       - gapk
+      - osmo-uecups
 
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de
