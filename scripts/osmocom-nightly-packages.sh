@@ -264,6 +264,7 @@ build_osmocom() {
   build osmo-remsim
   build open5gs
   build neocon
+  build osmo-uecups
 
   download_bumpversion
 

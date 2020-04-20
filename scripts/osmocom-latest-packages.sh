@@ -205,6 +205,7 @@ build_osmocom() {
   build osmo-remsim
   build open5gs
   build neocon
+  build osmo-uecups
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"
