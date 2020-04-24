@@ -225,6 +225,7 @@ build_osmocom() {
   checkout osmo-remsim
   checkout_open5gs
   checkout neocon https://github.com/laf0rge/neocon
+  checkout osmo-uecups
 
   checkout_copy_debian8_jessie "osmo-gsm-manuals"
   checkout_copy_debian8_jessie "osmo-trx"
