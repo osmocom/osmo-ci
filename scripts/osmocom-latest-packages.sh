@@ -206,7 +206,8 @@ build_osmocom() {
   build osmo-remsim
   build open5gs
   build neocon
-  build osmo-uecups
+  # re-enable after libosmcoore > 1.3.1 is released (osmo_system_nowait2)
+  #build osmo-uecups
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT"
