@@ -327,6 +327,7 @@
       - osmo-e1-recorder
       - gapk
       - osmo-uecups
+      - osmo-el2tpd
 
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de

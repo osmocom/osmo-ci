@@ -233,6 +233,7 @@
       - osmo-e1-recorder
       - gapk
       - osmo-uecups
+      - osmo-el2tpd
 
       - pysim:
           slave_axis: !!python/tuple [simtester]
