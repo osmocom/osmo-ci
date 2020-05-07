@@ -1,9 +1,6 @@
 #!/bin/sh
 set -e -x
 
-# On our hardware, we actually use the sysmocom configuration as-is.
-export OSMO_GSM_TESTER_CONF="$PWD/osmo-gsm-tester/sysmocom"
-
 # debug: provoke a failure
 #export OSMO_GSM_TESTER_OPTS="-s debug -t fail"
 
