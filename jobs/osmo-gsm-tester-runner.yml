@@ -236,7 +236,7 @@
             docker run --rm=true \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
-              -e OSMO_GSM_TESTER_CONF="/build/osmo-gsm-tester/sysmocom" \
+              -e OSMO_GSM_TESTER_CONF="/build/osmo-gsm-tester/sysmocom/main.conf" \
               -e OSMO_GSM_TESTER_OPTS="$OSMO_GSM_TESTER_OPTS" \
               -e BUILD_NUMBER="$BUILD_NUMBER" \
               -w /build -i \
