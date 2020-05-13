@@ -193,79 +193,79 @@ build_osmocom() {
   prepare
 
   # NOTE: when adding a repository that is not in gerrit, adjust osmo_git_clone_url()
-  checkout_limesuite
-  checkout osmo-gsm-manuals
+  # checkout_limesuite
+  # checkout osmo-gsm-manuals
   checkout libosmocore
-  checkout libosmo-sccp
-  checkout libosmo-abis
-  checkout libosmo-netif
-  checkout libsmpp34
-  checkout libasn1c
-  checkout libgtpnl
-  checkout libusrp
-  checkout osmo-iuh
-  checkout osmo-ggsn
-  checkout osmo-sgsn
-  checkout openbsc
-  checkout osmo-pcap
-  checkout osmo-trx
-  checkout osmo-sip-connector
-  checkout osmo-bts
-  checkout osmo-pcu
-  checkout osmo-hlr
-  checkout osmo-mgw
-  checkout osmo-msc
-  checkout osmo-bsc
-  checkout python/osmo-python-tests
-  checkout rtl-sdr
-  checkout osmo-fl2k
-  checkout simtrace2
-  checkout libosmo-dsp
-  checkout osmo-sysmon
-  checkout osmo-remsim
-  checkout_open5gs
-  checkout neocon https://github.com/laf0rge/neocon
-  checkout osmo-uecups
+  # checkout libosmo-sccp
+  # checkout libosmo-abis
+  # checkout libosmo-netif
+  # checkout libsmpp34
+  # checkout libasn1c
+  # checkout libgtpnl
+  # checkout libusrp
+  # checkout osmo-iuh
+  # checkout osmo-ggsn
+  # checkout osmo-sgsn
+  # checkout openbsc
+  # checkout osmo-pcap
+  # checkout osmo-trx
+  # checkout osmo-sip-connector
+  # checkout osmo-bts
+  # checkout osmo-pcu
+  # checkout osmo-hlr
+  # checkout osmo-mgw
+  # checkout osmo-msc
+  # checkout osmo-bsc
+  # checkout python/osmo-python-tests
+  # checkout rtl-sdr
+  # checkout osmo-fl2k
+  # checkout simtrace2
+  # checkout libosmo-dsp
+  # checkout osmo-sysmon
+  # checkout osmo-remsim
+  # checkout_open5gs
+  # checkout neocon https://github.com/laf0rge/neocon
+  # checkout osmo-uecups
 
-  checkout_copy_debian8_jessie "osmo-gsm-manuals"
-  checkout_copy_debian8_jessie "osmo-trx"
+  # checkout_copy_debian8_jessie "osmo-gsm-manuals"
+  # checkout_copy_debian8_jessie "osmo-trx"
 
   build osmocom-nightly
-  build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
-  build osmo-gsm-manuals
-  build osmo-gsm-manuals-debian8-jessie
+  # build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
+  # build osmo-gsm-manuals
+  # build osmo-gsm-manuals-debian8-jessie
   build libosmocore
-  build libosmo-sccp
-  build libosmo-abis
-  build libosmo-netif
-  build libsmpp34
-  build libasn1c
-  build libgtpnl
-  build libusrp
-  build osmo-iuh
-  build osmo-ggsn
-  build osmo-sgsn
-  build openbsc
-  build osmo-pcap
-  build osmo-trx
-  build osmo-trx-debian8-jessie
-  build osmo-sip-connector
-  build osmo-bts
-  build osmo-pcu
-  build osmo-hlr
-  build osmo-mgw
-  build osmo-msc
-  build osmo-bsc
-  build osmo-python-tests
-  build rtl-sdr
-  build osmo-fl2k
-  build simtrace2
-  build libosmo-dsp
-  build osmo-sysmon
-  build osmo-remsim
-  build open5gs
-  build neocon
-  build osmo-uecups
+  # build libosmo-sccp
+  # build libosmo-abis
+  # build libosmo-netif
+  # build libsmpp34
+  # build libasn1c
+  # build libgtpnl
+  # build libusrp
+  # build osmo-iuh
+  # build osmo-ggsn
+  # build osmo-sgsn
+  # build openbsc
+  # build osmo-pcap
+  # build osmo-trx
+  # build osmo-trx-debian8-jessie
+  # build osmo-sip-connector
+  # build osmo-bts
+  # build osmo-pcu
+  # build osmo-hlr
+  # build osmo-mgw
+  # build osmo-msc
+  # build osmo-bsc
+  # build osmo-python-tests
+  # build rtl-sdr
+  # build osmo-fl2k
+  # build simtrace2
+  # build libosmo-dsp
+  # build osmo-sysmon
+  # build osmo-remsim
+  # build open5gs
+  # build neocon
+  # build osmo-uecups
 
   download_bumpversion
 
