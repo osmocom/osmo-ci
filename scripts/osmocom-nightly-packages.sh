@@ -10,6 +10,7 @@ set -x
 
 # OBS project name
 PROJ=network:osmocom:nightly
+PROJ=home:osmith42
 
 DT=$(date +%Y%m%d)
 TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
