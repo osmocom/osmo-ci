@@ -77,3 +77,33 @@ osmo_obs_add_debian_dependency() {
 
 	git -C "$(dirname "$1")" commit -m "auto-commit: debian: depend on $2" .
 }
+
+# Copy a project's rpm spec file to the osc package dir, set the version/source and 'osc add' it
+# $1: oscdir (path to checked out OSC package)
+# $2: repodir (path to git repository)
+# $3: name (e.g. libosmocore)
+osmo_obs_add_rpm_spec() {
+	local oscdir="$1"
+	local repodir="$2"
+	local name="$3"
+	local spec="$repodir/contrib/$name.spec"
+	local tarball
+	local version
+
+	if ! [ -e "$spec" ]; then
+		echo "WARNING: RPM spec missing: $spec"
+		return
+	fi
+
+	cp "$spec" "$oscdir"
+
+	# Set version
+	version="$(grep "^Version: " "$oscdir"/*.dsc | cut -d: -f2 | xargs)"
+	sed -i "s/^Version:.*/Version:  $version/g" "$oscdir/$name.spec"
+
+	# Set source file
+	tarball="$(ls -1 "${name}_"*".tar."*)"
+	sed -i "s/^Source:.*/Source:  $tarball/g" "$oscdir/$name.spec"
+
+	osc add "$name.spec"
+}
