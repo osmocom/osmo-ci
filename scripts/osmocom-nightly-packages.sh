@@ -197,33 +197,33 @@ build_osmocom() {
   # checkout_limesuite
   # checkout osmo-gsm-manuals
   checkout libosmocore "" "osmith/rpm"
-  # checkout libosmo-sccp
-  # checkout libosmo-abis
-  # checkout libosmo-netif
-  # checkout libsmpp34
-  # checkout libasn1c
-  # checkout libgtpnl
-  # checkout libusrp
-  # checkout osmo-iuh
-  # checkout osmo-ggsn
-  # checkout osmo-sgsn
+  checkout libosmo-sccp "" "osmith/rpm"
+  checkout libosmo-abis "" "osmith/rpm"
+  checkout libosmo-netif "" "osmith/rpm"
+  checkout libsmpp34 "" "osmith/rpm"
+  checkout libasn1c "" "osmith/rpm"
+  checkout libgtpnl "" "osmith/rpm"
+  checkout libusrp "" "osmith/rpm"
+  checkout osmo-iuh "" "osmith/rpm"
+  checkout osmo-ggsn "" "osmith/rpm"
+  checkout osmo-sgsn "" "osmith/rpm"
   # checkout openbsc
-  # checkout osmo-pcap
-  # checkout osmo-trx
-  # checkout osmo-sip-connector
-  # checkout osmo-bts
-  # checkout osmo-pcu
-  # checkout osmo-hlr
-  # checkout osmo-mgw
-  # checkout osmo-msc
-  # checkout osmo-bsc
+  checkout osmo-pcap "" "osmith/rpm"
+  checkout osmo-trx "" "osmith/rpm"
+  checkout osmo-sip-connector "" "osmith/rpm"
+  checkout osmo-bts "" "osmith/rpm"
+  checkout osmo-pcu "" "osmith/rpm"
+  checkout osmo-hlr "" "osmith/rpm"
+  checkout osmo-mgw "" "osmith/rpm"
+  checkout osmo-msc "" "osmith/rpm"
+  checkout osmo-bsc "" "osmith/rpm"
   # checkout python/osmo-python-tests
   # checkout rtl-sdr
   # checkout osmo-fl2k
-  # checkout simtrace2
+  checkout simtrace2 "" "osmith/rpm"
   # checkout libosmo-dsp
   # checkout osmo-sysmon
-  # checkout osmo-remsim
+  checkout osmo-remsim "" "osmith/rpm"
   # checkout_open5gs
   # checkout neocon https://github.com/laf0rge/neocon
   # checkout osmo-uecups
@@ -236,34 +236,34 @@ build_osmocom() {
   # build osmo-gsm-manuals
   # build osmo-gsm-manuals-debian8-jessie
   build libosmocore
-  # build libosmo-sccp
-  # build libosmo-abis
-  # build libosmo-netif
-  # build libsmpp34
-  # build libasn1c
-  # build libgtpnl
-  # build libusrp
-  # build osmo-iuh
-  # build osmo-ggsn
-  # build osmo-sgsn
+  build libosmo-sccp
+  build libosmo-abis
+  build libosmo-netif
+  build libsmpp34
+  build libasn1c
+  build libgtpnl
+  build libusrp
+  build osmo-iuh
+  build osmo-ggsn
+  build osmo-sgsn
   # build openbsc
-  # build osmo-pcap
-  # build osmo-trx
+  build osmo-pcap
+  build osmo-trx
   # build osmo-trx-debian8-jessie
-  # build osmo-sip-connector
-  # build osmo-bts
-  # build osmo-pcu
-  # build osmo-hlr
-  # build osmo-mgw
-  # build osmo-msc
-  # build osmo-bsc
+  build osmo-sip-connector
+  build osmo-bts
+  build osmo-pcu
+  build osmo-hlr
+  build osmo-mgw
+  build osmo-msc
+  build osmo-bsc
   # build osmo-python-tests
   # build rtl-sdr
   # build osmo-fl2k
-  # build simtrace2
+  build simtrace2
   # build libosmo-dsp
   # build osmo-sysmon
-  # build osmo-remsim
+  build osmo-remsim
   # build open5gs
   # build neocon
   # build osmo-uecups
