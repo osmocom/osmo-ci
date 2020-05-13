@@ -196,7 +196,7 @@ build_osmocom() {
   # NOTE: when adding a repository that is not in gerrit, adjust osmo_git_clone_url()
   # checkout_limesuite
   # checkout osmo-gsm-manuals
-  checkout libosmocore
+  checkout libosmocore "" "osmith/rpm"
   # checkout libosmo-sccp
   # checkout libosmo-abis
   # checkout libosmo-netif
