@@ -23,8 +23,5 @@ osc linkpac openSUSE:Factory yder "$PROJ"
 # osmo-remsim: depends on libcsv
 osc linkpac openSUSE:Factory libcsv "$PROJ"
 
-# libusrp: depends on fdupes
+# osmo-trx: depends on fdupes
 osc linkpac openSUSE:Factory fdupes "$PROJ"
-
-# libusrp: depends on sdcc
-osc linkpac openSUSE:Factory sdcc "$PROJ"
