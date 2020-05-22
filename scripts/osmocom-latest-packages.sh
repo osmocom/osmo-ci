@@ -207,7 +207,7 @@ build_osmocom() {
   #build osmo-uecups
 
   cd "$TOP/$PROJ"
-  osc ci -m "Latest Tagged versions of $DT"
+  osc ci -m "Latest Tagged versions of $DT" --noservice
 }
 
 build_osmocom

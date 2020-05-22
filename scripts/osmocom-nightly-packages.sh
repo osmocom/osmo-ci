@@ -126,7 +126,7 @@ build() {
   cd "$oscdir"
   osc add -- *.tar* *.dsc
   osmo_obs_add_rpm_spec "$oscdir" "$repodir" "$name"
-  osc ci -m "Snapshot $name $DT"
+  osc ci -m "Snapshot $name $DT" --noservice
 }
 
 post() {
