@@ -1,6 +1,19 @@
 #!/bin/sh
 # Various common code used in the OBS (opensuse build service) related osmo-ci shell scripts
 
+osmo_cmd_require \
+	dch \
+	dh \
+	dpkg-buildpackage \
+	gbp \
+	git \
+	meson \
+	mktemp \
+	osc \
+	patch \
+	sed \
+	wget
+
 # Create the source for a dummy package, that conflicts with another dummy package in the current directory. Example
 # of the structure that will be generated:
 # osmocom-nightly

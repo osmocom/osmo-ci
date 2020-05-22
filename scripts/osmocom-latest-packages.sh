@@ -15,11 +15,6 @@ DT=$(date +%Y%m%d)
 TOP=$(pwd)
 DEBSRCDIR="$TOP/debsrc"
 
-if ! which osc >/dev/null 2>/dev/null ; then
-  echo "osc binary not found"
-  exit 1
-fi
-
 ### OBS build
 prepare() {
   # start with a checkout of the project

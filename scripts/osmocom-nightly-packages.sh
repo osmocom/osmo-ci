@@ -14,11 +14,6 @@ PROJ=network:osmocom:nightly
 DT=$(date +%Y%m%d)
 TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
 
-if ! which osc >/dev/null 2>/dev/null ; then
-  echo "osc binary not found"
-  exit 1
-fi
-
 ### OBS build
 prepare() {
   # clean up the whole space

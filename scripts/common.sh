@@ -157,3 +157,18 @@ docker_images_require() {
 	cd "$oldpwd"
 	return $ret
 }
+
+# Abort the script if required programs are missing
+# $1...$n: program name
+osmo_cmd_require() {
+	local fail=0
+	for i in "$@"; do
+		if ! command -v "$i" >/dev/null 2>&1; then
+			echo "Required program not found: $i"
+			fail=1
+		fi
+	done
+	if [ "$fail" = 1 ]; then
+		exit 1
+	fi
+}
