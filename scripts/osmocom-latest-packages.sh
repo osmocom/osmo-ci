@@ -63,22 +63,6 @@ checkout() {
   fi
 }
 
-# Copy an already checked out repository dir and apply its debian 8 patch.
-# $1: Osmocom repository
-checkout_copy_debian8_jessie() {
-  echo
-  echo "====> Checking out $1-debian8-jessie"
-  cd "$TOP"
-  if [ -d "$1-debian8-jessie" ]; then
-    rm -rf "$1-debian8-jessie"
-  fi
-  cp -a "$1" "$1-debian8-jessie"
-  cd "$1-debian8-jessie"
-  patch -p1 < debian/patches/build-for-debian8.patch
-  git commit --amend --no-edit debian/
-  cd ..
-}
-
 build() {
   project=$1
   gitbpargs="$2"
@@ -170,12 +154,13 @@ build_osmocom() {
   checkout neocon https://github.com/laf0rge/neocon
   checkout osmo-uecups
 
-  checkout_copy_debian8_jessie "osmo-gsm-manuals"
+  cd "$TOP"
+  osmo_obs_checkout_copy debian8 osmo-gsm-manuals
 
   build osmocom-latest
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
-  build osmo-gsm-manuals-debian8-jessie
+  build osmo-gsm-manuals-debian8
   build libosmocore
   build libosmo-sccp
   build libosmo-abis

@@ -164,18 +164,6 @@ checkout_open5gs() {
   meson subprojects download freeDiameter
 }
 
-
-# Copy an already checked out repository dir and apply its debian 8 patch.
-# $1: Osmocom repository
-checkout_copy_debian8_jessie() {
-  cd "$REPO"
-  cp -a "$1" "$1-debian8-jessie"
-  cd "$1-debian8-jessie"
-  patch -p1 < debian/patches/build-for-debian8.patch
-  git commit -m 'auto-commit: allow debian8 to build' debian/
-  cd ..
-}
-
 build_osmocom() {
   DATA=$TOP/data
   REPO=$TOP/repo
@@ -223,13 +211,14 @@ build_osmocom() {
   checkout neocon https://github.com/laf0rge/neocon
   checkout osmo-uecups
 
-  checkout_copy_debian8_jessie "osmo-gsm-manuals"
-  checkout_copy_debian8_jessie "osmo-trx"
+  cd "$REPO"
+  osmo_obs_checkout_copy debian8 osmo-gsm-manuals
+  osmo_obs_checkout_copy debian8 osmo-trx
 
   build osmocom-nightly
   build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
-  build osmo-gsm-manuals-debian8-jessie
+  build osmo-gsm-manuals-debian8
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
@@ -244,7 +233,7 @@ build_osmocom() {
   build openbsc
   build osmo-pcap
   build osmo-trx
-  build osmo-trx-debian8-jessie
+  build osmo-trx-debian8
   build osmo-sip-connector
   build osmo-bts
   build osmo-pcu

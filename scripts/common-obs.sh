@@ -120,3 +120,44 @@ osmo_obs_add_rpm_spec() {
 
 	osc add "$name.spec"
 }
+
+# Copy an already checked out repository dir and apply a distribution specific patch.
+# $PWD must be where all repositories are checked out in subdirs.
+# $1: distribution name (e.g. "debian8")
+# $2: Osmocom repository (e.g. "osmo-trx")
+osmo_obs_checkout_copy() {
+	local distro="$1"
+	local repo="$2"
+
+	echo
+	echo "====> Checking out $repo-$distro"
+
+	# Verify distro name for consistency
+	local distros="
+		debian8
+	"
+	local found=0
+	local distro_i
+	for distro_i in $distros; do
+		if [ "$distro_i" = "$distro" ]; then
+			found=1
+			break
+		fi
+	done
+	if [ "$found" -eq 0 ]; then
+		echo "ERROR: invalid distro name: $distro, should be one of: $distros"
+		exit 1
+	fi
+
+	# Copy
+	if [ -d "$repo-$distro" ]; then
+		rm -rf "$repo-$distro"
+	fi
+	cp -a "$repo" "$repo-$distro"
+	cd "$repo-$distro"
+
+	# Commit patch
+	patch -p1 < "debian/patches/build-for-$distro.patch"
+	git commit --amend --no-edit debian/
+	cd ..
+}
