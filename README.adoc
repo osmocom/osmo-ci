@@ -13,6 +13,11 @@ scripts: used by jenkins jobs. Various osmo*/contrib/jenkins.sh scripts assume
 osmo-ci to be checked out in the build slave user's home, i.e. using a PATH of
 $HOME/osmo-ci/scripts.
 
+obs-patches: patches to build projects for various debian distributions, e.g.
+a patch for limesuite that fixes the libwxgtk3.0-dev => libwxgtk3.0-gtk3-dev
+rename in control/debian for debian10. Used by osmo_obs_distro_specific_patch()
+in scripts/common-obs.sh.
+
 _docker_playground: Clone of docker-playground.git, so the scripts can build
 required docker images. This dir gets created on demand by scripts/common.sh,
 and automatically fetched and reset to "origin/master" (override with

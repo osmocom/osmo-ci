@@ -121,13 +121,36 @@ osmo_obs_add_rpm_spec() {
 	osc add "$name.spec"
 }
 
+# Get the path to a distribution specific patch, either from osmo-ci.git or from the project repository.
+# $PWD must be the project repository dir.
+# $1: distribution name (e.g. "debian8")
+# $2: project repository (e.g. "osmo-trx", "limesuite")
+osmo_obs_distro_specific_patch() {
+	local distro="$1"
+	local repo="$2"
+	local ret
+
+	ret="$OSMO_CI_DIR/obs-patches/$repo/build-for-$distro.patch"
+	if [ -f "$ret" ]; then
+		echo "$ret"
+		return
+	fi
+
+	ret="debian/patches/build-for-$distro.patch"
+	if [ -f "$ret" ]; then
+		echo "$ret"
+		return
+	fi
+}
+
 # Copy an already checked out repository dir and apply a distribution specific patch.
 # $PWD must be where all repositories are checked out in subdirs.
 # $1: distribution name (e.g. "debian8")
-# $2: Osmocom repository (e.g. "osmo-trx")
+# $2: project repository (e.g. "osmo-trx", "limesuite")
 osmo_obs_checkout_copy() {
 	local distro="$1"
 	local repo="$2"
+	local patch
 
 	echo
 	echo "====> Checking out $repo-$distro"
@@ -135,6 +158,7 @@ osmo_obs_checkout_copy() {
 	# Verify distro name for consistency
 	local distros="
 		debian8
+		debian10
 	"
 	local found=0
 	local distro_i
@@ -157,7 +181,12 @@ osmo_obs_checkout_copy() {
 	cd "$repo-$distro"
 
 	# Commit patch
-	patch -p1 < "debian/patches/build-for-$distro.patch"
+	patch="$(osmo_obs_distro_specific_patch "$distro" "$repo")"
+	if [ -z "$patch" ]; then
+		echo "ERROR: no patch found for distro=$distro, repo=$repo"
+		exit 1
+	fi
+	patch -p1 < "$patch"
 	git commit --amend --no-edit debian/
 	cd ..
 }

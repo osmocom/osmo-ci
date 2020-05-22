@@ -1,5 +1,6 @@
 #!/bin/sh
 # Various functions and variables used in multiple osmo-ci shell scripts
+OSMO_CI_DIR="$(realpath "$(dirname "$0")/..")"
 OSMO_GIT_URL="https://git.osmocom.org"
 OSMO_GIT_URL_GERRIT="https://gerrit.osmocom.org"
 
