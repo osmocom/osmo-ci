@@ -26,17 +26,17 @@ osmo_cmd_require \
 #     └── source
 #         └── format
 # $1: name of dummy package (e.g. "osmocom-nightly")
-# $2: name of conflicting package (e.g. "osmocom-latest")
+# $2-*: name of conflicting packages (e.g. "osmocom-latest")
 osmo_obs_prepare_conflict() {
 	local pkgname="$1"
-	local pkgname_conflict="$2"
+	shift
 	local pkgver="0.0.0"
 	local oldpwd="$PWD"
 
 	mkdir -p "$pkgname/debian/source"
 	cd "$pkgname/debian"
 
-	# Fill control, changelog, rules
+	# Fill control
 	cat << EOF > control
 Source: ${pkgname}
 Section: unknown
@@ -48,16 +48,32 @@ Standards-Version: 3.9.8
 Package: ${pkgname}
 Depends: \${misc:Depends}
 Architecture: any
-Conflicts: ${pkgname_conflict}
-Description: Dummy package, which conflicts with ${pkgname_conflict}
 EOF
+	printf "Conflicts: " >> control
+	first=1
+	for i in "$@"; do
+		if [ "$first" -eq 1 ]; then
+			first=0
+		else
+			printf ", " >> control
+		fi
+		printf "%s" "$i" >> control
+	done
+	printf "\n" >> control
+	cat << EOF >> control
+Description: Dummy package, which conflicts with: $@
+EOF
+
+	# Fill changelog
 	cat << EOF > changelog
 ${pkgname} (${pkgver}) unstable; urgency=medium
 
-  * Dummy package, which conflicts with ${pkgname_conflict}.
+  * Dummy package, which conflicts with: $@
 
  -- Oliver Smith <osmith@sysmocom.de>  Thu, 13 Jun 2019 12:50:19 +0200
 EOF
+
+	# Fill rules
 	cat << EOF > rules
 #!/usr/bin/make -f
 %:
