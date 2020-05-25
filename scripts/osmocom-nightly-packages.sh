@@ -2,9 +2,6 @@
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
-# requirements
-# apt install devscripts git-buildpackage osc git
-
 set -e
 set -x
 
