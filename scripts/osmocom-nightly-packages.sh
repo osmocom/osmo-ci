@@ -1,15 +1,34 @@
 #!/bin/bash
+# Generate source packages and upload them to OBS, for the nightly or next feed.
+# Environment variables:
+# * FEED: the binary package feed to upload to, this also controls the source branch that is used:
+#   * "nightly": use "master" branch (default)
+#   * "next": use "next" branch if it exists, otherwise use "master" branch
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
 set -e
 set -x
 
-# OBS project name
-PROJ=network:osmocom:nightly
-
 DT=$(date +%Y%m%d)
 TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
+
+# Set FEED and PROJ, based on the FEED env var
+parse_feed_proj() {
+  FEED="${FEED:-nightly}"
+  case "$FEED" in
+  nightly)
+    PROJ=network:osmocom:nightly
+    ;;
+  next)
+    PROJ=network:osmocom:next
+    ;;
+  *)
+    echo "unsupported feed: $FEED"
+    exit 1
+    ;;
+  esac
+}
 
 ### OBS build
 prepare() {
@@ -19,7 +38,14 @@ prepare() {
   osc co "$PROJ"
 
   cd "$REPO"
-  osmo_obs_prepare_conflict "osmocom-nightly" "osmocom-latest"
+  case "$FEED" in
+  nightly)
+    osmo_obs_prepare_conflict "osmocom-nightly" "osmocom-latest" "osmocom-next"
+    ;;
+  next)
+    osmo_obs_prepare_conflict "osmocom-next" "osmocom-latest" "osmocom-nightly"
+    ;;
+  esac
 }
 
 get_last_tag() {
@@ -70,6 +96,10 @@ checkout() {
     osmo_git_clone_date "$url"
   fi
 
+  if [ "$FEED" = "next" ] && git -C "$name" show-branch remotes/origin/next >/dev/null 2>&1; then
+    git -C "$name" checkout next
+  fi
+
   cd -
 }
 
@@ -99,7 +129,7 @@ build() {
 
   if [ "$changelog" = "commit" ] ; then
     VER=$(get_commit_version)
-    osmo_obs_add_debian_dependency "./debian/control" "osmocom-nightly"
+    osmo_obs_add_debian_dependency "./debian/control" "osmocom-$FEED"
     dch -b -v "$VER" -m "Snapshot build"
     git commit -m "$VER snapshot" debian/
   fi
@@ -213,7 +243,7 @@ build_osmocom() {
   osmo_obs_checkout_copy debian8 osmo-trx
   osmo_obs_checkout_copy debian10 limesuite
 
-  build osmocom-nightly
+  build osmocom-$FEED
   build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build limesuite-debian10 no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
@@ -256,4 +286,5 @@ build_osmocom() {
   post
 }
 
+parse_feed_proj
 build_osmocom

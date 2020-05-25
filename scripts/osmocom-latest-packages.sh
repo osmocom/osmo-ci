@@ -1,4 +1,5 @@
 #!/bin/sh
+# Generate source packages and upload them to OBS, for the latest feed.
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
@@ -24,7 +25,7 @@ prepare() {
   mkdir "$DEBSRCDIR"
 
   cd "$TOP"
-  osmo_obs_prepare_conflict "osmocom-latest" "osmocom-nightly"
+  osmo_obs_prepare_conflict "osmocom-latest" "osmocom-nightly" "osmocom-next"
 }
 
 get_last_tag() {
