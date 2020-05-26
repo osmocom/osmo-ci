@@ -59,7 +59,7 @@ install_repo_packages() {
 		> /data/osmocom_packages_all.txt
 
 	# Remove comments from blacklist.txt (and sort it)
-	grep -v "^#" /testdata/blacklist.txt | sort -u > /data/blacklist.txt
+	grep -v "^#" /repo-install-test/blacklist.txt | sort -u > /data/blacklist.txt
 
 	# Install all repo packages which are not on the blacklist
 	comm -23 /data/osmocom_packages_all.txt \
