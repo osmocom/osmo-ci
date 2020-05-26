@@ -1,5 +1,5 @@
 #!/bin/sh
-. ../jenkins-common.sh
+. "$(dirname "$0")/common.sh"
 docker_images_require "debian-repo-install-test"
 
 [ -z "$FEED" ] && FEED="nightly"
@@ -30,8 +30,8 @@ fi
 # * /run, /tmp, cgroups, SYS_ADMIN: needed for systemd
 # * SYS_NICE: needed for changing CPUScheduling{Policy,Priority} (osmo-bts systemd service files)
 docker run	--rm \
-		-v "$PWD/testdata:/testdata:ro" \
-		-v "$VOL_BASE_DIR:/data" \
+		-v "$OSMO_CI_DIR/scripts/repo-install-test:/repo-install-test:ro" \
+		-v "$OSMO_CI_DIR/_repo_install_test_data:/data" \
 		--name "$CONTAINER" \
 		-e FEED="$FEED" \
 		-e container=docker \
@@ -40,12 +40,12 @@ docker run	--rm \
 		-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 		--cap-add SYS_ADMIN \
 		--cap-add SYS_NICE \
-		"$REPO_USER/debian-repo-install-test" \
+		"$USER/debian-repo-install-test" \
 		/lib/systemd/systemd &
 check_if_systemd_is_running
 
 # Run the test script
-docker exec "$CONTAINER" /testdata/repo-install-test.sh
+docker exec "$CONTAINER" /repo-install-test/run-inside-docker.sh
 ret="$?"
 
 # Interactive shell
