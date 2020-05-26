@@ -36,6 +36,7 @@ docker run	--rm \
 		-e FEED="$FEED" \
 		-e container=docker \
 		--tmpfs /run \
+		--tmpfs /run/lock \
 		--tmpfs /tmp \
 		-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 		--cap-add SYS_ADMIN \
