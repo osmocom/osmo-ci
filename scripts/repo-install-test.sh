@@ -4,10 +4,19 @@
 # * FEED: binary package feed (e.g. "latest", "nightly")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 . "$(dirname "$0")/common.sh"
-docker_images_require "debian-repo-install-test"
+
+# Show usage
+if [ "$#" -ne 1 ]; then
+	echo "usage: repo-install-test.sh DISTRO"
+	echo "DISTRO: debian or centos"
+	exit 1
+fi
+
+DISTRO="$1"
+docker_images_require "$DISTRO-repo-install-test"
 
 [ -z "$FEED" ] && FEED="nightly"
-CONTAINER="repo-install-test-$FEED"
+CONTAINER="$DISTRO-repo-install-test-$FEED"
 
 # Try to run "systemctl status" 10 times, kill the container on failure
 check_if_systemd_is_running() {
@@ -34,6 +43,7 @@ args=""
 if [ -n "$KEEP_CACHE" ]; then
 	args="$args -e KEEP_CACHE=1"
 	args="$args -v $OSMO_CI_DIR/_repo_install_test_cache/debian/apt:/var/cache/apt"
+	args="$args -v $OSMO_CI_DIR/_repo_install_test_cache/centos/dnf:/var/cache/dnf"
 fi
 
 # Run the container
@@ -45,6 +55,7 @@ docker run	--rm \
 		-v "$OSMO_CI_DIR/_repo_install_test_data:/data" \
 		--name "$CONTAINER" \
 		-e FEED="$FEED" \
+		-e DISTRO="$DISTRO" \
 		-e container=docker \
 		--tmpfs /run \
 		--tmpfs /run/lock \
@@ -53,7 +64,7 @@ docker run	--rm \
 		--cap-add SYS_ADMIN \
 		--cap-add SYS_NICE \
 		$args \
-		"$USER/debian-repo-install-test" \
+		"$USER/$DISTRO-repo-install-test" \
 		/lib/systemd/systemd &
 check_if_systemd_is_running
 

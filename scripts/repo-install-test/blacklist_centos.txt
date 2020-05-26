@@ -1,0 +1,11 @@
+# These packages will not get explicitly installed in this test.
+# Package lines must have nothing but the package (no comment,
+# no additional space etc).
+
+# The ulfius package in network:osmocom:* is linked to the opensuse version,
+# which has dependencies that exist under another name in centos
+# (libgnutls-devel, libjansson-devel). Linking to the opensuse version has the
+# advantage that we don't need to worry about updating the package. However,
+# the dependency problem means that we can't simply install the package in
+# centos. In OBS we work around this in the project config.
+ulfius-devel

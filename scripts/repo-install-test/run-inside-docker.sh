@@ -2,6 +2,7 @@
 # Environment variables:
 # * FEED: binary package feed (e.g. "latest", "nightly")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
+# * DISTRO: linux distribution  name (e.g. "debian", "centos")
 
 # Systemd services that must start up successfully after installing all packages (OS#3369)
 # Disabled services:
@@ -43,16 +44,37 @@ check_env() {
 		echo "ERROR: missing environment variable \$FEED!"
 		exit 1
 	fi
+	if [ -n "$DISTRO" ]; then
+		echo "Linux distribution: $DISTRO"
+	else
+		echo "ERROR: missing environment variable \$DISTRO!"
+		exit 1
+	fi
 }
 
-configure_osmocom_repo() {
+configure_osmocom_repo_debian() {
 	echo "Configuring Osmocom repository"
 	echo "deb $HTTP ./" \
 		> /etc/apt/sources.list.d/osmocom-latest.list
 	apt-get update
 }
 
-configure_keep_cache() {
+configure_osmocom_repo_centos() {
+	echo "Configuring Osmocom repository"
+	# Generate this file, based on the feed:
+	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8_Stream/network:osmocom:latest.repo
+	cat << EOF > /etc/yum.repos.d/network:osmocom:$FEED.repo
+[network_osmocom_$FEED]
+name=$FEED packages of the Osmocom project (CentOS_8_Stream)
+type=rpm-md
+baseurl=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8_Stream/
+gpgcheck=1
+gpgkey=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8_Stream/repodata/repomd.xml.key
+enabled=1
+EOF
+}
+
+configure_keep_cache_debian() {
 	if [ -z "$KEEP_CACHE" ]; then
 		return
 	fi
@@ -65,7 +87,25 @@ configure_keep_cache() {
 		> /etc/apt/apt.conf.d/01keep-debs
 }
 
-install_repo_packages() {
+configure_keep_cache_centos() {
+	if [ -z "$KEEP_CACHE" ]; then
+		return
+	fi
+	echo "keepcache=1" >> /etc/dnf/dnf.conf
+}
+
+# Filter /data/osmocom_packages_all.txt through a blacklist_$DISTRO.txt and store the result in
+# /data/osmocom_packages.txt.
+filter_packages_txt() {
+	# Copy distro specific blacklist file, remove comments and sort it
+	grep -v "^#" /repo-install-test/blacklist_$DISTRO.txt | sort -u > /data/blacklist.txt
+
+	# Generate list of pkgs to be installed from available pkgs minus the ones blacklisted
+	comm -23 /data/osmocom_packages_all.txt \
+		/data/blacklist.txt > /data/osmocom_packages.txt
+}
+
+install_repo_packages_debian() {
 	echo "Installing all repository packages"
 
 	# Get a list of all packages from the repository. Reference:
@@ -74,13 +114,23 @@ install_repo_packages() {
 		"?origin($OBS) ?architecture(native)" | sort \
 		> /data/osmocom_packages_all.txt
 
-	# Remove comments from blacklist.txt (and sort it)
-	grep -v "^#" /repo-install-test/blacklist.txt | sort -u > /data/blacklist.txt
-
-	# Install all repo packages which are not on the blacklist
-	comm -23 /data/osmocom_packages_all.txt \
-		/data/blacklist.txt > /data/osmocom_packages.txt
+	filter_packages_txt
 	apt install -y $(cat /data/osmocom_packages.txt)
+}
+
+install_repo_packages_centos() {
+	echo "Installing all repository packages"
+
+	# Get a list of all packages from the repository
+	LANG=C.UTF-8 repoquery \
+		--quiet \
+		--repoid="network_osmocom_$FEED" \
+		--archlist="x86_64,noarch" \
+		--qf="%{name}" \
+		> /data/osmocom_packages_all.txt
+
+	filter_packages_txt
+	dnf install -y $(cat /data/osmocom_packages.txt)
 }
 
 test_binaries_version() {
@@ -122,8 +172,12 @@ test_binaries() {
 		osmo-sgsn \
 		osmo-sip-connector \
 		osmo-stp \
-		osmo-trx-uhd \
-		osmo-trx-usrp1
+		osmo-trx-uhd
+
+	if [ "$DISTRO" = "debian" ]; then
+		test_binaries_version \
+			osmo-trx-usrp1
+	fi
 }
 
 services_check() {
@@ -156,8 +210,8 @@ services_check() {
 }
 
 check_env
-configure_keep_cache
-configure_osmocom_repo
-install_repo_packages
+configure_keep_cache_${DISTRO}
+configure_osmocom_repo_${DISTRO}
+install_repo_packages_${DISTRO}
 test_binaries
 services_check
