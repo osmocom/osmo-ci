@@ -7,8 +7,8 @@
 # Latest result:
 # https://jenkins.osmocom.org/jenkins/job/Osmocom-build-tags-against-master/lastBuild/console
 
+. "$(dirname "$0")/common.sh"
 cd "$(dirname "$0")"
-. ./common.sh
 ERROR_LOGS=""
 PARALLEL_MAKE="${PARALLEL_MAKE:--j5}"
 

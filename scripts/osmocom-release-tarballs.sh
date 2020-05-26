@@ -7,8 +7,8 @@
 # * KEEP_TEMP: do not delete cloned repositories (use for development)
 # * PARALLEL_MAKE: -jN argument for make (default: -j5).
 
+. "$(dirname "$0")/common.sh"
 cd "$(dirname "$0")"
-. ./common.sh
 PARALLEL_MAKE="${PARALLEL_MAKE:--j5}"
 OUTPUT="$(cd ..; pwd)/_release_tarballs"
 TEMP="$(cd ..; pwd)/_temp"
