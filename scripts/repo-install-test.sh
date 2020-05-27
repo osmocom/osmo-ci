@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -ex
 . "$(dirname "$0")/common.sh"
 docker_images_require "debian-repo-install-test"
 
@@ -46,12 +46,14 @@ docker run	--rm \
 check_if_systemd_is_running
 
 # Run the test script
-docker exec "$CONTAINER" /repo-install-test/run-inside-docker.sh
-ret="$?"
+ret=0
+if ! docker exec "$CONTAINER" /repo-install-test/run-inside-docker.sh; then
+	ret=1
+fi
 
 # Interactive shell
 if [ -n "$INTERACTIVE" ]; then
-	docker exec -it "$CONTAINER" bash
+	docker exec -it "$CONTAINER" bash || true
 fi
 
 docker container kill "$CONTAINER"
