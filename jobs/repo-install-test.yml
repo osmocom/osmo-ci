@@ -1,0 +1,69 @@
+---
+- project:
+    name: Osmocom-repo-install
+    jobs:
+      - Osmocom-repo-install-{distro}
+    distro:
+      - debian:
+          feeds: !!python/tuple [nightly, latest]
+      - centos:
+          feeds: !!python/tuple [next, nightly]
+
+- job-template:
+    name: Osmocom-repo-install-{distro}
+    project-type: matrix
+    defaults: global
+    description: |
+        Install {distro} packages from the
+          <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Binary_Packages">
+            Osmocom binary packages repositories</a>, test if binaries and systemd services can be started.<br>
+        <br>
+        Related:<br>
+        <ul>
+          <li> <a href="https://osmocom.org/issues/3176">OS#3176</a>: install all Osmocom debian packages
+          <li> <a href="https://osmocom.org/issues/3369">OS#3369</a>: check if systemd services start properly
+          <li> <a href="https://osmocom.org/issues/4563">OS#4563</a>: extend for centos
+        </ul>
+    node: osmocom-master-debian9
+    parameters:
+      - string:
+          name: BRANCH_CI
+          description: |
+                osmo-ci.git branch
+          default: 'master'
+      - string:
+          name: BRANCH_DP
+          description: |
+                docker-playground.git branch
+          default: 'master'
+    axes:
+      - axis:
+          type: slave
+          name: label
+          # Force using "build2-deb9build-ansible": https://osmocom.org/issues/4563#note-10
+          values: !!python/tuple [build2-deb9build-ansible]
+      - axis:
+          type: user-defined
+          name: feed
+          values: '{obj:feeds}'
+    builders:
+      - shell: |
+          export OSMO_BRANCH_DOCKER_PLAYGROUND="$BRANCH_DP"
+          export FEED="$feed"
+          scripts/repo-install-test.sh "{distro}"
+    scm:
+      - git:
+          branches:
+            - '$BRANCH_CI'
+          url: git://git.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    triggers:
+      - timed: "H 04 * * *" # run after osmocom-obs.yml
+
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
+# vim: expandtab tabstop=2 shiftwidth=2
