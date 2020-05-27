@@ -1,4 +1,7 @@
 #!/bin/sh -ex
+# Environment variables:
+# * FEED: binary package feed (e.g. "latest", "nightly")
+# * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 
 # Systemd services that must start up successfully after installing all packages (OS#3369)
 # Disabled services:
@@ -47,6 +50,19 @@ configure_osmocom_repo() {
 	echo "deb $HTTP ./" \
 		> /etc/apt/sources.list.d/osmocom-latest.list
 	apt-get update
+}
+
+configure_keep_cache() {
+	if [ -z "$KEEP_CACHE" ]; then
+		return
+	fi
+
+	rm /etc/apt/apt.conf.d/docker-clean
+
+	# "apt" will actually remove the cache by default, even if "apt-get" keeps it.
+	# https://unix.stackexchange.com/a/447607
+	echo "Binary::apt::APT::Keep-Downloaded-Packages "true";" \
+		> /etc/apt/apt.conf.d/01keep-debs
 }
 
 install_repo_packages() {
@@ -140,6 +156,7 @@ services_check() {
 }
 
 check_env
+configure_keep_cache
 configure_osmocom_repo
 install_repo_packages
 test_binaries
