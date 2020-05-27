@@ -94,15 +94,15 @@ configure_keep_cache_centos() {
 	echo "keepcache=1" >> /etc/dnf/dnf.conf
 }
 
-# Filter /data/osmocom_packages_all.txt through a blacklist_$DISTRO.txt and store the result in
-# /data/osmocom_packages.txt.
+# Filter $PWD/osmocom_packages_all.txt through a blacklist_$DISTRO.txt and store the result in
+# $PWD/osmocom_packages.txt.
 filter_packages_txt() {
 	# Copy distro specific blacklist file, remove comments and sort it
-	grep -v "^#" /repo-install-test/blacklist_$DISTRO.txt | sort -u > /data/blacklist.txt
+	grep -v "^#" /repo-install-test/blacklist_$DISTRO.txt | sort -u > blacklist.txt
 
 	# Generate list of pkgs to be installed from available pkgs minus the ones blacklisted
-	comm -23 /data/osmocom_packages_all.txt \
-		/data/blacklist.txt > /data/osmocom_packages.txt
+	comm -23 osmocom_packages_all.txt \
+		blacklist.txt > osmocom_packages.txt
 }
 
 install_repo_packages_debian() {
@@ -112,10 +112,10 @@ install_repo_packages_debian() {
 	# https://www.debian.org/doc/manuals/aptitude/ch02s04s05.en.html
 	aptitude search -F%p \
 		"?origin($OBS) ?architecture(native)" | sort \
-		> /data/osmocom_packages_all.txt
+		> osmocom_packages_all.txt
 
 	filter_packages_txt
-	apt install -y $(cat /data/osmocom_packages.txt)
+	apt install -y $(cat osmocom_packages.txt)
 }
 
 install_repo_packages_centos() {
@@ -127,10 +127,10 @@ install_repo_packages_centos() {
 		--repoid="network_osmocom_$FEED" \
 		--archlist="x86_64,noarch" \
 		--qf="%{name}" \
-		> /data/osmocom_packages_all.txt
+		> osmocom_packages_all.txt
 
 	filter_packages_txt
-	dnf install -y $(cat /data/osmocom_packages.txt)
+	dnf install -y $(cat osmocom_packages.txt)
 }
 
 test_binaries_version() {
