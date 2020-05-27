@@ -1,4 +1,8 @@
 #!/bin/sh -ex
+# Environment variables:
+# * INTERACTIVE: set to 1 to keep an interactive shell open after the script ran (for debugging)
+# * FEED: binary package feed (e.g. "latest", "nightly")
+# * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 . "$(dirname "$0")/common.sh"
 docker_images_require "debian-repo-install-test"
 
@@ -25,6 +29,13 @@ if [ "$(docker inspect -f '{{.State.Running}}' "$CONTAINER" 2> /dev/null)" = "tr
 	sleep 1
 fi
 
+# Additional docker run arguments
+args=""
+if [ -n "$KEEP_CACHE" ]; then
+	args="$args -e KEEP_CACHE=1"
+	args="$args -v $OSMO_CI_DIR/_repo_install_test_cache/debian/apt:/var/cache/apt"
+fi
+
 # Run the container
 # * This does not output anything, for debugging add -it and remove &.
 # * /run, /tmp, cgroups, SYS_ADMIN: needed for systemd
@@ -41,6 +52,7 @@ docker run	--rm \
 		-v /sys/fs/cgroup:/sys/fs/cgroup:ro \
 		--cap-add SYS_ADMIN \
 		--cap-add SYS_NICE \
+		$args \
 		"$USER/debian-repo-install-test" \
 		/lib/systemd/systemd &
 check_if_systemd_is_running
