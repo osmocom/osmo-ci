@@ -52,7 +52,6 @@ fi
 # * SYS_NICE: needed for changing CPUScheduling{Policy,Priority} (osmo-bts systemd service files)
 docker run	--rm \
 		-v "$OSMO_CI_DIR/scripts/repo-install-test:/repo-install-test:ro" \
-		-v "$OSMO_CI_DIR/_repo_install_test_data:/data" \
 		--name "$CONTAINER" \
 		-e FEED="$FEED" \
 		-e DISTRO="$DISTRO" \
