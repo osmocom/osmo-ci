@@ -36,7 +36,7 @@ osmo_obs_prepare_conflict() {
 	mkdir -p "$pkgname/debian/source"
 	cd "$pkgname/debian"
 
-	# Fill control, changelog, rules
+	# Fill control
 	cat << EOF > control
 Source: ${pkgname}
 Section: unknown
@@ -50,18 +50,22 @@ Depends: \${misc:Depends}
 Architecture: any
 EOF
 	printf "Conflicts: " >> control
-	first=0
+	first=1
 	for i in "$@"; do
-		if [ "$first" -eq 0 ]; then
-			first=1
+		if [ "$first" -eq 1 ]; then
+			first=0
 		else
-			printf ", "
+			printf ", " >> control
 		fi
 		printf "%s" "$i" >> control
 	done
+	printf "\n" >> control
 	cat << EOF >> control
 Description: Dummy package, which conflicts with: $@
 EOF
+	cat control
+
+	# Fill changelog
 	cat << EOF > changelog
 ${pkgname} (${pkgver}) unstable; urgency=medium
 
@@ -69,6 +73,8 @@ ${pkgname} (${pkgver}) unstable; urgency=medium
 
  -- Oliver Smith <osmith@sysmocom.de>  Thu, 13 Jun 2019 12:50:19 +0200
 EOF
+
+	# Fill rules
 	cat << EOF > rules
 #!/usr/bin/make -f
 %:
