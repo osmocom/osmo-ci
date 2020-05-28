@@ -10,7 +10,7 @@
       - "{job-name}"
     # Folders from docker-playground.git
     job-name:
-      # nightly - order by time
+      # debian-stretch nightly - order by time
       - nplab-m3ua-test:
           timer: 00 03 * * *
       - nplab-sua-test:
@@ -46,41 +46,46 @@
       - ttcn3-sccp-test:
           timer: 00 10 * * *
 
-      # latest stable
+      # debian-stretch latest stable
       - nplab-m3ua-test-latest:
-          blocking: "^nplab-m3ua-test.*"
+          blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
       - nplab-sua-test-latest:
-          blocking: "^nplab-sua-test.*"
+          blocking: "^(nplab|NPLAB-.*)-sua-test.*"
       - ttcn3-bsc-test-latest:
-          blocking: "^ttcn3-bsc-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
       - ttcn3-bsc-test-sccplite-latest:
-          blocking: "^ttcn3-bsc-test-sccplite.*"
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
       - ttcn3-bts-test-latest:
-          blocking: "^ttcn3-bts-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
       - ttcn3-ggsn-test-latest:
-          blocking: "^ttcn3-ggsn-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
       - ttcn3-hlr-test-latest:
-          blocking: "^ttcn3-hlr-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
       - ttcn3-mgw-test-latest:
-          blocking: "^ttcn3-mgw-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
       - ttcn3-msc-test-latest:
-          blocking: "^ttcn3-msc-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
       - ttcn3-sgsn-test-latest:
-          blocking: "^ttcn3-sgsn-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
       - ttcn3-sip-test-latest:
-          blocking: "^ttcn3-sip-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
       - ttcn3-pcu-test-latest:
-          blocking: "^ttcn3-pcu-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
       - ttcn3-pcu-test-sns-latest:
-          blocking: "^ttcn3-pcu-test-sns.*"
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
       - ttcn3-bscnat-test-latest:
-          blocking: "^ttcn3-bscnat-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
       - ttcn3-remsim-test-latest:
-          blocking: "^ttcn3-remsim-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
       - ttcn3-stp-test-latest:
-          blocking: "^ttcn3-stp-test.*"
+          blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
       #- ttcn3-sccp-test-latest:
-      #    blocking: "^ttcn3-sccp-test.*"
+      #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
+
+      # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
+      # centos8 nightly
+      - TTCN3-centos8-mgw-test:
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
 - job-template:
     name: '{job-name}'
     project-type: freestyle
@@ -107,13 +112,29 @@
     builders:
       - shell: |-
           case "{job-name}" in
+              TTCN3-centos8-*-latest)
+                  cd "$(echo "{job-name}" | sed s/^TTCN3-centos8\-/ttcn3-/ | sed s/\-latest$//)"
+                  export DISTRO="centos8"
+                  export IMAGE_SUFFIX="latest"
+                  ./jenkins.sh
+                  ;;
+              TTCN3-centos8-*)
+                  cd "$(echo "{job-name}" | sed s/^TTCN3-centos8\-/ttcn3-/)"
+                  export DISTRO="centos8"
+                  export IMAGE_SUFFIX="master"
+                  ./jenkins.sh
+                  ;;
               *-latest)
                   cd "$(echo "{job-name}" | sed s/\-latest$//)"
-                  IMAGE_SUFFIX="latest" ./jenkins.sh
+                  export DISTRO="debian-stretch"
+                  export IMAGE_SUFFIX="latest"
+                  ./jenkins.sh
                   ;;
               *)
                   cd "{job-name}"
-                  IMAGE_SUFFIX="master" ./jenkins.sh
+                  export DISTRO="debian-stretch"
+                  export IMAGE_SUFFIX="master"
+                  ./jenkins.sh
                   ;;
           esac
     scm:
