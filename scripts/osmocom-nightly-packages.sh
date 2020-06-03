@@ -217,7 +217,6 @@ build_osmocom() {
   checkout osmo-iuh
   checkout osmo-ggsn
   checkout osmo-sgsn
-  checkout openbsc
   checkout osmo-pcap
   checkout osmo-trx
   checkout osmo-sip-connector
@@ -259,7 +258,6 @@ build_osmocom() {
   build osmo-iuh
   build osmo-ggsn
   build osmo-sgsn
-  build openbsc
   build osmo-pcap
   build osmo-trx
   build osmo-trx-debian8
