@@ -187,9 +187,7 @@
     scm:
       - 'osmo-gsm-tester-repo'
     triggers:
-      - timed: "H H/2 * * *"
-      - pollscm:
-          cron: "H/5 * * * *"
+      - timed: "H 23 * * *"
     builders:
       - shell: |
           # make sure no bin artifacts from a previous run remain
@@ -214,9 +212,7 @@
     scm:
       - 'osmo-gsm-tester-repo'
     triggers:
-      - timed: "H H/2 * * *"
-      - pollscm:
-          cron: "H/5 * * * *"
+      - timed: "H 22 * * *"
     builders:
       - shell: |
           # make sure no bin artifacts from a previous run remain
