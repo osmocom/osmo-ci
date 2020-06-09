@@ -11,4 +11,4 @@ unlink osmo-gsm-tester/sysmocom/ttcn3/resources.conf || true
 ln -s resources.conf.prod osmo-gsm-tester/sysmocom/ttcn3/resources.conf
 
 PATH="$PWD/osmo-gsm-tester/src:$PATH" \
-  ./osmo-gsm-tester/ttcn3/jenkins-run.sh
+  ./osmo-gsm-tester/sysmocom/ttcn3/jenkins-run.sh
