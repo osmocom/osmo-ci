@@ -180,28 +180,28 @@
     - osmo-gsm-tester-proc
 
 # patchelf 0.9 available in debian has bugs with certain binaries. Version 0.10
-# fails on other binaries, so we need both 0.9 and 0.10 versions installed.
-- name: setup patchelf v0.10 repository
+# fails on other binaries, so we need version 0.11 installed in /usr/local/bin
+# (takes preference in PATH)
+- name: setup patchelf v0.11 repository
   git:
     repo: 'https://github.com/NixOS/patchelf.git'
     dest: /root/patchelf
-    version: "0.10"
+    version: "0.11"
     clone: yes
     update: no
   tags:
     - patchelf
     - osmo-gsm-tester-proc
 
-- name: build patchelf v0.10
+- name: build patchelf v0.11
   shell: |
       autoreconf -fi && \
-      ./configure --prefix=/opt && \
+      ./configure --prefix=/usr/local && \
       make && \
-      mkdir -p /opt/bin/ && \
-      cp src/patchelf /opt/bin/patchelf-v0.10
+      make install
   args:
     chdir: /root/patchelf
-    creates: /opt/bin/patchelf-v0.10
+    creates: /usr/local/bin/patchelf
   tags:
     - patchelf
     - osmo-gsm-tester-proc
