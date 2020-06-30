@@ -236,6 +236,7 @@ build_osmocom() {
   checkout_open5gs
   checkout neocon https://github.com/laf0rge/neocon
   checkout osmo-uecups
+  checkout osmo-e1d
 
   cd "$REPO"
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
@@ -278,6 +279,7 @@ build_osmocom() {
   build open5gs
   build neocon
   build osmo-uecups
+  build osmo-e1d
 
   download_bumpversion
 
