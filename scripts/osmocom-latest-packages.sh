@@ -30,6 +30,11 @@ prepare() {
 
 get_last_tag() {
   project="$1"
+  if [ "$project" = "limesuite" ]; then
+    # temp workaround, see https://github.com/myriadrf/LimeSuite/issues/313
+    echo "v20.01.0"
+    return
+  fi
   if [ "$project" = "limesuite" ] || [ "$project" = "open5gs" ]; then
     ver_regexp="^v[0-9]*.[0-9]*.[0-9]*$"
   else
