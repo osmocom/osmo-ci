@@ -241,11 +241,9 @@ build_osmocom() {
   cd "$REPO"
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
   osmo_obs_checkout_copy debian8 osmo-trx
-  osmo_obs_checkout_copy debian10 limesuite
 
   build osmocom-$FEED
   build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
-  build limesuite-debian10 no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
   build osmo-gsm-manuals-debian8
   build libosmocore
