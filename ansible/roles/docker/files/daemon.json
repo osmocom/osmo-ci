@@ -1,0 +1,5 @@
+{
+  "ipv6": true,
+  "storage-driver": "overlay2",
+  "fixed-cidr-v6": "fd02:db8:1::/64"
+}
