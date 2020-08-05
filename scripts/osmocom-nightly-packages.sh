@@ -51,11 +51,6 @@ prepare() {
 get_last_tag() {
   project="$1"
   if [ "$project" = "limesuite" ]; then
-    # temp workaround, see https://github.com/myriadrf/LimeSuite/issues/313
-    echo "v20.01.0"
-    return
-  fi
-  if [ "$project" = "limesuite" ]; then
     ver_regexp="^v[0-9]*.[0-9]*.[0-9]*$"
   else
     ver_regexp="^[0-9]*.[0-9]*.[0-9]*$"
@@ -184,9 +179,7 @@ download_bumpversion() {
 checkout_limesuite() {
   cd "$REPO"
   git clone https://github.com/myriadrf/LimeSuite limesuite
-  # temp workaround, see https://github.com/myriadrf/LimeSuite/issues/313
-  #TAG="$(get_last_tag limesuite)"
-  TAG="v20.01.0"
+  TAG="$(get_last_tag limesuite)"
   cd limesuite
   git checkout "$TAG"
 }
@@ -248,11 +241,9 @@ build_osmocom() {
   cd "$REPO"
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
   osmo_obs_checkout_copy debian8 osmo-trx
-  osmo_obs_checkout_copy debian10 limesuite
 
   build osmocom-$FEED
   build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
-  build limesuite-debian10 no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
   build osmo-gsm-manuals-debian8
   build libosmocore
