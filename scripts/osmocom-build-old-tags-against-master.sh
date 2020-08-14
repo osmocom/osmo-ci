@@ -76,6 +76,8 @@ tags_to_ignore() {
 			echo "1.2.0" # sgsn_test.c: gtp.h: No such file or directory
 			echo "1.3.0" # testsuite
 			echo "1.4.0" # testsuite
+			echo "1.6.0" # gtphub / osmo_sockaddr
+			echo "1.6.1" # gtphub / osmo_sockaddr
 			;;
 	esac
 }
