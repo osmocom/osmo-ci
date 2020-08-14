@@ -169,3 +169,27 @@
     - libbson-dev
     - libyaml-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 10
+
+- name: download osmo-python-tests for py2
+  git:
+    repo: "https://gerrit.osmocom.org/python/osmo-python-tests"
+    dest: "/home/{{ jenkins_user }}/osmo-python-tests2"
+    version: "fb4b813d4df62b7b2445bdced961eb1847267eed"
+
+- name: install osmo-python-tests for py2
+  shell:
+    cmd: "python2 setup.py clean build install && date > installed"
+    chdir: "/home/{{ jenkins_user }}/osmo-python-tests2"
+    creates: "/home/{{ jenkins_user }}/osmo-python-tests2/installed"
+
+- name: download osmo-python-tests for py3
+  git:
+    repo: "https://gerrit.osmocom.org/python/osmo-python-tests"
+    dest: "/home/{{ jenkins_user }}/osmo-python-tests3"
+    version: "be7fcf5f28a5d0f9ad35510f09b5979268d76598"
+
+- name: install osmo-python-tests for py3
+  shell:
+    cmd: "python3 setup.py clean build install && date > installed"
+    chdir: "/home/{{ jenkins_user }}/osmo-python-tests3"
+    creates: "/home/{{ jenkins_user }}/osmo-python-tests3/installed"
