@@ -154,6 +154,7 @@
     - libuhd-dev
     - libczmq-dev
     - libsoapysdr-dev
+  when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 9
 
 - name: install open5gs build dependencies
   apt:
