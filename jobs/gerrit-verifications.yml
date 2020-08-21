@@ -234,6 +234,7 @@
       - gapk
       - osmo-uecups
       - osmo-el2tpd
+      - osmo-smlc
 
       - pysim:
           slave_axis: !!python/tuple [simtester]

@@ -328,6 +328,7 @@
       - gapk
       - osmo-uecups
       - osmo-el2tpd
+      - osmo-smlc
 
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de
