@@ -212,11 +212,12 @@
       - osmo-trx:
           slave_axis: !!python/tuple [osmocom-master-debian9,rpi4-deb9build-ansible]
           a1_name: INSTR
-          a1: !!python/tuple [--with-sse, --with-neon, --with-neon-vfpv4]
+          a1: !!python/tuple [--with-sse, --without-sse --with-neon, --with-neon-vfpv4]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
           combination_filter: >
-            (INSTR == "--with-sse" && WITH_MANUALS == "1" && label == "osmocom-master-debian9") ||
+            (INSTR == "--without-sse" && WITH_MANUALS == "1" && label == "osmocom-master-debian9") ||
+            (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible") ||
             (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible")
           cmd: 'ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh'
