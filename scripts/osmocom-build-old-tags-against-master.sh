@@ -52,6 +52,8 @@ tags_to_ignore() {
 	case "$1" in
 		openbsc)
 			echo "1.0.0" # testsuite
+			echo "1.3.1" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
+			echo "1.3.2" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
 			;;
 		osmo-bsc)
 			# Depends on libosmo-legacy-mgcp, but missing LIBOSMOLEGACYMGCP_CFLAGS so we can't build it with
@@ -61,6 +63,8 @@ tags_to_ignore() {
 			;;
 		osmo-bts)
 			echo "1.0.0" # missing gsm0808.h include, fixed in 1.0.1
+			echo "1.2.0" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
+			echo "1.2.1" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
 			;;
 		osmo-mgw)
 			echo "1.3.0" # testsuite
