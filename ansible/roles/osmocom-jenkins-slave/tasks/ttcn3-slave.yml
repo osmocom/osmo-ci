@@ -30,10 +30,14 @@
     update_cache: yes
     cache_valid_time: 3600
 
+- name: Get DEB architecture
+  shell: dpkg --print-architecture
+  register: deb_architecture
+
 - name: Install libfftranscode0
   apt:
-    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode0_0.1_amd64.deb
+    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode0_0.1_{{deb_architecture.stdout}}.deb
 
 - name: Install libfftranscode-dev
   apt:
-    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode-dev_0.1_amd64.deb
+    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode-dev_0.1_{{deb_architecture.stdout}}.deb
