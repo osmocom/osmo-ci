@@ -45,6 +45,8 @@
           timer: 30 09 * * *
       - ttcn3-sccp-test:
           timer: 00 10 * * *
+      - ttcn3-smlc-test:
+          timer: 10 10 * * *
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:

@@ -27,6 +27,7 @@ for proj in \
   osmo-trx \
   osmo-hlr \
   osmocom-bb \
+  osmo-smlc \
   ; do
 
 	if [ -d $proj ]; then

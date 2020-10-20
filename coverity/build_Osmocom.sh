@@ -89,6 +89,7 @@ build_default osmo-bsc
 build_default osmo-hlr
 build_default osmo-msc
 build_default osmo-sgsn
+build_default osmo-smlc
 
 # GMR
 build_default libosmo-dsp
