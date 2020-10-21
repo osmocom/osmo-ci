@@ -12,107 +12,164 @@
     job-name:
       # debian-stretch nightly - order by time
       - nplab-m3ua-test:
+          blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
           timer: 00 03 * * *
       - nplab-sua-test:
+          blocking: "^(nplab|NPLAB-.*)-sua-test.*"
           timer: 15 03 * * *
       - ttcn3-ggsn-test:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 00 04 * * *
       - ttcn3-msc-test:
+          blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 30 04 * * *
       - ttcn3-pcu-test:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 00 05 * * *
       - ttcn3-pcu-test-sns:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 15 05 * * *
       - ttcn3-sgsn-test:
+          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
           timer: 30 05 * * *
       - ttcn3-bsc-test:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 00 06 * * *
       - ttcn3-mgw-test:
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
           timer: 30 06 * * *
       - ttcn3-hlr-test:
+          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
           timer: 45 06 * * *
       - ttcn3-bts-test:
+          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
           timer: 00 07 * * *
       - ttcn3-sip-test:
+          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
           timer: 30 07 * * *
       - ttcn3-bscnat-test:
+          blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
           timer: 00 08 * * *
       - ttcn3-bsc-test-sccplite:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
       - ttcn3-remsim-test:
+          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
           timer: 00 09 * * *
       - ttcn3-stp-test:
+          blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
       - ttcn3-sccp-test:
+          blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
           timer: 00 10 * * *
       - ttcn3-smlc-test:
+          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 10 10 * * *
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
           blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
+          timer: 00 03 * * *
       - nplab-sua-test-latest:
           blocking: "^(nplab|NPLAB-.*)-sua-test.*"
-      - ttcn3-bsc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
-      - ttcn3-bsc-test-sccplite-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
-      - ttcn3-bts-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
+          timer: 15 03 * * *
       - ttcn3-ggsn-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
-      - ttcn3-hlr-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
-      - ttcn3-mgw-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
+          timer: 00 04 * * *
       - ttcn3-msc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
-      - ttcn3-sgsn-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
-      - ttcn3-sip-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
+          timer: 30 04 * * *
       - ttcn3-pcu-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 00 05 * * *
       - ttcn3-pcu-test-sns-latest:
           blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 15 05 * * *
+      - ttcn3-sgsn-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
+          timer: 30 05 * * *
+      - ttcn3-bsc-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 00 06 * * *
+      - ttcn3-mgw-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
+          timer: 30 06 * * *
+      - ttcn3-hlr-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
+          timer: 45 06 * * *
+      - ttcn3-bts-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
+          timer: 00 07 * * *
+      - ttcn3-sip-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
+          timer: 30 07 * * *
       - ttcn3-bscnat-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
+          timer: 00 08 * * *
+      - ttcn3-bsc-test-sccplite-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 30 08 * * *
       - ttcn3-remsim-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
+          timer: 00 09 * * *
       - ttcn3-stp-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
+          timer: 30 09 * * *
       #- ttcn3-sccp-test-latest:
       #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
+      #    timer: 00 10 * * *
+      #- ttcn3-smlc-test:
+      #    blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
+      #    timer: 10 10 * * *
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
 
       # centos8 nightly
-      - TTCN3-centos-bsc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
-      - TTCN3-centos-bsc-test-sccplite:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
-      - TTCN3-centos-bts-test:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
       - TTCN3-centos-ggsn-test:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
-      - TTCN3-centos-hlr-test:
-          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
-      - TTCN3-centos-mgw-test:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
+          timer: 00 04 * * *
       - TTCN3-centos-msc-test:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
-      - TTCN3-centos-sgsn-test:
-          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
-      - TTCN3-centos-sip-test:
-          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
+          timer: 30 04 * * *
       - TTCN3-centos-pcu-test:
           blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 00 05 * * *
       - TTCN3-centos-pcu-test-sns:
           blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 15 05 * * *
+      - TTCN3-centos-sgsn-test:
+          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
+          timer: 30 05 * * *
+      - TTCN3-centos-bsc-test:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 00 06 * * *
+      - TTCN3-centos-mgw-test:
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
+          timer: 30 06 * * *
+      - TTCN3-centos-hlr-test:
+          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
+          timer: 45 06 * * *
+      - TTCN3-centos-bts-test:
+          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
+          timer: 00 07 * * *
+      - TTCN3-centos-sip-test:
+          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
+          timer: 30 07 * * *
+      - TTCN3-centos-bsc-test-sccplite:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 30 08 * * *
       - TTCN3-centos-remsim-test:
           blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
+          timer: 00 09 * * *
       - TTCN3-centos-stp-test:
           blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
+          timer: 30 09 * * *
+      #- TTCN3-sccp-test-latest:
+      #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
+      #    timer: 00 10 * * *
+      #- ttcn3-smlc-test:
+      #    blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
+      #    timer: 10 10 * * *
 
 - job-template:
     name: '{job-name}'
