@@ -1,0 +1,37 @@
+---
+- project:
+    name: registry-update-base-images
+    jobs:
+      - registry-update-base-images
+
+- job:
+    name: registry-update-base-images
+    description: |
+        Update base docker images in our private reigstry.osmocom.org with those from docker.io
+        Related:<br>
+        <ul>
+          <li> <a href="https://osmocom.org/issues/3839">OS#4839</a>
+        </ul>
+    node: osmocom-master-debian9
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+          IMAGES="debian:stretch debian:buster debian:jessie debian:sid ubuntu:zesty centos:centos8"
+          for i in $IMAGES; do
+            src=$i
+            dst=${REGISTRY}/$i
+            echo
+            echo ======= $src
+            docker pull $src
+            docker tag $src $dst
+            docker push $dst
+          done
+    triggers:
+      - timed: "@daily"
+
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
+# vim: expandtab tabstop=2 shiftwidth=2
