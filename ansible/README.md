@@ -30,3 +30,7 @@ Host 2a01:4f8:13b:828::1:*
 ProxyJump proxyuser@myhostproxy.com:22
 User root
 ```
+
+# how to make slaves log-in to registry.osmocom.org:
+
+`ansible jenkins-slaves -u root -a "docker login -u jenkins-slave -p PASSWORD https://registry.osmocom.org/"`
