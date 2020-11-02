@@ -196,6 +196,7 @@
 
     builders:
       - shell: |-
+          export REGISTRY_HOST="registry.osmocom.org"
           case "{job-name}" in
               TTCN3-centos-*-latest)
                   cd "$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
