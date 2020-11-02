@@ -33,4 +33,4 @@ User root
 
 # how to make slaves log-in to registry.osmocom.org:
 
-`ansible jenkins-slaves -u root -a "docker login -u jenkins-slave -p PASSWORD https://registry.osmocom.org/"`
+`ansible jenkins-slaves -u root -a "su - osmocom-build -c 'docker login -u jenkins-slave -p PASSWD https://registry.osmocom.org/'"`
