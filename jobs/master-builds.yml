@@ -184,9 +184,9 @@
           a3_name: WITH_MANUALS
           a3: !!python/tuple ["1", "0"]
           combination_filter: >
-            (FIRMWARE_VERSION == "master" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "master" && WITH_MANUALS == "1" && label == "osmocom-master-debian9") ||
             (FIRMWARE_VERSION == "master" && BTS_MODEL == "trx" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible") ||
-            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo" && WITH_MANUALS == "1" && label == "osmocom-master-debian9") ||
+            (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (FIRMWARE_VERSION == "superfemto_v3.1" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
