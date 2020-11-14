@@ -9,6 +9,7 @@
     - apt-transport-https
     - gnupg
     - cron
+    - ca-certificates
 
 - name: add docker gpg key to apt keyring
   apt_key:
