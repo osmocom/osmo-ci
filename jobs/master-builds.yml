@@ -5,7 +5,7 @@
     # following default values can be overridden by each repo
     disabled: false
     concurrent: true
-    node: 'osmocom-master-debian8'
+    node: 'osmocom-master-debian9'
     # axes related defaults
     slave_axis: !!python/tuple [osmocom-master-debian9]
     a1_name: a1
