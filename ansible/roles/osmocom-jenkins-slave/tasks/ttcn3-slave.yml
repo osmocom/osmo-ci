@@ -36,8 +36,8 @@
 
 - name: Install libfftranscode0
   apt:
-    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode0_0.1_{{deb_architecture.stdout}}.deb
+    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode0_0.3_{{deb_architecture.stdout}}.deb
 
 - name: Install libfftranscode-dev
   apt:
-    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode-dev_0.1_{{deb_architecture.stdout}}.deb
+    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode-dev_0.3_{{deb_architecture.stdout}}.deb
