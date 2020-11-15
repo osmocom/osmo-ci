@@ -22,9 +22,15 @@
     update_cache: yes
   when: ansible_distribution == "Debian"
 
-- name: install docker
+- name: install docker.io from Debian
+  apt:
+    name: docker.io
+  when: ansible_architecture != 'x86_64'
+
+- name: install docker-ce
   apt:
     name: docker-ce
+  when: ansible_architecture == 'x86_64'
 
 - name: add jenkins to the docker group
   user:
