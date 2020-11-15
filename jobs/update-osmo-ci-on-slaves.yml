@@ -7,11 +7,8 @@
           name: label
           values:
             - simtester
-            - admin2-deb8build
             - admin2-deb9build
-            - host2-deb8build-ansible
             - host2-deb9build-ansible
-            - build2-deb8build-ansible
             - build2-deb9build-ansible
             - build2-deb10build-ansible
             - rpi4-deb9build-ansible
