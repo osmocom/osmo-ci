@@ -14,11 +14,11 @@
 - name: add docker gpg key to apt keyring
   apt_key:
     id: 2472D6D0D2F66AF87ABA8DA34D64390375060AA4
-    url: https://ftp.uni-stuttgart.de/opensuse/repositories/devel:/kubic:/libcontainers:/stable/Debian_{{ ansible_distribution_version }}/Release.key
+    url: https://ftp.uni-stuttgart.de/opensuse/repositories/devel:/kubic:/libcontainers:/stable/{{ obs_distro }}/Release.key
   when: ansible_distribution_major_version < 11
 
 - apt_repository:
-    repo: "deb https://ftp.uni-stuttgart.de/opensuse/repositories/devel:/kubic:/libcontainers:/stable/Debian_{{ ansible_distribution_version }}/ /"
+    repo: "deb https://ftp.uni-stuttgart.de/opensuse/repositories/devel:/kubic:/libcontainers:/stable/{{ obs_distro }}/ /"
     state: present
     update_cache: yes
   when: ansible_distribution_major_version < 11
