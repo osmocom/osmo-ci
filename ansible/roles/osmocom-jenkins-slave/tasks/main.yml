@@ -17,6 +17,10 @@
     user: "{{ jenkins_user }}"
     key: "{{ lookup('file', 'jenkins.osmocom.org.pub') }}"
 
+- name: install ttcn3 dependencies
+  include_tasks: ttcn3-slave.yml
+  when: ttcn3_slave and ansible_distribution == 'Debian' and ansible_distribution_version|int >= 9 and not (ansible_architecture == "armv7l" or ansible_architecture == "arm64")
+
 - name: include osmocom_build_deps.yml
   include_tasks: osmocom_build_deps.yml
   when: install_osmocom_build_deps
@@ -28,10 +32,6 @@
 - name: set-up osmo-ci repo
   include_tasks: osmo-ci.yml
   when: generic_slave
-
-- name: install ttcn3 dependencies
-  include_tasks: ttcn3-slave.yml
-  when: ttcn3_slave and ansible_distribution == 'Debian' and ansible_distribution_version|int >= 9 and not (ansible_architecture == "armv7l" or ansible_architecture == "arm64")
 
 - name: copy .gitconfig
   copy:
