@@ -4,6 +4,7 @@
     concurrent: false
     disabled: false
     timer: "@midnight"
+    node: ttcn3
     # Block *-latest for all master jobs (without suffix)
     blocking: "^{job-name}.*"
     jobs:
@@ -68,6 +69,10 @@
       - ttcn3-gbproxy-test:
           blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
+      - ttcn3-gbproxy-test-fr:
+          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test-fr.*"
+          timer: 30 10 * * *
+          node: hdlc
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
@@ -195,7 +200,7 @@
         <a href="https://osmocom.org/issues/3268">OS#3268</a>.<br>
         See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
             TTCN3 Testsuite</a> for more information.
-    node: ttcn3
+    node: '{obj:node}'
     parameters:
       - string:
           name: BRANCH
