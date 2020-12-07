@@ -6,7 +6,7 @@
     distro:
       - debian:
           feeds: !!python/tuple [nightly, latest]
-      - centos:
+      - centos8:
           feeds: !!python/tuple [next, nightly]
 
 - job-template:

@@ -59,7 +59,7 @@ configure_osmocom_repo_debian() {
 	apt-get update
 }
 
-configure_osmocom_repo_centos() {
+configure_osmocom_repo_centos8() {
 	echo "Configuring Osmocom repository"
 	# Generate this file, based on the feed:
 	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8_Stream/network:osmocom:latest.repo
@@ -87,7 +87,7 @@ configure_keep_cache_debian() {
 		> /etc/apt/apt.conf.d/01keep-debs
 }
 
-configure_keep_cache_centos() {
+configure_keep_cache_centos8() {
 	if [ -z "$KEEP_CACHE" ]; then
 		return
 	fi
@@ -118,7 +118,7 @@ install_repo_packages_debian() {
 	apt install -y $(cat osmocom_packages.txt)
 }
 
-install_repo_packages_centos() {
+install_repo_packages_centos8() {
 	echo "Installing all repository packages"
 
 	# Get a list of all packages from the repository
