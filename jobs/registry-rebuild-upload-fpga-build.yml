@@ -1,0 +1,35 @@
+---
+- project:
+    name: registry-rebuild-upload-fpga-build
+    jobs:
+      - registry-rebuild-upload-fpga-build
+
+- job:
+    name: registry-rebuild-upload-fpga-build
+    description: |
+        Rebuild + push fpga-build docker images in our private registry.osmocom.org
+    node: osmocom-master-debian9
+    scm:
+      - git:
+          url: git://git.osmocom.org/docker-playground
+          skip-tag: true
+          branches:
+            - 'origin/master'
+
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+          cd debian-buster-build && make
+          cd ..
+          cd fpga-build && make REGISTRY_HOST=$REGISTRY
+          docker push $REGISTRY/$USER/fpga-build
+          cd ..
+    triggers:
+      - timed: "@weekly"
+
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
+# vim: expandtab tabstop=2 shiftwidth=2
