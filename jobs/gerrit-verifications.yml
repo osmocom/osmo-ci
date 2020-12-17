@@ -117,6 +117,26 @@
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
 
+      - osmo-e1-hardware:
+          docker_run: |
+            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
+            mkdir -p "$ARTIFACT_STORE"
+            docker run --rm=true \
+              --cap-add SYS_PTRACE \
+              -e ARTIFACT_STORE=/artifact_store \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e HOME=/build \
+              -e JOB_NAME="$JOB_NAME" \
+              -e MAKE=make \
+              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e WITH_MANUALS="1" \
+              -w /build -i -u build \
+              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$ARTIFACT_STORE:/artifact_store" \
+          docker_img: 'registry.osmocom.org/$USER/fpga-build'
+          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh'
+
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
@@ -309,6 +329,8 @@
          choosing-strategy: gerrit
          wipe-workspace: false
          skip-tag: true
+         submodule:
+           recursive: true
 
     triggers:
       - gerrit:
