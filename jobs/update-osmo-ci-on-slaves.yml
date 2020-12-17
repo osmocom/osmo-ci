@@ -12,6 +12,9 @@
             - build2-deb9build-ansible
             - build2-deb10build-ansible
             - rpi4-deb9build-ansible
+            - gtp0-deb9build
+            - gtp0-deb10build32
+            - gtp0-deb10fr
     properties:
       - build-discarder:
           days-to-keep: 30
