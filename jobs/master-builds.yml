@@ -218,6 +218,29 @@
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+      - no2bootloader:
+          git_base_url: github.com/no2fpga
+          docker_run: |
+            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
+            mkdir -p "$ARTIFACT_STORE"
+            docker run --rm=true \
+              --cap-add SYS_PTRACE \
+              -e ARTIFACT_STORE=/artifact_store \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e HOME=/build \
+              -e JOB_NAME="$JOB_NAME" \
+              -e MAKE=make \
+              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e PUBLISH="1" \
+              -e WITH_MANUALS="1" \
+              -w /build -i -u build \
+              -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
+              -v "$ARTIFACT_STORE:/artifact_store" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
+          docker_img: 'registry.osmocom.org/$USER/fpga-build'
+          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de 246tnt@gmail.com
 
       - osmo-fl2k
       - osmo-ggsn:
