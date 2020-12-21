@@ -252,7 +252,7 @@
     parameters:
       - string:
           name: "OSMO_GSM_TESTER_OPTS"
-          default: "-s nitb_netreg_mass"
+          default: "-s netreg_mass"
           description: "pass additional command line options to osmo-gsm-tester.py, e.g. to select specific suites:scenarios. Default: leave empty."
       - string:
           name: "OSMO_GSM_TESTER_BRANCH"
