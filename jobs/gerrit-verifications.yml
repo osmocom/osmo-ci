@@ -42,7 +42,8 @@
               -v "$ARTIFACT_STORE:/artifact_store" \
     docker_img: '$USER/debian-stretch-jenkins'
     docker_img_erlang: '$USER/debian-buster-erlang'
-    cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
+    timeout_cmd: '/usr/bin/timeout 30m'
+    cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
@@ -61,7 +62,7 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
 
       - libsmpp34
       - libtelnet
@@ -79,13 +80,13 @@
               -e IU="$IU" \
               -e SMPP="$SMPP" \
               -e MGCP="$MGCP" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - openggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
           concurrent: false
-          cmd: ./contrib/jenkins.sh
+          cmd: '{timeout_cmd} ./contrib/jenkins.sh'
 
       - osmo-bsc
 
@@ -110,12 +111,12 @@
             (FIRMWARE_VERSION == "oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9")
           concurrent: false
-          cmd: 'ASCIIDOC_WARNINGS_CHECK="1" ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+          cmd: 'ASCIIDOC_WARNINGS_CHECK="1" {timeout_cmd} ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
 
       - osmo_dia2gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - osmo-e1-hardware:
           docker_run: |
@@ -135,7 +136,7 @@
               -v "$PWD:/build" -v "$HOME/bin:/build_bin" \
               -v "$ARTIFACT_STORE:/artifact_store" \
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
-          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh'
+          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - osmo-ggsn:
           a1_name: GTP
@@ -149,14 +150,14 @@
             {docker_run} \
               -e GTP="$GTP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-gsm-manuals
 
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - osmo-hlr
       - osmo-iuh
@@ -174,7 +175,7 @@
             {docker_run} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-pcap
 
@@ -202,7 +203,7 @@
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
@@ -220,12 +221,12 @@
             {docker_run} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo_ss7:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} /build/contrib/jenkins.sh'
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - osmo-sip-connector
 
@@ -240,7 +241,7 @@
             (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible") ||
             (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible")
-          cmd: 'ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh'
+          cmd: 'ASCIIDOC_WARNINGS_CHECK=1 {timeout_cmd} ./contrib/jenkins.sh'
 
       - osmocom-bb
       - osmo-tetra
@@ -260,7 +261,7 @@
       - pysim:
           slave_axis: !!python/tuple [simtester]
           concurrent: false
-          cmd: './contrib/jenkins.sh'
+          cmd: '{timeout_cmd} ./contrib/jenkins.sh'
 
       - osmo-ttcn3-hacks:
           repos_url: 'https://gerrit.osmocom.org/{repos}'
