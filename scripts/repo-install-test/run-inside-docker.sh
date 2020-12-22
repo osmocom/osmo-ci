@@ -62,14 +62,14 @@ configure_osmocom_repo_debian() {
 configure_osmocom_repo_centos8() {
 	echo "Configuring Osmocom repository"
 	# Generate this file, based on the feed:
-	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8_Stream/network:osmocom:latest.repo
+	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8/network:osmocom:latest.repo
 	cat << EOF > /etc/yum.repos.d/network:osmocom:$FEED.repo
 [network_osmocom_$FEED]
-name=$FEED packages of the Osmocom project (CentOS_8_Stream)
+name=$FEED packages of the Osmocom project (CentOS_8)
 type=rpm-md
-baseurl=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8_Stream/
+baseurl=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8/
 gpgcheck=1
-gpgkey=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8_Stream/repodata/repomd.xml.key
+gpgkey=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8/repodata/repomd.xml.key
 enabled=1
 EOF
 }
