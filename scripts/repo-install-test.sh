@@ -8,7 +8,7 @@
 # Show usage
 if [ "$#" -ne 1 ]; then
 	echo "usage: repo-install-test.sh DISTRO"
-	echo "DISTRO: debian or centos"
+	echo "DISTRO: debian or centos8"
 	exit 1
 fi
 
