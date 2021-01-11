@@ -33,6 +33,7 @@
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e OSMO_GSM_MANUALS_DIR="/build/deps/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PATH="$PATH:/build_bin" \
               -e PUBLISH="1" \
