@@ -237,7 +237,6 @@
               -e BUILD_NUMBER="$BUILD_NUMBER" \
               -w /build -i \
               -v "$PWD:/build" \
-              -v "$HOME/bin:/build_bin" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
               --cap-add=sys_nice \
               $USER/osmo-gsm-tester \
