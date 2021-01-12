@@ -195,7 +195,11 @@
             (FIRMWARE_VERSION == "origin/nrw/litecell15" && BTS_MODEL == "lc15" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (FIRMWARE_VERSION == "origin/nrw/oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9")
           concurrent: false
-          cmd: 'PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+          cmd: |
+            export ASCIIDOC_WARNINGS_CHECK=1
+            export OSMO_GSM_MANUALS_DIR="$PWD/deps/osmo-gsm-manuals"
+            export PUBLISH=1
+            ./contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
       - osmo-e1-hardware:
           docker_run: |
@@ -209,6 +213,7 @@
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e OSMO_GSM_MANUALS_DIR="/build/deps/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
               -e WITH_MANUALS="1" \
@@ -231,6 +236,7 @@
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e OSMO_GSM_MANUALS_DIR="/build/deps/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
               -e WITH_MANUALS="1" \
@@ -353,7 +359,11 @@
             (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible") ||
             (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible")
-          cmd: 'PUBLISH=1 ASCIIDOC_WARNINGS_CHECK=1 ./contrib/jenkins.sh'
+          cmd: |
+            export ASCIIDOC_WARNINGS_CHECK=1
+            export OSMO_GSM_MANUALS_DIR="$PWD/deps/osmo-gsm-manuals"
+            export PUBLISH=1
+            ./contrib/jenkins.sh
 
       - osmocom-bb
       - osmo-sysmon

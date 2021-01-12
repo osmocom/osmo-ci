@@ -111,7 +111,10 @@
             (FIRMWARE_VERSION == "oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9")
           concurrent: false
-          cmd: 'ASCIIDOC_WARNINGS_CHECK="1" {timeout_cmd} ./contrib/jenkins_bts_model.sh "$BTS_MODEL"'
+          cmd: |
+            export ASCIIDOC_WARNINGS_CHECK="1"
+            export OSMO_GSM_MANUALS_DIR="$PWD/deps/osmo-gsm-manuals"
+            {timeout_cmd} ./contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
       - osmo_dia2gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -130,6 +133,7 @@
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e OSMO_GSM_MANUALS_DIR="/build/deps/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e WITH_MANUALS="1" \
               -w /build -i -u build \
@@ -241,7 +245,10 @@
             (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-master-debian9") ||
             (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible") ||
             (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible")
-          cmd: 'ASCIIDOC_WARNINGS_CHECK=1 {timeout_cmd} ./contrib/jenkins.sh'
+          cmd: |
+            export ASCIIDOC_WARNINGS_CHECK=1
+            export OSMO_GSM_MANUALS_DIR="$PWD/deps/osmo-gsm-manuals"
+            {timeout_cmd} ./contrib/jenkins.sh
 
       - osmocom-bb
       - osmo-tetra
