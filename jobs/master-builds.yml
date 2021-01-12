@@ -33,7 +33,7 @@
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e OSMO_GSM_MANUALS_DIR="/build/deps/osmo-gsm-manuals" \
+              -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
               -e WITH_MANUALS="1" \
@@ -197,7 +197,7 @@
           concurrent: false
           cmd: |
             export ASCIIDOC_WARNINGS_CHECK=1
-            export OSMO_GSM_MANUALS_DIR="$PWD/deps/osmo-gsm-manuals"
+            export OSMO_GSM_MANUALS_DIR="$HOME/osmo-gsm-manuals"
             export PUBLISH=1
             ./contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
@@ -213,7 +213,7 @@
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e OSMO_GSM_MANUALS_DIR="/build/deps/osmo-gsm-manuals" \
+              -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
               -e WITH_MANUALS="1" \
@@ -236,7 +236,7 @@
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
-              -e OSMO_GSM_MANUALS_DIR="/build/deps/osmo-gsm-manuals" \
+              -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
               -e WITH_MANUALS="1" \
@@ -361,7 +361,7 @@
             (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-deb9build-ansible")
           cmd: |
             export ASCIIDOC_WARNINGS_CHECK=1
-            export OSMO_GSM_MANUALS_DIR="$PWD/deps/osmo-gsm-manuals"
+            export OSMO_GSM_MANUALS_DIR="$HOME/osmo-gsm-manuals"
             export PUBLISH=1
             ./contrib/jenkins.sh
 
