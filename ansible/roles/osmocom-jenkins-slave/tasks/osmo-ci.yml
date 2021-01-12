@@ -11,6 +11,13 @@
     repo: "https://git.osmocom.org/osmo-ci"
     dest: "/home/{{ jenkins_user }}/osmo-ci"
 
+- name: deploy osmo-gsm-manuals to home directory
+  become: yes
+  become_user: "{{ jenkins_user }}"
+  git:
+    repo: "https://git.osmocom.org/osmo-gsm-manuals"
+    dest: "/home/{{ jenkins_user }}/osmo-gsm-manuals"
+
 - name: rebuild osmocom docker images for jenkins build tests
   become: yes
   become_user: "{{ jenkins_user }}"
