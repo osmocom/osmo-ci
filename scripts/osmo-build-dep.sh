@@ -54,14 +54,6 @@ if [ -n "$subdir" ]; then
 	cd "$subdir"
 fi
 
-# osmo-gsm-manuals: save time by only cloning the repository (OS#4912).
-# Projects depending on osmo-gsm-manuals can still build the manuals, because
-# we set OSMO_GSM_MANUALS_DIR to the clone destination.
-if [ "$project" = "osmo-gsm-manuals" ]; then
-	echo "WARNING: osmo-gsm-manuals cloned, but skipping build (OS#4912)"
-	exit 0
-fi
-
 autoreconf --install --force
 ./configure --prefix="$inst/stow/$project" --with-systemdsystemunitdir="$inst/stow/$project/lib/systemd/system" $cfg
 
