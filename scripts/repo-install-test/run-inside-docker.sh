@@ -45,9 +45,6 @@ proj_with_underscore() {
 	echo "$1" | tr : _
 }
 
-HTTP="http://download.opensuse.org/repositories/$(proj_with_slashes "$PROJ")/Debian_9.0/"
-OBS="obs://build.opensuse.org/$PROJ/Debian_9.0"
-
 check_env() {
 	if [ -n "$FEED" ]; then
 		echo "Checking feed: $FEED"
@@ -70,8 +67,10 @@ check_env() {
 }
 
 configure_osmocom_repo_debian() {
+	local http="http://download.opensuse.org/repositories/$(proj_with_slashes "$PROJ")/Debian_9.0/"
+
 	echo "Configuring Osmocom repository"
-	echo "deb $HTTP ./" \
+	echo "deb $http ./" \
 		> /etc/apt/sources.list.d/osmocom-latest.list
 	apt-get update
 }
@@ -125,12 +124,14 @@ filter_packages_txt() {
 }
 
 install_repo_packages_debian() {
+	local obs="obs://build.opensuse.org/$PROJ/Debian_9.0"
+
 	echo "Installing all repository packages"
 
 	# Get a list of all packages from the repository. Reference:
 	# https://www.debian.org/doc/manuals/aptitude/ch02s04s05.en.html
 	aptitude search -F%p \
-		"?origin($OBS) ?architecture(native)" | sort \
+		"?origin($obs) ?architecture(native)" | sort \
 		> osmocom_packages_all.txt
 
 	filter_packages_txt
