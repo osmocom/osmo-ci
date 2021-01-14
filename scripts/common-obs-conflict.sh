@@ -2,20 +2,22 @@
 # Create conflicting dummy packages in OBS (opensuse build service), so users can't mix packages
 # built from different branches by accident
 
-# Create the source for a dummy package, that conflicts with another dummy package in the current
-# directory. Example of the structure that will be generated:
-# osmocom-nightly
-# └── debian
-#     ├── changelog
-#     ├── compat
-#     ├── control
-#     ├── copyright
-#     ├── rules
-#     └── source
-#         └── format
+# Create the conflicting package for debian
+#
 # $1: name of dummy package (e.g. "osmocom-nightly")
 # $2-*: name of conflicting packages (e.g. "osmocom-latest")
-osmo_obs_prepare_conflict() {
+#
+# Generates the following directory structure:
+#   osmocom-nightly
+#   └── debian
+#       ├── changelog
+#       ├── compat
+#       ├── control
+#       ├── copyright
+#       ├── rules
+#       └── source
+#           └── format
+osmo_obs_prepare_conflict_deb() {
 	local pkgname="$1"
 	shift
 	local pkgver="0.0.0"
@@ -82,4 +84,11 @@ EOF
 	git tag -f "$pkgver"
 
 	cd "$oldpwd"
+}
+
+# Create conflicting packages
+# $1: name of dummy package (e.g. "osmocom-nightly")
+# $2-*: name of conflicting packages (e.g. "osmocom-latest")
+osmo_obs_prepare_conflict() {
+	osmo_obs_prepare_conflict_deb "$@"
 }
