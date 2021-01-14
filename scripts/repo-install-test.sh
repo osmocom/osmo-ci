@@ -2,6 +2,7 @@
 # Environment variables:
 # * INTERACTIVE: set to 1 to keep an interactive shell open after the script ran (for debugging)
 # * FEED: binary package feed (e.g. "latest", "nightly")
+# * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 . "$(dirname "$0")/common.sh"
 
@@ -16,6 +17,7 @@ DISTRO="$1"
 docker_images_require "$DISTRO-repo-install-test"
 
 FEED="${FEED:-nightly}"
+PROJ="${PROJ:-network:osmocom:$FEED}"
 CONTAINER="$DISTRO-repo-install-test-$FEED"
 
 # Try to run "systemctl status" 10 times, kill the container on failure
@@ -54,6 +56,7 @@ docker run	--rm \
 		-v "$OSMO_CI_DIR/scripts/repo-install-test:/repo-install-test:ro" \
 		--name "$CONTAINER" \
 		-e FEED="$FEED" \
+		-e PROJ="$PROJ" \
 		-e DISTRO="$DISTRO" \
 		-e container=docker \
 		--tmpfs /run \

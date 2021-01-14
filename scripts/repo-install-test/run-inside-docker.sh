@@ -1,6 +1,7 @@
 #!/bin/sh -ex
 # Environment variables:
 # * FEED: binary package feed (e.g. "latest", "nightly")
+# * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * DISTRO: linux distribution  name (e.g. "debian", "centos")
 
@@ -34,14 +35,30 @@ SERVICES_NIGHTLY="
 	osmo-bts-virtual
 "
 
-HTTP="http://download.opensuse.org/repositories/network:/osmocom:/$FEED/Debian_9.0/"
-OBS="obs://build.opensuse.org/network:osmocom:$FEED/Debian_9.0"
+# $1: OBS project (e.g. "network:osmocom:nightly" -> "network:/osmocom:/nightly")
+proj_with_slashes() {
+	echo "$1" | sed "s.:.:/.g"
+}
+
+# $1: OBS project (e.g. "network:osmocom:nightly" -> "network_osmocom_nightly")
+proj_with_underscore() {
+	echo "$1" | tr : _
+}
+
+HTTP="http://download.opensuse.org/repositories/$(proj_with_slashes "$PROJ")/Debian_9.0/"
+OBS="obs://build.opensuse.org/$PROJ/Debian_9.0"
 
 check_env() {
 	if [ -n "$FEED" ]; then
 		echo "Checking feed: $FEED"
 	else
 		echo "ERROR: missing environment variable \$FEED!"
+		exit 1
+	fi
+	if [ -n "$PROJ" ]; then
+		echo "Checking project: $PROJ"
+	else
+		echo "ERROR: missing environment variable \$PROJ!"
 		exit 1
 	fi
 	if [ -n "$DISTRO" ]; then
@@ -60,16 +77,18 @@ configure_osmocom_repo_debian() {
 }
 
 configure_osmocom_repo_centos8() {
+	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$PROJ")/CentOS_8"
+
 	echo "Configuring Osmocom repository"
 	# Generate this file, based on the feed:
 	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8/network:osmocom:latest.repo
-	cat << EOF > /etc/yum.repos.d/network:osmocom:$FEED.repo
-[network_osmocom_$FEED]
+	cat << EOF > "/etc/yum.repos.d/$PROJ.repo"
+[$(proj_with_underscore "$PROJ")]
 name=$FEED packages of the Osmocom project (CentOS_8)
 type=rpm-md
-baseurl=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8/
+baseurl=$baseurl/
 gpgcheck=1
-gpgkey=https://download.opensuse.org/repositories/network:/osmocom:/$FEED/CentOS_8/repodata/repomd.xml.key
+gpgkey=$baseurl/repodata/repomd.xml.key
 enabled=1
 EOF
 }
@@ -124,7 +143,7 @@ install_repo_packages_centos8() {
 	# Get a list of all packages from the repository
 	LANG=C.UTF-8 repoquery \
 		--quiet \
-		--repoid="network_osmocom_$FEED" \
+		--repoid="$(proj_with_underscore "$PROJ")" \
 		--archlist="x86_64,noarch" \
 		--qf="%{name}" \
 		> osmocom_packages_all.txt
