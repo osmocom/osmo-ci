@@ -70,8 +70,7 @@ configure_osmocom_repo_debian() {
 	local http="http://download.opensuse.org/repositories/$(proj_with_slashes "$PROJ")/Debian_9.0/"
 
 	echo "Configuring Osmocom repository"
-	echo "deb $http ./" \
-		> /etc/apt/sources.list.d/osmocom-latest.list
+	echo "deb $http ./" > "/etc/apt/sources.list.d/$PROJ.list"
 	apt-get update
 }
 
