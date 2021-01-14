@@ -18,13 +18,23 @@ osmo_cmd_require \
 
 # Add dependency to all (sub)packages in debian/control and commit the change.
 # $1: path to debian/control file
-# $2: name of the package to depend on
+# $2: package name (e.g. "libosmocore")
+# $3: dependency package name (e.g. "osmocom-nightly")
 osmo_obs_add_depend_deb() {
+	local d_control="$1"
+	local pkgname="$2"
+	local depend="$3"
+
+	if [ "$pkgname" = "$depend" ]; then
+		echo "NOTE: skipping dependency on itself: $depend"
+		return
+	fi
+
 	# Note: adding the comma at the end should be fine. If there is a Depends: line, it is most likely not empty. It
 	# should at least have ${misc:Depends} according to lintian.
-	sed "s/^Depends: /Depends: $2, /g" -i "$1"
+	sed "s/^Depends: /Depends: $depend, /g" -i "$d_control"
 
-	git -C "$(dirname "$1")" commit -m "auto-commit: debian: depend on $2" .
+	git -C "$(dirname "$d_control")" commit -m "auto-commit: debian: depend on $depend" .
 }
 
 # Copy a project's rpm spec.in file to the osc package dir, set the version/source and 'osc add' it
