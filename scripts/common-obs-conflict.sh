@@ -79,6 +79,40 @@ EOF
 	cd "$oldpwd"
 }
 
+# Create the conflicting package for rpm (e.g. contrib/osmocom-nightly.spec.in). The remaining
+# placeholders are replaced in osmo_obs_add_rpm_spec().
+#
+# $1: name of dummy package (e.g. "osmocom-nightly")
+# $2-*: name of conflicting packages (e.g. "osmocom-latest")
+osmo_obs_prepare_conflict_rpm() {
+	local pkgname="$1"
+	shift
+	local spec_in="contrib/$pkgname.spec.in"
+
+	mkdir -p contrib
+
+	cat << EOF > "$spec_in"
+Name:    $pkgname
+Version: @VERSION@
+Release: 0
+Summary: Dummy package, which conflicts with: $@
+License: AGPL-3.0-or-later
+Group:   Hardware/Mobile
+Source:  @SOURCE@
+EOF
+
+	for i in "$@"; do
+		echo "Conflicts: $i" >> "$spec_in"
+	done
+
+	cat << EOF >> "$spec_in"
+%description
+Dummy package, which conflicts with: $@
+%files
+EOF
+
+}
+
 # Create conflicting packages
 # $1: name of dummy package (e.g. "osmocom-nightly")
 # $2-*: name of conflicting packages (e.g. "osmocom-latest")
@@ -90,6 +124,7 @@ osmo_obs_prepare_conflict() {
 	cd "$pkgname"
 
 	osmo_obs_prepare_conflict_deb "$@"
+	osmo_obs_prepare_conflict_rpm "$@"
 
 	# Put in git repository
 	git init .
