@@ -2,6 +2,8 @@
 # Create conflicting dummy packages in OBS (opensuse build service), so users can't mix packages
 # built from different branches by accident
 
+OSMO_OBS_CONFLICT_PKGVER="1.0.0"
+
 # Create the conflicting package for debian
 #
 # $1: name of dummy package (e.g. "osmocom-nightly")
@@ -20,7 +22,6 @@
 osmo_obs_prepare_conflict_deb() {
 	local pkgname="$1"
 	shift
-	local pkgver="0.0.0"
 	local oldpwd="$PWD"
 
 	mkdir -p "$pkgname/debian/source"
@@ -56,7 +57,7 @@ EOF
 
 	# Fill changelog
 	cat << EOF > changelog
-${pkgname} (${pkgver}) unstable; urgency=medium
+${pkgname} (${OSMO_OBS_CONFLICT_PKGVER}) unstable; urgency=medium
 
   * Dummy package, which conflicts with: $@
 
@@ -81,7 +82,7 @@ EOF
 	git init .
 	git add -A
 	git commit -m "auto-commit: $pkgname dummy package" || true
-	git tag -f "$pkgver"
+	git tag -f "$OSMO_OBS_CONFLICT_PKGVER"
 
 	cd "$oldpwd"
 }
