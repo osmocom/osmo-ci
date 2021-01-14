@@ -37,14 +37,49 @@ osmo_obs_add_depend_deb() {
 	git -C "$(dirname "$d_control")" commit -m "auto-commit: debian: depend on $depend" .
 }
 
-# Copy a project's rpm spec.in file to the osc package dir, set the version/source and 'osc add' it
+# Add dependency to all (sub)packages in rpm spec file
+# $1: path to rpm spec file
+# $2: package name (e.g. "libosmocore")
+# $3: dependency package name (e.g. "osmocom-nightly")
+osmo_obs_add_depend_rpm() {
+	local spec="$1"
+	local pkgname="$2"
+	local depend="$3"
+
+	if [ "$pkgname" = "$depend" ]; then
+		echo "NOTE: skipping dependency on itself: $depend"
+		return
+	fi
+
+	( while IFS= read -r line; do
+		echo "$line"
+
+		case "$line" in
+			# Main package
+			"Name:"*)
+				echo "Requires: $depend"
+				;;
+			# Subpackages
+			"%package"*)
+				echo "Requires: $depend"
+				;;
+		esac
+	  done < "$spec" ) > "$spec.new"
+
+	mv "$spec.new" "$spec"
+}
+
+# Copy a project's rpm spec.in file to the osc package dir, set the version/source, depend on the conflicting dummy
+# package and 'osc add' it
 # $1: oscdir (path to checked out OSC package)
 # $2: repodir (path to git repository)
-# $3: name (e.g. libosmocore)
+# $3: package name (e.g. "libosmocore")
+# $4: dependency package name (e.g. "osmocom-nightly")
 osmo_obs_add_rpm_spec() {
 	local oscdir="$1"
 	local repodir="$2"
 	local name="$3"
+	local depend="$4"
 	local spec_in="$(find "$repodir" -name "$name.spec.in")"
 	local spec="$oscdir/$name.spec"
 	local tarball
@@ -56,6 +91,8 @@ osmo_obs_add_rpm_spec() {
 	fi
 
 	cp "$spec_in" "$spec"
+
+	osmo_obs_add_depend_rpm "$spec" "$name" "$depend"
 
 	# Set version
 	version="$(grep "^Version: " "$oscdir"/*.dsc | cut -d: -f2 | xargs)"

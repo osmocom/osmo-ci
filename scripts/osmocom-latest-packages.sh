@@ -96,7 +96,7 @@ build() {
     mv "$output/"*.tar* "$TOP/$PROJ/$project/"
     cd "$TOP/$PROJ"
     osc add "$project"
-    osmo_obs_add_rpm_spec "$TOP/$PROJ/$project" "$output" "$project"
+    osmo_obs_add_rpm_spec "$TOP/$PROJ/$project" "$output" "$project" "osmocom-latest"
   else
     cd "$TOP/$PROJ/$project"
 
@@ -107,7 +107,7 @@ build() {
       mv "$output/"*.dsc .
       mv "$output/"*.tar* .
       osc add ./*
-      osmo_obs_add_rpm_spec "$PWD" "$output" "$project"
+      osmo_obs_add_rpm_spec "$PWD" "$output" "$project" "osmocom-latest"
     fi
   fi
   cd "$TOP"
