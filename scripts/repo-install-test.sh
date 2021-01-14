@@ -15,7 +15,7 @@ fi
 DISTRO="$1"
 docker_images_require "$DISTRO-repo-install-test"
 
-[ -z "$FEED" ] && FEED="nightly"
+FEED="${FEED:-nightly}"
 CONTAINER="$DISTRO-repo-install-test-$FEED"
 
 # Try to run "systemctl status" 10 times, kill the container on failure
