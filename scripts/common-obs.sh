@@ -45,26 +45,27 @@ osmo_obs_add_rpm_spec() {
 	local oscdir="$1"
 	local repodir="$2"
 	local name="$3"
-	local spec="$(find "$repodir" -name "$name.spec.in")"
+	local spec_in="$(find "$repodir" -name "$name.spec.in")"
+	local spec="$oscdir/$name.spec"
 	local tarball
 	local version
 
-	if [ -z "$spec" ]; then
+	if [ -z "$spec_in" ]; then
 		echo "WARNING: RPM spec missing: $name.spec.in"
 		return
 	fi
 
-	cp "$spec" "$oscdir/$name.spec"
+	cp "$spec_in" "$spec"
 
 	# Set version
 	version="$(grep "^Version: " "$oscdir"/*.dsc | cut -d: -f2 | xargs)"
-	sed -i "s/^Version:.*/Version:  $version/g" "$oscdir/$name.spec"
+	sed -i "s/^Version:.*/Version:  $version/g" "$spec"
 
 	# Set source file
 	tarball="$(ls -1 "${name}_"*".tar."*)"
-	sed -i "s/^Source:.*/Source:  $tarball/g" "$oscdir/$name.spec"
+	sed -i "s/^Source:.*/Source:  $tarball/g" "$spec"
 
-	osc add "$name.spec"
+	osc add "$spec"
 }
 
 # Get the path to a distribution specific patch, either from osmo-ci.git or from the project repository.
