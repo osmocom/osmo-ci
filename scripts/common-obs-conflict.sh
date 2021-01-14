@@ -10,22 +10,21 @@ OSMO_OBS_CONFLICT_PKGVER="1.0.0"
 # $2-*: name of conflicting packages (e.g. "osmocom-latest")
 #
 # Generates the following directory structure:
-#   osmocom-nightly
-#   └── debian
-#       ├── changelog
-#       ├── compat
-#       ├── control
-#       ├── copyright
-#       ├── rules
-#       └── source
-#           └── format
+#   debian
+#   ├── changelog
+#   ├── compat
+#   ├── control
+#   ├── copyright
+#   ├── rules
+#   └── source
+#       └── format
 osmo_obs_prepare_conflict_deb() {
 	local pkgname="$1"
 	shift
 	local oldpwd="$PWD"
 
-	mkdir -p "$pkgname/debian/source"
-	cd "$pkgname/debian"
+	mkdir -p "debian/source"
+	cd "debian"
 
 	# Fill control
 	cat << EOF > control
@@ -77,13 +76,6 @@ EOF
 	echo "3.0 (native)" > source/format
 	touch copyright
 
-	# Put in git repository
-	cd ..
-	git init .
-	git add -A
-	git commit -m "auto-commit: $pkgname dummy package" || true
-	git tag -f "$OSMO_OBS_CONFLICT_PKGVER"
-
 	cd "$oldpwd"
 }
 
@@ -91,5 +83,19 @@ EOF
 # $1: name of dummy package (e.g. "osmocom-nightly")
 # $2-*: name of conflicting packages (e.g. "osmocom-latest")
 osmo_obs_prepare_conflict() {
+	local pkgname="$1"
+	local oldpwd="$PWD"
+
+	mkdir -p "$pkgname"
+	cd "$pkgname"
+
 	osmo_obs_prepare_conflict_deb "$@"
+
+	# Put in git repository
+	git init .
+	git add -A
+	git commit -m "auto-commit: $pkgname dummy package" || true
+	git tag -f "$OSMO_OBS_CONFLICT_PKGVER"
+
+	cd "$oldpwd"
 }
