@@ -10,7 +10,7 @@
 set -e
 set -x
 
-DT=$(date +%Y%m%d)
+DT=$(date +%Y%m%d%H%M)
 TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
 
 # Set FEED and PROJ, based on the FEED env var

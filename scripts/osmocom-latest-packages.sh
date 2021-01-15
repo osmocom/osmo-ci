@@ -9,7 +9,7 @@ set -x
 # OBS project name
 PROJ=network:osmocom:latest
 
-DT=$(date +%Y%m%d)
+DT=$(date +%Y%m%d%H%M)
 TOP=$(pwd)
 DEBSRCDIR="$TOP/debsrc"
 
