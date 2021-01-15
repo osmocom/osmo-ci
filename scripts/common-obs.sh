@@ -19,7 +19,7 @@ osmo_cmd_require \
 # Add dependency to all (sub)packages in debian/control and commit the change.
 # $1: path to debian/control file
 # $2: name of the package to depend on
-osmo_obs_add_debian_dependency() {
+osmo_obs_add_depend_deb() {
 	# Note: adding the comma at the end should be fine. If there is a Depends: line, it is most likely not empty. It
 	# should at least have ${misc:Depends} according to lintian.
 	sed "s/^Depends: /Depends: $2, /g" -i "$1"

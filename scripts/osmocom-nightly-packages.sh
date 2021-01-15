@@ -129,7 +129,7 @@ build() {
 
   if [ "$changelog" = "commit" ] ; then
     VER=$(get_commit_version)
-    osmo_obs_add_debian_dependency "./debian/control" "osmocom-$FEED"
+    osmo_obs_add_depend_deb "./debian/control" "osmocom-$FEED"
     dch -b -v "$VER" -m "Snapshot build"
     git commit -m "$VER snapshot" debian/
   fi

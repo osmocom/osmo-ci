@@ -73,7 +73,7 @@ build() {
     ./git-version-gen . > .tarball-version 2>/dev/null
   fi
 
-  osmo_obs_add_debian_dependency "./debian/control" "osmocom-latest"
+  osmo_obs_add_depend_deb "./debian/control" "osmocom-latest"
 
   if [ "$project" = "open5gs" ]; then
     # we cannot control the output directory of the generated source :(
