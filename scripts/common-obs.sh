@@ -20,14 +20,20 @@ osmo_cmd_require \
 # $1: path to debian/control file
 # $2: package name (e.g. "libosmocore")
 # $3: dependency package name (e.g. "osmocom-nightly")
+# $4: dependency package version (optional, e.g. "1.0.0.202101151122")
 osmo_obs_add_depend_deb() {
 	local d_control="$1"
 	local pkgname="$2"
 	local depend="$3"
+	local dependver="$4"
 
 	if [ "$pkgname" = "$depend" ]; then
 		echo "NOTE: skipping dependency on itself: $depend"
 		return
+	fi
+
+	if [ -n "$dependver" ]; then
+		depend="$depend (= $dependver)"
 	fi
 
 	# Note: adding the comma at the end should be fine. If there is a Depends: line, it is most likely not empty. It
@@ -41,14 +47,20 @@ osmo_obs_add_depend_deb() {
 # $1: path to rpm spec file
 # $2: package name (e.g. "libosmocore")
 # $3: dependency package name (e.g. "osmocom-nightly")
+# $4: dependency package version (optional, e.g. "1.0.0.202101151122")
 osmo_obs_add_depend_rpm() {
 	local spec="$1"
 	local pkgname="$2"
 	local depend="$3"
+	local dependver="$4"
 
 	if [ "$pkgname" = "$depend" ]; then
 		echo "NOTE: skipping dependency on itself: $depend"
 		return
+	fi
+
+	if [ -n "$dependver" ]; then
+		depend="$depend = $dependver"
 	fi
 
 	( while IFS= read -r line; do
@@ -75,11 +87,13 @@ osmo_obs_add_depend_rpm() {
 # $2: repodir (path to git repository)
 # $3: package name (e.g. "libosmocore")
 # $4: dependency package name (e.g. "osmocom-nightly")
+# $5: dependency package version (optional, e.g. "1.0.0.202101151122")
 osmo_obs_add_rpm_spec() {
 	local oscdir="$1"
 	local repodir="$2"
 	local name="$3"
 	local depend="$4"
+	local dependver="$5"
 	local spec_in="$(find "$repodir" -name "$name.spec.in")"
 	local spec="$oscdir/$name.spec"
 	local tarball
@@ -92,7 +106,7 @@ osmo_obs_add_rpm_spec() {
 
 	cp "$spec_in" "$spec"
 
-	osmo_obs_add_depend_rpm "$spec" "$name" "$depend"
+	osmo_obs_add_depend_rpm "$spec" "$name" "$depend" "$dependver"
 
 	# Set version
 	version="$(grep "^Version: " "$oscdir"/*.dsc | cut -d: -f2 | xargs)"

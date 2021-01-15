@@ -109,6 +109,7 @@ build() {
   local gitbpargs=$3
   local repodir=$REPO/$name
   local oscdir=$REPO/osc/$PROJ/$name
+  local dependver="$OSMO_OBS_CONFLICT_PKGVER.$DT"
 
   if [ -z "$changelog" ] ; then
     changelog=commit
@@ -129,7 +130,7 @@ build() {
 
   if [ "$changelog" = "commit" ] ; then
     VER=$(get_commit_version)
-    osmo_obs_add_depend_deb "./debian/control" "$name" "osmocom-$FEED"
+    osmo_obs_add_depend_deb "./debian/control" "$name" "osmocom-$FEED" "$dependver"
     dch -b -v "$VER" -m "Snapshot build"
     git commit -m "$VER snapshot" debian/
   fi
@@ -152,7 +153,7 @@ build() {
 
   cd "$oscdir"
   osc add -- *.tar* *.dsc
-  osmo_obs_add_rpm_spec "$oscdir" "$repodir" "$name" "osmocom-$FEED"
+  osmo_obs_add_rpm_spec "$oscdir" "$repodir" "$name" "osmocom-$FEED" "$dependver"
   osc ci -m "Snapshot $name $DT" --noservice
 }
 
