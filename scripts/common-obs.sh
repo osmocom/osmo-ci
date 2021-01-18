@@ -85,7 +85,7 @@ osmo_obs_add_depend_rpm() {
 # Instead of writing to the SOURCES dir, we could upload osmocom-rpmlintrc as
 # additional source for each package. But that's way more effort, not worth it.
 echo "setBadness('shlib-fixed-dependency', 0)" \\
-	> /home/abuild/rpmbuild/SOURCES/osmocom-rpmlintrc
+	> "%{_sourcedir}/osmocom-rpmlintrc"
 
 EOF
 				fi
