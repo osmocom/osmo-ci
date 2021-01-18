@@ -75,6 +75,21 @@ osmo_obs_add_depend_rpm() {
 			"%package"*)
 				echo "Requires: $depend"
 				;;
+			# Build recipe
+			"%build"*)
+				if [ -n "$dependver" ]; then
+					cat << EOF
+# HACK: don't let rpmlint abort the build when it finds that a library depends
+# on a package with a specific version. The path used here is listed in:
+# https://build.opensuse.org/package/view_file/devel:openSUSE:Factory:rpmlint/rpmlint-mini/rpmlint-mini.config?expand=1
+# Instead of writing to the SOURCES dir, we could upload osmocom-rpmlintrc as
+# additional source for each package. But that's way more effort, not worth it.
+echo "setBadness('shlib-fixed-dependency', 0)" \\
+	> /home/abuild/rpmbuild/SOURCES/osmocom-rpmlintrc
+
+EOF
+				fi
+				;;
 		esac
 	  done < "$spec" ) > "$spec.new"
 
