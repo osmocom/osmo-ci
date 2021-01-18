@@ -4,6 +4,7 @@
 # * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * DISTRO: linux distribution  name (e.g. "debian", "centos")
+# * TESTS: which tests to run (see repo-install-test.sh)
 
 # Systemd services that must start up successfully after installing all packages (OS#3369)
 # Disabled services:
@@ -63,6 +64,11 @@ check_env() {
 	else
 		echo "ERROR: missing environment variable \$DISTRO!"
 		exit 1
+	fi
+	if [ -n "$TESTS" ]; then
+		echo "Enabled tests: $TESTS"
+	else
+		echo "ERROR: missing environment variable \$TESTS!"
 	fi
 }
 
@@ -244,6 +250,29 @@ services_check() {
 check_env
 configure_keep_cache_${DISTRO}
 configure_osmocom_repo_${DISTRO} "$PROJ"
-install_repo_packages_${DISTRO}
-test_binaries
-services_check
+
+for test in $TESTS; do
+	set +x
+	echo
+	echo "### Running test: $test ###"
+	echo
+	set -x
+
+	case "$test" in
+		install_repo_packages)
+			install_repo_packages_${DISTRO}
+			;;
+		test_binaries)
+			# install_repo_packages must run first!
+			test_binaries
+			;;
+		services_check)
+			# install_repo_packages must run first!
+			services_check
+			;;
+		*)
+			echo "ERROR: unknown test: $test"
+			exit 1
+			;;
+	esac
+done

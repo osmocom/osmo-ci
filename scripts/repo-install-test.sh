@@ -4,6 +4,7 @@
 # * FEED: binary package feed (e.g. "latest", "nightly")
 # * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
+# * TESTS: which tests to run (all by default, see below for possible values)
 . "$(dirname "$0")/common.sh"
 
 # Show usage
@@ -19,6 +20,14 @@ docker_images_require "$DISTRO-repo-install-test"
 FEED="${FEED:-nightly}"
 PROJ="${PROJ:-network:osmocom:$FEED}"
 CONTAINER="$DISTRO-repo-install-test-$FEED"
+
+if [ -z "$TESTS" ]; then
+	TESTS="
+		install_repo_packages
+		test_binaries
+		services_check
+	"
+fi
 
 # Try to run "systemctl status" 10 times, kill the container on failure
 check_if_systemd_is_running() {
@@ -58,6 +67,7 @@ docker run	--rm \
 		-e FEED="$FEED" \
 		-e PROJ="$PROJ" \
 		-e DISTRO="$DISTRO" \
+		-e TESTS="$TESTS" \
 		-e container=docker \
 		--tmpfs /run \
 		--tmpfs /run/lock \
