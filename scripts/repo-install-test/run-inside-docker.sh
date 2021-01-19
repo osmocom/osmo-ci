@@ -2,6 +2,7 @@
 # Environment variables:
 # * FEED: binary package feed (e.g. "latest", "nightly")
 # * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
+# * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "network:osmocom:nightly")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * DISTRO: linux distribution  name (e.g. "debian", "centos")
 # * TESTS: which tests to run (see repo-install-test.sh)
@@ -59,6 +60,12 @@ check_env() {
 		echo "ERROR: missing environment variable \$PROJ!"
 		exit 1
 	fi
+	if [ -n "$PROJ_CONFLICT" ]; then
+		echo "Checking conflicting project: $PROJ_CONFLICT"
+	else
+		echo "ERROR: missing environment variable \$PROJ_CONFLICT!"
+		exit 1
+	fi
 	if [ -n "$DISTRO" ]; then
 		echo "Linux distribution: $DISTRO"
 	else
@@ -92,6 +99,12 @@ configure_osmocom_repo_debian() {
 }
 
 # $1: OBS project (e.g. "network:osmocom:nightly")
+configure_osmocom_repo_debian_remove() {
+	local proj="$1"
+	rm "/etc/apt/sources.list.d/$proj.list"
+}
+
+# $1: OBS project (e.g. "network:osmocom:nightly")
 configure_osmocom_repo_centos8() {
 	local proj="$1"
 	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$proj")/CentOS_8"
@@ -108,6 +121,12 @@ gpgcheck=1
 gpgkey=$baseurl/repodata/repomd.xml.key
 enabled=1
 EOF
+}
+
+# $1: OBS project (e.g. "network:osmocom:nightly")
+configure_osmocom_repo_centos8_remove() {
+	local proj="$1"
+	rm "/etc/yum.repos.d/$proj.repo"
 }
 
 configure_keep_cache_debian() {
@@ -128,6 +147,70 @@ configure_keep_cache_centos8() {
 		return
 	fi
 	echo "keepcache=1" >> /etc/dnf/dnf.conf
+}
+
+# $1: file
+# $2-n: patterns to look for in file with grep
+find_patterns_or_exit() {
+	local file="$1"
+	local pattern
+	shift
+
+	for pattern in "$@"; do
+		if grep -q "$pattern" "$file"; then
+			continue
+		fi
+
+		echo "ERROR: could not find pattern '$pattern' in file '$file'!"
+		exit 1
+	done
+}
+
+test_conflict_debian() {
+	apt-get -y install libosmocore
+
+	configure_osmocom_repo_debian_remove "$PROJ"
+	configure_osmocom_repo_debian "$PROJ_CONFLICT"
+
+	(apt-get -y install osmo-mgw 2>&1 && touch /tmp/fail) | tee /tmp/out
+
+	if [ -e /tmp/fail ]; then
+		echo "ERROR: unexpected exit 0!"
+		exit 1
+	fi
+
+	find_patterns_or_exit \
+		/tmp/out \
+		"requested an impossible situation" \
+		"^The following packages have unmet dependencies:" \
+		"Depends: osmocom-" \
+		"but it is not going to be installed"
+
+	configure_osmocom_repo_debian_remove "$PROJ_CONFLICT"
+	configure_osmocom_repo_debian "$PROJ"
+}
+
+test_conflict_centos8() {
+	dnf -y install libosmocore-devel
+
+	configure_osmocom_repo_centos8_remove "$PROJ"
+	configure_osmocom_repo_centos8 "$PROJ_CONFLICT"
+
+	(dnf -y install osmo-mgw 2>&1 && touch /tmp/fail) | tee /tmp/out
+
+	if [ -e /tmp/fail ]; then
+		echo "ERROR: unexpected exit 0!"
+		exit 1
+	fi
+
+	find_patterns_or_exit \
+		/tmp/out \
+		"^Error:" \
+		"but none of the providers can be installed" \
+		"conflicts with osmocom-"
+
+	configure_osmocom_repo_centos8_remove "$PROJ_CONFLICT"
+	configure_osmocom_repo_centos8 "$PROJ"
 }
 
 # Filter $PWD/osmocom_packages_all.txt through a blacklist_$DISTRO.txt and store the result in
@@ -259,6 +342,9 @@ for test in $TESTS; do
 	set -x
 
 	case "$test" in
+		test_conflict)
+			test_conflict_${DISTRO}
+			;;
 		install_repo_packages)
 			install_repo_packages_${DISTRO}
 			;;

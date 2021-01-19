@@ -3,6 +3,7 @@
 # * INTERACTIVE: set to 1 to keep an interactive shell open after the script ran (for debugging)
 # * FEED: binary package feed (e.g. "latest", "nightly")
 # * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
+# * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "network:osmocom:nightly")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * TESTS: which tests to run (all by default, see below for possible values)
 . "$(dirname "$0")/common.sh"
@@ -23,10 +24,29 @@ CONTAINER="$DISTRO-repo-install-test-$FEED"
 
 if [ -z "$TESTS" ]; then
 	TESTS="
+		test_conflict
 		install_repo_packages
 		test_binaries
 		services_check
 	"
+fi
+
+if [ -z "$PROJ_CONFLICT" ]; then
+	case "$FEED" in
+		latest)
+			PROJ_CONFLICT="network:osmocom:nightly"
+			;;
+		nightly)
+			PROJ_CONFLICT="network:osmocom:latest"
+			if [ "$DISTRO" = "centos8" ]; then
+				# Doesn't have packages built for "latest" yet
+				PROJ_CONFLICT="network:osmocom:next"
+			fi
+			;;
+		next)
+			PROJ_CONFLICT="network:osmocom:nightly"
+			;;
+	esac
 fi
 
 # Try to run "systemctl status" 10 times, kill the container on failure
@@ -66,6 +86,7 @@ docker run	--rm \
 		--name "$CONTAINER" \
 		-e FEED="$FEED" \
 		-e PROJ="$PROJ" \
+		-e PROJ_CONFLICT="$PROJ_CONFLICT" \
 		-e DISTRO="$DISTRO" \
 		-e TESTS="$TESTS" \
 		-e container=docker \
