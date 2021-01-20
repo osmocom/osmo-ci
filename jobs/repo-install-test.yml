@@ -4,10 +4,12 @@
     jobs:
       - Osmocom-repo-install-{distro}
     distro:
-      - debian9:
-          feeds: !!python/tuple [nightly, latest]
       - centos8:
           feeds: !!python/tuple [next, nightly]
+      - debian9:
+          feeds: !!python/tuple [nightly, latest]
+      - debian10:
+          feeds: !!python/tuple [nightly, latest]
 
 - job-template:
     name: Osmocom-repo-install-{distro}

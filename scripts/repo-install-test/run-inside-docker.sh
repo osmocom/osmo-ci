@@ -45,6 +45,9 @@ distro_obsdir() {
 		debian9)
 			echo "Debian_9.0"
 			;;
+		debian10)
+			echo "Debian_10"
+			;;
 		*)
 			echo "ERROR: unknown obsdir for '$DISTRO'." >&2
 			exit 1
