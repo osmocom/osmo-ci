@@ -82,7 +82,7 @@ configure_osmocom_repo_centos8() {
 	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8/network:osmocom:latest.repo
 	cat << EOF > "/etc/yum.repos.d/$PROJ.repo"
 [$(proj_with_underscore "$PROJ")]
-name=$FEED packages of the Osmocom project (CentOS_8)
+name=$PROJ
 type=rpm-md
 baseurl=$baseurl/
 gpgcheck=1
