@@ -66,12 +66,14 @@ check_env() {
 	fi
 }
 
+# $1: OBS project (e.g. "network:osmocom:nightly")
 configure_osmocom_repo_debian() {
-	local obs_repo="download.opensuse.org/repositories/$(proj_with_slashes "$PROJ")/Debian_9.0/"
-	local release_key="/var/cache/apt/${PROJ}_Release.key"
+	local proj="$1"
+	local obs_repo="download.opensuse.org/repositories/$(proj_with_slashes "$proj")/Debian_9.0/"
+	local release_key="/var/cache/apt/${proj}_Release.key"
 
 	echo "Configuring Osmocom repository"
-	echo "deb http://$obs_repo ./" > "/etc/apt/sources.list.d/$PROJ.list"
+	echo "deb http://$obs_repo ./" > "/etc/apt/sources.list.d/$proj.list"
 
 	# Add repository key
 	if ! [ -e "$release_key" ]; then
@@ -83,15 +85,17 @@ configure_osmocom_repo_debian() {
 	apt-get update
 }
 
+# $1: OBS project (e.g. "network:osmocom:nightly")
 configure_osmocom_repo_centos8() {
-	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$PROJ")/CentOS_8"
+	local proj="$1"
+	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$proj")/CentOS_8"
 
 	echo "Configuring Osmocom repository"
 	# Generate this file, based on the feed:
 	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8/network:osmocom:latest.repo
-	cat << EOF > "/etc/yum.repos.d/$PROJ.repo"
-[$(proj_with_underscore "$PROJ")]
-name=$PROJ
+	cat << EOF > "/etc/yum.repos.d/$proj.repo"
+[$(proj_with_underscore "$proj")]
+name=$proj
 type=rpm-md
 baseurl=$baseurl/
 gpgcheck=1
@@ -239,7 +243,7 @@ services_check() {
 
 check_env
 configure_keep_cache_${DISTRO}
-configure_osmocom_repo_${DISTRO}
+configure_osmocom_repo_${DISTRO} "$PROJ"
 install_repo_packages_${DISTRO}
 test_binaries
 services_check
