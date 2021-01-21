@@ -59,7 +59,7 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
     triggers:
-      - timed: "H 04 * * *" # run after osmocom-obs.yml
+      - timed: "H 10 * * *" # run after osmocom-obs.yml
 
     publishers:
       - email:
