@@ -36,7 +36,7 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
     triggers:
-      - timed: "H 00 * * *" # run before osmocom-debian-install.yml
+      - timed: "H 00 * * *" # run before repo-install-test.yml
 
     publishers:
       - email:
