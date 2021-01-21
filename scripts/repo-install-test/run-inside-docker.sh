@@ -105,7 +105,7 @@ configure_osmocom_repo_debian_remove() {
 }
 
 # $1: OBS project (e.g. "network:osmocom:nightly")
-configure_osmocom_repo_centos8() {
+configure_osmocom_repo_centos() {
 	local proj="$1"
 	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$proj")/CentOS_8"
 
@@ -124,16 +124,24 @@ EOF
 }
 
 # $1: OBS project (e.g. "network:osmocom:nightly")
-configure_osmocom_repo_centos8_remove() {
+configure_osmocom_repo_centos_remove() {
 	local proj="$1"
 	rm "/etc/yum.repos.d/$proj.repo"
 }
 
-configure_keep_cache_debian() {
-	if [ -z "$KEEP_CACHE" ]; then
-		return
-	fi
+# $1: OBS project (e.g. "network:osmocom:nightly")
+configure_osmocom_repo() {
+	case "$DISTRO" in
+		debian*)
+			configure_osmocom_repo_debian "$@"
+			;;
+		centos*)
+			configure_osmocom_repo_centos "$@"
+			;;
+	esac
+}
 
+configure_keep_cache_debian() {
 	rm /etc/apt/apt.conf.d/docker-clean
 
 	# "apt" will actually remove the cache by default, even if "apt-get" keeps it.
@@ -142,11 +150,23 @@ configure_keep_cache_debian() {
 		> /etc/apt/apt.conf.d/01keep-debs
 }
 
-configure_keep_cache_centos8() {
+configure_keep_cache_centos() {
+	echo "keepcache=1" >> /etc/dnf/dnf.conf
+}
+
+configure_keep_cache() {
 	if [ -z "$KEEP_CACHE" ]; then
 		return
 	fi
-	echo "keepcache=1" >> /etc/dnf/dnf.conf
+
+	case "$DISTRO" in
+		debian*)
+			configure_keep_cache_debian
+			;;
+		centos*)
+			configure_keep_cache_centos
+			;;
+	esac
 }
 
 # $1: file
@@ -190,11 +210,11 @@ test_conflict_debian() {
 	configure_osmocom_repo_debian "$PROJ"
 }
 
-test_conflict_centos8() {
+test_conflict_centos() {
 	dnf -y install libosmocore-devel
 
-	configure_osmocom_repo_centos8_remove "$PROJ"
-	configure_osmocom_repo_centos8 "$PROJ_CONFLICT"
+	configure_osmocom_repo_centos_remove "$PROJ"
+	configure_osmocom_repo_centos "$PROJ_CONFLICT"
 
 	(dnf -y install osmo-mgw 2>&1 && touch /tmp/fail) | tee /tmp/out
 
@@ -209,8 +229,19 @@ test_conflict_centos8() {
 		"but none of the providers can be installed" \
 		"conflicts with osmocom-"
 
-	configure_osmocom_repo_centos8_remove "$PROJ_CONFLICT"
-	configure_osmocom_repo_centos8 "$PROJ"
+	configure_osmocom_repo_centos_remove "$PROJ_CONFLICT"
+	configure_osmocom_repo_centos "$PROJ"
+}
+
+test_conflict() {
+	case "$DISTRO" in
+		debian*)
+			test_conflict_debian
+			;;
+		centos*)
+			test_conflict_centos
+			;;
+	esac
 }
 
 # Filter $PWD/osmocom_packages_all.txt through a blacklist_$DISTRO.txt and store the result in
@@ -239,7 +270,7 @@ install_repo_packages_debian() {
 	apt install -y $(cat osmocom_packages.txt)
 }
 
-install_repo_packages_centos8() {
+install_repo_packages_centos() {
 	echo "Installing all repository packages"
 
 	# Get a list of all packages from the repository
@@ -252,6 +283,17 @@ install_repo_packages_centos8() {
 
 	filter_packages_txt
 	dnf install -y $(cat osmocom_packages.txt)
+}
+
+install_repo_packages() {
+	case "$DISTRO" in
+		debian*)
+			install_repo_packages_debian
+			;;
+		centos*)
+			install_repo_packages_centos
+			;;
+	esac
 }
 
 test_binaries_version() {
@@ -331,8 +373,8 @@ services_check() {
 }
 
 check_env
-configure_keep_cache_${DISTRO}
-configure_osmocom_repo_${DISTRO} "$PROJ"
+configure_keep_cache
+configure_osmocom_repo "$PROJ"
 
 for test in $TESTS; do
 	set +x
@@ -343,10 +385,10 @@ for test in $TESTS; do
 
 	case "$test" in
 		test_conflict)
-			test_conflict_${DISTRO}
+			test_conflict
 			;;
 		install_repo_packages)
-			install_repo_packages_${DISTRO}
+			install_repo_packages
 			;;
 		test_binaries)
 			# install_repo_packages must run first!
