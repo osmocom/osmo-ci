@@ -8,14 +8,25 @@
 # * TESTS: which tests to run (all by default, see below for possible values)
 . "$(dirname "$0")/common.sh"
 
-# Show usage
-if [ "$#" -ne 1 ]; then
-	echo "usage: repo-install-test.sh DISTRO"
-	echo "DISTRO: debian or centos8"
-	exit 1
-fi
-
 DISTRO="$1"
+DISTROS="
+	centos8
+	debian
+"
+
+check_usage() {
+	local i
+	for i in $DISTROS; do
+		if [ "$DISTRO" = "$i" ]; then
+			return
+		fi
+	done
+	echo "usage: repo-install-test.sh DISTRO"
+	echo "DISTRO: one of: $DISTROS"
+	exit 1
+}
+
+check_usage
 docker_images_require "$DISTRO-repo-install-test"
 
 FEED="${FEED:-nightly}"
