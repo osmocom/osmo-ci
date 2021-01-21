@@ -4,7 +4,7 @@
 # * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
 # * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "network:osmocom:nightly")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
-# * DISTRO: linux distribution  name (e.g. "debian", "centos")
+# * DISTRO: linux distribution  name (e.g. "centos8")
 # * TESTS: which tests to run (see repo-install-test.sh)
 
 # Systemd services that must start up successfully after installing all packages (OS#3369)
