@@ -37,6 +37,23 @@ SERVICES_NIGHTLY="
 	osmo-bts-virtual
 "
 
+distro_obsdir() {
+	case "$DISTRO" in
+		centos8)
+			echo "CentOS_8"
+			;;
+		debian)
+			echo "Debian_9.0"
+			;;
+		*)
+			echo "ERROR: unknown obsdir for '$DISTRO'." >&2
+			exit 1
+			;;
+	esac
+}
+
+DISTRO_OBSDIR="$(distro_obsdir)"
+
 # $1: OBS project (e.g. "network:osmocom:nightly" -> "network:/osmocom:/nightly")
 proj_with_slashes() {
 	echo "$1" | sed "s.:.:/.g"
@@ -82,7 +99,7 @@ check_env() {
 # $1: OBS project (e.g. "network:osmocom:nightly")
 configure_osmocom_repo_debian() {
 	local proj="$1"
-	local obs_repo="download.opensuse.org/repositories/$(proj_with_slashes "$proj")/Debian_9.0/"
+	local obs_repo="download.opensuse.org/repositories/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR/"
 	local release_key="/var/cache/apt/${proj}_Release.key"
 
 	echo "Configuring Osmocom repository"
@@ -107,7 +124,7 @@ configure_osmocom_repo_debian_remove() {
 # $1: OBS project (e.g. "network:osmocom:nightly")
 configure_osmocom_repo_centos() {
 	local proj="$1"
-	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$proj")/CentOS_8"
+	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR"
 
 	echo "Configuring Osmocom repository"
 	# Generate this file, based on the feed:
@@ -256,7 +273,7 @@ filter_packages_txt() {
 }
 
 install_repo_packages_debian() {
-	local obs="obs://build.opensuse.org/$PROJ/Debian_9.0"
+	local obs="obs://build.opensuse.org/$PROJ/$DISTRO_OBSDIR"
 
 	echo "Installing all repository packages"
 
