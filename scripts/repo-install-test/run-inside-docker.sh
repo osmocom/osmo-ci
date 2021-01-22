@@ -361,4 +361,10 @@ for test in $TESTS; do
 			exit 1
 			;;
 	esac
+
+	set +x
+	echo
+	echo "### Test successful: $test ###"
+	echo
+	set -x
 done
