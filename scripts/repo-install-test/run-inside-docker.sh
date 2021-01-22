@@ -42,7 +42,7 @@ distro_obsdir() {
 		centos8)
 			echo "CentOS_8"
 			;;
-		debian)
+		debian9)
 			echo "Debian_9.0"
 			;;
 		*)
