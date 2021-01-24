@@ -151,6 +151,7 @@ build_osmocom() {
   checkout neocon https://github.com/laf0rge/neocon
   checkout osmo-uecups
   checkout osmo-e1d
+  checkout osmo-cbc
 
   cd "$TOP"
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
@@ -188,6 +189,7 @@ build_osmocom() {
   # re-enable after libosmcoore > 1.3.1 is released (osmo_system_nowait2)
   #build osmo-uecups
   build osmo-e1d
+  build osmo-cbc
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT" --noservice
