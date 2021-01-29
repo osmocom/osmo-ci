@@ -70,7 +70,7 @@ get_commit_version() {
   version=$(echo "$version" | sed  's/-/./g' )
 
   # deb version
-  if [ -z "$version" ] ; then
+  if [ -z "$version" ] || [ "$version" = "UNKNOWN" ]; then
     version=$(head -1 debian/changelog | cut -d ' ' -f 2 | sed 's,(,,'  | sed 's,),,')
     version="$version.$DT"
   fi
