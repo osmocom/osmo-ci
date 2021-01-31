@@ -247,6 +247,7 @@
       - osmo-uecups
       - osmo-el2tpd
       - osmo-smlc
+      - osmo-gbproxy
 
       - pysim:
           slave_axis: !!python/tuple [simtester]
