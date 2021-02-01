@@ -225,6 +225,7 @@ build_osmocom() {
   checkout osmo-e1d
   checkout osmo-smlc
   checkout osmo-cbc
+  checkout osmo-gbproxy
 
   cd "$REPO"
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
@@ -268,6 +269,7 @@ build_osmocom() {
   build osmo-e1d
   build osmo-smlc
   build osmo-cbc
+  build osmo-gbproxy
 
   post
 }
