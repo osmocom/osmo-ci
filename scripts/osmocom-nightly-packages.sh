@@ -162,21 +162,6 @@ post() {
   osc status
 }
 
-download_bumpversion() {
-  # bumpversion is required for debian < 9/stretch
-  local oscdir=$REPO/osc/$PROJ/bumpversion
-  local version=0.5.3
-  local release=3
-
-  if [ ! -d "$oscdir" ] ; then
-    mkdir "$oscdir"
-    cd "$oscdir"
-    wget "http://http.debian.net/debian/pool/main/b/bumpversion/bumpversion_$version-$release.dsc"
-    wget "http://http.debian.net/debian/pool/main/b/bumpversion/bumpversion_$version.orig.tar.gz"
-    wget "http://http.debian.net/debian/pool/main/b/bumpversion/bumpversion_$version-$release.debian.tar.xz"
-  fi
-}
-
 checkout_limesuite() {
   cd "$REPO"
   git clone https://github.com/myriadrf/LimeSuite limesuite
@@ -283,8 +268,6 @@ build_osmocom() {
   build osmo-e1d
   build osmo-smlc
   build osmo-cbc
-
-  download_bumpversion
 
   post
 }
