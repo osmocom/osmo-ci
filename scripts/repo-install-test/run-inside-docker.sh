@@ -339,11 +339,11 @@ test_binaries_version() {
 
 test_binaries() {
 	# Make sure that binares run at all and output a proper version
+	# osmo-gbproxy: disabled until version is tagged (OS#5009)
 	test_binaries_version \
 		osmo-bsc \
 		osmo-bts-trx \
 		osmo-bts-virtual \
-		osmo-gbproxy \
 		osmo-gtphub \
 		osmo-ggsn \
 		osmo-hlr \
