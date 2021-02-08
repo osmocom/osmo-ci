@@ -40,11 +40,6 @@
           default: 'master'
     axes:
       - axis:
-          type: slave
-          name: label
-          # Force using "build2-deb9build-ansible": https://osmocom.org/issues/4563#note-10
-          values: !!python/tuple [build2-deb9build-ansible]
-      - axis:
           type: user-defined
           name: feed
           values: '{obj:feeds}'
