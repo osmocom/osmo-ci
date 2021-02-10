@@ -40,6 +40,10 @@
           default: 'master'
     axes:
       - axis:
+          type: slave
+          name: label
+          values: !!python/tuple [repo-install-test]
+      - axis:
           type: user-defined
           name: feed
           values: '{obj:feeds}'
