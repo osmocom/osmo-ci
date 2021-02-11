@@ -1,0 +1,32 @@
+- project:
+    name: registry-triggers
+    jobs:
+      - 'registry-trigger-{repos}'
+    repos:
+      - osmo-ttcn3-hacks:
+          # Cache is invalidated on changes in deps/Makefile (OS#5017)
+          trigger: >
+            registry-rebuild-upload-titan
+
+- job-template:
+    name: 'registry-trigger-{repos}'
+    description: |
+      Update registry.osmocom.org after changes in {repos}.
+    node: osmocom-master-debian9
+    scm:
+      - git:
+         url: git://git.osmocom.org/{repos}
+         branches:
+           - 'origin/master'
+    trigger:
+    email: jenkins-notifications@lists.osmocom.org
+    triggers:
+      - pollscm:
+          cron: "H/5 * * * *"
+          ignore-post-commit-hooks: false
+      - timed: "H H * * *"
+    publishers:
+       - trigger:
+           project: '{obj:trigger}'
+
+# vim: expandtab tabstop=2 shiftwidth=2
