@@ -1,0 +1,37 @@
+
+---
+- project:
+    name: registry-rebuild-upload-titan
+    jobs:
+      - registry-rebuild-upload-titan
+
+- job:
+    name: registry-rebuild-upload-titan
+    description: |
+        Rebuild + push ttcn3 base images (debian-stretch-titan) in our private
+        registry.osmocom.org
+        <br><br>
+        Related:<br>
+        <ul>
+          <li> <a href="https://osmocom.org/issues/5017">OS#5017</a>
+        </ul>
+    node: osmocom-master-debian9
+    scm:
+      - git:
+          url: git://git.osmocom.org/docker-playground
+          skip-tag: true
+          branches:
+            - 'origin/master'
+
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+          make -C debian-stretch-titan REGISTRY_HOST=$REGISTRY
+          docker push "$REGISTRY/$USER/debian-stretch-titan"
+
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
+# vim: expandtab tabstop=2 shiftwidth=2
