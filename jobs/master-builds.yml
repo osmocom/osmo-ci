@@ -142,12 +142,14 @@
           # [...]
           trigger: >
             master-libosmo-abis,
+            master-osmo-gbproxy,
             master-osmo-ggsn,
             master-osmo-gmr,
             master-osmo-pcap,
             master-osmo-pcu,
             master-osmo-sip-connector,
             master-osmo-tetra,
+            master-osmo-trx,
             master-osmocom-bb,
             SIMtrace,
             xgoldmon
