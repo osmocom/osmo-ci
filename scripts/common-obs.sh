@@ -113,6 +113,7 @@ osmo_obs_add_rpm_spec() {
 	local spec="$oscdir/$name.spec"
 	local tarball
 	local version
+	local epoch
 
 	if [ -z "$spec_in" ]; then
 		echo "WARNING: RPM spec missing: $name.spec.in"
@@ -123,9 +124,19 @@ osmo_obs_add_rpm_spec() {
 
 	osmo_obs_add_depend_rpm "$spec" "$name" "$depend" "$dependver"
 
-	# Set version
-	version="$(grep "^Version: " "$oscdir"/*.dsc | cut -d: -f2 | xargs)"
-	sed -i "s/^Version:.*/Version:  $version/g" "$spec"
+	# Set version and epoch from "Version: [EPOCH:]VERSION" in .dsc
+	version="$(grep "^Version: " "$oscdir"/*.dsc | cut -d: -f2- | xargs)"
+	case $version in
+	*:*)
+		epoch=$(echo "$version" | cut -d : -f 1)
+		version=$(echo "$version" | cut -d : -f 2)
+		;;
+	esac
+	if [ -n "$epoch" ]; then
+		sed -i "s/^Version:.*/Version:  $version\nEpoch:    $epoch/g" "$spec"
+	else
+		sed -i "s/^Version:.*/Version:  $version/g" "$spec"
+	fi
 
 	# Set source file
 	tarball="$(ls -1 "${name}_"*".tar."*)"

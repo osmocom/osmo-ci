@@ -70,9 +70,17 @@ get_commit_version() {
   version=$(echo "$version" | sed  's/-/./g' )
 
   # deb version
+  deb_version=$(head -1 debian/changelog | cut -d ' ' -f 2 | sed 's,(,,'  | sed 's,),,')
   if [ -z "$version" ] || [ "$version" = "UNKNOWN" ]; then
-    version=$(head -1 debian/changelog | cut -d ' ' -f 2 | sed 's,(,,'  | sed 's,),,')
-    version="$version.$DT"
+    version="$deb_version.$DT"
+  else
+    # add epoch from debian/changelog
+    case $deb_version in
+    *:*)
+      epoch=$(echo "$deb_version" | cut -d : -f 1)
+      version=$epoch:$version
+      ;;
+    esac
   fi
 
   echo -n "$version"
