@@ -129,7 +129,7 @@
       #- ttcn3-sccp-test-latest:
       #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
       #    timer: 00 10 * * *
-      #- ttcn3-smlc-test:
+      #- ttcn3-smlc-test-latest:
       #    blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
       #    timer: 10 10 * * *
       - ttcn3-gbproxy-test-latest:
@@ -184,7 +184,7 @@
       #- TTCN3-sccp-test-latest:
       #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
       #    timer: 00 10 * * *
-      #- ttcn3-smlc-test:
+      #- TTCN3-smlc-test-latest:
       #    blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
       #    timer: 10 10 * * *
       - TTCN3-centos-gbproxy-test:
