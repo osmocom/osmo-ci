@@ -73,6 +73,9 @@
           blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test-fr.*"
           timer: 30 10 * * *
           node: hdlc
+      - ttcn3-cbc-test:
+          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
+          timer: 40 10 * * *
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
@@ -132,6 +135,9 @@
       - ttcn3-gbproxy-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
+      #- ttcn3-cbc-test-latest:
+      #    blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
+      #    timer: 40 10 * * *
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
 
@@ -184,6 +190,9 @@
       - TTCN3-centos-gbproxy-test:
           blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
+      - TTCN3-centos-cbc-test:
+          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
+          timer: 40 10 * * *
 
 
 - job-template:
