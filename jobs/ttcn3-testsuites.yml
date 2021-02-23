@@ -135,9 +135,9 @@
       - ttcn3-gbproxy-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
-      #- ttcn3-cbc-test-latest:
-      #    blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
-      #    timer: 40 10 * * *
+      - ttcn3-cbc-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
+          timer: 40 10 * * *
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
 
