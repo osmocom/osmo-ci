@@ -186,8 +186,7 @@ build_osmocom() {
   build osmo-remsim
   build open5gs
   build neocon
-  # re-enable after libosmcoore > 1.3.1 is released (osmo_system_nowait2)
-  #build osmo-uecups
+  build osmo-uecups
   build osmo-e1d
   build osmo-cbc
 
