@@ -110,6 +110,7 @@ configure_osmocom_repo_debian() {
 
 	# Add repository key
 	if ! [ -e "$release_key" ]; then
+		apt-get update
 		apt install -y wget
 		wget -O "$release_key" "https://$obs_repo/Release.key"
 	fi
