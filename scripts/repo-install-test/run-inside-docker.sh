@@ -106,7 +106,6 @@ configure_osmocom_repo_debian() {
 	local release_key="/var/cache/apt/${proj}_Release.key"
 
 	echo "Configuring Osmocom repository"
-	echo "deb http://$obs_repo ./" > "/etc/apt/sources.list.d/$proj.list"
 
 	# Add repository key
 	if ! [ -e "$release_key" ]; then
@@ -116,6 +115,7 @@ configure_osmocom_repo_debian() {
 	fi
 	apt-key add "$release_key"
 
+	echo "deb http://$obs_repo ./" > "/etc/apt/sources.list.d/$proj.list"
 	apt-get update
 }
 
