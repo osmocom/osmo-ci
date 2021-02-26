@@ -222,24 +222,30 @@
     builders:
       - shell: |-
           export REGISTRY_HOST="registry.osmocom.org"
+
+          # Translate job name to docker-playground dir and relevant
+          # environment variables
           case "{job-name}" in
               TTCN3-centos-*-latest)
-                  cd "$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
-                  IMAGE_SUFFIX="latest-centos8" ./jenkins.sh
+                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
+                  export IMAGE_SUFFIX="latest-centos8"
                   ;;
               TTCN3-centos-*)
-                  cd "$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/)"
-                  IMAGE_SUFFIX="master-centos8" ./jenkins.sh
+                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/)"
+                  export IMAGE_SUFFIX="master-centos8"
                   ;;
               *-latest)
-                  cd "$(echo "{job-name}" | sed s/\-latest$//)"
-                  IMAGE_SUFFIX="latest" ./jenkins.sh
+                  DIR="$(echo "{job-name}" | sed s/\-latest$//)"
+                  export IMAGE_SUFFIX="latest"
                   ;;
               *)
-                  cd "{job-name}"
-                  IMAGE_SUFFIX="master" ./jenkins.sh
+                  DIR="{job-name}"
+                  export IMAGE_SUFFIX="master"
                   ;;
           esac
+
+          cd "$DIR"
+          ./jenkins.sh
     scm:
       - git:
           branches:
