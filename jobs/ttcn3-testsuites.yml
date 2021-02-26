@@ -7,6 +7,7 @@
     node: ttcn3
     # Block *-latest for all master jobs (without suffix)
     blocking: "^{job-name}.*"
+    wipe_workspace: true
     jobs:
       - "{job-name}"
     # Folders from docker-playground.git
@@ -246,6 +247,7 @@
           url: git://git.osmocom.org/docker-playground
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
+          wipe-workspace: "{obj:wipe_workspace}"
     triggers:
       - timed: "{obj:timer}"
     publishers:
