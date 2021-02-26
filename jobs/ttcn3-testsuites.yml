@@ -22,9 +22,21 @@
       - ttcn3-ggsn-test:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 00 04 * * *
+      - ttcn3-ggsn-test-kernel:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
+          timer: 10 04 * * *
+      - ttcn3-ggsn-test-kernel-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
+          timer: 20 04 * * *
+      - ttcn3-ggsn-test-kernel-net-next:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
+          timer: 30 04 * * *
+          # Cache the linux source tree in the workspace of one node
+          node: ttcn3-ggsn-test-kernel-net-next
+          wipe_workspace: false
       - ttcn3-msc-test:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
-          timer: 30 04 * * *
+          timer: 40 04 * * *
       - ttcn3-pcu-test:
           blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 00 05 * * *
@@ -226,6 +238,25 @@
           # Translate job name to docker-playground dir and relevant
           # environment variables
           case "{job-name}" in
+              ttcn3-ggsn-test-kernel)
+                  DIR="ttcn3-ggsn-test"
+                  export IMAGE_SUFFIX="master"
+                  # Run against debian's kernel
+                  export KERNEL_TEST=1
+                  ;;
+              ttcn3-ggsn-test-kernel-latest)
+                  DIR="ttcn3-ggsn-test"
+                  export IMAGE_SUFFIX="latest"
+                  export KERNEL_TEST=1
+                  ;;
+              ttcn3-ggsn-test-kernel-net-next)
+                  DIR="ttcn3-ggsn-test"
+                  export IMAGE_SUFFIX="master"
+                  # Build net-next kernel from source, default git repo from:
+                  # docker-playground.git scripts/kernel-test/kernel-build.sh
+                  export KERNEL_TEST=1
+                  export KERNEL_BUILD=1
+                  ;;
               TTCN3-centos-*-latest)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
                   export IMAGE_SUFFIX="latest-centos8"
