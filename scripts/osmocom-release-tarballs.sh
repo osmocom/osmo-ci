@@ -72,6 +72,7 @@ tags_to_ignore() {
 			# cp: cannot stat './/home/user/code/osmo-dev/src/osmo-ci/_temp/repos/osmo-trx/configure'
 			echo "0.2.0"
 			echo "0.3.0"
+			echo "1.3.0"
 			;;
 	esac
 }
