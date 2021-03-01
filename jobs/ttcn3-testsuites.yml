@@ -28,11 +28,11 @@
       - ttcn3-ggsn-test-kernel-latest:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 20 04 * * *
-      - ttcn3-ggsn-test-kernel-net-next:
+      - ttcn3-ggsn-test-kernel-git:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 30 04 * * *
           # Cache the linux source tree in the workspace of one node
-          node: ttcn3-ggsn-test-kernel-net-next
+          node: ttcn3-ggsn-test-kernel-git
           wipe_workspace: false
       - ttcn3-msc-test:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
@@ -249,7 +249,7 @@
                   export IMAGE_SUFFIX="latest"
                   export KERNEL_TEST=1
                   ;;
-              ttcn3-ggsn-test-kernel-net-next)
+              ttcn3-ggsn-test-kernel-git)
                   DIR="ttcn3-ggsn-test"
                   export IMAGE_SUFFIX="master"
                   # Build net-next kernel from source, default git repo from:
