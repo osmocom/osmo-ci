@@ -153,6 +153,7 @@ build_osmocom() {
   checkout osmo-uecups
   checkout osmo-e1d
   checkout osmo-cbc
+  checkout osmo-gbproxy
 
   cd "$TOP"
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
@@ -190,6 +191,7 @@ build_osmocom() {
   build osmo-uecups
   build osmo-e1d
   build osmo-cbc
+  build osmo-gbproxy
 
   cd "$TOP/$PROJ"
   osc ci -m "Latest Tagged versions of $DT" --noservice
