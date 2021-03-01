@@ -230,6 +230,26 @@
                 Branch of <code>docker-playground.git</code>.
                 Only modify if you are hacking on the docker-playground scripts.
           default: '*/master'
+      - string:
+          name: KERNEL_URL
+          description: |
+                (<code>*-kernel-git</code> only) remote URL of git repository,
+                from which the kernel will be built.
+          default: 'https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git'
+      - string:
+          name: KERNEL_REMOTE_NAME
+          description: |
+                (<code>*-kernel-git</code> only) short name for the remote URL,
+                which will be used to add it to the local git checkout with
+                <code>git remote add</code>.
+          default: 'net-next'
+      - string:
+          name: KERNEL_BRANCH
+          description: |
+                (<code>*-kernel-git</code> only) branch to check out from the
+                remote with <code>KERNEL_URL</code> and
+                <code>KERNEL_REMOTE_NAME</code> before building the kernel.
+          default: 'master'
 
     builders:
       - shell: |-
@@ -252,8 +272,8 @@
               ttcn3-ggsn-test-kernel-git)
                   DIR="ttcn3-ggsn-test"
                   export IMAGE_SUFFIX="master"
-                  # Build net-next kernel from source, default git repo from:
-                  # docker-playground.git scripts/kernel-test/kernel-build.sh
+                  # Build kernel from source, git repo is defined in the job's
+                  # parameters: KERNEL_URL, KERNEL_REMOTE_NAME, KERNEL_BRANCH
                   export KERNEL_TEST=1
                   export KERNEL_BUILD=1
                   ;;
