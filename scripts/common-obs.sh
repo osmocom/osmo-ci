@@ -211,6 +211,6 @@ osmo_obs_checkout_copy() {
 		exit 1
 	fi
 	patch -p1 < "$patch"
-	git commit --amend --no-edit debian/
+	git commit -m "auto-commit: apply $patch" debian/
 	cd ..
 }
