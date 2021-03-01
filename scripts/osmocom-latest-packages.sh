@@ -152,6 +152,7 @@ build_osmocom() {
   checkout neocon https://github.com/laf0rge/neocon
   checkout osmo-uecups
   checkout osmo-e1d
+  checkout osmo-smlc
   checkout osmo-cbc
   checkout osmo-gbproxy
 
@@ -190,6 +191,7 @@ build_osmocom() {
   build neocon
   build osmo-uecups
   build osmo-e1d
+  build osmo-smlc
   build osmo-cbc
   build osmo-gbproxy
 
