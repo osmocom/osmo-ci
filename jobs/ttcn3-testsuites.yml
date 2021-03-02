@@ -64,6 +64,7 @@
       - ttcn3-bscnat-test:
           blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
           timer: 00 08 * * *
+          disabled: true
       - ttcn3-bsc-test-sccplite:
           blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
@@ -130,6 +131,7 @@
       - ttcn3-bscnat-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
           timer: 00 08 * * *
+          disabled: true
       - ttcn3-bsc-test-sccplite-latest:
           blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
