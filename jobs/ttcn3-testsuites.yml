@@ -3,6 +3,14 @@
     name: 'ttcn3-testsuites'
     concurrent: false
     disabled: false
+    description: |
+        Run the a testsuite from
+        <a href="https://git.osmocom.org/docker-playground/">
+          docker-playground.git</a>.<br>
+        If this job ends in <code>-latest</code>, the job runs the latest
+        stable versions of the Osmocom stack. Otherwise the nightly builds.<br>
+        See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
+            TTCN3 Testsuite</a> for more information.
     timer: "@midnight"
     node: ttcn3
     # Block *-latest for all master jobs (without suffix)
@@ -25,14 +33,21 @@
       - ttcn3-ggsn-test-kernel:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 10 04 * * *
+          description: |
+            Test osmo-ggsn master with the Debian kernel.
       - ttcn3-ggsn-test-kernel-latest:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 20 04 * * *
+          description: |
+            Test osmo-ggsn latest with the Debian kernel.
       - ttcn3-ggsn-test-kernel-git:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 30 04 * * *
           # Cache the linux source tree in the workspace of one node
           node: ttcn3-ggsn-test-kernel-git
+          description: |
+            Test osmo-ggsn master with a kernel built from source (see build
+            parameters, by default: net-next.git from kernel.org).
           wipe_workspace: false
       - ttcn3-msc-test:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
@@ -215,15 +230,7 @@
     project-type: freestyle
     disabled: '{obj:disabled}'
     defaults: global
-    description: |
-        Run the <code>{job-name}</code> testsuite from
-        <a href="https://git.osmocom.org/docker-playground/">docker-playground.git</a>.<br>
-        If this job ends in <code>-latest</code>, the job runs the latest stable versions of the Osmocom stack.
-        Otherwise the nightly builds.<br>
-        Generated with the jenkins-job-builder config introduced in
-        <a href="https://osmocom.org/issues/3268">OS#3268</a>.<br>
-        See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
-            TTCN3 Testsuite</a> for more information.
+    description: '{obj:description}'
     node: '{obj:node}'
     parameters:
       - string:
