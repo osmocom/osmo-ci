@@ -40,6 +40,24 @@
           timer: 20 04 * * *
           description: |
             Test osmo-ggsn latest with the Debian kernel.
+      - ttcn3-ggsn-test-kernel-latest-net-next:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
+          timer: 25 04 * * *
+          # Cache the linux source tree in the workspace of one node
+          node: ttcn3-ggsn-test-kernel-git
+          description: |
+            Test osmo-ggsn latest with the Linux kernel built from master of
+            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/">
+              net-next.git</a>.
+      - ttcn3-ggsn-test-kernel-latest-torvalds:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
+          timer: 30 04 * * *
+          # Cache the linux source tree in the workspace of one node
+          node: ttcn3-ggsn-test-kernel-git
+          description: |
+            Test osmo-ggsn latest with the Linux kernel built from master of
+            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/">
+              torvalds/linux.git</a>.
       - ttcn3-msc-test:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 40 04 * * *
@@ -247,6 +265,24 @@
                   DIR="ttcn3-ggsn-test"
                   export IMAGE_SUFFIX="latest"
                   export KERNEL_TEST=1
+                  ;;
+              ttcn3-ggsn-test-kernel-latest-net-next)
+                  DIR="ttcn3-ggsn-test"
+                  export IMAGE_SUFFIX="latest"
+                  export KERNEL_TEST=1
+                  export KERNEL_BUILD=1
+                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git"
+                  export KERNEL_REMOTE_NAME="net-next"
+                  export KERNEL_BRANCH="master"
+                  ;;
+              ttcn3-ggsn-test-kernel-latest-torvalds)
+                  DIR="ttcn3-ggsn-test"
+                  export IMAGE_SUFFIX="latest"
+                  export KERNEL_TEST=1
+                  export KERNEL_BUILD=1
+                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+                  export KERNEL_REMOTE_NAME="torvalds"
+                  export KERNEL_BRANCH="master"
                   ;;
               TTCN3-centos-*-latest)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
