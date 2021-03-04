@@ -1,11 +1,12 @@
 # TTCN-3 testsuite jobs with parameters to build a kernel from source (OS#3208)
+# In contrary to the kernel jobs in ttcn3-testsuites.yml, here the jobs are
+# manually triggered and the kernel git repository is not hardcoded.
 ---
 - project:
     name: 'ttcn3-testsuites-kernel-git'
     concurrent: false
     disabled: false
     description: ""
-    timer: "@midnight"
     node: ttcn3
     blocking: "^{job-name}.*"
     wipe_workspace: false
@@ -15,7 +16,6 @@
     job-name:
       - ttcn3-ggsn-test-kernel-git:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
-          timer: 30 04 * * *
           # Cache the linux source tree in the workspace of one node
           node: ttcn3-ggsn-test-kernel-git
           description: |
@@ -85,8 +85,6 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           wipe-workspace: "{obj:wipe_workspace}"
-    triggers:
-      - timed: "{obj:timer}"
     publishers:
       - junit:
           results: '**/junit-xml-*.log'
