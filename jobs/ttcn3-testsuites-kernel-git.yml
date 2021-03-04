@@ -55,6 +55,16 @@
                 <code>KERNEL_URL</code> and <code>KERNEL_REMOTE_NAME</code>
                 before building the kernel.
           default: 'master'
+      - choice:
+          name: OSMOCOM_VERSION
+          choices:
+            - latest
+            - master
+          description: |
+                Version of the Osmocom stack to test against the kernel. Either
+                <code>latest</code> for the latest release version, or
+                <code>master</code> for HEAD of git.osmocom.org.
+          default: 'latest'
 
     builders:
       - shell: |-
@@ -65,7 +75,7 @@
           case "{job-name}" in
               ttcn3-ggsn-test-kernel-git)
                   DIR="ttcn3-ggsn-test"
-                  export IMAGE_SUFFIX="master"
+                  export IMAGE_SUFFIX="$OSMOCOM_VERSION"
                   export KERNEL_TEST=1
                   export KERNEL_BUILD=1
                   ;;
