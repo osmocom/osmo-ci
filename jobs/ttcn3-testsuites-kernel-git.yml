@@ -12,7 +12,6 @@
     wipe_workspace: false
     jobs:
       - "{job-name}"
-    # Folders from docker-playground.git
     job-name:
       - ttcn3-ggsn-test-kernel-git:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
