@@ -10,7 +10,9 @@
             - host2-deb9build-ansible
             - build2-deb9build-ansible
             - build2-deb10build-ansible
-            - rpi4-deb9build-ansible
+            - rpi4-raspbian10build-ansible-1
+            - rpi4-raspbian10build-ansible-2
+            - rpi4-raspbian10build-ansible-3
     properties:
       - build-discarder:
           days-to-keep: 30
