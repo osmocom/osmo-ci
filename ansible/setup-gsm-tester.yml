@@ -5,16 +5,15 @@
   tasks:
     - name: install common utilities
       apt:
-        name: "{{ item }}"
+        name:
+          - vim
+          - tmux
+          - screen
+          - ca-certificates
+          - wget
+          - curl
         cache_valid_time: 3600
         update_cache: yes
-      with_items:
-        - vim
-        - tmux
-        - screen
-        - ca-certificates
-        - wget
-        - curl
   roles:
     - name: gsm-tester
       tags:

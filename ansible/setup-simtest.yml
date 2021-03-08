@@ -10,17 +10,16 @@
 
     - name: install common utilities
       apt:
-        name: "{{ item }}"
+        name:
+          - vim
+          - ca-certificates
+          - python3-minimal
+          - python3-setuptools
+          - python3-pip
+          - python3-serial
+          - python3-pyscard
+          - virtualenv
         install_recommends: no
-      with_items:
-        - vim
-        - ca-certificates
-        - python3-minimal
-        - python3-setuptools
-        - python3-pip
-        - python3-serial
-        - python3-pyscard
-        - virtualenv
 
   roles:
     - name: osmocom-jenkins-slave

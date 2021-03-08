@@ -14,35 +14,34 @@
 
 - name: install distribution packages
   apt:
-    name: "{{ item }}"
+    name:
+      - iceweasel
+      - vim
+      - evince
+      - valgrind
+      - gdb
+      - libc6-dbg
+      - wireshark
+      - tcpdump
+      - ccache
+      - gnupg
+      - openssh-client
+      - openssh-server
+      - console-common
+      - console-data
+      - meld
+      - emacs
+      - gitk
+      - okular
+      - libreoffice-calc
+      - libreoffice-draw
+      - libreoffice-impress
+      - libreoffice-writer
+      - gnumeric
+      - openvpn
+      - fvwm
+      - xfce4
+      - network-manager
+      - modemmanager
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - iceweasel
-    - vim
-    - evince
-    - valgrind
-    - gdb
-    - libc6-dbg
-    - wireshark
-    - tcpdump
-    - ccache
-    - gnupg
-    - openssh-client
-    - openssh-server
-    - console-common
-    - console-data
-    - meld
-    - emacs
-    - gitk
-    - okular
-    - libreoffice-calc
-    - libreoffice-draw
-    - libreoffice-impress
-    - libreoffice-writer
-    - gnumeric
-    - openvpn
-    - fvwm
-    - xfce4
-    - network-manager
-    - modemmanager

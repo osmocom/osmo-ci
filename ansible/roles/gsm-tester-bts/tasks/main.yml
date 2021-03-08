@@ -15,12 +15,11 @@
 
 - name: usrp install apt dependecies
   apt:
-    name: "{{ item }}"
+    name:
+      - libuhd-dev
+      - uhd-host
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - libuhd-dev
-    - uhd-host
   register: uhd_installed
 
 - name: usrp download firmware
@@ -48,8 +47,7 @@
 
 - name: install osmocom utilities
   apt:
-    name: "{{ item }}"
-  with_items:
-    - abisip-find
-    - osmo-bsc-ipaccess-utils
-    - osmo-bsc-bs11-utils
+    name:
+      - abisip-find
+      - osmo-bsc-ipaccess-utils
+      - osmo-bsc-bs11-utils

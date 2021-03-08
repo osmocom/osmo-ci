@@ -9,41 +9,39 @@
 
 - name: install osmocom runtime dependencies
   apt:
-    name: "{{ item }}"
-  with_items:
-    - build-essential
-    - git
-    - automake
-    - libdbi-dev
-    - libdbd-sqlite3
-    - sqlite3
-    - libsctp-dev
-    - libortp-dev
-    - libpcap-dev
-    - libc-ares-dev
-    - libtool
-    - shtool
-    - pkg-config
-    - libtalloc-dev
-    - libpcsclite-dev
-    - libgnutls28-dev
-    - libmnl-dev
-    - libssl-dev
-    - libczmq-dev
-    - libsofia-sip-ua-glib-dev
-    - libsqlite3-dev
-    - libasound2-dev
-    - liblua5.3-dev
-    - lua-socket
+    name:
+      - build-essential
+      - git
+      - automake
+      - libdbi-dev
+      - libdbd-sqlite3
+      - sqlite3
+      - libsctp-dev
+      - libortp-dev
+      - libpcap-dev
+      - libc-ares-dev
+      - libtool
+      - shtool
+      - pkg-config
+      - libtalloc-dev
+      - libpcsclite-dev
+      - libgnutls28-dev
+      - libmnl-dev
+      - libssl-dev
+      - libczmq-dev
+      - libsofia-sip-ua-glib-dev
+      - libsqlite3-dev
+      - libasound2-dev
+      - liblua5.3-dev
+      - lua-socket
   tags:
     - osmocom
 
 # mdbus2 is not available in debian10. TODO: compile it for >9
 - name: install mdbus2
   apt:
-    name: "{{ item }}"
-  with_items:
-    - mdbus2
+    name:
+      - mdbus2
   when: ansible_distribution == 'Debian' and ansible_distribution_version <= '9'
   tags:
     - ofono
@@ -51,35 +49,32 @@
 
 - name: install srsLTE build-only dependencies
   apt:
-    name: "{{ item }}"
-  with_items:
-    - cmake
-    - libfftw3-dev
-    - libmbedtls-dev
-    - libboost-program-options-dev
-    - libconfig++-dev
-    - libsctp-dev
-    - libpcsclite-dev
-    - libuhd-dev
-    - libczmq-dev
-    - libsoapysdr-dev
+    name:
+      - cmake
+      - libfftw3-dev
+      - libmbedtls-dev
+      - libboost-program-options-dev
+      - libconfig++-dev
+      - libsctp-dev
+      - libpcsclite-dev
+      - libuhd-dev
+      - libczmq-dev
+      - libsoapysdr-dev
   tags:
     - srs
 
 - name: install srsLTE runtime extra dependencies (Debian)
   apt:
-    name: "{{ item }}"
-  with_items:
-    - soapysdr0.7-module-lms7
+    name:
+      - soapysdr0.7-module-lms7
   when: ansible_distribution == 'Debian'
   tags:
     - srs
 
 - name: install srsLTE runtime extra dependencies (Ubuntu)
   apt:
-    name: "{{ item }}"
-  with_items:
-    - soapysdr0.6-module-lms7
+    name:
+      - soapysdr0.6-module-lms7
   when: ansible_distribution == 'Ubuntu'
   tags:
     - srs
@@ -101,9 +96,8 @@
 
 - name: install uhub dependencies
   apt:
-    name: "{{ item }}"
-  with_items:
-    - libusb-1.0-0-dev
+    name:
+      - libusb-1.0-0-dev
   tags:
     - modem
 
@@ -172,9 +166,8 @@
 
 - name: install patchelf build dependencies
   apt:
-    name: "{{ item }}"
-  with_items:
-    - autoconf
+    name:
+      - autoconf
   tags:
     - patchelf
     - osmo-gsm-tester-proc
@@ -208,34 +201,32 @@
 
 - name: install gsm tester dependencies (main)
   apt:
-    name: "{{ item }}"
-  with_items:
-    - sqlite3
-    - python3
-    - python3-setuptools
-    - python3-yaml
-    - python3-mako
-    - python3-gi
-    - python3-watchdog
-    - python3-numpy
-    - python3-websocket
-    - ofono
-    - patchelf
-    - libcap2-bin
-    - python3-pip
-    - udhcpc
+    name:
+      - sqlite3
+      - python3
+      - python3-setuptools
+      - python3-yaml
+      - python3-mako
+      - python3-gi
+      - python3-watchdog
+      - python3-numpy
+      - python3-websocket
+      - ofono
+      - patchelf
+      - libcap2-bin
+      - python3-pip
+      - udhcpc
   tags:
     - osmo-gsm-tester-main
 
 - name: install gsm tester dependencies (proc)
   apt:
-    name: "{{ item }}"
-  with_items:
-    - tcpdump
-    - patchelf
-    - libcap2-bin
-    - iperf3
-    - sudo
+    name:
+      - tcpdump
+      - patchelf
+      - libcap2-bin
+      - iperf3
+      - sudo
   tags:
     - osmo-gsm-tester-proc
 

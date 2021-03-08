@@ -2,19 +2,18 @@
 
 - name: install jenkins utilities
   apt:
-    name: "{{ item }}"
+    name:
+      - htop
+      - virt-manager
+      - qemu
+      - qemu-user-static
+      - qemu-system-arm
+      - proot
+      - debootstrap
+      - fakeroot
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
-  with_items:
-    - htop
-    - virt-manager
-    - qemu
-    - qemu-user-static
-    - qemu-system-arm
-    - proot
-    - debootstrap
-    - fakeroot
   when: install_jenkins_utilities
 
 - name: stop checking release validity for old stable
@@ -41,20 +40,18 @@
 
 - name: install java for stretch
   apt:
-    name: "{{ item }}"
+    name:
+      - openjdk-8-jre-headless
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
-  with_items:
-    - openjdk-8-jre-headless
   when: ansible_distribution == 'Debian' and ansible_distribution_version == '9'
 
 - name: install java for buster and later
   apt:
-    name: "{{ item }}"
+    name:
+      - openjdk-11-jre-headless
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
-  with_items:
-    - openjdk-11-jre-headless
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 10

@@ -2,14 +2,13 @@
 
 - name: add https support
   apt:
-    name: "{{ item }}"
+    name:
+      - apt-transport-https
+      - gnupg
+      - cron
+      - ca-certificates
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - apt-transport-https
-    - gnupg
-    - cron
-    - ca-certificates
 
 - name: add docker gpg key to apt keyring
   apt_key:

@@ -1,103 +1,101 @@
 ---
 - name: install build utilities
   apt:
-    name: "{{ item }}"
+    name:
+      - asciidoc
+      - autoconf
+      - autoconf-archive
+      - automake
+      - bc
+      - bison
+      - coccinelle
+      - cppcheck
+      - debhelper
+      - devscripts
+      - dh-autoreconf
+      - dh-systemd
+      - doxygen
+      - flex
+      - g++
+      - gawk
+      - gcc
+      - gcc-arm-none-eabi
+      - git
+      - git-buildpackage
+      - graphviz
+      - libcsv-dev
+      - libtool
+      - libboost-all-dev
+      - make
+      - mscgen
+      - osc
+      - pkgconf
+      - python-minimal
+      - python-setuptools
+      - python3
+      - python3-setuptools
+      - stow
+      - texinfo
+      # by gsm-manuals
+      - python3-nwdiag
+      - python-pychart
+      - inkscape
+      # by gapk
+      - libasound-dev
+      - libopencore-amrnb-dev
+      # by LimeSuite
+      - cmake
+      - patchelf
+      # by libusrp
+      - sdcc
+      # by mingw upload job
+      - rsync
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - asciidoc
-    - autoconf
-    - autoconf-archive
-    - automake
-    - bc
-    - bison
-    - coccinelle
-    - cppcheck
-    - debhelper
-    - devscripts
-    - dh-autoreconf
-    - dh-systemd
-    - doxygen
-    - flex
-    - g++
-    - gawk
-    - gcc
-    - gcc-arm-none-eabi
-    - git
-    - git-buildpackage
-    - graphviz
-    - libcsv-dev
-    - libtool
-    - libboost-all-dev
-    - make
-    - mscgen
-    - osc
-    - pkgconf
-    - python-minimal
-    - python-setuptools
-    - python3
-    - python3-setuptools
-    - stow
-    - texinfo
-    # by gsm-manuals
-    - python3-nwdiag
-    - python-pychart
-    - inkscape
-    # by gapk
-    - libasound-dev
-    - libopencore-amrnb-dev
-    # by LimeSuite
-    - cmake
-    - patchelf
-    # by libusrp
-    - sdcc
-    # by mingw upload job
-    - rsync
 
 - name: install build dependencies and libraries
   apt:
-    name: "{{ item }}"
+    name:
+      - dahdi-source
+      - docbook5-xml
+      - libboost-dev
+      - libc-ares-dev
+      - libdbd-sqlite3
+      - libdbi-dev
+      - libffi-dev
+      - libffi-dev
+      - libfftw3-dev
+      - libgmp-dev
+      - libgnutls28-dev
+      - libgps-dev
+      - libgsm1-dev
+      - libnl-3-dev
+      - libnl-route-3-dev
+      - libmnl-dev
+      # by osmo-sysmon
+      - liboping-dev
+      - libncurses5-dev
+      - libortp-dev
+      - libpcap-dev
+      - libpcsclite-dev
+      - libreadline-dev
+      - libsctp-dev
+      - libsigsegv-dev
+      - libsnmp-dev
+      - libsofia-sip-ua-glib-dev
+      - libsqlite3-dev
+      - libssl-dev
+      - libsystemd-dev
+      - libtalloc-dev
+      - libuhd-dev
+      - libusb-1.0-0-dev
+      - libusb-dev
+      - libzmq3-dev
+      - sqlite3
+      - libaio-dev
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
-  with_items:
-    - dahdi-source
-    - docbook5-xml
-    - libboost-dev
-    - libc-ares-dev
-    - libdbd-sqlite3
-    - libdbi-dev
-    - libffi-dev
-    - libffi-dev
-    - libfftw3-dev
-    - libgmp-dev
-    - libgnutls28-dev
-    - libgps-dev
-    - libgsm1-dev
-    - libnl-3-dev
-    - libnl-route-3-dev
-    - libmnl-dev
-    # by osmo-sysmon
-    - liboping-dev
-    - libncurses5-dev
-    - libortp-dev
-    - libpcap-dev
-    - libpcsclite-dev
-    - libreadline-dev
-    - libsctp-dev
-    - libsigsegv-dev
-    - libsnmp-dev
-    - libsofia-sip-ua-glib-dev
-    - libsqlite3-dev
-    - libssl-dev
-    - libsystemd-dev
-    - libtalloc-dev
-    - libuhd-dev
-    - libusb-1.0-0-dev
-    - libusb-dev
-    - libzmq3-dev
-    - sqlite3
-    - libaio-dev
 
 - name: install liblua for jessie
   apt:
@@ -110,65 +108,60 @@
 
 - name: install liblua for stretch or later
   apt:
-    name: "{{ item }}"
+    name:
+      - liblua5.3-dev
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
-  with_items:
-    - liblua5.3-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 9
 
 - name: install liblimesuite-dev for stretch or later
   apt:
-    name: "{{ item }}"
+    name:
+      - liblimesuite-dev
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
-  with_items:
-    - liblimesuite-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 9
 
 - name: install osmo-remsim dependencies
   apt:
-    name: "{{ item }}"
+    name:
+      - libjansson-dev
+      - libulfius-dev
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - libjansson-dev
-    - libulfius-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 9
 
 - name: install srsLTE build dependencies
   apt:
-    name: "{{ item }}"
+    name:
+      - cmake
+      - libfftw3-dev
+      - libmbedtls-dev
+      - libboost-program-options-dev
+      - libconfig++-dev
+      - libsctp-dev
+      - libpcsclite-dev
+      - libuhd-dev
+      - libczmq-dev
+      - libsoapysdr-dev
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - cmake
-    - libfftw3-dev
-    - libmbedtls-dev
-    - libboost-program-options-dev
-    - libconfig++-dev
-    - libsctp-dev
-    - libpcsclite-dev
-    - libuhd-dev
-    - libczmq-dev
-    - libsoapysdr-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 9
 
 - name: install open5gs build dependencies
   apt:
-    name: "{{ item }}"
+    name:
+      - meson
+      - ninja-build
+      - libgcrypt-dev
+      - libidn11-dev
+      - libmongoc-dev
+      - libbson-dev
+      - libyaml-dev
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - meson
-    - ninja-build
-    - libgcrypt-dev
-    - libidn11-dev
-    - libmongoc-dev
-    - libbson-dev
-    - libyaml-dev
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 10
 
 - name: download osmo-python-tests for py2

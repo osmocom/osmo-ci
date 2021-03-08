@@ -1,12 +1,11 @@
 ---
 - name: install bzip2 and tar
   apt:
-    name: "{{ item }}"
+    name:
+      - tar
+      - bzip2
     cache_valid_time: 3600
     update_cache: yes
-  with_items:
-    - tar
-    - bzip2
 
 - name: copy poky installer
   copy:
