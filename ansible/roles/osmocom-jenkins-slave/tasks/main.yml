@@ -4,6 +4,15 @@
   include_tasks: debian.yml
   when: ansible_distribution == 'Debian'
 
+# Raspbian default user "pi" has uid=1000, which we need for the jenkins user.
+# When the ansible playbook is running, root access via ssh is already
+# configured, so we don't need the user "pi" anymore.
+- name: delete raspbian default user
+  user:
+    name: "pi"
+    remove: true
+    state: absent
+
 - name: add user jenkins
   user:
     name: "{{ jenkins_user }}"
