@@ -198,10 +198,10 @@
             (FIRMWARE_VERSION == "origin/nrw/oc2g" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-master-debian9")
           concurrent: false
           cmd: |
-            export ASCIIDOC_WARNINGS_CHECK=1
-            export OSMO_GSM_MANUALS_DIR="$HOME/osmo-gsm-manuals"
-            export PUBLISH=1
-            ./contrib/jenkins_bts_model.sh "$BTS_MODEL"
+            {docker_run} \
+              -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
+              {docker_img} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
       - osmo-e1-hardware:
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
@@ -324,10 +324,10 @@
             (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-raspbian10") ||
             (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-raspbian10")
           cmd: |
-            export ASCIIDOC_WARNINGS_CHECK=1
-            export OSMO_GSM_MANUALS_DIR="$HOME/osmo-gsm-manuals"
-            export PUBLISH=1
-            ./contrib/jenkins.sh
+            {docker_run} \
+              -e INSTR="$INSTR" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
+              {docker_img} /build/contrib/jenkins.sh
 
       - osmocom-bb
       - osmo-sysmon
