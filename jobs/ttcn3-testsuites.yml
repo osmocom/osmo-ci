@@ -44,6 +44,7 @@
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 25 04 * * *
           # Cache the linux source tree in the workspace of one node
+          wipe_workspace: false
           node: ttcn3-ggsn-test-kernel-git
           description: |
             Test osmo-ggsn latest with the Linux kernel built from master of
@@ -53,6 +54,7 @@
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 30 04 * * *
           # Cache the linux source tree in the workspace of one node
+          wipe_workspace: false
           node: ttcn3-ggsn-test-kernel-git
           description: |
             Test osmo-ggsn latest with the Linux kernel built from master of
