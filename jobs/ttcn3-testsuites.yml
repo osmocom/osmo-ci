@@ -370,7 +370,7 @@
           allow-empty-results: false
       - email:
           notify-every-unstable-build: true
-          recipients: laforge@gnumonks.org
+          recipients: laforge@gnumonks.org osmith@sysmocom.de
           send-to-individuals: false
       - archive:
           allow-empty: false
