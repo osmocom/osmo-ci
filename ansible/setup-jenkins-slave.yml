@@ -42,6 +42,8 @@
       tags:
         - jenkins-slave
 
+    - name: ntpd
+
 - name: setup coverity slaves
   hosts: coverity-slaves
   user: root

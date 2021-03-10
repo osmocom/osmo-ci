@@ -1,0 +1,10 @@
+---
+- name: install ntp from debian
+  apt:
+    name: ntp
+
+- name: start and enable ntp daemon
+  systemd:
+    name: ntp
+    state: started
+    enabled: yes
