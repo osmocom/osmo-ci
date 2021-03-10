@@ -27,7 +27,9 @@
       - shell: |
           export OSMO_BRANCH_DOCKER_PLAYGROUND="$BRANCH_DOCKER_PLAYGROUND"
           . scripts/common.sh
-          docker_images_require "debian-stretch-build" "debian-stretch-build-dist"
+          docker_images_require \
+            "debian-stretch-obs-latest" \
+            "debian-stretch-build-dist"
 
           docker run \
             --rm=true \
