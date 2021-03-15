@@ -10,4 +10,4 @@ udhcpd_static_leases:
     ip: 10.42.42.123
 
 # how many modems are connected via a quadmodem?
-gsm_modems: 8
+gsm_modems: 12
