@@ -160,6 +160,7 @@
       - libmongoc-dev
       - libbson-dev
       - libyaml-dev
+      - libnghttp2-dev
     cache_valid_time: 3600
     update_cache: yes
   when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 10
