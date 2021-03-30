@@ -116,6 +116,9 @@
       - ttcn3-cbc-test:
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
+      - ttcn3-ns-test:
+          blocking: "^(ttcn3|TTCN3-.*)-ns-test.*"
+          timer: 00 11 * * *
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
