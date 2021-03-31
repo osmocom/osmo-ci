@@ -119,6 +119,13 @@
       - ttcn3-ns-test:
           blocking: "^(ttcn3|TTCN3-.*)-ns-test.*"
           timer: 00 11 * * *
+      - ttcn3-ns-test-sns:
+          blocking: "^(ttcn3|TTCN3-.*)-ns-test-sns.*"
+          timer: 10 11 * * *
+      - ttcn3-ns-test-fr:
+          blocking: "^(ttcn3|TTCN3-.*)-ns-test-fr.*"
+          timer: 20 11 * * *
+          node: hdlc
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
