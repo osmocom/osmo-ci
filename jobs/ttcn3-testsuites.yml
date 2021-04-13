@@ -183,9 +183,10 @@
       - ttcn3-smlc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 10 10 * * *
-      - ttcn3-gbproxy-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
-          timer: 20 10 * * *
+      # disabled until we have a stable release that supports IP-SNS in SGSN role
+      #- ttcn3-gbproxy-test-latest:
+          #blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
+          #timer: 20 10 * * *
       - ttcn3-cbc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
@@ -286,9 +287,9 @@
       #- TTCN3-centos-sccp-test-latest:
       #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
       #    timer: 00 10 * * *
-      - TTCN3-centos-gbproxy-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
-          timer: 20 10 * * *
+      #- TTCN3-centos-gbproxy-test-latest:
+          #blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
+          #timer: 20 10 * * *
       - TTCN3-centos-cbc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
