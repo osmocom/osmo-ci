@@ -40,7 +40,7 @@
 
           SSH_COMMAND="ssh -p 48"
           cd _release_tarballs
-          rsync -avz --delete -e "$SSH_COMMAND" . releases@rita.osmocom.org:web-files/
+          rsync -avz --delete -e "$SSH_COMMAND" . releases@ftp.osmocom.org:web-files/
     scm:
       - git:
           branches:
