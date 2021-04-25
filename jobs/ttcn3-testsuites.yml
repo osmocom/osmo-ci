@@ -126,6 +126,9 @@
           blocking: "^(ttcn3|TTCN3-.*)-ns-test-fr.*"
           timer: 20 11 * * *
           node: hdlc
+      - ttcn3-pcap-client-test:
+          blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
+          timer: 40 11 * * *
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
@@ -190,6 +193,10 @@
       - ttcn3-cbc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
+      - ttcn3-pcap-client-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
+          timer: 40 11 * * *
+
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
 
