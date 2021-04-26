@@ -379,6 +379,7 @@ services_check() {
 	for service in $services_feed; do
 		if ! systemctl --no-pager -l -n 200 status $service; then
 			failed="$failed $service"
+			journalctl -u "$service" -n 200
 		fi
 	done
 
