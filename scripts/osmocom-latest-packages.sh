@@ -7,6 +7,7 @@
 #   * "latest": use latest tagged release (default)
 #   * other (e.g. "2021q1"): use last commit of branch of same name, exit with
 #     error if it does not exist
+# * PACKAGES: set to a space-separated list of packages to skip all others
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
@@ -75,6 +76,10 @@ checkout() {
   url=$2
   gitbpargs=""
 
+  if osmo_obs_skip_pkg "$project"; then
+    return
+  fi
+
   if [ -z "$url" ]; then
     url="$(osmo_git_clone_url "$project")"
   fi
@@ -105,6 +110,11 @@ build() {
   project=$1
   gitbpargs="$2"
   output="$DEBSRCDIR/$project"
+
+  if osmo_obs_skip_pkg "$project"; then
+    return
+  fi
+
   echo
   echo "====> Building $project"
   cd "$TOP/$project"

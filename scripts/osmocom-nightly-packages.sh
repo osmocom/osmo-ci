@@ -7,6 +7,7 @@
 # * FEED: controls the source branch that is used:
 #   * "nightly": use "master" branch (default)
 #   * "next": use "next" branch if it exists, otherwise use "master" branch
+# * PACKAGES: set to a space-separated list of packages to skip all others
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
@@ -85,6 +86,10 @@ checkout() {
   local url=$2
   local branch=$3
 
+  if osmo_obs_skip_pkg "$name"; then
+    return
+  fi
+
   if [ -z "$url" ]; then
     url="$(osmo_git_clone_url "$name")"
   fi
@@ -117,6 +122,10 @@ build() {
   local repodir=$REPO/$name
   local oscdir=$REPO/osc/$PROJ/$name
   local dependver="$OSMO_OBS_CONFLICT_PKGVER"
+
+  if osmo_obs_skip_pkg "$name"; then
+    return
+  fi
 
   if [ -d "$oscdir" ] ; then
     # remove earlier version
@@ -167,6 +176,10 @@ post() {
 }
 
 checkout_limesuite() {
+  if osmo_obs_skip_pkg "limesuite"; then
+    return
+  fi
+
   cd "$REPO"
   git clone https://github.com/myriadrf/LimeSuite limesuite
   TAG="$(get_last_tag limesuite)"
@@ -175,6 +188,10 @@ checkout_limesuite() {
 }
 
 checkout_open5gs() {
+  if osmo_obs_skip_pkg "open5gs"; then
+    return
+  fi
+
   cd "$REPO"
   git clone https://github.com/open5gs/open5gs
   cd open5gs

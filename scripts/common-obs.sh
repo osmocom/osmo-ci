@@ -171,6 +171,27 @@ osmo_obs_distro_specific_patch() {
 	fi
 }
 
+# Check if checkout or build of a given package should be skipped, based on the
+# PACKAGES environment variable.
+# $1: package name (e.g. "libosmocore")
+osmo_obs_skip_pkg() {
+	local pkgname="$1"
+
+	if [ -z "$PACKAGES" ]; then
+		# Don't skip
+		return 1
+	fi
+
+	for i in "osmocom-$FEED" $PACKAGES; do
+		if [ "$i" = "$pkgname" ]; then
+			return 1
+		fi
+	done
+
+	# Skip
+	return 0
+}
+
 # Copy an already checked out repository dir and apply a distribution specific patch.
 # $PWD must be where all repositories are checked out in subdirs.
 # $1: distribution name (e.g. "debian8")
@@ -179,6 +200,10 @@ osmo_obs_checkout_copy() {
 	local distro="$1"
 	local repo="$2"
 	local patch
+
+	if osmo_obs_skip_pkg "$repo"; then
+		return
+	fi
 
 	echo
 	echo "====> Checking out $repo-$distro"
