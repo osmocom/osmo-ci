@@ -53,35 +53,6 @@ get_last_tag() {
   echo "${VER}"
 }
 
-# Return a version based on the latest tag and commit (e.g. "1.5.1.93.47cc")
-# or fall back to the last debian version (e.g. "2.2.6").
-# Run osmo_obs_git_version_gen before. $PWD must be inside a git repository.
-get_commit_version() {
-  local version=""
-
-  if [ -e ".tarball-version" ]; then
-    version=$(cat .tarball-version)
-    # debian doesn't allow '-' in version.
-    version=$(echo "$version" | sed  's/-/./g' )
-  fi
-
-  # deb version
-  deb_version=$(head -1 debian/changelog | cut -d ' ' -f 2 | sed 's,(,,'  | sed 's,),,')
-  if [ -z "$version" ] || [ "$version" = "UNKNOWN" ]; then
-    version="$deb_version"
-  else
-    # add epoch from debian/changelog
-    case $deb_version in
-    *:*)
-      epoch=$(echo "$deb_version" | cut -d : -f 1)
-      version=$epoch:$version
-      ;;
-    esac
-  fi
-
-  echo -n "$version"
-}
-
 ### common
 checkout() {
   local name=$1
@@ -145,7 +116,7 @@ build() {
   if [ "$changelog" != "no_commit" ] ; then
     osmo_obs_git_version_gen
     # Add date to increase version even if commit did not change (OS#5135)
-    VER="$(get_commit_version).$DT"
+    VER="$(osmo_obs_get_commit_version).$DT"
     osmo_obs_add_depend_deb "./debian/control" "$name" "osmocom-$FEED" "$dependver"
     dch -b -v "$VER" -m "Snapshot build"
     git commit -m "$VER snapshot" debian/

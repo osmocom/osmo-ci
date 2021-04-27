@@ -119,13 +119,19 @@ build() {
   echo "====> Building $project"
   cd "$TOP/$project"
 
+  osmo_obs_git_version_gen
+
   if [ "$FEED" = "latest" ]; then
     debian_branch=$(get_last_tag "$project")
   else
     debian_branch="$FEED"
+    # Set new debian changelog version with commit appended. This version will
+    # become part of resulting filenames, and will change if commits have been
+    # added to the feed's branch.
+    VER="$(osmo_obs_get_commit_version)"
+    dch -b -v "$VER" -m "Snapshot build"
+    git commit -m "$VER snapshot" debian/
   fi
-
-  osmo_obs_git_version_gen
 
   osmo_obs_add_depend_deb "./debian/control" "$project" "osmocom-$FEED"
 
