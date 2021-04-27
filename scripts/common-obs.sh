@@ -15,6 +15,10 @@ osmo_cmd_require \
 	sed \
 	wget
 
+if [ -z "$PROJ" ]; then
+	echo "PROJ environment variable is not set"
+	exit 1
+fi
 
 # Add dependency to all (sub)packages in debian/control and commit the change.
 # $1: path to debian/control file

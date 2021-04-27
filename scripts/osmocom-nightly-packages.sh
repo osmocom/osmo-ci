@@ -1,7 +1,8 @@
 #!/bin/bash
 # Generate source packages and upload them to OBS, for the nightly or next feed.
 # Environment variables:
-# * FEED: the binary package feed to upload to, this also controls the source branch that is used:
+# * PROJ: the OBS namespace to upload to (e.g. "network:osmocom:nightly")
+# * FEED: controls the source branch that is used:
 #   * "nightly": use "master" branch (default)
 #   * "next": use "next" branch if it exists, otherwise use "master" branch
 . "$(dirname "$0")/common.sh"
@@ -13,23 +14,12 @@ set -x
 DT=$(date +%Y%m%d%H%M)
 OSMO_OBS_CONFLICT_PKGVER="$OSMO_OBS_CONFLICT_PKGVER.$DT"
 TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
+FEED="${FEED:-nightly}"
 
-# Set FEED and PROJ, based on the FEED env var
-parse_feed_proj() {
-  FEED="${FEED:-nightly}"
-  case "$FEED" in
-  nightly)
-    PROJ=network:osmocom:nightly
-    ;;
-  next)
-    PROJ=network:osmocom:next
-    ;;
-  *)
-    echo "unsupported feed: $FEED"
-    exit 1
-    ;;
-  esac
-}
+if [ "$FEED" != "nightly" ] && [ "$FEED" != "next" ]; then
+  echo "unsupported feed: $FEED"
+  exit 1
+fi
 
 ### OBS build
 prepare() {
@@ -286,5 +276,4 @@ build_osmocom() {
   post
 }
 
-parse_feed_proj
 build_osmocom

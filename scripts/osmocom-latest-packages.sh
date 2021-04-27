@@ -1,13 +1,12 @@
 #!/bin/sh
 # Generate source packages and upload them to OBS, for the latest feed.
+# Environment variables:
+# * PROJ: the OBS namespace to upload to (e.g. "network:osmocom:latest")
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
 set -e
 set -x
-
-# OBS project name
-PROJ=network:osmocom:latest
 
 DT=$(date +%Y%m%d%H%M)
 TOP=$(pwd)

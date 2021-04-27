@@ -26,7 +26,8 @@
           description: osmo-ci.git branch
           default: 'refs/remotes/origin/master'
     builders:
-      - shell:
+      - shell: |
+          export PROJ=network:osmocom:{type}
           ./scripts/osmocom-{type}-packages.sh
     scm:
       - git:
