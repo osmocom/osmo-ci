@@ -1,5 +1,7 @@
 #!/bin/bash
 # Generate source packages and upload them to OBS, for the nightly or next feed.
+# New packages are always uploaded, even if the source does not change. Only
+# packages of the same build date (DT) can be installed together.
 # Environment variables:
 # * PROJ: the OBS namespace to upload to (e.g. "network:osmocom:nightly")
 # * FEED: controls the source branch that is used:

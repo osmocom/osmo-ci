@@ -1,5 +1,6 @@
 #!/bin/sh
 # Generate source packages and upload them to OBS, for the latest feed.
+# New packages are only uploaded if the source changed.
 # Environment variables:
 # * PROJ: the OBS namespace to upload to (e.g. "network:osmocom:latest")
 . "$(dirname "$0")/common.sh"
