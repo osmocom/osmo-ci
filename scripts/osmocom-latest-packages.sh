@@ -3,8 +3,17 @@
 # New packages are only uploaded if the source changed.
 # Environment variables:
 # * PROJ: the OBS namespace to upload to (e.g. "network:osmocom:latest")
+# * FEED:
+#   * "latest": use latest tagged release (default)
+#   * other (e.g. "2021q1"): use last commit of branch of same name, exit with
+#     error if it does not exist
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
+
+FEEDS="
+  2021q1
+  latest
+"
 
 set -e
 set -x
@@ -12,6 +21,20 @@ set -x
 DT=$(date +%Y%m%d%H%M)
 TOP=$(pwd)
 DEBSRCDIR="$TOP/debsrc"
+FEED="${FEED:-latest}"
+
+verify_feed() {
+  local i
+
+  for i in $FEEDS; do
+    if [ "$i" = "$FEED" ]; then
+      return
+    fi
+  done
+
+  echo "unsupported feed: $FEED"
+  exit 1
+}
 
 ### OBS build
 prepare() {
@@ -25,7 +48,15 @@ prepare() {
   mkdir "$DEBSRCDIR"
 
   cd "$TOP"
-  osmo_obs_prepare_conflict "osmocom-latest" "osmocom-nightly" "osmocom-next"
+
+  local conflict_args="osmocom-nightly osmocom-next"
+  local i
+  for i in $FEEDS; do
+    if [ "$i" != "$FEED" ]; then
+      conflict_args="$conflict_args osmocom-$i"
+    fi
+  done
+  osmo_obs_prepare_conflict "osmocom-$FEED" $conflict_args
 }
 
 get_last_tag() {
@@ -54,8 +85,14 @@ checkout() {
   [ -d "$project" ] || osmo_git_clone_date "$url" "$project"
   cd "$project"
   git fetch
-  VER=$(get_last_tag "$project")
-  git checkout -f -B "$VER" "refs/tags/$VER"
+
+  if [ "$FEED" = "latest" ]; then
+    VER=$(get_last_tag "$project")
+    git checkout -f -B "$VER" "refs/tags/$VER"
+  else
+    git checkout -f -B "$FEED" "origin/$FEED"
+  fi
+
   if [ "$project" = "open5gs" ]; then
       meson subprojects download freeDiameter
   fi
@@ -71,12 +108,18 @@ build() {
   echo
   echo "====> Building $project"
   cd "$TOP/$project"
-  VER=$(get_last_tag "$project")
+
+  if [ "$FEED" = "latest" ]; then
+    debian_branch=$(get_last_tag "$project")
+  else
+    debian_branch="$FEED"
+  fi
+
   if [ -x ./git-version-gen ]; then
     ./git-version-gen . > .tarball-version 2>/dev/null
   fi
 
-  osmo_obs_add_depend_deb "./debian/control" "$project" "osmocom-latest"
+  osmo_obs_add_depend_deb "./debian/control" "$project" "osmocom-$FEED"
 
   if [ "$project" = "open5gs" ]; then
     # we cannot control the output directory of the generated source :(
@@ -85,11 +128,11 @@ build() {
     mv "../$name"*.tar* "../$name"*.dsc "$output"
   elif [ -x ./git-version-gen ]; then
     gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$output" \
-		     "--git-debian-branch=$VER" --git-ignore-new $gitbpargs \
+		     "--git-debian-branch=$debian_branch" --git-ignore-new $gitbpargs \
 		     --git-postexport='cp $GBP_GIT_DIR/../.tarball-version $GBP_TMP_DIR/'
   else
     gbp buildpackage -S -uc -us -d --git-ignore-branch "--git-export-dir=$output" \
-		     "--git-debian-branch=$VER" --git-ignore-new $gitbpargs
+		     "--git-debian-branch=$debian_branch" --git-ignore-new $gitbpargs
   fi
 
   if [ ! -d "$TOP/$PROJ/$project" ] ; then
@@ -112,7 +155,7 @@ build() {
     fi
   fi
 
-  osmo_obs_add_rpm_spec "$TOP/$PROJ/$project" "$TOP/$project" "$project" "osmocom-latest"
+  osmo_obs_add_rpm_spec "$TOP/$PROJ/$project" "$TOP/$project" "$project" "osmocom-$FEED"
 
   cd "$TOP"
 }
@@ -162,7 +205,7 @@ build_osmocom() {
   cd "$TOP"
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
 
-  build osmocom-latest
+  build osmocom-$FEED
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
   build osmo-gsm-manuals-debian8
@@ -199,7 +242,8 @@ build_osmocom() {
   build osmo-gbproxy
 
   cd "$TOP/$PROJ"
-  osc ci -m "Latest Tagged versions of $DT" --noservice
+  osc ci -m "$FEED versions of $DT" --noservice
 }
 
+verify_feed
 build_osmocom
