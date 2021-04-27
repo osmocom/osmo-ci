@@ -125,9 +125,7 @@ build() {
     debian_branch="$FEED"
   fi
 
-  if [ -x ./git-version-gen ]; then
-    ./git-version-gen . > .tarball-version 2>/dev/null
-  fi
+  osmo_obs_git_version_gen
 
   osmo_obs_add_depend_deb "./debian/control" "$project" "osmocom-$FEED"
 

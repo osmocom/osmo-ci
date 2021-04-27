@@ -243,3 +243,12 @@ osmo_obs_checkout_copy() {
 	git commit -m "auto-commit: apply $patch" debian/
 	cd ..
 }
+
+# Run git-version-gen inside Osmocom repositories, so the .tarball-version
+# becomes part of the source repository. Usually this would be done with
+# "make dist", but we use git-buildpackage instead.
+osmo_obs_git_version_gen() {
+	if [ -x ./git-version-gen ]; then
+		./git-version-gen . > .tarball-version 2>/dev/null
+	fi
+}
