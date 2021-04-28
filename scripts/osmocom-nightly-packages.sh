@@ -73,7 +73,7 @@ get_commit_version() {
   # deb version
   deb_version=$(head -1 debian/changelog | cut -d ' ' -f 2 | sed 's,(,,'  | sed 's,),,')
   if [ -z "$version" ] || [ "$version" = "UNKNOWN" ]; then
-    version="$deb_version.$DT"
+    version="$deb_version"
   else
     # add epoch from debian/changelog
     case $deb_version in
@@ -138,7 +138,8 @@ build() {
   cd "$repodir"
 
   if [ "$changelog" = "commit" ] ; then
-    VER=$(get_commit_version)
+    # Add date to increase version even if commit did not change (OS#5135)
+    VER="$(get_commit_version).$DT"
     osmo_obs_add_depend_deb "./debian/control" "$name" "osmocom-$FEED" "$dependver"
     dch -b -v "$VER" -m "Snapshot build"
     git commit -m "$VER snapshot" debian/
