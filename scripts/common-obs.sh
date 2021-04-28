@@ -12,8 +12,7 @@ osmo_cmd_require \
 	mktemp \
 	osc \
 	patch \
-	sed \
-	wget
+	sed
 
 if [ -z "$PROJ" ]; then
 	echo "PROJ environment variable is not set"
