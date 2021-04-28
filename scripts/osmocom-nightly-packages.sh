@@ -11,6 +11,7 @@ set -e
 set -x
 
 DT=$(date +%Y%m%d%H%M)
+OSMO_OBS_CONFLICT_PKGVER="$OSMO_OBS_CONFLICT_PKGVER.$DT"
 TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
 
 # Set FEED and PROJ, based on the FEED env var
@@ -117,7 +118,7 @@ build() {
   local gitbpargs=$3
   local repodir=$REPO/$name
   local oscdir=$REPO/osc/$PROJ/$name
-  local dependver="$OSMO_OBS_CONFLICT_PKGVER.$DT"
+  local dependver="$OSMO_OBS_CONFLICT_PKGVER"
 
   if [ -z "$changelog" ] ; then
     changelog=commit
@@ -239,7 +240,7 @@ build_osmocom() {
   osmo_obs_checkout_copy debian8 osmo-gsm-manuals
   osmo_obs_checkout_copy debian8 osmo-trx
 
-  build osmocom-$FEED
+  build osmocom-$FEED no_commit
   build limesuite no_commit --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
   build osmo-gsm-manuals-debian8
