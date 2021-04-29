@@ -114,7 +114,7 @@ checkout() {
 
 # Generate a source package and upload it to OBS
 # $1: package name (e.g. "libosmocore")
-# $2: update debian dir when set to "commit" (default):
+# $2: update debian dir, unless set to "no_commit":
 #     * add dependency on osmocom-$FEED package
 #     * add new version to changelog (e.g. "1.5.1.96.c96d7.202104281354")
 # $3: arguments to pass to "gbp buildpackage"
@@ -125,10 +125,6 @@ build() {
   local repodir=$REPO/$name
   local oscdir=$REPO/osc/$PROJ/$name
   local dependver="$OSMO_OBS_CONFLICT_PKGVER"
-
-  if [ -z "$changelog" ] ; then
-    changelog=commit
-  fi
 
   if [ -d "$oscdir" ] ; then
     # remove earlier version
@@ -143,7 +139,7 @@ build() {
 
   cd "$repodir"
 
-  if [ "$changelog" = "commit" ] ; then
+  if [ "$changelog" != "no_commit" ] ; then
     # Add date to increase version even if commit did not change (OS#5135)
     VER="$(get_commit_version).$DT"
     osmo_obs_add_depend_deb "./debian/control" "$name" "osmocom-$FEED" "$dependver"
