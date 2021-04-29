@@ -61,6 +61,9 @@ checkout() {
   fi
 }
 
+# Generate a source package and upload it to OBS
+# $1: package name (e.g. "libosmocore")
+# $2: arguments to pass to "gbp buildpackage"
 build() {
   project=$1
   gitbpargs="$2"

@@ -112,6 +112,12 @@ checkout() {
   cd -
 }
 
+# Generate a source package and upload it to OBS
+# $1: package name (e.g. "libosmocore")
+# $2: update debian dir when set to "commit" (default):
+#     * add dependency on osmocom-$FEED package
+#     * add new version to changelog (e.g. "1.5.1.96.c96d7.202104281354")
+# $3: arguments to pass to "gbp buildpackage"
 build() {
   local name=$1
   local changelog=$2
