@@ -301,6 +301,28 @@
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
 
+      # centos8 2021q1 (SYS#5370)
+      - TTCN3-centos-pcu-test-2021q1:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 00 11 * * *
+      - TTCN3-centos-pcu-test-sns-2021q1:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 15 11 * * *
+      - TTCN3-centos-bsc-test-2021q1:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 30 11 * * *
+      - TTCN3-centos-mgw-test-2021q1:
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
+          timer: 45 11 * * *
+      - TTCN3-centos-bts-test-2021q1:
+          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
+          timer: 00 12 * * *
+      - TTCN3-centos-smlc-test-2021q1:
+          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
+          timer: 15 12 * * *
+      - TTCN3-centos-gbproxy-test-2021q1:
+          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
+          timer: 30 12 * * *
 
 - job-template:
     name: '{job-name}'
@@ -355,6 +377,14 @@
               TTCN3-centos-*-latest)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
                   export IMAGE_SUFFIX="latest-centos8"
+                  ;;
+              TTCN3-centos-*-20*q*)
+                  export OSMOCOM_REPO_TESTSUITE_MIRROR="http://download.opensuse.org"
+                  export OSMOCOM_REPO_MIRROR="https://downloads.osmocom.org"
+                  export OSMOCOM_REPO_PATH="osmo-maintained"
+                  export OSMOCOM_REPO_VERSION="$(echo "{job-name}" | grep -o -P -- "20\d\dq.*$")"  # e.g. "2021q1"
+                  export IMAGE_SUFFIX="$OSMOCOM_REPO_VERSION-centos8"
+                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-$OSMOCOM_REPO_VERSION$//)"
                   ;;
               TTCN3-centos-*)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/)"
