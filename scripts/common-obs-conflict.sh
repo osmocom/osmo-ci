@@ -2,7 +2,7 @@
 # Create conflicting dummy packages in OBS (opensuse build service), so users can't mix packages
 # built from different branches by accident
 
-OSMO_OBS_CONFLICT_PKGVER="1.0.0"
+OSMO_OBS_CONFLICT_PKGVER="${OSMO_OBS_CONFLICT_PKGVER:-1.0.0}"
 
 # Create the conflicting package for debian
 #
