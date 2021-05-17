@@ -19,8 +19,8 @@ nightly|next|latest)
 	SCRIPT="osmocom-$FEED-packages.sh"
 	;;
 *)
-	# "2021q1" etc, osmocom-latest.sh verifies and uses $FEED
-	SCRIPT="osmocom-latest-packages.sh"
+	# "2021q1" etc, osmocom-nightly-packages.sh verifies and uses $FEED
+	SCRIPT="osmocom-nightly-packages.sh"
 	;;
 esac
 

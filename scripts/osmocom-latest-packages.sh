@@ -5,15 +5,14 @@
 # * PROJ: the OBS namespace to upload to (e.g. "network:osmocom:latest")
 # * FEED:
 #   * "latest": use latest tagged release (default)
-#   * other (e.g. "2021q1"): use last commit of branch of same name, exit with
-#     error if it does not exist
+#   * other: use last commit of branch of same name, exit with error if it does
+#     not exist
 # * PACKAGES: set to a space-separated list of packages to skip all others
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
 # Values for FEED env var. Adjust FEEDS_ALL in common-obs when changing.
 FEEDS="
-  2021q1
   latest
 "
 
