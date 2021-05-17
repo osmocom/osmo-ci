@@ -24,19 +24,6 @@ TOP=$(pwd)
 DEBSRCDIR="$TOP/debsrc"
 FEED="${FEED:-latest}"
 
-verify_feed() {
-  local i
-
-  for i in $FEEDS; do
-    if [ "$i" = "$FEED" ]; then
-      return
-    fi
-  done
-
-  echo "unsupported feed: $FEED"
-  exit 1
-}
-
 ### OBS build
 prepare() {
   # start with a checkout of the project
@@ -259,5 +246,5 @@ build_osmocom() {
   osc ci -m "$FEED versions of $DT" --noservice
 }
 
-verify_feed
+osmo_obs_verify_feed
 build_osmocom

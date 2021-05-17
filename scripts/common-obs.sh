@@ -280,3 +280,17 @@ osmo_obs_get_commit_version() {
 
 	echo -n "$version"
 }
+
+# Verify that $FEED is in $FEEDS
+osmo_obs_verify_feed() {
+	local i
+
+	for i in $FEEDS; do
+		if [ "$i" = "$FEED" ]; then
+			return
+		fi
+	done
+
+	echo "unsupported feed: $FEED"
+	exit 1
+}
