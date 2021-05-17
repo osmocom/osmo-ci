@@ -7,12 +7,15 @@
 # * FEED: controls the source branch that is used:
 #   * "nightly": use "master" branch (default)
 #   * "next": use "next" branch if it exists, otherwise use "master" branch
+#   * other (e.g. "2021q1"): use last commit of branch of same name, exit with
+#     error if it does not exist
 # * PACKAGES: set to a space-separated list of packages to skip all others
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
 # Values for FEED env var. Adjust FEEDS_ALL in common-obs when changing.
 FEEDS="
+  2021q1
   next
   nightly
 "
@@ -59,6 +62,13 @@ checkout() {
 
   if [ -z "$url" ]; then
     url="$(osmo_git_clone_url "$name")"
+  fi
+
+  if [ -z "$branch" ]; then
+    case "$FEED" in
+    nightly|next) ;;
+    *) branch="$FEED" ;;  # e.g. 2021q1
+    esac
   fi
 
   cd "$REPO"
