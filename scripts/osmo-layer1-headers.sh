@@ -11,7 +11,7 @@ set -e -x
 
 case "$1" in
     sysmo)
-	uri="git://git.sysmocom.de/sysmo-bts/layer1-api"
+	uri="https://git.sysmocom.de/sysmo-bts/layer1-api"
 	version_prefix=""
 	version="origin/master"
 	;;
