@@ -104,16 +104,16 @@
      chdir: "{{ git_destination }}/osmo-ttcn3-hacks"
 
 - name: install sysmocom git repos
-  git: repo=git://git.sysmocom.de/{{ item }}.git
+  git: repo=https://git.sysmocom.de/{{ item }}.git
        dest={{ git_destination }}/{{ item }}
        accept_hostkey=yes
        force=yes
        recursive=no
   with_items:
      - sysmo-bts/layer1-api
-     - poky/meta-sysmocom-bsp
-     - rs-backup-suite
-     - sysmo-usim-tool
+     - sysmo-bts/meta-sysmocom-bsp
+     - hwelte/rs-backup-suite
+     - sysmocom/sysmo-usim-tool
 
 
 - name: install github git repos

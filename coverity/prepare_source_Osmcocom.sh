@@ -37,4 +37,4 @@ for proj in \
 	fi
 done
 
-git clone git://git.sysmocom.de/sysmo-bts/layer1-api
+git clone https://git.sysmocom.de/sysmo-bts/layer1-api

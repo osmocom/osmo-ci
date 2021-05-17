@@ -358,7 +358,7 @@
           concurrent: false
           cmd: cd ./tests; ./run-tests
           slave_axis: !!python/tuple [simtester]
-          git_base_url: git.sysmocom.de
+          git_base_url: git.sysmocom.de/sysmocom
 
     jobs:
       - 'master-{repos}'
