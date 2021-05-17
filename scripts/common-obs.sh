@@ -2,6 +2,13 @@
 # Various common code used in the OBS (opensuse build service) related osmo-ci shell scripts
 . "$(dirname "$0")/common-obs-conflict.sh"
 
+FEEDS_ALL="
+	2021q1
+	latest
+	next
+	nightly
+"
+
 osmo_cmd_require \
 	dch \
 	dh \
@@ -281,14 +288,24 @@ osmo_obs_get_commit_version() {
 	echo -n "$version"
 }
 
-# Verify that $FEED is in $FEEDS
+# Verify that $FEED is in $FEEDS and $FEEDS_ALL
 osmo_obs_verify_feed() {
 	local i
+	local j
 
 	for i in $FEEDS; do
-		if [ "$i" = "$FEED" ]; then
-			return
+		if [ "$i" != "$FEED" ]; then
+			continue
 		fi
+
+		for j in $FEEDS_ALL; do
+			if [ "$j" = "$i" ]; then
+				return
+			fi
+		done
+
+		echo "feed found in FEEDS but not FEEDS_ALL: $FEED"
+		exit 1
 	done
 
 	echo "unsupported feed: $FEED"

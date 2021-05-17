@@ -11,6 +11,7 @@
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
+# Values for FEED env var. Adjust FEEDS_ALL in common-obs when changing.
 FEEDS="
   2021q1
   latest
@@ -36,15 +37,7 @@ prepare() {
   mkdir "$DEBSRCDIR"
 
   cd "$TOP"
-
-  local conflict_args="osmocom-nightly osmocom-next"
-  local i
-  for i in $FEEDS; do
-    if [ "$i" != "$FEED" ]; then
-      conflict_args="$conflict_args osmocom-$i"
-    fi
-  done
-  osmo_obs_prepare_conflict "osmocom-$FEED" $conflict_args
+  osmo_obs_prepare_conflict
 }
 
 get_last_tag() {
