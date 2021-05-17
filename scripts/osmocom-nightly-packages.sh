@@ -11,6 +11,11 @@
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
+FEEDS="
+  next
+  nightly
+"
+
 set -e
 set -x
 
@@ -18,11 +23,6 @@ DT=$(date +%Y%m%d%H%M)
 OSMO_OBS_CONFLICT_PKGVER="$OSMO_OBS_CONFLICT_PKGVER.$DT"
 TOP=$(pwd)/$(mktemp -d nightly-3g_XXXXXX)
 FEED="${FEED:-nightly}"
-
-if [ "$FEED" != "nightly" ] && [ "$FEED" != "next" ]; then
-  echo "unsupported feed: $FEED"
-  exit 1
-fi
 
 ### OBS build
 prepare() {
@@ -269,4 +269,5 @@ build_osmocom() {
   post
 }
 
+osmo_obs_verify_feed
 build_osmocom
