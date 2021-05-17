@@ -113,18 +113,28 @@ EOF
 
 }
 
-# Create conflicting packages
-# $1: name of dummy package (e.g. "osmocom-nightly")
-# $2-*: name of conflicting packages (e.g. "osmocom-latest")
+# Print names of packages that the conflict package from the current feed
+# (e.g. osmocom-nightly) should conflict with (e.g. osmocom-latest,
+# osmocom-next, osmocom-2021q1)
+osmo_obs_prepare_conflict_args() {
+	for i in $FEEDS_ALL; do
+		if [ "$i" != "$FEED" ]; then
+			echo "osmocom-$i"
+		fi
+	done
+}
+
+# Create conflicting packages, based on global $FEED and $FEEDS_ALL vars
 osmo_obs_prepare_conflict() {
-	local pkgname="$1"
+	local pkgname="osmocom-$FEED"
+	local conflict_args="$(osmo_obs_prepare_conflict_args)"
 	local oldpwd="$PWD"
 
 	mkdir -p "$pkgname"
 	cd "$pkgname"
 
-	osmo_obs_prepare_conflict_deb "$@"
-	osmo_obs_prepare_conflict_rpm "$@"
+	osmo_obs_prepare_conflict_deb "$pkgname" $conflict_args
+	osmo_obs_prepare_conflict_rpm "$pkgname" $conflict_args
 
 	# Put in git repository
 	git init .

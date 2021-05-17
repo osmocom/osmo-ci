@@ -11,6 +11,7 @@
 . "$(dirname "$0")/common.sh"
 . "$(dirname "$0")/common-obs.sh"
 
+# Values for FEED env var. Adjust FEEDS_ALL in common-obs when changing.
 FEEDS="
   next
   nightly
@@ -32,14 +33,7 @@ prepare() {
   osc co "$PROJ"
 
   cd "$REPO"
-  case "$FEED" in
-  nightly)
-    osmo_obs_prepare_conflict "osmocom-nightly" "osmocom-latest" "osmocom-next"
-    ;;
-  next)
-    osmo_obs_prepare_conflict "osmocom-next" "osmocom-latest" "osmocom-nightly"
-    ;;
-  esac
+  osmo_obs_prepare_conflict
 }
 
 get_last_tag() {
