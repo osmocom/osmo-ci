@@ -46,7 +46,7 @@
     wrappers: []
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
-    git_base_url: git.osmocom.org
+    git_base_url: git://git.osmocom.org
 
     # in alphabetical order
     repos:
@@ -207,7 +207,7 @@
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
       - no2bootloader:
-          git_base_url: github.com/no2fpga
+          git_base_url: https://github.com/no2fpga
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de 246tnt@gmail.com
@@ -358,7 +358,7 @@
           concurrent: false
           cmd: cd ./tests; ./run-tests
           slave_axis: !!python/tuple [simtester]
-          git_base_url: git.sysmocom.de/sysmocom
+          git_base_url: https://git.sysmocom.de/sysmocom
 
     jobs:
       - 'master-{repos}'
@@ -377,7 +377,7 @@
           artifact-num-to-keep: -1
     description: |
       Automatic jenkins test job of
-      <a href="https://{git_base_url}/{repos}">{repos}</a>
+      <a href="{git_base_url}/{repos}">{repos}</a>
       <br/><br/>
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
@@ -410,7 +410,7 @@
 
     scm:
       - git:
-         url: git://{git_base_url}/{repos}
+         url: "{git_base_url}/{repos}"
          branches:
            - 'origin/master'
          refspec:
