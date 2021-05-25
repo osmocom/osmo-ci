@@ -129,6 +129,9 @@
       - ttcn3-pcap-client-test:
           blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
           timer: 40 11 * * *
+      - ttcn3-bsc-test-vamos:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 00 12 * * *
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
