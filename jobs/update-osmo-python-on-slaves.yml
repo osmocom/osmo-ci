@@ -6,7 +6,6 @@
           type: slave
           name: label
           values:
-            - admin2-deb9build
             - host2-deb9build-ansible
             - build2-deb9build-ansible
             - build2-deb10build-ansible
