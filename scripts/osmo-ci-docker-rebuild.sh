@@ -6,4 +6,8 @@ docker_images_require \
 	"debian-stretch-jenkins" \
 	"debian-buster-jenkins" \
 	"debian-buster-erlang" \
-	"osmo-gsm-tester"
+
+if [ "$(arch)" = "x86_64" ]; then
+	docker_images_require \
+		"osmo-gsm-tester"
+fi
