@@ -8,7 +8,11 @@ clone_repo() {
 	git rev-parse HEAD
 	git status
 
-	git fetch && git checkout -f -B master origin/master
+	if [ "$1" = "osmo-ci" ]; then
+		git fetch && git checkout -f -B osmith/gerrit-lint origin/osmith/gerrit-lint
+	else
+		git fetch && git checkout -f -B master origin/master
+	fi
 
 	git rev-parse HEAD
 	git status
