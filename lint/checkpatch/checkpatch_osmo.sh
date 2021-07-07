@@ -9,6 +9,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * ASSIGN_IN_IF: not followed (e.g. 'if ((u8 = gsup_msg->cause))')
 # * AVOID_EXTERNS: we do use externs
 # * BLOCK_COMMENT_STYLE: we don't use a trailing */ on a separate line
+# * COMPLEX_MACRO: we don't use parentheses when building macros of strings across multiple lines
 # * CONSTANT_COMPARISON: not followed: "Comparisons should place the constant on the right side"
 # * EMBEDDED_FUNCTION_NAME: often __func__ isn't used, arguably not much benefit in changing this when touching code
 # * EXECUTE_PERMISSIONS: not followed, files need to be executable: git-version-gen, some in debian/
@@ -29,6 +30,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore ASSIGN_IN_IF \
 	--ignore AVOID_EXTERNS \
 	--ignore BLOCK_COMMENT_STYLE \
+	--ignore COMPLEX_MACRO \
 	--ignore CONSTANT_COMPARISON \
 	--ignore EMBEDDED_FUNCTION_NAME \
 	--ignore EXECUTE_PERMISSIONS \
