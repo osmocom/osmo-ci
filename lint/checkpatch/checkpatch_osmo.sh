@@ -18,6 +18,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * GLOBAL_INITIALISERS: we initialise globals to NULL for talloc ctx (e.g. *tall_lapd_ctx = NULL)
 # * IF_0: used intentionally
 # * INITIALISED_STATIC: we use this, see also http://lkml.iu.edu/hypermail/linux/kernel/0808.1/2235.html
+# * LINE_CONTINUATIONS: false positives
 # * LINE_SPACING: we don't always put a blank line after declarations
 # * REPEATED_WORD: false positives in doxygen descriptions (e.g. '\param[in] data Data passed through...')
 # * SPDX_LICENSE_TAG: we don't place it on line 1
@@ -39,6 +40,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore GLOBAL_INITIALISERS \
 	--ignore IF_0 \
 	--ignore INITIALISED_STATIC \
+	--ignore LINE_CONTINUATIONS \
 	--ignore LINE_SPACING \
 	--ignore REPEATED_WORD \
 	--ignore SPDX_LICENSE_TAG \
