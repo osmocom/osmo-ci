@@ -2,6 +2,7 @@
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 # Excluded paths:
+# * \.(ok|err)$: stdout and stderr of regression tests
 # * ^lint/checkpatch/: so it does not warn about spelling errors in spelling.txt :)
 
 # Ignored checks:
@@ -23,6 +24,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * STRING_FRAGMENTS: sometimes used intentionally to improve readability
 
 $SCRIPT_DIR/checkpatch.pl \
+	--exclude '\.(ok|err)$' \
 	--exclude '^lint/checkpatch/' \
 	--ignore ASSIGN_IN_IF \
 	--ignore AVOID_EXTERNS \
