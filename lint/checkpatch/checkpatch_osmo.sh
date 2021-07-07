@@ -2,7 +2,7 @@
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 # Excluded paths:
-# * lint/checkpath: so it does not warn about spelling errors in spelling.txt :)
+# * ^lint/checkpatch/: so it does not warn about spelling errors in spelling.txt :)
 
 # Ignored checks:
 # * ASSIGN_IN_IF: not followed (e.g. 'if ((u8 = gsup_msg->cause))')
@@ -23,7 +23,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * STRING_FRAGMENTS: sometimes used intentionally to improve readability
 
 $SCRIPT_DIR/checkpatch.pl \
-	--exclude lint/checkpatch \
+	--exclude '^lint/checkpatch/' \
 	--ignore ASSIGN_IN_IF \
 	--ignore AVOID_EXTERNS \
 	--ignore BLOCK_COMMENT_STYLE \

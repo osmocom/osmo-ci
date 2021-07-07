@@ -105,7 +105,7 @@ Options:
   --list-types               list the possible message types
   --types TYPE(,TYPE2...)    show only these comma separated message types
   --ignore TYPE(,TYPE2...)   ignore various comma separated message types
-  --exclude DIR(,DIR22...)   exclude directories
+  --exclude PATTERN(,P2...)  exclude pattern
   --show-types               show the specific message type in the output
   --max-line-length=n        set the maximum line length, (default $max_line_length)
                              if exceeded, warn on patches
@@ -2811,7 +2811,7 @@ sub process {
 
 		my $skipme = 0;
 		foreach (@exclude) {
-			if ($realfile =~ m@^(?:$_/)@) {
+			if ($realfile =~ m@$_@) {
 				$skipme = 1;
 			}
 		}
