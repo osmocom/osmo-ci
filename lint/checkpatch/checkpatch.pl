@@ -5072,7 +5072,7 @@ sub process {
 				# unary operator, or a cast
 				} elsif ($op eq '!' || $op eq '~' ||
 					 $opv eq '*U' || $opv eq '-U' ||
-					 $opv eq '&U' || $opv eq '&&U') {
+					 $opv eq '&U') {  # Osmocom specific: &&U removed
 					if ($ctx !~ /[WEBC]x./ && $ca !~ /(?:\)|!|~|\*|-|\&|\||\+\+|\-\-|\{)$/) {
 						if (ERROR("SPACING",
 							  "space required before that '$op' $at\n" . $hereptr)) {
