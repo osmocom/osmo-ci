@@ -20,6 +20,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * INITIALISED_STATIC: we use this, see also http://lkml.iu.edu/hypermail/linux/kernel/0808.1/2235.html
 # * LINE_CONTINUATIONS: false positives
 # * LINE_SPACING: we don't always put a blank line after declarations
+# * PREFER_FALLTHROUGH: pseudo keyword macro "fallthrough" is not defined in libosmocore
 # * REPEATED_WORD: false positives in doxygen descriptions (e.g. '\param[in] data Data passed through...')
 # * SPDX_LICENSE_TAG: we don't place it on line 1
 # * SPLIT_STRING: we do split long messages over multiple lines
@@ -42,6 +43,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore INITIALISED_STATIC \
 	--ignore LINE_CONTINUATIONS \
 	--ignore LINE_SPACING \
+	--ignore PREFER_FALLTHROUGH \
 	--ignore REPEATED_WORD \
 	--ignore SPDX_LICENSE_TAG \
 	--ignore SPLIT_STRING \
