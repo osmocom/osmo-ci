@@ -11,6 +11,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * BLOCK_COMMENT_STYLE: we don't use a trailing */ on a separate line
 # * COMPLEX_MACRO: we don't use parentheses when building macros of strings across multiple lines
 # * CONSTANT_COMPARISON: not followed: "Comparisons should place the constant on the right side"
+# * DEEP_INDENTATION: warns about many leading tabs, not useful if changing existing code without refactoring
 # * EMBEDDED_FUNCTION_NAME: often __func__ isn't used, arguably not much benefit in changing this when touching code
 # * EXECUTE_PERMISSIONS: not followed, files need to be executable: git-version-gen, some in debian/
 # * FILE_PATH_CHANGES: we don't use a MAINTAINERS file
@@ -34,6 +35,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore BLOCK_COMMENT_STYLE \
 	--ignore COMPLEX_MACRO \
 	--ignore CONSTANT_COMPARISON \
+	--ignore DEEP_INDENTATION \
 	--ignore EMBEDDED_FUNCTION_NAME \
 	--ignore EXECUTE_PERMISSIONS \
 	--ignore FILE_PATH_CHANGES \
