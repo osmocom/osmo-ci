@@ -6170,6 +6170,7 @@ sub process {
 # check for non-standard and hex prefixed decimal printf formats
 		my $show_L = 1;	#don't show the same defect twice
 		my $show_Z = 1;
+		my $show_i = 1;
 		while ($line =~ /(?:^|")([X\t]*)(?:"|$)/g) {
 			my $string = substr($rawline, $-[1], $+[1] - $-[1]);
 			$string =~ s/%%/__/g;
@@ -6184,6 +6185,11 @@ sub process {
 				WARN("PRINTF_Z",
 				     "%Z$1 is non-standard C, use %z$1\n" . $herecurr);
 				$show_Z = 0;
+			}
+			if ($show_i && $string =~ /%[\*\d\.\$]*i/) { # Osmocom specific
+				WARN("PRINTF_I_OSMO",
+				     "Use %d instead of %i\n" . $herecurr);
+				$show_i = 0;
 			}
 			# check for 0x<decimal>
 			if ($string =~ /0x%[\*\d\.\$\Llzth]*[diou]/) {
