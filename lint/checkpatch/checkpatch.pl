@@ -5170,6 +5170,33 @@ sub process {
 						}
 					}
 
+				# Osmocom specific: do not require spaces
+				# around the equals sign (=) inside
+				# struct osmo_tdef entries. (Assuming this is
+				# the case if the line contains '.T='.)
+				#
+				# Usually:
+				#   struct osmo_tdef global_T_defs[] = {
+				# 	{ .T=7, .default_val=50, .desc="Water Boiling Timeout" },
+				# 	{ .T=8, .default_val=300, .desc="Tea brewing" },
+				# 	{ .T=9, .default_val=5, .unit=OSMO_TDEF_M, .desc="Let tea cool down" },
+				# 	{ .T=10, .default_val=20, .unit=OSMO_TDEF_M, .desc="Forgot to drink tea" },
+				# 	{}
+				#   };
+				#
+				# Another example:
+				#   struct osmo_tdef fr_tdefs[] = {
+				# 	{
+				# 		.T=391,			// <- only here no spaces around "="
+				# 		.default_val = 10,
+				# 		.min_val = 5,
+				# 		.max_val = 30,
+				# 		.desc = "Link integrity verification polling timer",
+				# 		.unit =  OSMO_TDEF_S,
+				# 	}, ...
+				} elsif ($opline =~ /\.T=/) {
+					# pass
+
 				# All the others need spaces both sides.
 				} elsif ($ctx !~ /[EWC]x[CWE]/) {
 					my $ok = 0;
