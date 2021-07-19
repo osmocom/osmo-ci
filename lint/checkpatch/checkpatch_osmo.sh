@@ -4,6 +4,8 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # Excluded paths:
 # * \.(ok|err)$: stdout and stderr of regression tests
 # * ^lint/checkpatch/: so it does not warn about spelling errors in spelling.txt :)
+# * ^src/gsm/kdf/: libosmocore: imported code
+# * ^src/gsm/milenage/: libosmocore: imported code
 
 # Ignored checks:
 # * ASSIGN_IN_IF: not followed (e.g. 'if ((u8 = gsup_msg->cause))')
@@ -31,6 +33,8 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 $SCRIPT_DIR/checkpatch.pl \
 	--exclude '\.(ok|err)$' \
 	--exclude '^lint/checkpatch/' \
+	--exclude '^src/gsm/kdf/' \
+	--exclude '^src/gsm/milenage/' \
 	--ignore ASSIGN_IN_IF \
 	--ignore AVOID_EXTERNS \
 	--ignore BLOCK_COMMENT_STYLE \
