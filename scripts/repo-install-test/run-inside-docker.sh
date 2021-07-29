@@ -14,27 +14,23 @@
 # * osmo-ggsn (no tun device in docker)
 SERVICES="
 	osmo-bsc
+	osmo-bts-virtual
 	osmo-gbproxy
 	osmo-gtphub
 	osmo-hlr
+	osmo-hnbgw
 	osmo-mgw
 	osmo-msc
 	osmo-pcap-client
+	osmo-pcap-server
+	osmo-pcu
+	osmo-sgsn
 	osmo-sip-connector
 	osmo-stp
 "
 # Services working in nightly, but not yet in latest
-# * osmo-pcap-server: service not included in osmo-pcap 0.0.11
-# * osmo-sgsn: conflicts with osmo-gtphub config in osmo-sgsn 1.4.0
-# * osmo-pcu: needs osmo-bts-virtual to start up properly
-# * osmo-hnbgw: tries to listen on 10.23.24.1 in osmo-iuh 0.4.0
-# * osmo-bts-virtual: unit id not matching osmo-bsc's config in osmo-bsc 1.4.0
+# * (currently none)
 SERVICES_NIGHTLY="
-	osmo-pcap-server
-	osmo-sgsn
-	osmo-pcu
-	osmo-hnbgw
-	osmo-bts-virtual
 "
 
 distro_obsdir() {
