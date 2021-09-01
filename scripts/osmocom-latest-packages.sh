@@ -196,12 +196,10 @@ build_osmocom() {
   checkout osmo-gbproxy
 
   cd "$TOP"
-  osmo_obs_checkout_copy debian8 osmo-gsm-manuals
 
   build osmocom-$FEED
   build limesuite --git-upstream-tree="$(get_last_tag limesuite)"
   build osmo-gsm-manuals
-  build osmo-gsm-manuals-debian8
   build libosmocore
   build libosmo-sccp
   build libosmo-abis
