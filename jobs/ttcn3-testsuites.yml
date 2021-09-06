@@ -126,6 +126,9 @@
           blocking: "^(ttcn3|TTCN3-.*)-ns-test-fr.*"
           timer: 20 11 * * *
           node: hdlc
+      - ttcn3-ns-test-sgsn-sns:
+          blocking: "^(ttcn3|TTCN3-.*)-ns-test-sgsn-sns.*"
+          timer: 30 11 * * *
       - ttcn3-pcap-client-test:
           blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
           timer: 40 11 * * *
