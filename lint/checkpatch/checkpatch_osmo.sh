@@ -31,6 +31,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * SPDX_LICENSE_TAG: we don't place it on line 1
 # * SPLIT_STRING: we do split long messages over multiple lines
 # * STRING_FRAGMENTS: sometimes used intentionally to improve readability
+# * UNNECESSARY_INT: not followed (see https://gerrit.osmocom.org/c/libosmocore/+/25345)
 
 $SCRIPT_DIR/checkpatch.pl \
 	--exclude '\.(ok|err)$' \
@@ -62,6 +63,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore SPDX_LICENSE_TAG \
 	--ignore SPLIT_STRING \
 	--ignore STRING_FRAGMENTS \
+	--ignore UNNECESSARY_INT \
 	--max-line-length 120 \
 	--no-signoff \
 	--no-tree \
