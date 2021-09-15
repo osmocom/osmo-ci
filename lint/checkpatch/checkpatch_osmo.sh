@@ -3,6 +3,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 # Excluded paths:
 # * \.(ok|err)$: stdout and stderr of regression tests
+# * ^debian/changelog$: generated from commit log, which may contain spelling errors (OS#5232)
 # * ^lint/checkpatch/: so it does not warn about spelling errors in spelling.txt :)
 # * ^src/gsm/kdf/: libosmocore: imported code
 # * ^src/gsm/milenage/: libosmocore: imported code
@@ -36,6 +37,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 $SCRIPT_DIR/checkpatch.pl \
 	--exclude '\.(ok|err)$' \
+	--exclude '^debian/changelog$' \
 	--exclude '^lint/checkpatch/' \
 	--exclude '^src/gsm/kdf/' \
 	--exclude '^src/gsm/milenage/' \
