@@ -7201,6 +7201,13 @@ sub process {
 			     "Where possible, use lockdep_assert_held instead of assertions based on spin_is_locked\n" . $herecurr);
 		}
 
+# Osmocom specific: check for strncpy(), strcpy()
+# https://lists.osmocom.org/pipermail/openbsc/2021-September/013538.html
+		if ($line =~ /\bstr(n)?cpy\(/) {
+			ERROR("STRCPY_OSMO",
+			      "Instead of strncpy()/strcpy(), use osmo_strlcpy() or OSMO_STRLCPY_ARRAY()\n" . $herecurr);
+		}
+
 # check for deprecated apis
 		if ($line =~ /\b($deprecated_apis_search)\b\s*\(/) {
 			my $deprecated_api = $1;
