@@ -72,6 +72,7 @@ tags_to_ignore() {
 			;;
 		osmo-msc)
 			echo "1.3.0" # -Werror and deprecated gsm0480_create_ussd_release_complete(), fixed in 1.3.1
+			echo "1.7.0" # testsuite, fixed in 1.7.1
 			;;
 		osmo-pcu)
 			echo "0.5.0" # testsuite
