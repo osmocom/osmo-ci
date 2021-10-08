@@ -1,12 +1,27 @@
 #!/bin/sh -e
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+PROJECT="$(basename "$(git rev-parse --show-toplevel)")"
 
-# Excluded paths:
-# * \.(ok|err)$: stdout and stderr of regression tests
-# * ^debian/changelog$: generated from commit log, which may contain spelling errors (OS#5232)
-# * ^lint/checkpatch/: so it does not warn about spelling errors in spelling.txt :)
-# * ^src/gsm/kdf/: libosmocore: imported code
-# * ^src/gsm/milenage/: libosmocore: imported code
+exclude_paths_common() {
+	# Stdout and stderr of regression tests
+	echo '--exclude \.(ok|err)$'
+	# Generated from commit log, which may contain spelling errors (OS#5232)
+	echo '--exclude ^debian/changelog$'
+}
+
+exclude_paths_project() {
+	case "$PROJECT" in
+	libosmocore)
+		# Imported code
+		echo '--exclude ^src/gsm/kdf/'
+		echo '--exclude ^src/gsm/milenage/'
+		;;
+	osmo-ci)
+		# Do not warn about spelling errors in spelling.txt :)
+		echo '--exclude ^lint/checkpatch/spelling.txt$'
+		;;
+	esac
+}
 
 # Ignored checks:
 # * ASSIGN_IN_IF: not followed (e.g. 'if ((u8 = gsup_msg->cause))')
@@ -36,11 +51,8 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 # * UNSPECIFIED_INT: not followed (doesn't seem useful for us)
 
 $SCRIPT_DIR/checkpatch.pl \
-	--exclude '\.(ok|err)$' \
-	--exclude '^debian/changelog$' \
-	--exclude '^lint/checkpatch/' \
-	--exclude '^src/gsm/kdf/' \
-	--exclude '^src/gsm/milenage/' \
+	$(exclude_paths_common) \
+	$(exclude_paths_project) \
 	--ignore ASSIGN_IN_IF \
 	--ignore AVOID_EXTERNS \
 	--ignore BLOCK_COMMENT_STYLE \
