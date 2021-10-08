@@ -20,6 +20,11 @@ exclude_paths_project() {
 		# Do not warn about spelling errors in spelling.txt :)
 		echo '--exclude ^lint/checkpatch/spelling.txt$'
 		;;
+	osmo-pcu)
+		# Imported code
+		echo '--exclude ^src/csn1.(c|h)$'
+		echo '--exclude ^src/gsm_rlcmac.(c|h)$'
+		;;
 	esac
 }
 
