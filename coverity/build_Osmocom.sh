@@ -84,7 +84,10 @@ build_default osmo-gmr
 # MNCC to SIP
 build_default osmo-sip-connector
 
-build_default osmo-trx
+build_default osmo-trx \
+	--with-uhd \
+	--with-lms \
+	--with-ipc
 
 # OsmocomBB (without firmware)
 build_osmocombb
