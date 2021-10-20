@@ -54,6 +54,12 @@ build_osmocombb() {
 	popd
 }
 
+build_simtrace2() {
+	pushd simtrace
+	make -C host
+	popd
+}
+
 cd "$src_dir"
 
 rm -rf "$prefix"
@@ -102,3 +108,5 @@ build_default osmo-trx \
 
 # OsmocomBB (without firmware)
 build_osmocombb
+# SIMTrace host tools
+build_simtrace2
