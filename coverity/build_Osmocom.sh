@@ -70,8 +70,10 @@ build_default osmo-sysmon
 build_default osmo-mgw
 build_default osmo-bsc
 build_default osmo-hlr
-build_default osmo-msc
-build_default osmo-sgsn
+build_default osmo-msc \
+	--enable-iu
+build_default osmo-sgsn \
+	--enable-iu
 build_default osmo-smlc
 
 # GMR
