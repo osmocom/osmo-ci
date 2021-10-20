@@ -23,6 +23,7 @@ exclude_paths_project() {
 	osmo-pcu)
 		# Imported code
 		echo '--exclude ^src/csn1.(c|h)$'
+		echo '--exclude ^src/csn1_(enc|dec).c$'
 		echo '--exclude ^src/gsm_rlcmac.(c|h)$'
 		;;
 	esac
