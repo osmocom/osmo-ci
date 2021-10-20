@@ -20,7 +20,8 @@ do_build() {
 
 build_default() {
 	pushd $1
-	do_build
+	shift
+	do_build $*
 	popd
 }
 
@@ -35,20 +36,6 @@ build_libasn1c() {
 	pushd libasn1c
 	do_build
 	sed -i s,'#include "config.h"','/*#include "config.h"*/', "$prefix/include/asn1c/asn_system.h"
-	popd
-}
-
-build_osmobts() {
-	pushd osmo-bts
-
-	do_build --enable-sysmocom-bts --with-sysmobts="$prefix/include/" --enable-trx
-	popd
-}
-
-build_osmopcu() {
-	pushd osmo-pcu
-
-	do_build --enable-sysmocom-dsp=yes --with-sysmobts="$prefix/include/"
 	popd
 }
 
@@ -72,8 +59,13 @@ build_default libosmo-sccp
 build_default libsmpp34
 build_default osmo-ggsn
 build_default osmo-iuh
-build_osmopcu
-build_osmobts
+build_default osmo-pcu \
+	--with-sysmobts="$prefix/include/" \
+	--enable-sysmocom-dsp=yes
+build_default osmo-bts \
+	--with-sysmobts="$prefix/include/" \
+	--enable-sysmocom-bts \
+	--enable-trx
 build_default osmo-sysmon
 build_default osmo-mgw
 build_default osmo-bsc
