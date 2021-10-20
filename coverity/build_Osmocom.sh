@@ -52,15 +52,6 @@ build_osmopcu() {
 	popd
 }
 
-build_libsmpp34() {
-	pushd libsmpp34
-	PM=$PARALLEL_MAKE
-	PARALLEL_MAKE=""
-	do_build
-	PARALLEL_MAKE=$PM
-	popd
-}
-
 build_osmocombb() {
 	pushd osmocom-bb/src/
 	make nofirmware
@@ -78,7 +69,7 @@ build_libasn1c
 build_default libosmo-abis
 build_default libosmo-netif
 build_default libosmo-sccp
-build_libsmpp34
+build_default libsmpp34
 build_default osmo-ggsn
 build_default osmo-iuh
 build_osmopcu
