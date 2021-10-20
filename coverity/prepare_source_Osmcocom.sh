@@ -18,6 +18,7 @@ for proj in \
   osmo-msc \
   osmo-mgw \
   osmo-ggsn \
+  osmo-gbproxy \
   osmo-sgsn \
   osmo-bts \
   osmo-gmr \
@@ -29,6 +30,7 @@ for proj in \
   osmo-hlr \
   osmocom-bb \
   osmo-smlc \
+  osmo-cbc \
   simtrace2 \
   ; do
 

@@ -74,6 +74,7 @@ build_default libosmo-netif
 build_default libosmo-sccp
 build_default libsmpp34
 build_default osmo-ggsn
+build_default osmo-gbproxy
 build_default osmo-iuh
 build_default osmo-pcu \
 	--with-sysmobts="$prefix/include/" \
@@ -92,6 +93,7 @@ build_default osmo-msc \
 build_default osmo-sgsn \
 	--enable-iu
 build_default osmo-smlc
+build_default osmo-cbc
 
 # GMR
 build_default libosmo-dsp
