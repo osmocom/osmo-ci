@@ -39,6 +39,15 @@ build_libasn1c() {
 	popd
 }
 
+build_libusrp() {
+	pushd libusrp
+	PM=$PARALLEL_MAKE
+	PARALLEL_MAKE=""
+	do_build
+	PARALLEL_MAKE=$PM
+	popd
+}
+
 build_osmocombb() {
 	pushd osmocom-bb/src/
 	make nofirmware
@@ -53,6 +62,7 @@ build_layer1api
 build_default asn1c
 build_default libosmocore
 build_libasn1c
+build_libusrp
 build_default libosmo-abis
 build_default libosmo-netif
 build_default libosmo-sccp
@@ -85,6 +95,7 @@ build_default osmo-gmr
 build_default osmo-sip-connector
 
 build_default osmo-trx \
+	--with-usrp1 \
 	--with-uhd \
 	--with-lms \
 	--with-ipc

@@ -13,6 +13,7 @@ for proj in \
   libosmo-netif \
   libosmo-sccp \
   libsmpp34 \
+  libusrp \
   osmo-bsc \
   osmo-msc \
   osmo-mgw \
