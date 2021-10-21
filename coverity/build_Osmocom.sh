@@ -46,7 +46,7 @@ build_osmobts() {
 }
 
 build_osmopcu() {
-	pushd osmo-pcu 
+	pushd osmo-pcu
 
 	do_build --enable-sysmocom-bts=yes --enable-sysmocom-dsp=yes
 	popd
