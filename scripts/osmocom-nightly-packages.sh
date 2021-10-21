@@ -265,6 +265,7 @@ build_osmocom() {
   build osmo-smlc
   build osmo-cbc
   build osmo-gbproxy
+  build osmo-hnodeb
 
   post
 }

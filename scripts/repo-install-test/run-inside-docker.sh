@@ -31,6 +31,7 @@ SERVICES="
 # * osmo-pcap-server 0.2.0: VTY port in default config conflicts with osmo-bts (OS#5203)
 SERVICES_NIGHTLY="
 	osmo-pcap-server
+	osmo-hnodeb
 "
 
 distro_obsdir() {

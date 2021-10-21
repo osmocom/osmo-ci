@@ -28,6 +28,7 @@ OSMO_RELEASE_REPOS="
 	osmo-trx
 	osmocom-bb
 "
+#TODO: Add above once we have releases: osmo-hnodeb, osmo-gbproxy
 
 OSMO_BRANCH_DOCKER_PLAYGROUND="${OSMO_BRANCH_DOCKER_PLAYGROUND:-master}"
 
