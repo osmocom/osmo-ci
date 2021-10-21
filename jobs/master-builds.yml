@@ -107,7 +107,8 @@
             master-osmo-bsc,
             master-osmo-iuh,
             master-osmo-msc,
-            master-osmo-sgsn
+            master-osmo-sgsn,
+            master-osmo-hnodeb
 
       - libosmocore:
           a1_name: arch
@@ -350,6 +351,7 @@
       - osmo-el2tpd
       - osmo-smlc
       - osmo-gbproxy
+      - osmo-hnodeb
 
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de

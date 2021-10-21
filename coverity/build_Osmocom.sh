@@ -94,6 +94,7 @@ build_default osmo-sgsn \
 	--enable-iu
 build_default osmo-smlc
 build_default osmo-cbc
+build_default osmo-hnodeb
 
 # GMR
 build_default libosmo-dsp

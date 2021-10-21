@@ -32,6 +32,7 @@ for proj in \
   osmo-smlc \
   osmo-cbc \
   simtrace2 \
+  osmo-hnodeb \
   ; do
 
 	if [ -d $proj ]; then

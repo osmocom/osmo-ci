@@ -36,6 +36,7 @@
      - osmo-gsm-manuals
      - osmo-gtp-kernel
      - osmo-hlr
+     - osmo-hnodeb
      - osmo-iuh
      - osmo-mgw
      - osmo-msc
