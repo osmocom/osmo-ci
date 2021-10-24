@@ -12,7 +12,11 @@ export PKG_CONFIG_PATH="$prefix/lib/pkgconfig"
 
 do_build() {
 	autoreconf --install --force
-	./configure --prefix="$prefix" --with-systemdsystemunitdir=no $*
+	./configure \
+		--prefix="$prefix" \
+		--with-systemdsystemunitdir=no \
+		--disable-doxygen \
+		$*
 
 	make $PARALLEL_MAKE
 	make install
