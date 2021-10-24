@@ -55,8 +55,8 @@ build_osmocombb() {
 }
 
 build_simtrace2() {
-	pushd simtrace2
-	make -C host
+	pushd simtrace2/host
+	do_build
 	popd
 }
 
