@@ -2813,6 +2813,7 @@ sub process {
 		foreach (@exclude) {
 			if ($realfile =~ m@$_@) {
 				$skipme = 1;
+				last; # break out of the loop
 			}
 		}
 		if ($skipme) {
