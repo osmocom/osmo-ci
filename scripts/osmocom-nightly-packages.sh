@@ -225,6 +225,7 @@ build_osmocom() {
   checkout osmo-smlc
   checkout osmo-cbc
   checkout osmo-gbproxy
+  checkout osmo-hnodeb
 
   cd "$REPO"
 
