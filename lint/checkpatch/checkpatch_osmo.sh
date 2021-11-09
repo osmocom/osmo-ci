@@ -69,6 +69,7 @@ exclude_paths_project() {
 # * SPDX_LICENSE_TAG: we don't place it on line 1
 # * SPLIT_STRING: we do split long messages over multiple lines
 # * STRING_FRAGMENTS: sometimes used intentionally to improve readability
+# * TRAILING_STATEMENTS: not followed, e.g. 'while (osmo_select_main_ctx(1) > 0);' is put in one line
 # * UNNECESSARY_INT: not followed (see https://gerrit.osmocom.org/c/libosmocore/+/25345)
 # * UNSPECIFIED_INT: not followed (doesn't seem useful for us)
 
@@ -103,6 +104,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore SPDX_LICENSE_TAG \
 	--ignore SPLIT_STRING \
 	--ignore STRING_FRAGMENTS \
+	--ignore TRAILING_STATEMENTS \
 	--ignore UNNECESSARY_INT \
 	--ignore UNSPECIFIED_INT \
 	--max-line-length 120 \
