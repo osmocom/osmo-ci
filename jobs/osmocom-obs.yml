@@ -6,7 +6,7 @@
     type:
       - nightly
       - latest
-      - next
+    # - next (disabled: OS#5322)
 
 - job-template:
     name: 'Osmocom_OBS_{type}'
