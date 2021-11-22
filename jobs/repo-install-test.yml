@@ -5,7 +5,7 @@
       - Osmocom-repo-install-{distro}
     distro:
       - centos8:
-          feeds: !!python/tuple [nightly]  # next: disabled (OS#5322)
+          feeds: !!python/tuple [nightly, latest]  # next: disabled (OS#5322)
       - debian9:
           feeds: !!python/tuple [nightly, latest]
       - debian10:
