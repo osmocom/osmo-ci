@@ -45,5 +45,33 @@ if [ "$ERROR" = 1 ]; then
 	echo "Please fix the linting errors above. More information:"
 	echo "https://osmocom.org/projects/cellular-infrastructure/wiki/Linting"
 	echo
+
+	if [ -n "$JENKINS_HOME" ]; then
+		echo "Leaving review comments in gerrit..."
+		set -x
+
+		# Run again, but in the proper format for checkpatch_json.py
+		# and store the output in a file
+		git diff -U0 "$COMMIT" | "$SCRIPT_DIR/checkpatch/checkpatch_osmo.sh" \
+			> ../checkpatch_output || true
+		cd ..
+		# Convert to gerrit review format
+		"$SCRIPT_DIR/checkpatch/checkpatch_json.py" \
+			checkpatch_output \
+			gerrit_report.json \
+			"$BUILD_TAG" \
+			"$BUILD_URL"
+		# Apply as review in gerrit
+		ssh \
+			-p "$GERRIT_PORT" \
+			-l jenkins \
+			"$GERRIT_HOST" \
+				gerrit \
+					review \
+					"$GERRIT_PATCHSET_REVISION" \
+					--json \
+					< gerrit_report.json
+	fi
+
 	exit 1
 fi
