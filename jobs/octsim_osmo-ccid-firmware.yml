@@ -1,0 +1,55 @@
+- job:
+    axes:
+    - axis:
+        name: label
+        type: slave
+        values:
+        - octsimtest
+    block-downstream: false
+    block-upstream: false
+    builders:
+    - shell: |
+            cd ./tests
+            mkdir -p sysmo-octsim/dl
+            ./run-tests
+    concurrent: false
+    description: octsim osmo-ccid-firmware CI - flash every build to octsim and see
+      if it still works
+    disabled: false
+    execution-strategy:
+      sequential: false
+    name: octsim_osmo-ccid-firmware
+    project-type: matrix
+    scm:
+      - git:
+          url: git://git.osmocom.org/osmo-ccid-firmware
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          skip-tag: true
+          branches:
+            - 'origin/master'
+    properties:
+    - build-blocker:
+        block-level: GLOBAL
+        blocking-jobs: []
+        queue-scanning: DISABLED
+        use-build-blocker: false
+    - build-discarder:
+        artifact-days-to-keep: -1
+        artifact-num-to-keep: -1
+        days-to-keep: 30
+        num-to-keep: 120
+    - rebuild:
+        auto-rebuild: false
+        rebuild-disabled: false
+    publishers:
+    - email:
+        notify-every-unstable-build: true
+        recipients: jsteiger@sysmocom.de
+        send-to-individuals: true
+    retry-count: '3'
+    triggers:
+    - reverse:
+        jobs: master-osmo-ccid-firmware,
+    - timed: H H * * *
+    wrappers: []
