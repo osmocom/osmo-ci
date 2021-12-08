@@ -6008,7 +6008,7 @@ sub process {
 						$sum_allowed += $_;
 					}
 					if ($sum_allowed == 0) {
-						WARN("BRACES",
+						WARN("BRACES_NOT_NECESSARY", # Osmocom specific: renamed from BRACES
 						     "braces {} are not necessary for any arm of this statement\n" . $herectx);
 					} elsif ($sum_allowed != $allow &&
 						 $seen != $allow) {
@@ -6064,7 +6064,7 @@ sub process {
 				my $cnt = statement_rawlines($block);
 				my $herectx = get_stat_here($linenr, $cnt, $here);
 
-				WARN("BRACES",
+				WARN("BRACES_NOT_NECESSARY", # Osmocom specific: renamed from BRACES
 				     "braces {} are not necessary for single statement blocks\n" . $herectx);
 			}
 		}
