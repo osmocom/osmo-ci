@@ -73,6 +73,7 @@ exclude_paths_project() {
 # * UNNECESSARY_BREAK: not followed (see https://gerrit.osmocom.org/c/libosmo-netif/+/26429)
 # * UNNECESSARY_INT: not followed (see https://gerrit.osmocom.org/c/libosmocore/+/25345)
 # * UNSPECIFIED_INT: not followed (doesn't seem useful for us)
+# * VOLATILE: using volatile makes sense in embedded projects so this warning is not useful for us
 
 cd "$PROJECT_DIR"
 
@@ -109,6 +110,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore UNNECESSARY_BREAK \
 	--ignore UNNECESSARY_INT \
 	--ignore UNSPECIFIED_INT \
+	--ignore VOLATILE \
 	--max-line-length 120 \
 	--no-signoff \
 	--no-tree \
