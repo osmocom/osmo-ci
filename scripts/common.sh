@@ -6,12 +6,13 @@ OSMO_GIT_URL_GERRIT="https://gerrit.osmocom.org"
 
 # Osmocom repositories of which we want to build release tarballs automatically, and list the current versions at
 # https://jenkins.osmocom.org/jenkins/job/Osmocom-list-commits/lastSuccessfulBuild/artifact/commits.txt
+# List is ordered alphabetically.
 OSMO_RELEASE_REPOS="
 	libasn1c
 	libosmo-abis
-	libosmocore
 	libosmo-netif
 	libosmo-sccp
+	libosmocore
 	libsmpp34
 	libusrp
 	osmo-bsc
