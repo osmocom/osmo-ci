@@ -54,6 +54,10 @@ tags_to_ignore() {
 			# openbsc
 			echo "1.0.1"
 			;;
+		osmo-pcap)
+			# No rule to make target 'osmo-pcap-server.cfg', needed by 'distdir'
+			echo "0.0.3"
+			;;
 		osmo-pcu)
 			# Duplicates of 0.1.0, 0.2.0
 			echo "0.1"

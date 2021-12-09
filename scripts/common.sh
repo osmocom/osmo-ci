@@ -17,19 +17,26 @@ OSMO_RELEASE_REPOS="
 	libusrp
 	osmo-bsc
 	osmo-bts
+	osmo-cbc
+	osmo-e1d
+	osmo-gbproxy
 	osmo-ggsn
+	osmo-gsm-manuals
 	osmo-hlr
+	osmo-hnodeb
 	osmo-iuh
 	osmo-mgw
 	osmo-msc
+	osmo-pcap
 	osmo-pcu
 	osmo-sgsn
 	osmo-sip-connector
+	osmo-smlc
 	osmo-sysmon
 	osmo-trx
+	osmo-uecups
 	osmocom-bb
 "
-#TODO: Add above once we have releases: osmo-hnodeb, osmo-gbproxy
 
 OSMO_BRANCH_DOCKER_PLAYGROUND="${OSMO_BRANCH_DOCKER_PLAYGROUND:-master}"
 
