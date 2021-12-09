@@ -29,6 +29,7 @@ OSMO_RELEASE_REPOS="
 	osmo-msc
 	osmo-pcap
 	osmo-pcu
+	osmo-remsim
 	osmo-sgsn
 	osmo-sip-connector
 	osmo-smlc
@@ -36,6 +37,7 @@ OSMO_RELEASE_REPOS="
 	osmo-trx
 	osmo-uecups
 	osmocom-bb
+	simtrace2
 "
 
 OSMO_BRANCH_DOCKER_PLAYGROUND="${OSMO_BRANCH_DOCKER_PLAYGROUND:-master}"

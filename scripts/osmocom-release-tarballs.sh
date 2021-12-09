@@ -128,7 +128,7 @@ remove_temp_dir() {
 }
 
 # Clone an Osmocom repository to $TEMP/repos/$repo, clean it, checkout a tag.
-# $1: Osmocom repository
+# $1: Osmocom repository (may end in subdir, e.g. simtrace2/host)
 # $2: tag (optional, default: master)
 prepare_repo() {
 	local repo="$1"
@@ -144,13 +144,21 @@ prepare_repo() {
 	git checkout -q "$tag"
 }
 
+
+# Get the desired tarball name, replace / with - in $1.
+# $1: Osmocom repository (may end in subdir, e.g. simtrace2/host)
+# $2: tag
+tarball_name() {
+	echo "$(echo "$repo" | tr / -)-$tag.tar.bz2"
+}
+
 # Checkout a given tag and build a release tarball.
-# $1: Osmocom repository
+# $1: Osmocom repository (may end in subdir, e.g. simtrace2/host)
 # $2: tag
 create_tarball() {
 	local repo="$1"
 	local tag="$2"
-	local tarball="$repo-$tag.tar.bz2"
+	local tarball="$(tarball_name "$repo" "$tag")"
 
 	# Be verbose during the tarball build and preparation. Everything else is not verbose, so we can generate an
 	# easy to read overview of tarballs that are already built or are ignored.
@@ -174,15 +182,72 @@ create_tarball() {
 	fi
 }
 
+# Create a release tarball with "git archive" for non-autotools projects.
+# $1: Osmocom repository
+# $2: tag
+create_tarball_git() {
+	local repo="$1"
+	local tag="$2"
+	local tarball="$(tarball_name "$repo" "$tag")"
+
+	set -x
+
+	cd "$TEMP/repos/$repo"
+	git archive \
+		-o "$tarball" \
+		"$tag"
+
+	set +x
+}
+
 # Move a generated release tarball to the output dir.
+# $1: Osmocom repository (may end in subdir, e.g. simtrace2/host)
+# $2: tag
 move_tarball() {
 	local repo="$1"
 	local tag="$2"
-	local tarball="$repo-$tag.tar.bz2"
+	local tarball="$(tarball_name "$repo" "$tag")"
+	local repo_dir="$(echo "$repo" | cut -d / -f 1)"
 
 	cd "$TEMP/repos/$repo"
-	mkdir -p "$OUTPUT/$repo"
-	mv "$tarball" "$OUTPUT/$repo/$tarball"
+	mkdir -p "$OUTPUT/$repo_dir"
+	mv "$tarball" "$OUTPUT/$repo_dir/$tarball"
+}
+
+# Check if a git tag has a specific file
+# $1: Osmocom repository
+# $2: tag
+# $3: file
+tag_has_file() {
+	local repo="$1"
+	local tag="$2"
+	local file="$3"
+
+	git -C "$TEMP/repos/$repo" show "$tag:$file" >/dev/null 2>&1
+}
+
+# Create and move tarballs for Osmocom repositories.
+# $1: Osmocom repository
+# $2: tag
+create_move_tarball() {
+	local repo="$1"
+	local tag="$2"
+
+	case "$repo" in
+		simtrace2)
+			if tag_has_file "$repo" "$tag" host/configure.ac; then
+				create_tarball "$repo/host" "$tag"
+				move_tarball "$repo/host" "$tag"
+			fi
+
+			create_tarball_git "$repo" "$tag"
+			move_tarball "$repo" "$tag"
+			;;
+		*)
+			create_tarball "$repo" "$tag"
+			move_tarball "$repo" "$tag"
+			;;
+	esac
 }
 
 remove_temp_dir
@@ -211,8 +276,7 @@ for repo in $OSMO_RELEASE_REPOS; do
 		fi
 
 		echo "  $tarball (creating)"
-		create_tarball "$repo" "$tag"
-		move_tarball "$repo" "$tag"
+		create_move_tarball "$repo" "$tag"
 	done
 done
 
