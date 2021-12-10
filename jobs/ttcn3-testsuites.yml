@@ -213,6 +213,16 @@
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
 
+      # centos7 nightly
+      - TTCN3-centos7-pcap-client-test:
+          blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
+          timer: 10 13 * * *
+
+      # centos7 latest
+      - TTCN3-centos7-pcap-client-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
+          timer: 40 13 * * *
+
       # centos8 nightly
       - TTCN3-centos-ggsn-test:
           blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
