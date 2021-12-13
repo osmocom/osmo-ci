@@ -238,6 +238,8 @@ create_move_tarball() {
 			if tag_has_file "$repo" "$tag" host/configure.ac; then
 				create_tarball "$repo/host" "$tag"
 				move_tarball "$repo/host" "$tag"
+			else
+				prepare_repo "$repo"
 			fi
 
 			create_tarball_git "$repo" "$tag"
