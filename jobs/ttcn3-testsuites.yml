@@ -401,6 +401,10 @@
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
                   export IMAGE_SUFFIX="latest-centos8"
                   ;;
+              TTCN3-centos7-*-latest)
+                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos7\-/ttcn3-/ | sed s/\-latest$//)"
+                  export IMAGE_SUFFIX="latest-centos7"
+                  ;;
               TTCN3-centos-*-20*q*)
                   export OSMOCOM_REPO_TESTSUITE_MIRROR="http://download.opensuse.org"
                   export OSMOCOM_REPO_MIRROR="https://downloads.osmocom.org"
@@ -412,6 +416,10 @@
               TTCN3-centos-*)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/)"
                   export IMAGE_SUFFIX="master-centos8"
+                  ;;
+              TTCN3-centos7-*)
+                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos7\-/ttcn3-/)"
+                  export IMAGE_SUFFIX="master-centos7"
                   ;;
               *-latest)
                   DIR="$(echo "{job-name}" | sed s/\-latest$//)"
