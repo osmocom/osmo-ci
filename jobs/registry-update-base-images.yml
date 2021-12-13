@@ -16,7 +16,7 @@
     builders:
       - shell: |
           REGISTRY="registry.osmocom.org"
-          IMAGES="debian:stretch debian:buster debian:jessie debian:sid ubuntu:zesty centos:centos8"
+          IMAGES="debian:stretch debian:buster debian:jessie debian:sid ubuntu:zesty centos:centos7 centos:centos8"
           for i in $IMAGES; do
             src=$i
             dst=${REGISTRY}/$i
