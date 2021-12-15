@@ -260,6 +260,7 @@
       - TTCN3-centos-remsim-test:
           blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
           timer: 00 09 * * *
+          disabled: true
       - TTCN3-centos-stp-test:
           blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
@@ -304,10 +305,10 @@
       - TTCN3-centos-bsc-test-sccplite-latest:
           blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
-      # No osmo-remsim packages for centos8
-      #- TTCN3-centos-remsim-test-latest:
-      #    blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
-      #    timer: 00 09 * * *
+      - TTCN3-centos-remsim-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
+          timer: 00 09 * * *
+          disabled: true
       - TTCN3-centos-stp-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
