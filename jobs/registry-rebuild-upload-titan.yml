@@ -8,7 +8,7 @@
 - job:
     name: registry-rebuild-upload-titan
     description: |
-        Rebuild + push ttcn3 base images (debian-stretch-titan) in our private
+        Rebuild + push ttcn3 base images (debian-bullseye-titan) in our private
         registry.osmocom.org
         <br><br>
         Related:<br>
@@ -26,8 +26,8 @@
     builders:
       - shell: |
           REGISTRY="registry.osmocom.org"
-          make -C debian-stretch-titan REGISTRY_HOST=$REGISTRY
-          docker push "$REGISTRY/$USER/debian-stretch-titan"
+          make -C debian-bullseye-titan REGISTRY_HOST=$REGISTRY
+          docker push "$REGISTRY/$USER/debian-bullseye-titan"
 
     publishers:
       - email:
