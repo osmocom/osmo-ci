@@ -10,6 +10,7 @@
 # See also: OS#4862
 
 set -e -x
+SCRIPT_DIR="$(realpath "$(dirname "$(realpath "$0")")")"
 
 # base directory on the local side
 BASE_DIR="/downloads/obs-mirror/"
@@ -19,7 +20,7 @@ REMOTE="rsync.opensuse.org::opensuse-full-really-everything-including-repositori
 cd "$BASE_DIR"
 
 RSYNC_ARGS="-av --delete"
-RSYNC_ARGS="$RSYNC_ARGS --files-from /home/pkgmirror/obs-mirror-include.txt --recursive"
+RSYNC_ARGS="$RSYNC_ARGS --files-from $SCRIPT_DIR/obs-mirror-include.txt --recursive"
 DATE=`date +%Y%m%d-%H%M%S`
 
 # create output directory
