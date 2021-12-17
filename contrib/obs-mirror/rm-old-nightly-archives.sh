@@ -8,7 +8,7 @@ DRY=0
 # Get removal date in seconds since epoch and display it
 DATE_RM_SEC=$(expr $(date +%s) - 3600 \* 24 \* 32)
 DATE_RM_STR=$(date -d "@$DATE_RM_SEC" +"%Y-%m-%d")
-echo "Removing nightly archives from $DATE_RM_STR and older"
+echo "Removing nightly archives from $DATE_RM_STR and older (DRY=$DRY)"
 
 cd /downloads/obs-mirror
 
