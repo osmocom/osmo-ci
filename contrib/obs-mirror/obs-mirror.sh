@@ -22,10 +22,11 @@ cd "$BASE_DIR"
 RSYNC_ARGS="-av --delete"
 RSYNC_ARGS="$RSYNC_ARGS --files-from $SCRIPT_DIR/obs-mirror-include.txt --recursive"
 DATE=`date +%Y%m%d-%H%M%S`
-
-# create output directory
 DIR="$BASE_DIR/$DATE"
-mkdir -p "$DIR"
+TEMP_DIR="$BASE_DIR/.temp"
+
+rm -rf "$TEMP_DIR"
+mkdir "$TEMP_DIR"
 
 PREVIOUS="$BASE_DIR/.previous"
 if [ -d "$PREVIOUS" ]; then
@@ -33,9 +34,12 @@ if [ -d "$PREVIOUS" ]; then
 fi
 
 # finally, perform rsync
-# || true: don't stop here if one of the dirs from the include list does not exist
-rsync $RSYNC_ARGS "$REMOTE"/ "$DIR"/ || true
+if rsync $RSYNC_ARGS "$REMOTE"/ "$TEMP_DIR"/; then
+	mv "$TEMP_DIR" "$DIR"
 
-# update '.previous' for the next run
-rm -f "$PREVIOUS"
-ln -sf "$DATE" "$PREVIOUS"
+	# update '.previous' for the next run
+	rm -f "$PREVIOUS"
+	ln -sf "$DATE" "$PREVIOUS"
+else
+	exit 1
+fi
