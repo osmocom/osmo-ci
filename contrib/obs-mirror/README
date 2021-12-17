@@ -1,0 +1,7 @@
+The scripts in this directory are used to create an archive of Osmocom related
+packages from OBS, at: https://downloads.osmocom.org/obs-mirror/
+
+There is no mechanism in place to deploy updated scripts after updating them
+here in osmo-ci.git, so this must be done manually.
+
+See OS#4862 for more information.
