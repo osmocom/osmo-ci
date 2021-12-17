@@ -9,6 +9,9 @@
 #
 # See also: OS#4862
 
+echo "Redirecting all output to: /home/pkgmirror/obs-mirror.log"
+exec >"/home/pkgmirror/obs-mirror.log" 2>&1
+
 set -e -x
 SCRIPT_DIR="$(realpath "$(dirname "$(realpath "$0")")")"
 
