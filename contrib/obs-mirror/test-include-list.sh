@@ -1,4 +1,5 @@
 #!/bin/sh -ex
+SCRIPT_DIR="$(realpath "$(dirname "$(realpath "$0")")")"
 BASE_DIR="/downloads/obs-mirror/"
 
 cd "$BASE_DIR"
@@ -6,7 +7,7 @@ cd "$BASE_DIR"
 rsync \
         -a \
         --list-only \
-        --files-from /home/pkgmirror/obs-mirror-include.txt \
+        --files-from "$SCRIPT_DIR"/obs-mirror-include.txt \
         --recursive \
         "$(realpath .previous)"/ \
         new-backup-dir/
