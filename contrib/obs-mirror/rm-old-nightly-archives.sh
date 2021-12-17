@@ -1,5 +1,8 @@
 #!/bin/sh -e
 # Remove nightly archives older than one month (OS#4862)
+echo "Redirecting all output to: /home/pkgmirror/rm-old-nightly-archives.log"
+exec >"/home/pkgmirror/rm-old-nightly-archives.log" 2>&1
+
 DRY=0
 
 # Get removal date in seconds since epoch and display it
