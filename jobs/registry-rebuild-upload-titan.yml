@@ -1,9 +1,18 @@
-
----
 - project:
     name: registry-rebuild-upload-titan
     jobs:
       - registry-rebuild-upload-titan
+      - registry-rebuild-upload-ttcn3-bts-tests
+
+- scm:
+    name: osmocom-docker-playground
+    scm:
+        - git:
+            url: git://git.osmocom.org/docker-playground
+            skip-tag: true
+            branches:
+                - 'origin/master'
+
 
 - job:
     name: registry-rebuild-upload-titan
@@ -17,18 +26,40 @@
         </ul>
     node: osmocom-master-debian9
     scm:
-      - git:
-          url: git://git.osmocom.org/docker-playground
-          skip-tag: true
-          branches:
-            - 'origin/master'
-
+      - 'osmocom-docker-playground'
     builders:
       - shell: |
           REGISTRY="registry.osmocom.org"
           make -C debian-bullseye-titan REGISTRY_HOST=$REGISTRY
           docker push "$REGISTRY/$USER/debian-bullseye-titan"
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
 
+- job:
+    name: registry-rebuild-upload-ttcn3-bts-tests
+    description: |
+        Rebuild + push ttcn3-bts-test image in our private registry.osmocom.org.
+        This docker container is used by osmo-gsm-tester main unit to run TTCN3
+        BTS_Tests testsuite against real hardware.
+        <br><br>
+        Related:<br>
+        <ul>
+          <li>SYS#5765
+        </ul>
+    node: osmocom-master-debian9
+    triggers:
+      - reverse:
+            jobs:
+                - registry-rebuild-upload-titan
+    scm:
+      - 'osmocom-docker-playground'
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+          make -C ttcn3-bts-test REGISTRY_HOST=$REGISTRY
+          docker push "$REGISTRY/$USER/ttcn3-bts-test"
     publishers:
       - email:
           notify-every-unstable-build: true
