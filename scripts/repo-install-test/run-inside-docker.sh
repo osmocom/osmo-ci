@@ -347,6 +347,7 @@ test_binaries() {
 		osmo-hlr \
 		osmo-hlr-db-tool \
 		osmo-hnbgw \
+		osmo-hnodeb \
 		osmo-mgw \
 		osmo-msc \
 		osmo-pcu \
