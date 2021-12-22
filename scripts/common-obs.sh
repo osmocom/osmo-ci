@@ -4,6 +4,7 @@
 
 FEEDS_ALL="
 	2021q1
+	2021q4
 	latest
 	next
 	nightly

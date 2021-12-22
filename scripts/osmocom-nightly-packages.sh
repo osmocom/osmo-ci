@@ -16,6 +16,7 @@
 # Values for FEED env var. Adjust FEEDS_ALL in common-obs when changing.
 FEEDS="
   2021q1
+  2021q4
   next
   nightly
 "
