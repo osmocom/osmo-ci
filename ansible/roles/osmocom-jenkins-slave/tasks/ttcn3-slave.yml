@@ -24,9 +24,11 @@
     filename: obs_osmocom
     update_cache: yes
 
-- name: install titan
+- name: install titan and libosmocore-utils
   apt:
-    name: eclipse-titan
+    name:
+      - eclipse-titan
+      - libosmocore-utils
     update_cache: yes
     cache_valid_time: 3600
 
