@@ -138,6 +138,9 @@
       - ttcn3-hnodeb-test:
           blocking: "^(ttcn3|TTCN3-.*)-hnodeb-test.*"
           timer: 40 12 * * *
+      - ttcn3-upf-test:
+          blocking: "^(ttcn3|TTCN3-.*)-upf-test.*"
+          timer: 00 13 * * *
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
@@ -208,6 +211,10 @@
       - ttcn3-hnodeb-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-hnodeb-test.*"
           timer: 40 12 * * *
+          disabled: true
+      - ttcn3-upf-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-upf-test.*"
+          timer: 00 13 * * *
           disabled: true
 
 

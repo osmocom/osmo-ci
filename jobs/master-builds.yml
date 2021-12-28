@@ -60,7 +60,7 @@
           trigger: master-osmo-iuh
 
       - libgtpnl:
-          trigger: master-osmo-ggsn, openggsn
+          trigger: master-osmo-ggsn, openggsn, master-osmo-upf
 
       - libosmo-abis:
           # Full triggers would be:
@@ -140,11 +140,13 @@
           #    -> master-osmo-bts
           # -> master-osmo-ggsn
           #    -> master-osmo-sgsn
+          # -> master-osmo-upf
           # [...]
           trigger: >
             master-libosmo-abis,
             master-osmo-gbproxy,
             master-osmo-ggsn,
+            master-osmo-upf,
             master-osmo-gmr,
             master-osmo-pcap,
             master-osmo-pcu,
@@ -228,6 +230,8 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} /build/contrib/jenkins.sh
           trigger: master-osmo-sgsn
+
+      - osmo-upf
 
       - osmo-gmr:
           email: gerrit-log@lists.osmocom.org 246tnt@gmail.com

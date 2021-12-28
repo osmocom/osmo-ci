@@ -251,6 +251,7 @@
       - osmo-smlc
       - osmo-gbproxy
       - osmo-hnodeb
+      - osmo-upf
 
       - pysim:
           slave_axis: !!python/tuple [simtester]

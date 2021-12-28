@@ -28,6 +28,7 @@
       - osmo-bsc
       - osmo-bts
       - osmo-hnodeb
+      - osmo-upf
 
       - osmo-ci:
           # Run the lint script from the checked out branch
