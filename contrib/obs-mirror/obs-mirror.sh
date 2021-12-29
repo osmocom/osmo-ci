@@ -9,8 +9,10 @@
 #
 # See also: OS#4862
 
-echo "Redirecting all output to: /home/pkgmirror/obs-mirror.log"
-exec >"/home/pkgmirror/obs-mirror.log" 2>&1
+DATE=`date +%Y%m%d-%H%M%S`
+LOGFILE="/home/pkgmirror/obs-mirror-$DATE.log"
+echo "Redirecting all output to: $LOGFILE"
+exec >$LOGFILE 2>&1
 
 set -e -x
 SCRIPT_DIR="$(realpath "$(dirname "$(realpath "$0")")")"
@@ -24,7 +26,6 @@ cd "$BASE_DIR"
 
 RSYNC_ARGS="-av --delete"
 RSYNC_ARGS="$RSYNC_ARGS --files-from $SCRIPT_DIR/obs-mirror-include.txt --recursive"
-DATE=`date +%Y%m%d-%H%M%S`
 DIR="$BASE_DIR/$DATE"
 TEMP_DIR="$BASE_DIR/.temp"
 
