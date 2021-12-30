@@ -1,9 +1,9 @@
 latest/CentOS_8
-latest/Debian_10
-latest/Raspbian_10
+latest/Debian_11
+latest/Raspbian_11
 latest/xUbuntu_21.04
 
 nightly/CentOS_8
-nightly/Debian_10
-nightly/Raspbian_10
+nightly/Debian_11
+nightly/Raspbian_11
 nightly/xUbuntu_21.04
