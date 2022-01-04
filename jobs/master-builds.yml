@@ -87,7 +87,8 @@
           # Full triggers would be:
           # trigger: >
           #   master-libosmo-sccp, master-openbsc, mastere-osmo-hlr, master-osmo-iuh,
-          #   master-osmo-mgw, master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb
+          #   master-osmo-mgw, master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb,
+          #   master-osmo-hnbgw
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
@@ -100,7 +101,7 @@
           # Full triggers would be:
           # trigger: >
           #   master-openbsc, master-osmo-bsc, master-osmo-iuh, master-osmo-msc,
-          #   master-osmo-sgsn, master-osmo-hnodeb
+          #   master-osmo-sgsn, master-osmo-hnodeb, master-osmo-hnbgw
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
@@ -247,13 +248,14 @@
 
       - osmo-iuh:
           # Full triggers would be:
-          # trigger: master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb
+          # trigger: master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb, master-osmo-hnbgw
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
             master-osmo-msc,
             master-osmo-sgsn,
-            master-osmo-hnodeb
+            master-osmo-hnodeb,
+            master-osmo-hnbgw
 
       - osmo-mgw:
           trigger: master-osmo-msc, master-osmo-bsc
@@ -358,6 +360,7 @@
       - osmo-smlc
       - osmo-gbproxy
       - osmo-hnodeb
+      - osmo-hnbgw
 
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de

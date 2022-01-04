@@ -99,6 +99,7 @@ build_default osmo-sgsn \
 build_default osmo-smlc
 build_default osmo-cbc
 build_default osmo-hnodeb
+build_default osmo-hnbgw
 
 # GMR
 build_default libosmo-dsp

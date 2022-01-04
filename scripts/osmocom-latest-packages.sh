@@ -195,6 +195,7 @@ build_osmocom() {
   checkout osmo-cbc
   checkout osmo-gbproxy
   checkout osmo-hnodeb
+  #checkout osmo-hnbgw
 
   cd "$TOP"
 
@@ -233,6 +234,7 @@ build_osmocom() {
   build osmo-cbc
   build osmo-gbproxy
   build osmo-hnodeb
+  #build osmo-hnbgw
 
   cd "$TOP/$PROJ"
   osc ci -m "$FEED versions of $DT" --noservice

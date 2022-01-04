@@ -39,6 +39,7 @@ OSMO_RELEASE_REPOS="
 	osmocom-bb
 	simtrace2
 "
+#^TODO: still no release made: osmo-hnbgw
 
 OSMO_BRANCH_DOCKER_PLAYGROUND="${OSMO_BRANCH_DOCKER_PLAYGROUND:-master}"
 

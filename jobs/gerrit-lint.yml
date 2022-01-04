@@ -28,6 +28,7 @@
       - osmo-bsc
       - osmo-bts
       - osmo-hnodeb
+      - osmo-hnbgw
       - osmo-upf
 
       - osmo-ci:

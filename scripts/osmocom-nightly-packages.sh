@@ -227,6 +227,7 @@ build_osmocom() {
   checkout osmo-cbc
   checkout osmo-gbproxy
   checkout osmo-hnodeb
+  checkout osmo-hnbgw
 
   cd "$REPO"
 
@@ -268,6 +269,7 @@ build_osmocom() {
   build osmo-cbc
   build osmo-gbproxy
   build osmo-hnodeb
+  build osmo-hnbgw
 
   post
 }

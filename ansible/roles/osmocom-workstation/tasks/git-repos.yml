@@ -37,6 +37,7 @@
      - osmo-gtp-kernel
      - osmo-hlr
      - osmo-hnodeb
+     - osmo-hnbgw
      - osmo-iuh
      - osmo-mgw
      - osmo-msc
