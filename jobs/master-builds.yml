@@ -87,7 +87,7 @@
           # Full triggers would be:
           # trigger: >
           #   master-libosmo-sccp, master-openbsc, mastere-osmo-hlr, master-osmo-iuh,
-          #   master-osmo-mgw, master-osmo-msc, master-osmo-sgsn
+          #   master-osmo-mgw, master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
@@ -99,7 +99,8 @@
       - libosmo-sccp:
           # Full triggers would be:
           # trigger: >
-          #   master-openbsc, master-osmo-bsc, master-osmo-iuh, master-osmo-msc, master-osmo-sgsn
+          #   master-openbsc, master-osmo-bsc, master-osmo-iuh, master-osmo-msc,
+          #   master-osmo-sgsn, master-osmo-hnodeb
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
@@ -107,8 +108,7 @@
             master-osmo-bsc,
             master-osmo-iuh,
             master-osmo-msc,
-            master-osmo-sgsn,
-            master-osmo-hnodeb
+            master-osmo-sgsn
 
       - libosmocore:
           a1_name: arch
@@ -120,7 +120,7 @@
           #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp, master-openbsc,
           #   master-osmo-bsc, master-osmo-bts, master-osmo-ggsn, master-osmo-gmr, master-osmo-hlr,
           #   master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-pcap, master-osmo-pcu,
-          #   master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra,
+          #   master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra, master-osmo-hnodeb
           #   master-osmocom-bb, SIMtrace, xgoldmon
           # Optimized:
           # libosmocore
@@ -132,6 +132,7 @@
           #          -> master-osmo-iuh
           #             -> master-osmo-msc
           #             -> master-osmo-sgsn
+          #             -> master-osmo-hnodeb
           #          -> master-osmo-msc
           #          -> master-osmo-sgsn
           #       -> master-osmo-hlr
@@ -246,12 +247,13 @@
 
       - osmo-iuh:
           # Full triggers would be:
-          # trigger: master-osmo-msc, master-osmo-sgsn
+          # trigger: master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
             master-osmo-msc,
-            master-osmo-sgsn
+            master-osmo-sgsn,
+            master-osmo-hnodeb
 
       - osmo-mgw:
           trigger: master-osmo-msc, master-osmo-bsc
