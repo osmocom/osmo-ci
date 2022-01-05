@@ -24,6 +24,7 @@ OSMO_RELEASE_REPOS="
 	osmo-gsm-manuals
 	osmo-hlr
 	osmo-hnodeb
+	osmo-hnbgw
 	osmo-iuh
 	osmo-mgw
 	osmo-msc
@@ -39,7 +40,6 @@ OSMO_RELEASE_REPOS="
 	osmocom-bb
 	simtrace2
 "
-#^TODO: still no release made: osmo-hnbgw
 
 OSMO_BRANCH_DOCKER_PLAYGROUND="${OSMO_BRANCH_DOCKER_PLAYGROUND:-master}"
 
