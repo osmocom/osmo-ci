@@ -1,5 +1,5 @@
 # This file holds all gerrit lint verifications https://jenkins.osmocom.org/jenkins/view/Jenkins-Gerrit/.
-# One cane simply add a gerrit job by adding project's repository to repos list.
+# One can simply add a gerrit job by adding project's repository to repos list.
 
 - project:
     name: gerrit-lint
