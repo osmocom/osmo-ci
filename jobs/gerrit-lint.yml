@@ -73,9 +73,7 @@
       - simtrace2
       - osmo-asf4-dfu
       - osmo-ccid-firmware
-      - osmo-e1d
       - osmo-cbc
-      - osmo-e1-recorder
       - gapk
       - osmo-uecups
       - osmo-el2tpd
