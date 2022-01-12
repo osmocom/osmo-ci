@@ -11,7 +11,7 @@
       - osmo-ggsn
       - osmo-hlr
       - osmo-mgw
-      - osmo-iuh
+      - osmo-hnbgw
       - osmo-msc
       - osmo-pcu
       - osmo-sgsn
@@ -91,6 +91,8 @@
          name: OSMO_GSM_TESTER_BUILD_libasn1c
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_osmo_iuh
+      - add_param_build_branch:
+         name: OSMO_GSM_TESTER_BUILD_osmo_hnbgw
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_osmo_msc
       - add_param_build_branch:
