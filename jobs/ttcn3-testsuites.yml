@@ -507,5 +507,8 @@
         num-to-keep: 120
         artifact-days-to-keep: -1
         artifact-num-to-keep: -1
+    wrappers:
+    - ansicolor:
+        colormap: xterm
 
 # vim: expandtab tabstop=2 shiftwidth=2
