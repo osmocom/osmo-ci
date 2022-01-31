@@ -107,6 +107,7 @@
           trigger: >
             master-openbsc,
             master-osmo-bsc,
+            master-osmo-bsc-nat,
             master-osmo-iuh,
             master-osmo-msc,
             master-osmo-sgsn
@@ -130,6 +131,7 @@
           #       -> master-libosmo-sccp
           #          -> master-openbsc
           #          -> master-osmo-bsc
+          #          -> master-osmo-bsc-nat
           #          -> master-osmo-iuh
           #             -> master-osmo-msc
           #             -> master-osmo-sgsn
@@ -181,6 +183,7 @@
               {docker_img} /build/contrib/jenkins.sh
 
       - osmo-bsc
+      - osmo-bsc-nat
 
       - osmo-bts:
           slave_axis: !!python/tuple [osmocom-master-debian9, rpi4-raspbian10]

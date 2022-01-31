@@ -26,6 +26,7 @@
       - openbsc
       - openggsn
       - osmo-bsc
+      - osmo-bsc-nat
       - osmo-bts
       - osmo-hnodeb
       - osmo-hnbgw
