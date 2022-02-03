@@ -26,7 +26,7 @@
             ubuntu:zesty
 
             centos:centos7
-            centos:centos8
+            almalinux:8
           "
           for i in $IMAGES; do
             src=$i
