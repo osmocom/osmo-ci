@@ -1,0 +1,80 @@
+- project:
+    name: master-builds-dahdi-linux
+    node: osmocom-gerrit-debian9
+    linux-ver:
+      - "v4.19"
+      - "v5.10"
+      - "master"
+    jobs:
+      - 'master-dahdi-linux-{linux-ver}'
+
+- job-template:
+    name: 'master-dahdi-linux-{linux-ver}'
+    project-type: freestyle
+    node: osmocom-master-debian9
+    concurrent: true
+    retry-count: 0 # scm checkout
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+          artifact-days-to-keep: -1
+          artifact-num-to-keep: -1
+    description: |
+      Automatic jenkins test job of
+      <a href="https://gerrit.osmocom.org/#/q/status:open+project:dahdi-linux">dahdi-linux</a>
+      built against linux {linux-ver}
+      (<a href="https://osmocom.org/issues/5407">OS#5407</a>)
+      <br/><br/>
+      <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
+
+    scm:
+      - git:
+         basedir: 'dahdi-linux'
+         url: 'https://gerrit.osmocom.org/dahdi-linux'
+         credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+         branches:
+           - 'origin/master'
+         # When the gerrit git repository is configured to wipe-workspace, the
+         # linux.git clone gets removed as well. Cloning the linux repo takes a
+         # long time, so only clean both repos, don't remove them.
+         wipe-workspace: false
+         clean:
+          before: true
+         skip-tag: true
+         submodule:
+           recursive: true
+      - git:
+         basedir: 'linux'
+         url: 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
+         branches:
+           - '{linux-ver}'
+         refspec: '{linux-ver}'
+         shallow-clone: true
+         wipe-workspace: false
+         clean:
+          before: true
+
+    triggers:
+      - timed: "H H * * *"
+
+    builders:
+      - shell: |
+          docker run \
+            --rm=true \
+            -e "KSRC=/linux" \
+            -v "$PWD/dahdi-linux:/build" \
+            -v "$PWD/linux:/linux" \
+            "$USER/debian-stretch-jenkins" \
+            timeout 10m su build -c /build/contrib/jenkins.sh
+
+    publishers:
+       - warnings:
+           console-log-parsers:
+             - 'GNU C Compiler 4 (gcc)'
+           resolve-relative-paths: true
+       - email:
+           recipients: 'jenkins-notifications@lists.osmocom.org laforge@gnumonks.org'
+           send-to-individuals: true
+
+# vim: expandtab tabstop=2 shiftwidth=2
