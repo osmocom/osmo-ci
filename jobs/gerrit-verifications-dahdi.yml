@@ -1,0 +1,98 @@
+- project:
+    name: gerrit-dahdi-linux
+    node: osmocom-gerrit-debian9
+    linux-ver:
+      - "v4.19"
+      - "v5.10"
+    jobs:
+      - 'gerrit-dahdi-linux-{linux-ver}'
+
+- job-template:
+    name: 'gerrit-dahdi-linux-{linux-ver}'
+    project-type: freestyle
+    node: osmocom-gerrit-debian9
+    concurrent: true
+    retry-count: 0 # scm checkout
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+          artifact-days-to-keep: -1
+          artifact-num-to-keep: -1
+    description: |
+      Pending gerrit code reviews of
+      <a href="https://gerrit.osmocom.org/#/q/status:open+project:dahdi-linux">dahdi-linux</a>
+      built against linux {linux-ver}
+      (<a href="https://osmocom.org/issues/5407">OS#5407</a>)
+      <br/><br/>
+      <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
+
+    scm:
+      - git:
+         basedir: 'dahdi-linux'
+         url: 'https://gerrit.osmocom.org/dahdi-linux'
+         credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+         branches:
+           - $GERRIT_BRANCH
+         refspec: $GERRIT_REFSPEC
+         choosing-strategy: gerrit
+         # When the gerrit git repository is configured to wipe-workspace, the
+         # linux.git clone gets removed as well. Cloning the linux repo takes a
+         # long time, so only clean both repos, don't remove them.
+         wipe-workspace: false
+         clean:
+          before: true
+         skip-tag: true
+         submodule:
+           recursive: true
+      - git:
+         basedir: 'linux'
+         url: 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
+         branches:
+           - '{linux-ver}'
+         refspec: '{linux-ver}'
+         shallow-clone: true
+         wipe-workspace: false
+         clean:
+          before: true
+
+    triggers:
+      - gerrit:
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: true
+                exclude-no-code-change: true
+          projects:
+            - project-compare-type: 'PLAIN'
+              project-pattern: 'dahdi-linux'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**'
+          skip-vote:
+              successful: false
+              failed: false
+              unstable: false
+              notbuilt: false
+          silent: false
+          escape-quotes: false
+          no-name-and-email: false
+          trigger-for-unreviewed-patches: true
+          server-name: gerrit.osmocom.org
+
+    builders:
+      - shell: |
+          docker run \
+            --rm=true \
+            -e "KSRC=/linux" \
+            -v "$PWD/dahdi-linux:/build" \
+            -v "$PWD/linux:/linux" \
+            "$USER/debian-stretch-jenkins" \
+            timeout 10m su build -c /build/contrib/jenkins.sh
+
+    publishers:
+       - warnings:
+           console-log-parsers:
+             - 'GNU C Compiler 4 (gcc)'
+           resolve-relative-paths: true
+
+# vim: expandtab tabstop=2 shiftwidth=2
