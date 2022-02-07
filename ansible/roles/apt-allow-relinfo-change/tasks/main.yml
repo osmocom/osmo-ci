@@ -1,0 +1,7 @@
+---
+- name: "configure to allow release info change"
+  lineinfile:
+    path: /etc/apt/apt.conf.d/99relinfochange
+    state: present
+    create: yes
+    line: Acquire::AllowReleaseInfoChange::Suite "true";
