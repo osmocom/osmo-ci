@@ -16,6 +16,8 @@
             - gtp0-deb9build
             - gtp0-deb10build32
             - gtp0-deb10fr
+            - osmo-gsm-tester-prod
+            - osmo-gsm-tester-rnd
     properties:
       - build-discarder:
           days-to-keep: 30
