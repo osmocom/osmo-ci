@@ -40,6 +40,7 @@
 - name: cleanup old docker images
   cron:
     name: cleanup-docker-images
+    disabled: false
     minute: 0
     hour: '*/3'
     user: "{{ jenkins_user }}"
@@ -50,3 +51,8 @@
     src: daemon.json
     dest: /etc/docker/daemon.json
   notify: restart docker
+
+# After docker is set up, add docuum to clean old docker images
+# x86_64 only, as the raspberries need to be upgraded before they can use recent docker images (OS#5453)
+- include: docuum.yml
+  when: ansible_architecture == 'x86_64'

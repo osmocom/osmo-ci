@@ -2,3 +2,7 @@
 
 # Adds this user to the group docker which is allowed to access docker
 jenkins_user: jenkins
+
+# Keep amount of stored docker images below this size
+# https://osmocom.org/projects/osmocom-servers/wiki/Docker_cache_clean_up
+docker_max_image_space: "100 GB"
