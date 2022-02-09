@@ -371,6 +371,11 @@
       - rtl-sdr:
           email: laforge@gnumonks.org steve@steve-m.de
 
+      - pysim:
+          concurrent: false
+          slave_axis: !!python/tuple [simtester]
+          cmd: 'PUBLISH=1 WITH_MANUALS=1 /usr/bin/timeout 30m ./contrib/jenkins.sh'
+
       - sysmo-usim-tool:
           concurrent: false
           cmd: cd ./tests; ./run-tests
