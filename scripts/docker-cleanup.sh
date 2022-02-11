@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # delete all but the latest images
 IMAGES=`docker image ls | grep \^osmocom-build | grep -v latest  | awk -F ' ' '{print $1":"$2}'`
