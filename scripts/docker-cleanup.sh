@@ -6,4 +6,10 @@ for f in $IMAGES; do
 	docker image rm $f
 done
 
+# delete all containers where we forgot to use --rm with docker run
+CONTAINERS="$(docker ps -q -a -f status=exited -f status=created)"
+if [ -n "$CONTAINERS" ]; then
+	docker rm $CONTAINERS
+fi
+
 docker image prune -f
