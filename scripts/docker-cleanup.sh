@@ -12,4 +12,5 @@ if [ -n "$CONTAINERS" ]; then
 	docker rm $CONTAINERS
 fi
 
-docker image prune -f
+# remove dangling images, containers, volumes, and networks (not tagged or associated with a container)
+docker system prune -f
