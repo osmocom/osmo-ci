@@ -5,6 +5,7 @@
     state: present
     create: yes
     line: "{{ docker_max_image_space }}"
+    regexp: ".*"  # replace previous content if changed
 
 - name: "docuum : copy Dockerfile"
   copy:
