@@ -9,7 +9,9 @@ RUN	apk add \
 # Create user and docker group with same group-id as on host system, create
 # /opt/docuum dir owned by user
 RUN	set -x && \
-	delgroup $(getent group "${DOCKER_GID}" | cut -d: -f1) && \
+	if getent group "${DOCKER_GID}"; then \
+		delgroup $(getent group "${DOCKER_GID}" | cut -d: -f1); \
+	fi && \
 	addgroup -g "${DOCKER_GID}" docker && \
 	adduser -D -u 1000 -G docker user && \
 	mkdir /opt/docuum && \
