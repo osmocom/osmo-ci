@@ -5151,7 +5151,7 @@ sub process {
 						}
 					} elsif ($ctx =~ /Wx[^WCE]|[^WCE]xW/) {
 						if (ERROR("SPACING",
-							  "need consistent spacing around '$op' $at\n" . $hereptr)) {
+							  "need consistent spacing around '$op' $at (or typedef missing in osmo-ci/lint/checkpatch/typedefs_osmo.txt?)\n" . $hereptr)) {
 							$good = rtrim($fix_elements[$n]) . " " . trim($fix_elements[$n + 1]) . " ";
 							if (defined $fix_elements[$n + 2]) {
 								$fix_elements[$n + 2] =~ s/^\s+//;
