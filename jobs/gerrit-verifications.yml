@@ -261,12 +261,20 @@
           cmd: '{timeout_cmd} ./contrib/jenkins.sh'
 
       - osmo-ttcn3-hacks:
-          repos_url: 'https://gerrit.osmocom.org/{repos}'
           slave_axis: !!python/tuple [ttcn3]
-          concurrent: false
           cmd: |
-            set -e
-            make deps; make clean; make compile
+            docker run \
+              --rm \
+              -v "$PWD:/build" \
+              "registry.osmocom.org/osmocom-build/debian-bullseye-titan" \
+              {timeout_cmd} \
+              sh -e -x -c "
+                useradd --uid=1000 build;
+                cd /build;
+                su build -c 'make deps';
+                su build -c 'make clean';
+                su build -c 'make compile';
+                "
 
     jobs:
       - 'gerrit-{repos}'
