@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 docker_images_require \
 	"debian-stretch-jenkins" \
 	"debian-buster-jenkins" \
-	"debian-buster-erlang" \
+	"debian-bullseye-erlang" \
 
 if [ "$(arch)" = "x86_64" ]; then
 	docker_images_require \

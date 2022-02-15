@@ -41,7 +41,7 @@
               -v "$PWD:/build" \
               -v "$ARTIFACT_STORE:/artifact_store" \
     docker_img: '$USER/debian-stretch-jenkins'
-    docker_img_erlang: '$USER/debian-buster-erlang'
+    docker_img_erlang: '$USER/debian-bullseye-erlang'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
