@@ -24,22 +24,9 @@
     filename: obs_osmocom
     update_cache: yes
 
-- name: install titan and libosmocore-utils
+- name: install libosmocore-utils
   apt:
     name:
-      - eclipse-titan
       - libosmocore-utils
     update_cache: yes
     cache_valid_time: 3600
-
-- name: Get DEB architecture
-  shell: dpkg --print-architecture
-  register: deb_architecture
-
-- name: Install libfftranscode0
-  apt:
-    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode0_0.3_{{deb_architecture.stdout}}.deb
-
-- name: Install libfftranscode-dev
-  apt:
-    deb: https://ftp.osmocom.org/binaries/libfftranscode/libfftranscode-dev_0.3_{{deb_architecture.stdout}}.deb
