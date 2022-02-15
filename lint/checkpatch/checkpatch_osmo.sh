@@ -116,6 +116,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore UNSPECIFIED_INT \
 	--ignore VOLATILE \
 	--max-line-length 120 \
+	--typedefsfile "$SCRIPT_DIR/typedefs_osmo.txt" \
 	--no-signoff \
 	--no-tree \
 	"$@"
