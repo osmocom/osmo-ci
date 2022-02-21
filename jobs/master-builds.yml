@@ -382,6 +382,8 @@
           slave_axis: !!python/tuple [simtester]
           git_base_url: https://git.sysmocom.de/sysmocom
 
+      - dahdi-tools
+
     jobs:
       - 'master-{repos}'
 

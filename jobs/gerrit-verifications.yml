@@ -276,6 +276,8 @@
                 su build -c 'make compile';
                 "
 
+      - dahdi-tools
+
     jobs:
       - 'gerrit-{repos}'
 
