@@ -60,6 +60,11 @@
             Test osmo-ggsn latest with the Linux kernel built from master of
             <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/">
               torvalds/linux.git</a>.
+      - ttcn3-ggsn-test-ogs:
+          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
+          timer: 35 04 * * *
+          description: |
+            Test open5gs-smfd + open5gs-upfd main.
       - ttcn3-msc-test:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 40 04 * * *
