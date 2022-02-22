@@ -14,7 +14,6 @@
     repos:
       - asn1c
       - cellmgr-ng
-      - dahdi-linux
       - docker-playground
       - libasn1c
       - libgtpnl
