@@ -151,6 +151,10 @@
           blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
           timer: 40 13 * * *
           disabled: true
+      - ttcn3-fr-test:
+          blocking: "^(ttcn3|TTCN3-.*)-fr-test.*"
+          timer: 40 10 * * *
+          node: hdlc
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
