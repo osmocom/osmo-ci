@@ -23,7 +23,7 @@
       # debian-stretch nightly - order by time
       - nplab-m3ua-test:
           blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
-          timer: 00 03 * * *
+          timer: 10 03 * * *
       - nplab-sua-test:
           blocking: "^(nplab|NPLAB-.*)-sua-test.*"
           timer: 15 03 * * *
@@ -158,7 +158,7 @@
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
           blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
-          timer: 00 03 * * *
+          timer: 10 03 * * *
       - nplab-sua-test-latest:
           blocking: "^(nplab|NPLAB-.*)-sua-test.*"
           timer: 15 03 * * *
