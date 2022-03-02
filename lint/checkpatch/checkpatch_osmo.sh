@@ -8,6 +8,8 @@ exclude_paths_common() {
 	echo '--exclude \.(ok|err)$'
 	# Generated from commit log, which may contain spelling errors (OS#5232)
 	echo '--exclude ^debian/changelog$'
+	# Patch files
+	echo '--exclude \.patch$'
 }
 
 exclude_paths_common_asn1c() {
