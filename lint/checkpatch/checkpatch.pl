@@ -5077,11 +5077,16 @@ sub process {
 					 $opv eq '*U' || $opv eq '-U' ||
 					 $opv eq '&U') {  # Osmocom specific: &&U removed
 					if ($ctx !~ /[WEBC]x./ && $ca !~ /(?:\)|!|~|\*|-|\&|\||\+\+|\-\-|\{)$/) {
-						if (ERROR("SPACING",
-							  "space required before that '$op' $at\n" . $hereptr)) {
-							if ($n != $last_after + 2) {
-								$good = $fix_elements[$n] . " " . ltrim($fix_elements[$n + 1]);
-								$line_fixed = 1;
+						# Osmocom specific: inside struct osmo_tdef we write non-spec timers as
+						# T=-1234. Do not complain about having no space before the minus
+						# character.
+						if ($opline !~ /\.T=/) {
+							if (ERROR("SPACING",
+								  "space required before that '$op' $at\n" . $hereptr)) {
+								if ($n != $last_after + 2) {
+									$good = $fix_elements[$n] . " " . ltrim($fix_elements[$n + 1]);
+									$line_fixed = 1;
+								}
 							}
 						}
 					}
