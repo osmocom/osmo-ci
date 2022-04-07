@@ -154,6 +154,11 @@
           blocking: "^(ttcn3|TTCN3-.*)-fr-test.*"
           timer: 40 10 * * *
           node: hdlc
+      - ttcn3-pgw-test:
+          blocking: "^(ttcn3|TTCN3-.*)-pgw-test.*"
+          timer: 00 14 * * *
+          description: |
+            Test open5gs-smfd + open5gs-upfd PGW main.
 
       # debian-stretch latest stable
       - nplab-m3ua-test-latest:
