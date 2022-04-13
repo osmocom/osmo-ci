@@ -400,6 +400,29 @@
           blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 30 14 * * *
 
+      # centos8 2022q1 (SYS#5887)
+      - TTCN3-centos-pcu-test-2022q1:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 00 15 * * *
+      - TTCN3-centos-pcu-test-sns-2022q1:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 15 15 * * *
+      - TTCN3-centos-bsc-test-2022q1:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 30 15 * * *
+      - TTCN3-centos-mgw-test-2022q1:
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
+          timer: 45 15 * * *
+      - TTCN3-centos-bts-test-2022q1:
+          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
+          timer: 00 16 * * *
+      - TTCN3-centos-smlc-test-2022q1:
+          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
+          timer: 15 16 * * *
+      - TTCN3-centos-gbproxy-test-2022q1:
+          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
+          timer: 30 16 * * *
+
 - job-template:
     name: '{job-name}'
     project-type: freestyle
