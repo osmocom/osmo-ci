@@ -4,6 +4,7 @@
     linux-ver:
       - "v4.19"
       - "v5.10"
+      - "master"
     jobs:
       - 'gerrit-dahdi-linux-{linux-ver}'
 
