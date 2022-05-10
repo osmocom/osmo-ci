@@ -1,0 +1,21 @@
+- name: Install openvpn
+  zypper:
+    name:
+      - openvpn
+
+- name: copy openvpn config
+  copy:
+    src: obs.conf
+    dest: /etc/openvpn/
+    mode: 0600
+
+- name: copy openvpn CA certificate
+  copy:
+    src: obs-ca.crt
+    dest: /etc/openvpn/
+    mode: 0600
+
+- name: ensure the systemd service is installed
+  systemd:
+    name: openvpn@obs.service
+    enabled: yes

@@ -1,0 +1,8 @@
+---
+
+- name: install OBS
+  include_tasks: obs.yml
+
+- name: install openvpn
+  include_tasks: openvpn.yml
+

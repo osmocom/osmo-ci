@@ -1,0 +1,52 @@
+- name: add OBS rpm repository
+  zypper_repository:
+    repo: https://download.opensuse.org/repositories/OBS:/Server:/2.10/15.3/OBS:Server:2.10.repo
+    autorefresh: yes
+    auto_import_keys: yes
+
+- name: install obs-worker
+  zypper:
+    name:
+      - obs-worker
+
+- name: Make sure an entry in /etc/hosts exists
+  lineinfile:
+    path: /etc/hosts
+    regexp: "^172.16.31.1"
+    line: "172.16.31.1  obs-backend.osmocom.org obs obs.osmocom.org"
+    state: present
+
+- name: Create /srv/obs/cache
+  file:
+    path: /srv/obs/cache
+    owner: obsrun
+    group: obsrun
+    recurse: yes
+
+- name: generate obs-server config file
+  template:
+    src: obs-server
+    dest: /etc/sysconfig/obs-server
+
+- name: install lxc
+  when: obs_vm_type == "lxc"
+  zypper:
+    name:
+      - lxc
+
+- name: install qemu
+  when: obs_vm_type != "lxc"
+  zypper:
+    name:
+      - qemu-arm
+
+- name: install qemu-arm
+  when: obs_vm_type == "emulator:armv7l" or obs_vm_type == "emulator:aarch64"
+  zypper:
+    name:
+      - qemu-arm
+
+- name: ensure the systemd service is installed
+  systemd:
+    name: obsworker.service
+    enabled: yes

@@ -1,0 +1,21 @@
+---
+- name: setup OBS worker
+  hosts: obs-workers
+  user: root
+  vars_files:
+    - "vars/{{ ansible_facts['os_family'] }}-{{ ansible_facts['distribution_major_version']}}.yml"
+  tasks:
+    - name: install common utilities
+      zypper:
+        name:
+          - vim
+          - tmux
+          - screen
+          - tcpdump
+          - strace
+          - ltrace
+
+  roles:
+    - name: osmocom-obs-worker
+      tags:
+        - obs-worker
