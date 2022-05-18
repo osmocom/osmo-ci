@@ -13,7 +13,6 @@
       - debhelper
       - devscripts
       - dh-autoreconf
-      - dh-systemd
       - doxygen
       - flex
       - g++
