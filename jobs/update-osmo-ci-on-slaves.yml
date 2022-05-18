@@ -14,7 +14,7 @@
             - rpi4-raspbian11build-ansible-2
             - rpi4-raspbian11build-ansible-3
             - gtp0-deb9build
-            - gtp0-deb10build32
+            - gtp0-deb11build32
             - gtp0-deb10fr
             - osmo-gsm-tester-prod
             - osmo-gsm-tester-rnd
