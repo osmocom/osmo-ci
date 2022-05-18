@@ -29,7 +29,6 @@
       - mscgen
       - osc
       - pkgconf
-      - python-minimal
       - python-setuptools
       - python3
       - python3-setuptools
@@ -37,7 +36,6 @@
       - texinfo
       # by gsm-manuals
       - python3-nwdiag
-      - python-pychart
       - inkscape
       # by gapk
       - libasound-dev
