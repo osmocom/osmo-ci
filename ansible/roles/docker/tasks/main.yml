@@ -57,6 +57,4 @@
   shell: "docker info | grep -q 'Storage Driver: overlay2' || rm -rf /var/lib/docker/vfs"
 
 # After docker is set up, add docuum to clean old docker images
-# x86_64 only, as the raspberries need to be upgraded before they can use recent docker images (OS#5453)
 - include: docuum.yml
-  when: ansible_architecture == 'x86_64'
