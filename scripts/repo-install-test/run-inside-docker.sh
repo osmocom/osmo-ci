@@ -100,7 +100,6 @@ check_env() {
 configure_osmocom_repo_debian() {
 	local proj="$1"
 	local obs_repo="download.opensuse.org/repositories/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR/"
-	local release_key="/var/cache/apt/${proj}_Release.key"
 
 	echo "Configuring Osmocom repository"
 
@@ -108,9 +107,9 @@ configure_osmocom_repo_debian() {
 	if ! [ -e "$release_key" ]; then
 		apt-get update
 		apt install -y wget
-		wget -O "$release_key" "https://$obs_repo/Release.key"
+		wget -O /tmp/Release.key "https://build.opensuse.org/projects/network:osmocom/public_key"
 	fi
-	apt-key add "$release_key"
+	apt-key add /tmp/Release.key
 
 	echo "deb http://$obs_repo ./" > "/etc/apt/sources.list.d/$proj.list"
 	apt-get update
