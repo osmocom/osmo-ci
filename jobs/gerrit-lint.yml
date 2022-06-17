@@ -19,6 +19,7 @@
       - libgtpnl
       - libosmo-abis
       - libosmo-netif
+      - libosmo-pfcp
       - libosmo-sccp
       - libosmocore
       - libsmpp34
