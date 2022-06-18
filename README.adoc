@@ -24,7 +24,7 @@ and automatically fetched and reset to "origin/master" (override with
 $OSMO_BRANCH_DOCKER_PLAYGROUND). The fetch and reset gets skipped if
 _docker_playground is a symlink. For development, set it up as follows:
 
- $ git clone https://git.osmocom.org/docker-playground
- $ git clone https://git.osmocom.org/osmo-ci
+ $ git clone https://gitea.osmocom.org/osmocom/docker-playground
+ $ git clone https://gitea.osmocom.org/osmocom/osmo-ci
  $ cd osmo-ci
  $ ln -s ../docker-playground _docker_playground

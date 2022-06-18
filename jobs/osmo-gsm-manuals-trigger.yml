@@ -18,7 +18,7 @@
     node: osmocom-master-debian9
     scm:
       - git:
-          url: git://git.osmocom.org/osmo-gsm-manuals
+          url: https://gerrit.osmocom.org/osmo-gsm-manuals
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true

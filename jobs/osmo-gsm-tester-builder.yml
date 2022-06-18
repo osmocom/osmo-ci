@@ -116,7 +116,7 @@
     name: osmo-gsm-tester-repo
     scm:
       - git:
-          url: git://git.osmocom.org/osmo-gsm-tester
+          url: https://gerrit.osmocom.org/osmo-gsm-tester
           branches:
             - ${OSMO_GSM_TESTER_BRANCH}
           wipe-workspace: false

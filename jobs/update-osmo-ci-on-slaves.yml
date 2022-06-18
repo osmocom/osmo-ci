@@ -24,7 +24,7 @@
           num-to-keep: 120
     scm:
       - git:
-          url: git://git.osmocom.org/osmo-ci
+          url: https://gerrit.osmocom.org/osmo-ci
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true
@@ -54,7 +54,7 @@
     node: osmocom-master-debian9
     scm:
       - git:
-          url: git://git.osmocom.org/docker-playground
+          url: https://gerrit.osmocom.org/docker-playground
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true

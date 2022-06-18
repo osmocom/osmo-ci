@@ -65,10 +65,10 @@ DEBIAN_FRONTEND=noninteractive apt-get purge -y nano laptop-detect tasksel dicti
 
 # check out sources we need from their respective repositories
 cd /usr/local/src
-git clone git://git.netfilter.org/libmnl
+git clone https://git.netfilter.org/libmnl
 (cd libmnl && autoreconf -fi && ./configure && make && make install)
-git clone git://git.osmocom.org/libgtpnl
+git clone https://gerrit.osmocom.org/libgtpnl
 (cd libgtpnl && autoreconf -fi && ./configure && make && make install)
-git clone git://git.osmocom.org/osmo-ggsn
+git clone https://gerrit.osmocom.org/osmo-ggsn
 (cd osmo-ggsn && autoreconf -fi && ./configure --enable-gtp-linux && make && make install)
 ldconfig

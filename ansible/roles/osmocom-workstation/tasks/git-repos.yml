@@ -4,7 +4,7 @@
   become: yes
   become_user: "{{ osmocom_user }}"
   git:
-     repo: git://git.osmocom.org/{{ item }}.git
+     repo: https://git.osmocom.org/{{ item }}
      dest: "{{ git_destination }}/{{ item }}"
      accept_hostkey: yes
      force: no
@@ -106,7 +106,7 @@
      chdir: "{{ git_destination }}/osmo-ttcn3-hacks"
 
 - name: install sysmocom git repos
-  git: repo=https://git.sysmocom.de/{{ item }}.git
+  git: repo=https://gitea.sysmocom.de/{{ item }}.git
        dest={{ git_destination }}/{{ item }}
        accept_hostkey=yes
        force=yes
@@ -119,7 +119,7 @@
 
 
 - name: install github git repos
-  git: repo=git://github.com/{{ item }}.git
+  git: repo=https://github.com/{{ item }}.git
        dest={{ git_destination }}/{{ item }}
        accept_hostkey=yes
        force=yes

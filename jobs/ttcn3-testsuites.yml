@@ -470,7 +470,7 @@
       - git:
           branches:
             - '$BRANCH'
-          url: git://git.osmocom.org/docker-playground
+          url: https://gerrit.osmocom.org/docker-playground
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           wipe-workspace: "{obj:wipe_workspace}"

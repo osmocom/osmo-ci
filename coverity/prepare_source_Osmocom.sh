@@ -57,7 +57,7 @@ for proj in $PROJECTS $PROJECTS_DONT_BUILD_TEST; do
 			git -C "$proj" clean -ffxd
 		fi
 	else
-		git clone git://git.osmocom.org/$proj
+		git clone https://git.osmocom.org/$proj
 	fi
 done
 
@@ -71,5 +71,5 @@ for proj in $PROJECTS; do
 done
 
 if ! [ -d layer1-api ]; then
-	git clone https://git.sysmocom.de/sysmo-bts/layer1-api
+	git clone https://gitea.sysmocom.de/sysmo-bts/layer1-api
 fi

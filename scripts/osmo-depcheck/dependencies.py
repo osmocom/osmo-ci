@@ -14,7 +14,7 @@ def git_clone(workdir, prefix, cache_git_fetch, repository, version):
     """ Clone a missing git repository and checkout a specific version tag.
 
         :param workdir: path to where all data (git, build, install) is stored
-        :param prefix: git url prefix (e.g. "git://git.osmocom.org/")
+        :param prefix: git url prefix (e.g. "https://git.osmocom.org/")
         :param cache_git_fetch: list of repositories that have already been
                                 fetched in this run of osmo-depcheck
         :param repository: Osmocom git repository name (e.g. "libosmo-abis")
@@ -56,7 +56,7 @@ def generate(workdir, prefix, cache_git_fetch, initial, rev):
         repository, parsing the "configure.ac" file, and recursing.
 
         :param workdir: path to where all data (git, build, install) is stored
-        :param prefix: git url prefix (e.g. "git://git.osmocom.org/")
+        :param prefix: git url prefix (e.g. "https://git.osmocom.org/")
         :param cache_git_fetch: list of repositories that have already been
                                 fetched in this run of osmo-depcheck
         :param initial: the first program to look at (e.g. "osmo-bts")

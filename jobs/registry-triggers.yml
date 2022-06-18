@@ -15,7 +15,7 @@
     node: osmocom-master-debian9
     scm:
       - git:
-         url: git://git.osmocom.org/{repos}
+         url: https://gerrit.osmocom.org/{repos}
          branches:
            - 'origin/master'
     trigger:

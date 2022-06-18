@@ -132,7 +132,7 @@
 
 - name: setup ofono repository
   git:
-    repo: 'https://git.sysmocom.de/sysmocom/ofono'
+    repo: 'https://gitea.sysmocom.de/sysmocom/ofono'
     dest: /root/ofono
     version: osmo-gsm-tester
     clone: yes
@@ -354,7 +354,7 @@
 
 - name: setup osmo-gsm-tester repository
   git:
-    repo: 'git://git.osmocom.org/osmo-gsm-tester'
+    repo: 'https://gitea.osmocom.org/cellular-infrastructure/osmo-gsm-tester'
     dest: /root/osmo-gsm-tester
     version: master
     clone: yes

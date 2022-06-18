@@ -46,7 +46,7 @@
     wrappers: []
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
-    git_base_url: git://git.osmocom.org
+    git_base_url: https://git.osmocom.org
 
     # in alphabetical order
     repos:
@@ -404,7 +404,7 @@
           concurrent: false
           cmd: cd ./tests; ./run-tests
           slave_axis: !!python/tuple [simtester]
-          git_base_url: https://git.sysmocom.de/sysmocom
+          git_base_url: https://gitea.sysmocom.de/sysmocom
 
       - dahdi-tools
 

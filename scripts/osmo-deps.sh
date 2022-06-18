@@ -10,7 +10,7 @@ fi
 
 if ! test -d "$project";
 then
-  git clone "git://git.osmocom.org/$project" "$project"
+  git clone "https://git.osmocom.org/$project" "$project"
 fi
 
 cd "$project"

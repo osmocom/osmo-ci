@@ -4,7 +4,7 @@ set -e -x
 # Clone repository to ~/, or update existing
 # $1: name of osmocom project
 clone_repo() {
-	cd ~/"$1" || (cd ~/ && git clone git://git.osmocom.org/"$1" && cd ~/"$1")
+	cd ~/"$1" || (cd ~/ && git clone https://git.osmocom.org/"$1" && cd ~/"$1")
 	git rev-parse HEAD
 	git status
 

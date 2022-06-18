@@ -22,7 +22,7 @@
     project-type: matrix
     scm:
       - git:
-          url: git://git.osmocom.org/osmo-ccid-firmware
+          url: https://gerrit.osmocom.org/osmo-ccid-firmware
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true

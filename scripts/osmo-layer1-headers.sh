@@ -11,12 +11,12 @@ set -e -x
 
 case "$1" in
     sysmo)
-	uri="https://git.sysmocom.de/sysmo-bts/layer1-api"
+	uri="https://gitea.sysmocom.de/sysmo-bts/layer1-api"
 	version_prefix=""
 	version="origin/master"
 	;;
     oct)
-	uri="git://git.osmocom.org/octphy-2g-headers"
+	uri="https://git.osmocom.org/octphy-2g-headers"
 	version_prefix=""
 	version="origin/master"
 	;;

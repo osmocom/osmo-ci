@@ -31,7 +31,7 @@
           default: 'origin/master'
     scm:
       - git:
-          url: git://git.osmocom.org/osmo-ci
+          url: https://gerrit.osmocom.org/osmo-ci
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           branches:

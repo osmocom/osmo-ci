@@ -172,7 +172,7 @@ branch_and_rev_of_local_repo() {
 branch_and_rev_of_remote_repo() {
 	if [ -z "${2+x}" ]; then branch="master"; else branch="$2"; fi
 	branch="$( echo "$branch" | tr '/' '_')"
-	rev="$(git ls-remote "git://git.osmocom.org/$1" "refs/heads/$branch")"
+	rev="$(git ls-remote "https://git.osmocom.org/$1" "refs/heads/$branch")"
 
 	# check whether branch is a tag
 	if [ "$rev" = "" ]; then

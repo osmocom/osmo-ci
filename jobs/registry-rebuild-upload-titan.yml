@@ -8,7 +8,7 @@
     name: osmocom-docker-playground
     scm:
         - git:
-            url: git://git.osmocom.org/docker-playground
+            url: https://gerrit.osmocom.org/docker-playground
             skip-tag: true
             branches:
                 - 'origin/master'
