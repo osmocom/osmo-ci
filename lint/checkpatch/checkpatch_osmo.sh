@@ -4,8 +4,8 @@ PROJECT_DIR="$(git rev-parse --show-toplevel)"
 PROJECT="$(basename "$PROJECT_DIR")"
 
 exclude_paths_common() {
-	# Stdout and stderr of regression tests
-	echo '--exclude \.(ok|err)$'
+	# Test output
+	echo '--exclude \.(ok|err|ctrl|vty)$'
 	# Generated from commit log, which may contain spelling errors (OS#5232)
 	echo '--exclude ^debian/changelog$'
 	# Patch files
