@@ -18,6 +18,7 @@ FEEDS="
   2021q1
   2021q4
   2022q1
+  2022q2
   next
   nightly
 "
