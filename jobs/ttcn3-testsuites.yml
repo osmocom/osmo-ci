@@ -354,52 +354,6 @@
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
 
-      # centos8 2021q1 (SYS#5370)
-      - TTCN3-centos-pcu-test-2021q1:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
-          timer: 00 11 * * *
-      - TTCN3-centos-pcu-test-sns-2021q1:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
-          timer: 15 11 * * *
-      - TTCN3-centos-bsc-test-2021q1:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
-          timer: 30 11 * * *
-      - TTCN3-centos-mgw-test-2021q1:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
-          timer: 45 11 * * *
-      - TTCN3-centos-bts-test-2021q1:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
-          timer: 00 12 * * *
-      - TTCN3-centos-smlc-test-2021q1:
-          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
-          timer: 15 12 * * *
-      - TTCN3-centos-gbproxy-test-2021q1:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
-          timer: 30 12 * * *
-
-      # centos8 2021q4 (SYS#5726)
-      - TTCN3-centos-pcu-test-2021q4:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
-          timer: 00 13 * * *
-      - TTCN3-centos-pcu-test-sns-2021q4:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
-          timer: 15 13 * * *
-      - TTCN3-centos-bsc-test-2021q4:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
-          timer: 30 13 * * *
-      - TTCN3-centos-mgw-test-2021q4:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
-          timer: 45 13 * * *
-      - TTCN3-centos-bts-test-2021q4:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
-          timer: 00 14 * * *
-      - TTCN3-centos-smlc-test-2021q4:
-          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
-          timer: 15 14 * * *
-      - TTCN3-centos-gbproxy-test-2021q4:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
-          timer: 30 14 * * *
-
       # centos8 2022q1 (SYS#5887)
       - TTCN3-centos-pcu-test-2022q1:
           blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
