@@ -29,6 +29,16 @@ if [ -z "$PROJ" ]; then
 	exit 1
 fi
 
+if [ -z "$OBS_SERVER" ]; then
+	echo "OBS_SERVER environment variable is not set"
+	exit 1
+fi
+
+# Related configuration sections are in .oscrc (OS#5557)
+echo "Using OBS server: $OBS_SERVER"
+shopt -s expand_aliases
+alias osc="osc -A '$OBS_SERVER'"
+
 # Add dependency to all (sub)packages in debian/control and commit the change.
 # $1: path to debian/control file
 # $2: package name (e.g. "libosmocore")
