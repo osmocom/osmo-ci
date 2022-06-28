@@ -34,6 +34,7 @@ for proj in \
   simtrace2 \
   osmo-hnodeb \
   osmo-hnbgw \
+  osmo-bsc-nat \
   ; do
 
 	if [ -d $proj ]; then
