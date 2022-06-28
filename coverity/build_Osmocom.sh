@@ -18,7 +18,7 @@ do_build() {
 		--disable-doxygen \
 		$*
 
-	make $PARALLEL_MAKE
+	make $PARALLEL_MAKE check
 	make install
 }
 
