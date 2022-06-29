@@ -43,7 +43,7 @@
 
     publishers:
       - email:
-          recipients: intern@lists.sysmocom.de
+          recipients: jenkins-notifications@lists.osmocom.org
 
 # Trigger from docker-playground.git too
 - job:
