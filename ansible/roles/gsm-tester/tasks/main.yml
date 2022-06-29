@@ -66,7 +66,7 @@
 - name: install srsLTE runtime extra dependencies (Debian)
   apt:
     name:
-      - soapysdr0.7-module-lms7
+      - soapysdr-module-lms7
   when: ansible_distribution == 'Debian'
   tags:
     - srs
