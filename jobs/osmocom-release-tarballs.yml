@@ -14,44 +14,19 @@
         Publishes to: <a href="https://ftp.osmocom.org/releases/">https://ftp.osmocom.org/releases</a>
     parameters:
       - string:
-          name: BRANCH_OSMO_CI
-          description: |
-                osmo-ci.git branch where the osmocom-release-tarballs.sh gets pulled from
-          default: 'master'
-      - string:
           name: BRANCH_DOCKER_PLAYGROUND
           description: |
                 docker-playground.git branch where the Dockerfile gets pulled from
           default: 'master'
     builders:
       - shell: |
-          export OSMO_BRANCH_DOCKER_PLAYGROUND="$BRANCH_DOCKER_PLAYGROUND"
-          . scripts/common.sh
-          docker_images_require \
-            "debian-stretch-obs-latest" \
-            "debian-stretch-build-dist"
-
-          docker run \
-            --rm=true \
-            -v "$PWD:/osmo-ci" \
-            -w /osmo-ci \
-            -e KEEP_TEMP="$KEEP_TEMP" \
-            "$USER/debian-stretch-build-dist" /osmo-ci/scripts/osmocom-release-tarballs.sh
-
-          cat > "$WORKSPACE/known_hosts" <<EOF
-          [ftp.osmocom.org]:48 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDgQ9HntlpWNmh953a2Gc8NysKE4orOatVT1wQkyzhARnfYUerRuwyNr1GqMyBKdSI9amYVBXJIOUFcpV81niA7zQRUs66bpIMkE9/rHxBd81SkorEPOIS84W4vm3SZtuNqa+fADcqe88Hcb0ZdTzjKILuwi19gzrQyME2knHY71EOETe9Yow5RD2hTIpB5ecNxI0LUKDq+Ii8HfBvndPBIr0BWYDugckQ3Bocf+yn/tn2/GZieFEyFpBGF/MnLbAAfUKIdeyFRX7ufaiWWz5yKAfEhtziqdAGZaXNaLG6gkpy3EixOAy6ZXuTAk3b3Y0FUmDjhOHllbPmTOcKMry9
-          [ftp.osmocom.org]:48 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPdWn1kEousXuKsZ+qJEZTt/NSeASxCrUfNDW3LWtH+d8Ust7ZuKp/vuyG+5pe5pwpPOgFu7TjN+0lVjYJVXH54=
-          [ftp.osmocom.org]:48 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8iivY70EiR5NiGChV39gRLjNpC8lvu1ZdHtdMw2zuX
-          EOF
-
-          SSH_COMMAND="ssh -o 'UserKnownHostsFile=$WORKSPACE/known_hosts' -p 48"
-          cd _release_tarballs
-          rsync -avz --delete -e "$SSH_COMMAND" . releases@ftp.osmocom.org:web-files/
+          cd release-tarball-build-dist
+          ./jenkins.sh
     scm:
       - git:
           branches:
-            - '$BRANCH_OSMO_CI'
-          url: git://git.osmocom.org/osmo-ci
+            - '$BRANCH_DOCKER_PLAYGROUND'
+          url: git://git.osmocom.org/docker-playground
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           # Don't wipe workspace to keep generated release tarballs
