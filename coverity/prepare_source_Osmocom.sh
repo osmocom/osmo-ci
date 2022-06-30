@@ -44,4 +44,6 @@ for proj in \
 	fi
 done
 
-git clone https://git.sysmocom.de/sysmo-bts/layer1-api
+if ! [ -d layer1-api ]; then
+	git clone https://git.sysmocom.de/sysmo-bts/layer1-api
+fi
