@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Use 'local_test.sh' during development
 
 set -e -x
 
