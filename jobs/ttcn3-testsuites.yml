@@ -210,16 +210,19 @@
       - ttcn3-stp-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
-      #- ttcn3-sccp-test-latest:
-      #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
-      #    timer: 00 10 * * *
+      - ttcn3-sccp-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
+          timer: 00 10 * * *
       - ttcn3-smlc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 10 10 * * *
-      # disabled until we have a stable release that supports IP-SNS in SGSN role
-      #- ttcn3-gbproxy-test-latest:
-          #blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
-          #timer: 20 10 * * *
+      - ttcn3-gbproxy-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
+          timer: 20 10 * * *
+      - ttcn3-gbproxy-test-fr-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test-fr.*"
+          timer: 30 10 * * *
+          node: hdlc
       - ttcn3-cbc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
@@ -229,7 +232,6 @@
       - ttcn3-hnodeb-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-hnodeb-test.*"
           timer: 40 12 * * *
-          disabled: true
       - ttcn3-upf-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-upf-test.*"
           timer: 00 13 * * *
@@ -237,8 +239,6 @@
       - ttcn3-hnbgw-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
           timer: 40 13 * * *
-          disabled: true
-
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
 
@@ -344,12 +344,12 @@
       - TTCN3-centos-smlc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 10 10 * * *
-      #- TTCN3-centos-sccp-test-latest:
-      #    blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
-      #    timer: 00 10 * * *
-      #- TTCN3-centos-gbproxy-test-latest:
-          #blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
-          #timer: 20 10 * * *
+      - TTCN3-centos-sccp-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
+          timer: 00 10 * * *
+      - TTCN3-centos-gbproxy-test-latest:
+          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
+          timer: 20 10 * * *
       - TTCN3-centos-cbc-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
