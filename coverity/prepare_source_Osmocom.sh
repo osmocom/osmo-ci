@@ -38,7 +38,12 @@ for proj in \
   ; do
 
 	if [ -d $proj ]; then
-		(cd $proj && git fetch && git checkout -f -B master origin/master)
+		if [ -z "$SRC_SKIP_FETCH" ]; then
+			(cd $proj && git fetch && git checkout -f -B master origin/master)
+		fi
+		if [ -n "$SRC_CLEAN" ]; then
+			git -C "$proj" clean -ffxd
+		fi
 	else
 		git clone git://git.osmocom.org/$proj
 	fi
