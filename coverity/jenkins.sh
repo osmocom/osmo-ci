@@ -7,7 +7,7 @@ src_dir="$base_dir/source-Osmocom"
 cov_dir="$src_dir/cov-int"
 
 rm -rf "$src_dir"
-./prepare_source_Osmcocom.sh
+./prepare_source_Osmocom.sh
 
 export PATH="$base_dir/cov-analysis-linux64-8.5.0/bin/:$PATH"
 
