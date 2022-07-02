@@ -10,6 +10,8 @@ exclude_paths_common() {
 	echo '--exclude ^debian/changelog$'
 	# Patch files
 	echo '--exclude \.patch$'
+	# Symlinks (no newline at end of file)
+	find -type l -printf '--exclude ^%P$\n'
 }
 
 exclude_paths_common_asn1c() {
