@@ -47,6 +47,13 @@ for proj in \
 	else
 		git clone git://git.osmocom.org/$proj
 	fi
+
+	# We want to compile tests, but not execute them.  Using 'noinst_PROGRAMS'
+	# instead of 'check_PROGRAMS' allows building test binaries during 'make all'.
+	files="$(git -C $proj grep -l check_PROGRAMS)"
+	if [ -n "$files" ]; then
+		sed -i "s/check_PROGRAMS/noinst_PROGRAMS/" $files
+	fi
 done
 
 if ! [ -d layer1-api ]; then
