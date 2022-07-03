@@ -5,7 +5,6 @@ set -e -x
 base_dir="$PWD"
 src_dir="$base_dir/source-Osmocom"
 prefix="$base_dir/install-Osmocom"
-check="check"
 
 install -d "$prefix"
 
@@ -19,27 +18,14 @@ do_build() {
 		--disable-doxygen \
 		$*
 
-	make $PARALLEL_MAKE $check
+	make $PARALLEL_MAKE check
 	make install
-}
-
-do_build_no_check() {
-	check=""
-	do_build "$@"
-	check="check"
 }
 
 build_default() {
 	pushd $1
 	shift
 	do_build $*
-	popd
-}
-
-build_no_check() {
-	pushd $1
-	shift
-	do_build_no_check $*
 	popd
 }
 
@@ -83,10 +69,10 @@ cd "$src_dir"
 rm -rf "$prefix"
 
 build_layer1api
-build_no_check asn1c
+build_default asn1c
 build_default libosmocore
 build_libasn1c
-build_no_check libusrp
+build_libusrp
 build_default libosmo-abis
 build_default libosmo-netif
 build_default libosmo-sccp
