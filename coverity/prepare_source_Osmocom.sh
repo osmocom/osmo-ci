@@ -52,9 +52,7 @@ for proj in \
 	# instead of 'check_PROGRAMS' allows building test binaries during 'make all'.
 	files="$(git -C $proj grep -l check_PROGRAMS)"
 	if [ -n "$files" ]; then
-		pushd $proj
-		sed -i "s/check_PROGRAMS/noinst_PROGRAMS/" $files
-		popd
+		(cd $proj && sed -i "s/check_PROGRAMS/noinst_PROGRAMS/" $files)
 	fi
 done
 
