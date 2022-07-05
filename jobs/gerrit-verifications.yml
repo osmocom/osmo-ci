@@ -28,6 +28,7 @@
             mkdir -p "$ARTIFACT_STORE"
             docker run --rm=true \
               --cap-add SYS_PTRACE \
+              --cap-add NET_ADMIN \
               -e ARTIFACT_STORE=/artifact_store \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \

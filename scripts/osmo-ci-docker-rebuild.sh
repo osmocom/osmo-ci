@@ -4,7 +4,8 @@ cd "$(dirname "$0")/.."
 . scripts/common.sh
 docker_images_require \
 	"debian-stretch-jenkins" \
-	"debian-buster-jenkins"
+	"debian-buster-jenkins" \
+	"debian-sid-jenkins"
 
 if [ "$(arch)" = "i686" ] && \
 		grep -q '^ID=debian' /etc/os-release && \
