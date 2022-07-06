@@ -41,7 +41,7 @@
               -v "$PWD:/build" \
               -v "$ARTIFACT_STORE:/artifact_store" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
-    docker_img: '$USER/debian-stretch-jenkins'
+    docker_img: '$USER/debian-buster-jenkins'
     cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
     wrappers: []
     trigger:

@@ -65,7 +65,7 @@
             -e "KSRC=/linux" \
             -v "$PWD/dahdi-linux:/build" \
             -v "$PWD/linux:/linux" \
-            "$USER/debian-stretch-jenkins" \
+            "$USER/debian-buster-jenkins" \
             timeout 10m su build -c /build/contrib/jenkins.sh
 
     publishers:
