@@ -6,9 +6,9 @@
     distro:
       - centos8:
           feeds: !!python/tuple [nightly, latest]  # next: disabled (OS#5322)
-      - debian9:
-          feeds: !!python/tuple [nightly, latest]
       - debian10:
+          feeds: !!python/tuple [nightly, latest]
+      - debian11:
           feeds: !!python/tuple [nightly, latest]
 
 - job-template:
