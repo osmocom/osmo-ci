@@ -5,7 +5,6 @@ BASEDIR=source-Osmocom
 cd $BASEDIR
 
 for proj in \
-  asn1c \
   libasn1c \
   libosmo-abis \
   libosmocore \

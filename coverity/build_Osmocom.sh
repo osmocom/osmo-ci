@@ -36,13 +36,6 @@ build_layer1api() {
 	popd
 }
 
-build_libasn1c() {
-	pushd libasn1c
-	do_build
-	sed -i s,'#include "config.h"','/*#include "config.h"*/', "$prefix/include/asn1c/asn_system.h"
-	popd
-}
-
 build_libusrp() {
 	pushd libusrp
 	PM=$PARALLEL_MAKE
@@ -69,7 +62,6 @@ cd "$src_dir"
 rm -rf "$prefix"
 
 build_layer1api
-build_default asn1c
 build_default libosmocore
 build_libasn1c
 build_libusrp
