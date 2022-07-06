@@ -17,13 +17,9 @@
       - shell: |
           REGISTRY="registry.osmocom.org"
           IMAGES="
-            debian:jessie
-            debian:stretch
             debian:buster
             debian:bullseye
             debian:sid
-
-            ubuntu:zesty
 
             centos:centos7
             almalinux:8
