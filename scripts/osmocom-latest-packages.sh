@@ -223,6 +223,7 @@ build_osmocom() {
   build osmo-mgw
   build osmo-msc
   build osmo-bsc
+  build osmo-python-tests
   build simtrace2
   build libosmo-dsp
   build osmo-sysmon
