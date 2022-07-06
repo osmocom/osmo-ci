@@ -183,6 +183,7 @@ build_osmocom() {
   checkout osmo-mgw
   checkout osmo-msc
   checkout osmo-bsc
+  checkout python/osmo-python-tests
   checkout simtrace2
   checkout libosmo-dsp
   checkout osmo-sysmon
