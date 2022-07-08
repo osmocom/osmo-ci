@@ -51,7 +51,8 @@ get_last_tag() {
 }
 
 checkout() {
-  project=$1
+  path=$1
+  project="$(basename $path)"
   url=$2
   gitbpargs=""
 
@@ -60,7 +61,7 @@ checkout() {
   fi
 
   if [ -z "$url" ]; then
-    url="$(osmo_git_clone_url "$project")"
+    url="$(osmo_git_clone_url "$path")"
   fi
 
   echo
