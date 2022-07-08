@@ -39,11 +39,11 @@ distro_obsdir() {
 		centos8)
 			echo "CentOS_8"
 			;;
-		debian9)
-			echo "Debian_9.0"
-			;;
 		debian10)
 			echo "Debian_10"
+			;;
+		debian11)
+			echo "Debian_11"
 			;;
 		*)
 			echo "ERROR: unknown obsdir for '$DISTRO'." >&2
@@ -219,9 +219,21 @@ test_conflict_debian() {
 	find_patterns_or_exit \
 		/tmp/out \
 		"requested an impossible situation" \
-		"^The following packages have unmet dependencies:" \
-		"Depends: osmocom-" \
-		"but it is not going to be installed"
+		"^The following packages have unmet dependencies:"
+
+	case "$DISTRO" in
+		debian10)
+			find_patterns_or_exit \
+				/tmp/out \
+				"Depends: osmocom-" \
+				"but it is not going to be installed"
+			;;
+		debian11)
+			find_patterns_or_exit \
+				/tmp/out \
+				"Conflicts: osmocom-"
+			;;
+	esac
 
 	configure_osmocom_repo_debian_remove "$PROJ_CONFLICT"
 	configure_osmocom_repo_debian "$PROJ"

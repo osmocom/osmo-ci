@@ -11,8 +11,8 @@
 DISTRO="$1"
 DISTROS="
 	centos8
-	debian9
 	debian10
+	debian11
 "
 
 check_usage() {

@@ -1,0 +1,70 @@
+# These packages will not get explicitly installed in this test.
+# Package lines must have nothing but the package (no comment,
+# no additional space etc).
+
+# OpenBSC
+# This is legacy, we aren't really interested in testing openbsc.git
+# derived packages. Packages are found in openbsc/debian/control.
+openbsc-dev
+osmo-bsc-mgcp
+osmo-bsc-mgcp-dbg
+osmocom-bs11-utils
+osmocom-bs11-utils-dbg
+osmocom-bsc-nat
+osmocom-bsc-nat-dbg
+osmocom-bsc-sccplite
+osmocom-bsc-sccplite-dbg
+osmocom-ipaccess-utils
+osmocom-ipaccess-utils-dbg
+osmocom-nitb
+osmocom-nitb-dbg
+
+# Causing conflicts, not relevant for the test
+liblimesuite20.10-1-dbgsym
+liborcania1.2
+liborcania1.2-dbgsym
+liborcania2.1
+liborcania2.1-dbgsym
+libulfius2.5
+libulfius2.5-dbgsym
+libulfius2.7
+libulfius2.7-dbgsym
+libyder2.0-dbgsym
+limesuite-dbgsym
+soapysdr0.7-module-lms7-dbgsym
+
+# Depends on specific verions 0.5.4.38.0847 of rtl-sdr, which we won't install
+librtlsdr0-dbgsym
+rtl-sdr-dbgsym
+
+# Depends on mongodb, which was droppend from debian 10 onwards
+open5gs
+open5gs-amf
+open5gs-amf-dbgsym
+open5gs-ausf
+open5gs-ausf-dbgsym
+open5gs-common
+open5gs-common-dbgsym
+open5gs-dbg
+open5gs-hss
+open5gs-hss-dbgsym
+open5gs-mme
+open5gs-mme-dbgsym
+open5gs-nrf
+open5gs-nrf-dbgsym
+open5gs-pcf
+open5gs-pcf-dbgsym
+open5gs-pcrf
+open5gs-pcrf-dbgsym
+open5gs-sgwc
+open5gs-sgwc-dbgsym
+open5gs-sgwu
+open5gs-sgwu-dbgsym
+open5gs-smf
+open5gs-smf-dbgsym
+open5gs-udm
+open5gs-udm-dbgsym
+open5gs-udr
+open5gs-udr-dbgsym
+open5gs-upf
+open5gs-upf-dbgsym
