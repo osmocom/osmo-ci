@@ -42,7 +42,7 @@
 - name: add apt-repo of OBS network:osmocom:nightly
   apt_repository:
     filename: obs_network_osmocom_latest
-    repo: "deb http://download.opensuse.org/repositories/network:/osmocom:/nightly/Debian_{{ ansible_distribution_major_version }}.0/ ./"
+    repo: "deb https://downloads.osmocom.org/packages/osmocom:/nightly/Debian_{{ ansible_distribution_major_version }}.0/ ./"
     update_cache: yes
 
 - name: install osmocom utilities
