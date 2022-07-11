@@ -24,4 +24,4 @@ simtest ansible_host=10.9.25.80
 
 [obs-workers]
 build3-obsworker1 ansible_host=2a01:4f8:212:3762::1:2 obs_worker_instances=8 obs_worker_jobs=8
-epyc1-obsworker1 ansible_host=2a02:8106:13:1e34:581e:abff:fe43:da45 obs_worker_instances=2 obs_worker_jobs=4 obs_vm_type=emulator:armv7l
+lx2-1-obs-aarch64-1 ansible_host=2a02:8106:13:1e34:4e9:e7ff:fe97:fe92 obs_worker_instances=1 obs_worker_jobs=4
