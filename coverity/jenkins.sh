@@ -3,8 +3,8 @@
 
 set -e -x
 
-base_dir="$PWD"
-src_dir="$base_dir/source-Osmocom"
+base_dir="$HOME/osmo-ci/coverity"
+src_dir="$PWD/source-Osmocom"
 cov_dir="$src_dir/cov-int"
 
 rm -rf "$src_dir"
