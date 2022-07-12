@@ -7,7 +7,8 @@ docker_images_require \
 
 if [ "$(arch)" = "x86_64" ]; then
 	docker_images_require \
-		"debian-bullseye-erlang"
+		"debian-bullseye-erlang" \
+		"debian-bullseye-jenkins"
 fi
 
 if [ -d "/var/tmp/osmo-gsm-tester/state" ]; then
