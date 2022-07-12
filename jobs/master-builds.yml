@@ -368,9 +368,9 @@
           cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
       - osmo-opencm3-projects:
+          docker_img: '$USER/debian-bullseye-jenkins'
           cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
-          disabled: true
 
       - osmo-e1d
       - osmo-cbc
