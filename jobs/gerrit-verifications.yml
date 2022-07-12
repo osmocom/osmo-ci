@@ -242,6 +242,9 @@
       - osmo-sysmon
       - osmo-remsim
       - simtrace2
+      - osmo-opencm3-projects:
+          docker_img: '$USER/debian-bullseye-jenkins'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
       - osmo-asf4-dfu
       - osmo-ccid-firmware
       - osmo-e1d
