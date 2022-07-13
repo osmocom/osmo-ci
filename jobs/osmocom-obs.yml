@@ -4,9 +4,12 @@
     jobs:
       - Osmocom_OBS_{type}_{server}
     type:
-      - nightly
-      - latest
-    # - next (disabled: OS#5322)
+      - nightly:
+          # For nightly we don't provide ABI compatibility, make sure packages
+          # from different build dates are not mixed by accident
+          conflict_version: "$(date +%Y%m%d%H%M)"
+      - latest:
+          conflict_version: ""
     server:
       - build.opensuse.org:
           proj: "network:osmocom"
@@ -28,10 +31,16 @@
           default: 'refs/remotes/origin/master'
     builders:
       - shell: |
-          export PROJ={proj}:{type}
-          export OBS_SERVER={server}
+          export PYTHONUNBUFFERED=1
 
-          ./scripts/osmocom-{type}-packages.sh
+          ./scripts/obs/update_obs_project.py \
+            --apiurl {server} \
+            --conflict-version {conflict_version} \
+            --docker \
+            --feed {type} \
+            --git-fetch \
+            --meta \
+            {proj}:{type}
     scm:
       - git:
           branches:

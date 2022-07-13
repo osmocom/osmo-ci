@@ -1,0 +1,5 @@
+# Don't abort the build when finding a library that depends on a package with
+# a specific version. This is intentional for nightly builds, we don't want
+# libraries from different build dates to be mixed as they might have ABI
+# incompatibilities.
+setBadness('shlib-fixed-dependency', 0)
