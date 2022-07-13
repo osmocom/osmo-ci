@@ -1,6 +1,12 @@
 #!/bin/sh
 BASEDIR=source-Osmocom
 
+# How to add a new project:
+# * add it to the list below
+# * add it to build_Osmocom.sh
+# * add it as component here:
+#   https://scan.coverity.com/projects/osmocom?tab=analysis_settings
+
 PROJECTS="
   libasn1c
   libosmo-abis
