@@ -27,6 +27,7 @@ esac
 docker run \
 	--rm \
 	-e "FEED=$FEED" \
+	-e "OBS_SERVER=$OBS_SERVER" \
 	-e "OSMO_OBS_CONFLICT_PKGVER=$OSMO_OBS_CONFLICT_PKGVER" \
 	-e "PACKAGES=$PACKAGES" \
 	-e "PROJ=$PROJ" \
