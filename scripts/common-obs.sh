@@ -162,7 +162,7 @@ osmo_obs_add_rpm_spec() {
 	fi
 
 	# Set source file
-	tarball="$(cd "$oscdir" && ls -1 "${name}_"*".tar."*)"
+	tarball="$(cd "$oscdir" && ls -1 *_*.tar.*)"
 	sed -i "s/^Source:.*/Source:  $tarball/g" "$spec"
 
 	osc add "$spec"
