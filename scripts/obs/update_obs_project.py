@@ -19,17 +19,12 @@ srcpkgs_failed_upload = []  # list of pkgnames
 srcpkgs_updated = []  # list of pkgnames
 
 
-def parse_packages(packages_arg):
-    if packages_arg:
-        for package in packages_arg:
-            lib.check_package(package)
-        return packages_arg
+def parse_packages(feed, packages):
+    if packages:
+        lib.check_packages(feed, packages)
+        return packages
 
-    # Default to all
-    ret = []
-    ret += lib.config.projects_osmocom
-    ret += lib.config.projects_other
-    return ret
+    return lib.get_packages_for_feed(feed)
 
 
 def build_srcpkg(feed, package, conflict_version, fetch, is_meta_pkg):
@@ -191,7 +186,7 @@ def main():
     args = parser.parse_args()
     proj = args.obs_project
     feed = args.feed
-    packages = parse_packages(args.package)
+    packages = parse_packages(feed, args.package)
 
     lib.set_cmds_verbose(args.verbose)
 

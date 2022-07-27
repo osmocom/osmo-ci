@@ -97,8 +97,9 @@ def build(feed, conflict_version):
     lib.debian.build_source_package(pkgname)
     lib.debian.move_files_to_output(pkgname)
 
-    generate_rpm_spec(feed, version)
-    lib.rpm_spec.copy_to_output(pkgname)
+    if feed not in lib.config.feeds_no_rpm_spec:
+        generate_rpm_spec(feed, version)
+        lib.rpm_spec.copy_to_output(pkgname)
 
     lib.remove_cache_extra_files()
     return version

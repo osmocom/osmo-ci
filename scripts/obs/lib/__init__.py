@@ -66,15 +66,28 @@ def check_required_programs():
         exit(1)
 
 
-def check_package(package):
-    if package in lib.config.projects_osmocom:
-        return
-    if package in lib.config.projects_other:
-        return
+def get_packages_for_feed(feed):
+    ret = []
 
-    print(f"ERROR: unknown package: {package}")
-    print("See packages_osmocom and packages_other in obs/lib/config.py")
-    exit(1)
+    if feed == "nightly-asan":
+        for project in lib.config.projects_osmocom:
+            if project not in lib.config.projects_osmocom_exclude_asan:
+                ret += [project]
+        return ret
+
+    ret += lib.config.projects_osmocom
+    ret += lib.config.projects_other
+    return ret
+
+
+def check_packages(feed, packages):
+    packages_feed = get_packages_for_feed(feed)
+
+    for package in packages:
+        if package not in packages_feed:
+            print(f"ERROR: unknown package: {package}")
+            print("See packages_osmocom and packages_other in obs/lib/config.py")
+            exit(1)
 
 
 def exit_error_cmd(completed, error_msg):

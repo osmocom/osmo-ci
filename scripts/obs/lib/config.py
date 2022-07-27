@@ -32,6 +32,10 @@ feeds = [
     "2022q2",
     "latest",
     "nightly",
+    "nightly-asan",  # OS#5301
+]
+feeds_no_rpm_spec = [
+    "nightly-asan",
 ]
 
 # Osmocom projects: generated source packages will depend on a meta package,
@@ -78,6 +82,15 @@ projects_other = [
     "limesuite",
     "neocon",
     "open5gs",
+]
+
+# Do not build these for osmocom:nightly:asan
+projects_osmocom_exclude_asan = [
+    "erlang/osmo_dia2gsup",
+    "libosmo-dsp",
+    "osmo-gsm-manuals",
+    "python/osmo-python-tests",
+    "rtl-sdr",
 ]
 
 git_url_default = "https://gerrit.osmocom.org"  # /project gets appended

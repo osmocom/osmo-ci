@@ -88,12 +88,110 @@ def changelog_add_entry_if_needed(project, feed, version):
     """ Adjust the changelog if the version in the changelog is different from
         the given version. """
     version_changelog = get_last_version_from_changelog(project)
+
+    if feed.endswith("-asan"):
+        version = f"{version}~asan0"
+
     if version_changelog == version:
         return
 
     print(f"{project}: adding debian/changelog entry ({version_changelog} =>"
           f" {version})")
     changelog_add_entry(project, feed, version)
+
+
+def add_configure_arg(project, arg):
+    """ Add a configure option like --enable-sanitize to the dh_auto_configure
+        line, also add the override_dh_auto_configure block if missing. """
+    print(f"{project}: adding {arg} to debian/rules")
+    rules = f"{lib.git.get_repo_path(project)}/debian/rules"
+
+    override_found = False
+    replaced = False
+
+    with open(rules, "r") as f:
+        lines = f.readlines()
+
+    for i in range(len(lines)):
+        line = lines[i]
+        if line.startswith("override_dh_auto_configure:"):
+            override_found = True
+            continue
+
+        if "dh_auto_configure" not in line:
+            continue
+
+        assert override_found
+        assert " -- " in line.replace("\t", " ")
+
+        lines[i] = line.replace(" --", f" -- {arg}", 1)
+        replaced = True
+        break
+
+    if not override_found:
+        lines += ["\n",
+                  "override_dh_auto_configure:\n",
+                  f"\tdh_auto_configure -- {arg}\n"]
+
+    with open(rules, "w") as f:
+        f.writelines(lines)
+
+
+def disable_tests(project):
+    """ Add or replace an existing override_dh_auto_test block with one that
+        disables the tests. As of writing we need this for osmocom:nightly:asan
+        because OBS has ulimit -v hardcoded (OS#5301). """
+    print(f"{project}: disabling tests in debian/rules")
+    rules = f"{lib.git.get_repo_path(project)}/debian/rules"
+
+    override_found = False
+    replaced = False
+
+    with open(rules, "r") as f:
+        lines = f.readlines()
+
+    for i in range(len(lines)):
+        line = lines[i]
+        if line.startswith("override_dh_auto_test:"):
+            override_found = True
+            continue
+
+        if not override_found:
+            continue
+
+        # End of override_dh_auto_test block
+        if line != "\n":
+            lines[i] = "\n"
+            continue
+
+        replaced = True
+        break
+
+    if not override_found:
+        lines += ["\n",
+                  "override_dh_auto_test:\n"]
+
+    with open(rules, "w") as f:
+        f.writelines(lines)
+
+
+def disable_manuals(project):
+    """ For osmocom:nightly:asan we need to disable manuals, as the binaries
+        built with sanitizer flags can't run in OBS and they would be running
+        during generation of VTY references (OS#5301). """
+    print(f"{project}: disabling manuals")
+    debian = f"{lib.git.get_repo_path(project)}/debian"
+
+    # Remove osmo-gsm-manuals dep
+    lib.run_cmd(["sed", "-i", "/osmo-gsm-manuals-dev/d", f"{debian}/control"])
+
+    # Remove debian/*-doc.install
+    lib.run_cmd(f"rm -rf {shlex.quote(debian)}/*-doc.install", shell=True)
+
+    # debian/rules: remove --enable-manuals/doxygen, add --disable-doxygen
+    lib.run_cmd(["sed", "-i", "s/--enable-manuals//g", f"{debian}/rules"])
+    lib.run_cmd(["sed", "-i", "s/--enable-doxygen//g", f"{debian}/rules"])
+    add_configure_arg(project, "--disable-doxygen")
 
 
 def build_source_package(project):

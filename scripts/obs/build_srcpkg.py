@@ -33,7 +33,7 @@ def main():
 
     lib.check_required_programs()
     if args.package:
-        lib.check_package(args.package)
+        lib.check_packages(args.feed, [args.package])
     lib.remove_temp()
 
     if args.meta:
