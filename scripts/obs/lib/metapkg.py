@@ -101,8 +101,9 @@ def build():
     lib.debian.build_source_package(pkgname)
     lib.debian.move_files_to_output(pkgname)
 
-    generate_rpm_spec(version)
-    lib.rpm_spec.copy_to_output(pkgname)
+    if feed != "nightly-asan":
+        generate_rpm_spec(version)
+        lib.rpm_spec.copy_to_output(pkgname)
 
     lib.remove_cache_extra_files()
     return version

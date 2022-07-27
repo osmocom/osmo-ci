@@ -30,6 +30,13 @@ def parse_packages(packages_arg):
                 ret += [lib.set_proper_package_name(package)]
         return ret
 
+    # Asan feed: only has a subset of all packages
+    if lib.args.feed == "nightly-asan":
+        for project in lib.config.projects_osmocom:
+            if project not in lib.config.projects_osmocom_exclude_asan:
+                ret += [project]
+        return ret
+
     # Default to all
     ret += lib.config.projects_osmocom
     ret += lib.config.projects_other

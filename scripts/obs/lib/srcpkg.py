@@ -17,7 +17,7 @@ def checkout_for_feed(project):
         lib.git.checkout(project, f"origin/{branch}")
     elif feed == "latest":
         lib.git.checkout_latest_tag(project)
-    elif feed in ["master", "nightly"]:
+    elif feed in ["master", "nightly"] or feed.startswith("nightly-"):
         lib.git.checkout_default_branch(project)
     else:  # 2022q1 etc
         lib.git.checkout(project, f"origin/{feed}")
@@ -133,6 +133,13 @@ def write_commit_txt(project):
     pathlib.Path(f"{output_path}/commit_{commit}.txt").touch()
 
 
+def check_has_rpm_spec(project):
+    if lib.args.feed == "nightly-asan":
+        return False
+
+    return lib.rpm_spec.get_spec_in_path(project) is not None
+
+
 def build(project, gerrit_id=0):
     conflict_version = lib.args.conflict_version
     feed = lib.args.feed
@@ -150,8 +157,7 @@ def build(project, gerrit_id=0):
         version += version_append
     epoch = get_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version
-
-    has_rpm_spec = lib.rpm_spec.get_spec_in_path(project) is not None
+    has_rpm_spec = check_has_rpm_spec(project)
 
     print(f"{project}: building source package {version_epoch}")
     write_tarball_version(project, version_epoch)
@@ -171,6 +177,11 @@ def build(project, gerrit_id=0):
     if project_specific_func in globals():
         print(f"{project}: running {project_specific_func}")
         globals()[project_specific_func]()
+
+    if feed == "nightly-asan":
+        lib.debian.add_configure_arg(project, "--enable-sanitize")
+        lib.debian.disable_tests(project)
+        lib.debian.disable_manuals(project)
 
     lib.debian.build_source_package(project)
     lib.debian.move_files_to_output(project)
