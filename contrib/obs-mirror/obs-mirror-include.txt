@@ -1,6 +1,5 @@
 latest/CentOS_7
 latest/CentOS_8
-latest/Debian_9.0
 latest/Debian_10
 latest/Debian_11
 latest/Raspbian_10
