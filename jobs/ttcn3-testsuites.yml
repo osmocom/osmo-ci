@@ -232,6 +232,7 @@
       - ttcn3-hnodeb-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-hnodeb-test.*"
           timer: 40 12 * * *
+          disabled: true
       - ttcn3-upf-test-latest:
           blocking: "^(ttcn3|TTCN3-.*)-upf-test.*"
           timer: 00 13 * * *
