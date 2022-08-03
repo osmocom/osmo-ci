@@ -59,15 +59,14 @@ def fix_source_format(project):
     if not os.path.exists(format_path):
         return
 
-    expected = "3.0 (native)\n"
-    current = open(format_path, "r").read()
+    expected = "3.0 (native)"
+    current = open(format_path, "r").read().rstrip()
 
     if current == expected:
         return
 
-    print(f"{project}: fixing debian/source/format ({current.rstrip()} =>"
-          f" {expected.rstrip()})")
-    open(format_path, "w").write(expected)
+    print(f"{project}: fixing debian/source/format ({current} => {expected})")
+    open(format_path, "w").write(f"{expected}\n")
 
 
 def get_last_version_from_changelog(project):
