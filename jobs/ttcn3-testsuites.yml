@@ -20,7 +20,7 @@
       - "{job-name}"
     # Folders from docker-playground.git
     job-name:
-      # debian-stretch nightly - order by time
+      # debian nightly - order by time
       - nplab-m3ua-test:
           blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
           timer: 10 03 * * *
@@ -160,7 +160,7 @@
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
 
-      # debian-stretch latest stable
+      # debian latest stable
       - nplab-m3ua-test-latest:
           blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
           timer: 10 03 * * *
@@ -240,7 +240,7 @@
           blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
           timer: 40 13 * * *
 
-      # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian-stretch) jobs
+      # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian) jobs
 
       # centos7 nightly
       - TTCN3-centos7-pcap-client-test:
