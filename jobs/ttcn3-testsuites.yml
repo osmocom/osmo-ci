@@ -122,6 +122,81 @@
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      # debian nightly + asan (OS#5301)
+      - ttcn3-msc-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
+          timer: 40 14 * * *
+      - ttcn3-pcu-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 00 15 * * *
+      - ttcn3-pcu-test-sns-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
+          timer: 15 15 * * *
+      - ttcn3-sgsn-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
+          timer: 30 15 * * *
+      - ttcn3-bsc-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 00 16 * * *
+      - ttcn3-mgw-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
+          timer: 30 16 * * *
+      - ttcn3-hlr-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
+          timer: 45 16 * * *
+      - ttcn3-bts-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
+          timer: 00 17 * * *
+      - ttcn3-sip-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
+          timer: 30 17 * * *
+      - ttcn3-bscnat-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
+          timer: 00 18 * * *
+          disabled: true
+      - ttcn3-bsc-test-sccplite-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 30 18 * * *
+      - ttcn3-remsim-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
+          timer: 00 19 * * *
+      - ttcn3-stp-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
+          timer: 30 19 * * *
+      - ttcn3-sccp-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
+          timer: 00 20 * * *
+      - ttcn3-smlc-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
+          timer: 10 20 * * *
+      - ttcn3-gbproxy-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
+          timer: 20 20 * * *
+      - ttcn3-cbc-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
+          timer: 40 20 * * *
+      - ttcn3-ns-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-ns-test.*"
+          timer: 00 21 * * *
+      - ttcn3-ns-test-sns-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-ns-test-sns.*"
+          timer: 10 21 * * *
+      - ttcn3-ns-test-sgsn-sns-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-ns-test-sgsn-sns.*"
+          timer: 30 21 * * *
+      - ttcn3-pcap-client-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
+          timer: 40 21 * * *
+      - ttcn3-bsc-test-vamos-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
+          timer: 00 22 * * *
+      - ttcn3-hnodeb-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-hnodeb-test.*"
+          timer: 40 22 * * *
+      - ttcn3-hnbgw-test-asan:
+          blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
+          timer: 40 23 * * *
+
       # debian latest stable
       - nplab-m3ua-test-latest:
           timer: 10 03 * * *
@@ -348,6 +423,11 @@
               *-latest)
                   DIR="$(echo "{job-name}" | sed s/\-latest$//)"
                   export IMAGE_SUFFIX="latest"
+                  ;;
+              *-asan)
+                  DIR="$(echo "{job-name}" | sed s/\-asan$//)"
+                  export OSMOCOM_REPO_VERSION="asan"
+                  export IMAGE_SUFFIX="asan"
                   ;;
               *)
                   DIR="{job-name}"
