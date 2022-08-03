@@ -6,12 +6,18 @@
     type:
       - master:
           conflict_version: ""
+          version_append: ""
       - nightly:
           # For nightly we don't provide ABI compatibility, make sure packages
           # from different build dates are not mixed by accident
           conflict_version: "$(date +%Y%m%d%H%M)"
+          version_append: ""
+      - nightly_asan:
+          conflict_version: "$(date +%Y%m%d%H%M)"
+          version_append: "~asan"
       - latest:
           conflict_version: ""
+          version_append: ""
 
 - job-template:
     name: 'Osmocom_OBS_{type}'
@@ -34,14 +40,17 @@
     builders:
       - shell: |
           export PYTHONUNBUFFERED=1
+          FEED="$(echo {type} | tr _ -)"
+          OBS_PROJ="osmocom:$(echo {type} | tr _ :)"
 
           ./scripts/obs/update_obs_project.py \
             --apiurl https://obs.osmocom.org \
             --conflict-version {conflict_version} \
             --docker \
-            --feed {type} \
+            --feed "$FEED" \
             --meta \
-            osmocom:{type}
+            --version-append {version_append} \
+            "$OBS_PROJ"
     scm:
       - git:
           branches:
