@@ -49,9 +49,11 @@ projects_osmocom = [
     "libsmpp34",
     "libusrp",
     "osmo-bsc",
+    "osmo-bsc-nat",
     "osmo-bts",
     "osmo-cbc",
     "osmo-e1d",
+    "osmo-fl2k",
     "osmo-gbproxy",
     "osmo-ggsn",
     "osmo-gsm-manuals",
@@ -86,6 +88,7 @@ git_url_other = {
     "limesuite": "https://github.com/myriadrf/LimeSuite",
     "neocon": "https://github.com/laf0rge/neocon",
     "open5gs": "https://github.com/open5gs/open5gs",
+    "osmo-fl2k": "https://gitea.osmocom.org/sdr/osmo-fl2k",
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
 }
 
