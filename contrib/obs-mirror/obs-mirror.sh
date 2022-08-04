@@ -25,7 +25,7 @@ REMOTE="rsync.opensuse.org::opensuse-full-really-everything-including-repositori
 cd "$BASE_DIR"
 
 RSYNC_ARGS="-av --delete"
-RSYNC_ARGS="$RSYNC_ARGS --files-from $SCRIPT_DIR/obs-mirror-include.txt --recursive"
+RSYNC_ARGS="$RSYNC_ARGS --files-from $SCRIPT_DIR/obs-mirror-include.txt --recursive --exclude='.*'"
 DIR="$BASE_DIR/$DATE"
 TEMP_DIR="$BASE_DIR/.temp"
 
