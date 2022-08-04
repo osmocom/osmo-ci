@@ -20,7 +20,7 @@ SCRIPT_DIR="$(realpath "$(dirname "$(realpath "$0")")")"
 # base directory on the local side
 BASE_DIR="/downloads/obs-mirror/"
 # sync remote where to find the osmocom packages
-REMOTE="rsync.opensuse.org::opensuse-full-really-everything-including-repositories/opensuse/repositories/network:/osmocom:"
+REMOTE="/downloads/home/packages/web-files/osmocom:"
 
 cd "$BASE_DIR"
 

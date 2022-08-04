@@ -5,7 +5,6 @@ latest/Debian_11
 latest/Raspbian_10
 latest/Raspbian_11
 latest/xUbuntu_18.04
-latest/xUbuntu_19.04
 latest/xUbuntu_20.04
 latest/xUbuntu_21.04
 
