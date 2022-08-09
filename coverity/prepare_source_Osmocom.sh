@@ -12,6 +12,7 @@ PROJECTS="
   libosmo-abis
   libosmocore
   libosmo-dsp
+  libosmo-gprs
   libosmo-netif
   libosmo-pfcp
   libosmo-sccp

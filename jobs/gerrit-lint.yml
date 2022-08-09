@@ -18,6 +18,7 @@
       - libasn1c
       - libgtpnl
       - libosmo-abis
+      - libosmo-gprs
       - libosmo-netif
       - libosmo-pfcp
       - libosmo-sccp

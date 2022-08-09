@@ -83,6 +83,15 @@
           trigger: master-osmo-gmr
           email: gerrit-log@lists.osmocom.org laforge@gnumonks.org 246tnt@gmail.com
 
+      - libosmo-gprs:
+          # Full triggers would be:
+          # trigger: >
+          #   master-osmo-pcu
+          # Optimized:
+          # (see comment at libosmocore)
+          trigger: >
+            master-osmo-pcu
+
       - libosmo-netif:
           # Full triggers would be:
           # trigger: >
@@ -152,6 +161,8 @@
           #       -> master-osmo-mgw
           #       -> master-osmo-sgsn
           #    -> master-osmo-bts
+          # -> master-libosmo-gprs
+          #    -> master-osmo-pcu
           # -> master-libosmo-pfcp
           #    -> master-osmo-upf
           #    -> master-osmo-hnbgw
@@ -165,7 +176,6 @@
             master-osmo-ggsn,
             master-osmo-gmr,
             master-osmo-pcap,
-            master-osmo-pcu,
             master-osmo-sip-connector,
             master-osmo-tetra,
             master-osmo-trx,
