@@ -11,6 +11,7 @@ OSMO_RELEASE_REPOS="
 	libasn1c
 	libosmo-abis
 	libosmo-netif
+	libosmo-pfcp
 	libosmo-sccp
 	libosmocore
 	libsmpp34
@@ -37,6 +38,7 @@ OSMO_RELEASE_REPOS="
 	osmo-sysmon
 	osmo-trx
 	osmo-uecups
+	osmo-upf
 	osmocom-bb
 	simtrace2
 "
