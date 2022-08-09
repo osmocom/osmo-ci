@@ -151,19 +151,18 @@
           #       -> master-osmo-hlr
           #       -> master-osmo-mgw
           #       -> master-osmo-sgsn
-          #       -> master-libosmo-pfcp
-          #          -> master-osmo-upf
-          #          -> master-osmo-hnbgw
           #    -> master-osmo-bts
+          # -> master-libosmo-pfcp
+          #    -> master-osmo-upf
+          #    -> master-osmo-hnbgw
           # -> master-osmo-ggsn
           #    -> master-osmo-sgsn
-          # -> master-osmo-upf
           # [...]
           trigger: >
             master-libosmo-abis,
+            master-libosmo-pfcp,
             master-osmo-gbproxy,
             master-osmo-ggsn,
-            master-osmo-upf,
             master-osmo-gmr,
             master-osmo-pcap,
             master-osmo-pcu,
@@ -171,7 +170,6 @@
             master-osmo-tetra,
             master-osmo-trx,
             master-osmocom-bb,
-            master-libosmo-pfcp,
             SIMtrace,
             xgoldmon
 
