@@ -13,6 +13,7 @@ PROJECTS="
   libosmocore
   libosmo-dsp
   libosmo-netif
+  libosmo-pfcp
   libosmo-sccp
   libsmpp34
   libusrp

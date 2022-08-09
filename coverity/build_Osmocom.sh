@@ -75,6 +75,7 @@ build_libasn1c
 build_libusrp
 build_default libosmo-abis
 build_default libosmo-netif
+build_default libosmo-pfcp
 build_default libosmo-sccp
 build_default libsmpp34
 build_default osmo-ggsn
