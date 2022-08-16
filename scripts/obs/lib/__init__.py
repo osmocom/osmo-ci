@@ -16,6 +16,9 @@ def add_shared_arguments(parser):
     parser.add_argument("-f", "--feed", help="package feed (default: nightly)",
                         metavar="FEED", default="nightly",
                         choices=lib.config.feeds)
+    parser.add_argument("-b", "--git-branch", help="instead of using a branch"
+                              " based on the feed, checkout this git branch",
+                        metavar="BRANCH", default=None)
     parser.add_argument("-d", "--docker",
                         help="run in docker to avoid installing required pkgs",
                         action="store_true")

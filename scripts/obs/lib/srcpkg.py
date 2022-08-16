@@ -7,9 +7,11 @@ import lib.debian
 import lib.rpm_spec
 
 
-def checkout_for_feed(project, feed):
+def checkout_for_feed(project, feed, branch=None):
     """ checkout a commit, either latest tag or master or 20YY branch """
-    if feed == "latest":
+    if branch:
+        lib.git.checkout(project, branch)
+    elif feed == "latest":
         lib.git.checkout_latest_tag(project)
     elif feed == "nightly":
         lib.git.checkout_default_branch(project)
@@ -118,10 +120,10 @@ def write_tarball_version(project, version):
         f.write(f"{version}\n")
 
 
-def build(project, feed, conflict_version, fetch):
+def build(project, feed, branch, conflict_version, fetch):
     lib.git.clone(project, fetch)
     lib.git.clean(project)
-    checkout_for_feed(project, feed)
+    checkout_for_feed(project, feed, branch)
     version = get_version_for_feed(project, feed, conflict_version)
     epoch = get_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version
