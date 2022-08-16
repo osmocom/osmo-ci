@@ -43,6 +43,7 @@ projects_osmocom = [
     "libgtpnl",
     "libosmo-abis",
     "libosmo-dsp",
+    "libosmo-gprs",
     "libosmo-netif",
     "libosmo-pfcp",
     "libosmo-sccp",
