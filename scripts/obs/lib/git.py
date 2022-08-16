@@ -28,10 +28,10 @@ def clone(project, fetch=False):
 
     if os.path.exists(repo_path):
         if fetch:
-            print(f"{project}: cloning {url} (cached, fetching)")
+            print(f"{project}: 'git fetch'")
             lib.run_cmd(["git", "fetch"], cwd=repo_path)
         else:
-            print(f"{project}: cloning {url} (cached, not fetching)")
+            print(f"{project}: using cached {url} (not cloning, not fetching)")
         return
 
     print(f"{project}: cloning {url}")
@@ -46,13 +46,15 @@ def clone(project, fetch=False):
 
 def clean(project):
     repo_path = get_repo_path(project)
+    print(f"{project}: 'git clean -ffxd'")
     lib.run_cmd(["git", "clean", "-ffxd"], cwd=repo_path)
 
 
 def checkout(project, branch):
     repo_path = get_repo_path(project)
-    print(f"{project}: checking out {branch}")
+    print(f"{project}: 'git checkout -f {branch}'")
     lib.run_cmd(["git", "checkout", "-f", branch], cwd=repo_path)
+    print(f"{project}: 'git reset --hard {branch}'")
     lib.run_cmd(["git", "reset", "--hard", branch], cwd=repo_path)
 
 
