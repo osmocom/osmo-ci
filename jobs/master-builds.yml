@@ -478,6 +478,9 @@
       - shell: '{obj:cmd}'
 
     publishers:
+       - archive:
+           allow-empty: true
+           artifacts: '**/core, **/testsuite.log'
        - warnings:
            console-log-parsers:
              - 'GNU C Compiler 4 (gcc)'
