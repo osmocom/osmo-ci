@@ -1,0 +1,127 @@
+Usage Example: Submitting source packages to Osmocom's OBS build server
+=======================================================================
+
+I want to test changes to the packaging of osmo-hnbgw.
+They are committed on a private branch osmo-hnbgw.git:neels/pkg.
+I want to test this in my OBS "Home Project" called home:nhofmeyr:test.
+
+Here are the steps of what I do:
+
+
+OBS home project
+----------------
+
+Sign up / sign in to obs.osmocom.org and create the "test" project under the
+"Home Project" link (right next to the "Logout" link on the OBS web interface),
+so that https://obs.osmocom.org/project/show/home:nhofmeyr:test exists.
+
+Make sure I can list the project using the 'osc' tool.
+That requires an osc config file. Easiest is to let osc create one:
+
+ $ osc -A https://obs.osmocom.org list home:nhofmeyr:test
+ Username: nhofmeyr
+ Password: ************
+ Select credentials manager: 4
+
+Verify that it worked:
+
+ $ osc list home:nhofmeyr:test
+ libosmo-pfcp
+ osmo-hnbgw
+
+FYI, the config file will look like this:
+
+ [general]
+ apiurl = https://obs.osmocom.org
+
+ [https://obs.osmocom.org]
+ user=nhofmeyr
+ pass=***********
+ credentials_mgr_class=osc.credentials.PlaintextConfigFileCredentialsManager
+
+
+Publish patches in private branch
+---------------------------------
+
+(Optional: bypassing gerrit.osmocom.org explained in next section below.)
+
+Push my private branch to Osmocom's git repository at gerrit.osmocom.org -- not
+submit for review, just push a private branch.
+
+Why is that? The obs scripts here potentially maim a git tree, so it uses a
+separate git clone, which is cloned from gerrit.osmocom.org. When my private
+branch is pushed there, I can trivially use it.
+
+ cd ~/osmo-dev/src/osmo-hnbgw
+ git push --set-upstream origin neels/pkg
+
+
+Optional: fetch from local git repos
+------------------------------------
+
+Instead of using gerrit.osmocom.org, I can change the config of a locally
+cached repository, so that the branch is fetched from my local working copy.
+That is useful if I want to avoid pushing my branch upstream.
+
+Create initial git clone in _cache/:
+
+ cd ~/osmo-dev/src/osmo-ci/scripts/obs/
+ ./build_srcpkg.py osmo-hnbgw
+
+Set the 'origin' of the './_cache/osmo-hnbgw' git clone to my local working
+copy in '~/osmo-dev/src/osmo-hnbgw':
+
+ git -C _cache/osmo-hnbgw remote set-url origin '~/osmo-dev/src/osmo-hnbgw'
+
+After this, no need to push to Osmocom's git, i just commit patches on my local
+branch in my git clone in '~/osmo-dev/src/osmo-hnbgw'. The obs script will
+fetch my local branch, known as 'origin/neels/pkg' in its cached git tree.
+
+Verify:
+
+ $ git -C _cache/osmo-hnbgw remote -v
+ origin  ~/osmo-dev/src/osmo-hnbgw (fetch)
+ origin  ~/osmo-dev/src/osmo-hnbgw (push)
+
+
+Build and upload source package to OBS
+--------------------------------------
+
+ cd ~/osmo-dev/src/osmo-ci/scripts/obs/
+ ./update_obs_project.py -g -b origin/neels/pkg home:nhofmeyr:test osmo-hnbgw
+
+The -g option ensures that the latest branch tip is fetched from Osmocom's git.
+Without it, the cached git repository will stay stuck on its currently checked
+out branch version -- you will keep submitting the same state.
+
+The -b option chooses a custom branch to build. It is important to prepend
+'origin/' to 'your/branch', so that repeated dev cycles use the latest branch
+tip that was fetched instead staying stuck on the local branch.
+
+
+See results
+-----------
+
+I can now see my hnbgw package listed:
+
+ $ osc list home:nhofmeyr:test
+ libosmo-pfcp
+ osmo-hnbgw
+
+I could query things via the osc tool:
+
+ $ osc results home:nhofmeyr:test osmo-hnbgw
+ neels_test2          x86_64     unresolvable
+ neels_test           x86_64     failed
+
+Or point my web browser at
+https://obs.osmocom.org/project/show/home:nhofmeyr:test
+
+
+Repeat
+------
+
+The dev cycle of rebuilding a change is:
+
+* Commit changes on private branch (and push to Osmocom's git server if necessary),
+* Re-run './update_obs_project.py -g -b origin/...' as above.
