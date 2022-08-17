@@ -27,9 +27,9 @@ def add_shared_arguments(parser):
     parser.add_argument("-d", "--docker",
                         help="run in docker to avoid installing required pkgs",
                         action="store_true")
-    parser.add_argument("-g", "--git-fetch",
-                        help="fetch already cloned git repositories",
-                        action="store_true")
+    parser.add_argument("-s", "--git-skip-fetch",
+                        help="do not fetch already cloned git repositories",
+                        action="store_false", dest="git_fetch")
     parser.add_argument("-m", "--meta", action="store_true",
                         help="build a meta package (e.g. osmocom-nightly)")
     parser.add_argument("-c", "--conflict-version", nargs="?",
