@@ -52,7 +52,9 @@ OSMO_BRANCH_DOCKER_PLAYGROUND="${OSMO_BRANCH_DOCKER_PLAYGROUND:-master}"
 osmo_git_head_commit() {
 	# git output:
 	# f90496f577e78944ce8db1aa5b900477c1e479b0        HEAD
-	ret="$(git ls-remote "$OSMO_GIT_URL/$1" HEAD)"
+	local url ret
+	url="$(osmo_git_clone_url "$1")"
+	ret="$(git ls-remote "$url" HEAD)"
 	ret="$(echo "$ret" | awk '{print $1}')"
 	echo "$ret"
 }
@@ -72,7 +74,9 @@ osmo_git_last_commits_tags() {
 	# ee618ecbedec82dfd240334bc87d0d1c806477b0        refs/tags/debian/0.9.13-0_jrsantos.1
 	# a3fdd24af099b449c9856422eb099fb45a5595df        refs/tags/debian/0.9.13-0_jrsantos.1^{}
 	# ...
-	ret="$(git ls-remote --tags "$OSMO_GIT_URL/$1")"
+	local url ret
+	url="$(osmo_git_clone_url "$1")"
+	ret="$(git ls-remote --tags "$url")"
 	ret="$(echo "$ret" | grep 'refs/tags/[0-9.]*$' || true)"
 	ret="$(echo "$ret" | sort -V -t/ -k3)"
 	if [ "$2" != "all" ]; then

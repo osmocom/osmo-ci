@@ -15,10 +15,11 @@ for repo in $OSMO_RELEASE_REPOS; do
 	last_tag="$(osmo_git_last_tags "$repo" 1 "-")"
 	last_commit="$(osmo_git_last_commits "$repo" 1 "-")"
 	head_commit="$(osmo_git_head_commit "$repo")"
+	clone_url="$(osmo_git_clone_url "$repo")"
 
 	printf "$FORMAT_STR" \
 		"$repo.git" \
-		"$OSMO_GIT_URL/$repo" \
+		"$clone_url" \
 		"$last_tag" \
 		"$last_commit" \
 		"$head_commit"
