@@ -10,7 +10,7 @@ import lib.rpm_spec
 def checkout_for_feed(project, feed, branch=None):
     """ checkout a commit, either latest tag or master or 20YY branch """
     if branch:
-        lib.git.checkout(project, branch)
+        lib.git.checkout(project, f"origin/{branch}")
     elif feed == "latest":
         lib.git.checkout_latest_tag(project)
     elif feed == "nightly":

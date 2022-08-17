@@ -88,11 +88,9 @@ Build and upload source package to OBS
 --------------------------------------
 
  cd ~/osmo-dev/src/osmo-ci/scripts/obs/
- ./update_obs_project.py -b origin/neels/pkg home:nhofmeyr:test osmo-hnbgw
+ ./update_obs_project.py -b neels/pkg home:nhofmeyr:test osmo-hnbgw
 
-The -b option chooses a custom branch to build. It is important to prepend
-'origin/' to 'your/branch', so that repeated dev cycles use the latest branch
-tip that was fetched instead staying stuck on the local branch.
+The -b option chooses a custom branch to build.
 
 
 See results
