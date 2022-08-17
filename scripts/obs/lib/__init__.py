@@ -13,7 +13,12 @@ cmds_verbose = False
 
 
 def add_shared_arguments(parser):
-    parser.add_argument("-f", "--feed", help="package feed (default: nightly)",
+    parser.add_argument("-f", "--feed",
+			help="package feed (default: nightly). The feed"
+			" determines the git revision to be built:"
+			" 'nightly' builds 'origin/master',"
+			" 'latest' builds the last signed tag,"
+			" other feeds build their respective branch.",
                         metavar="FEED", default="nightly",
                         choices=lib.config.feeds)
     parser.add_argument("-b", "--git-branch", help="instead of using a branch"
