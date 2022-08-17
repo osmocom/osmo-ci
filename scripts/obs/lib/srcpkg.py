@@ -70,9 +70,6 @@ def get_version_for_feed(project, feed, conflict_version):
         if ":" in ret:
             ret = ret.split(":")[1]
 
-        if not ret:
-            ret = "0.0.0"
-
     # Append the conflict_version to increase the version even if the commit
     # did not change (OS#5135)
     if conflict_version:

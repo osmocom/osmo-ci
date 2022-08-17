@@ -73,14 +73,15 @@ def get_last_version_from_changelog(project):
     repo_path = lib.git.get_repo_path(project)
     changelog_path = f"{repo_path}/debian/changelog"
 
-    if not os.path.exists(changelog_path):
-        return None
+    assert os.path.exists(changelog_path), f"{project}: missing debian/changelog"
 
     changelog = open(changelog_path).read()
-    if not changelog:
-        return None
+    assert changelog, f"{project}: debian/changelog is empty"
 
-    return changelog.split("(", 1)[1].split(")", 1)[0]
+    ret = changelog.split("(", 1)[1].split(")", 1)[0]
+    assert ret, f"{project}: couldn't find last version in debian/changelog"
+
+    return ret
 
 
 def changelog_add_entry_if_needed(project, feed, version):
