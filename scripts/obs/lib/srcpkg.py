@@ -16,7 +16,7 @@ def checkout_for_feed(project, feed, branch=None):
     elif feed == "nightly":
         lib.git.checkout_default_branch(project)
     else:  # 2022q1 etc
-        lib.git.checkout(project, feed)
+        lib.git.checkout(project, f"origin/{feed}")
 
 
 def get_git_version_gen_path(project):
