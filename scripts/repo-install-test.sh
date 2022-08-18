@@ -2,8 +2,8 @@
 # Environment variables:
 # * INTERACTIVE: set to 1 to keep an interactive shell open after the script ran (for debugging)
 # * FEED: binary package feed (e.g. "latest", "nightly")
-# * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
-# * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "network:osmocom:nightly")
+# * PROJ: OBS project namespace (e.g. "osmocom:latest")
+# * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "osmocom:nightly")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * TESTS: which tests to run (all by default, see below for possible values)
 . "$(dirname "$0")/common.sh"
@@ -31,7 +31,7 @@ check_usage
 docker_images_require "$DISTRO-repo-install-test"
 
 FEED="${FEED:-nightly}"
-PROJ="${PROJ:-network:osmocom:$FEED}"
+PROJ="${PROJ:-osmocom:$FEED}"
 CONTAINER="$DISTRO-repo-install-test-$FEED"
 
 if [ -z "$TESTS" ]; then
@@ -46,13 +46,13 @@ fi
 if [ -z "$PROJ_CONFLICT" ]; then
 	case "$FEED" in
 		latest)
-			PROJ_CONFLICT="network:osmocom:nightly"
+			PROJ_CONFLICT="osmocom:nightly"
 			;;
 		nightly)
-			PROJ_CONFLICT="network:osmocom:latest"
+			PROJ_CONFLICT="osmocom:latest"
 			;;
 		next)
-			PROJ_CONFLICT="network:osmocom:nightly"
+			PROJ_CONFLICT="osmocom:nightly"
 			;;
 	esac
 fi

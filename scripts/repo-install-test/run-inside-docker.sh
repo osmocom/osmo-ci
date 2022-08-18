@@ -1,8 +1,8 @@
 #!/bin/sh -ex
 # Environment variables:
 # * FEED: binary package feed (e.g. "latest", "nightly")
-# * PROJ: OBS project namespace (e.g. "network:osmocom:latest")
-# * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "network:osmocom:nightly")
+# * PROJ: OBS project namespace (e.g. "osmocom:latest")
+# * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "osmocom:nightly")
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * DISTRO: linux distribution  name (e.g. "centos8")
 # * TESTS: which tests to run (see repo-install-test.sh)
@@ -54,12 +54,12 @@ distro_obsdir() {
 
 DISTRO_OBSDIR="$(distro_obsdir)"
 
-# $1: OBS project (e.g. "network:osmocom:nightly" -> "network:/osmocom:/nightly")
+# $1: OBS project (e.g. "osmocom:nightly" -> "osmocom:/nightly")
 proj_with_slashes() {
 	echo "$1" | sed "s.:.:/.g"
 }
 
-# $1: OBS project (e.g. "network:osmocom:nightly" -> "network_osmocom_nightly")
+# $1: OBS project (e.g. "osmocom:nightly" -> "osmocom_nightly")
 proj_with_underscore() {
 	echo "$1" | tr : _
 }
@@ -96,10 +96,10 @@ check_env() {
 	fi
 }
 
-# $1: OBS project (e.g. "network:osmocom:nightly")
+# $1: OBS project (e.g. "osmocom:nightly")
 configure_osmocom_repo_debian() {
 	local proj="$1"
-	local obs_repo="download.opensuse.org/repositories/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR/"
+	local obs_repo="downloads.osmocom.org/packages/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR/"
 
 	echo "Configuring Osmocom repository"
 
@@ -107,7 +107,7 @@ configure_osmocom_repo_debian() {
 	if ! [ -e "$release_key" ]; then
 		apt-get update
 		apt install -y wget
-		wget -O /tmp/Release.key "https://build.opensuse.org/projects/network:osmocom/public_key"
+		wget -O /tmp/Release.key "https://obs.osmocom.org/projects/$proj/public_key"
 	fi
 	apt-key add /tmp/Release.key
 
@@ -115,20 +115,20 @@ configure_osmocom_repo_debian() {
 	apt-get update
 }
 
-# $1: OBS project (e.g. "network:osmocom:nightly")
+# $1: OBS project (e.g. "osmocom:nightly")
 configure_osmocom_repo_debian_remove() {
 	local proj="$1"
 	rm "/etc/apt/sources.list.d/$proj.list"
 }
 
-# $1: OBS project (e.g. "network:osmocom:nightly")
+# $1: OBS project (e.g. "osmocom:nightly")
 configure_osmocom_repo_centos() {
 	local proj="$1"
-	local baseurl="https://download.opensuse.org/repositories/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR"
+	local baseurl="https://downloads.osmocom.org/packages/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR"
 
 	echo "Configuring Osmocom repository"
 	# Generate this file, based on the feed:
-	# https://download.opensuse.org/repositories/network:osmocom:latest/CentOS_8/network:osmocom:latest.repo
+	# https://downloads.osmocom.org/packages/osmocom:/latest/CentOS_8/osmocom:latest.repo
 	cat << EOF > "/etc/yum.repos.d/$proj.repo"
 [$(proj_with_underscore "$proj")]
 name=$proj
@@ -140,13 +140,13 @@ enabled=1
 EOF
 }
 
-# $1: OBS project (e.g. "network:osmocom:nightly")
+# $1: OBS project (e.g. "osmocom:nightly")
 configure_osmocom_repo_centos_remove() {
 	local proj="$1"
 	rm "/etc/yum.repos.d/$proj.repo"
 }
 
-# $1: OBS project (e.g. "network:osmocom:nightly")
+# $1: OBS project (e.g. "osmocom:nightly")
 configure_osmocom_repo() {
 	case "$DISTRO" in
 		debian*)
@@ -285,14 +285,12 @@ filter_packages_txt() {
 }
 
 install_repo_packages_debian() {
-	local obs="obs://build.opensuse.org/$PROJ/$DISTRO_OBSDIR"
-
 	echo "Installing all repository packages"
 
 	# Get a list of all packages from the repository. Reference:
 	# https://www.debian.org/doc/manuals/aptitude/ch02s04s05.en.html
 	aptitude search -F%p \
-		"?origin($obs) ?architecture(native)" | sort \
+		"?origin(.*$PROJ.*) ?architecture(native)" | sort \
 		> osmocom_packages_all.txt
 
 	filter_packages_txt
