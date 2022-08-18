@@ -445,9 +445,6 @@
                   ;;
               TTCN3-centos-*)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/)"
-                  export OSMOCOM_REPO_TESTSUITE_MIRROR="http://download.opensuse.org"
-                  export OSMOCOM_REPO_MIRROR="https://downloads.osmocom.org"
-                  export OSMOCOM_REPO_PATH="obs-mirror/.previous"
                   export IMAGE_SUFFIX="master-centos8"
                   ;;
               TTCN3-centos7-*)
