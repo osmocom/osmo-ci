@@ -50,10 +50,6 @@ if [ -z "$PROJ_CONFLICT" ]; then
 			;;
 		nightly)
 			PROJ_CONFLICT="network:osmocom:latest"
-			if [ "$DISTRO" = "centos8" ]; then
-				# Doesn't have packages built for "latest" yet
-				PROJ_CONFLICT="network:osmocom:next"
-			fi
 			;;
 		next)
 			PROJ_CONFLICT="network:osmocom:nightly"
