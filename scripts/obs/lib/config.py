@@ -83,6 +83,8 @@ projects_other = [
     "limesuite",
     "neocon",
     "open5gs",
+    "libnftnl",
+    "nftables",
 ]
 
 git_url_default = "https://gerrit.osmocom.org"  # /project gets appended
@@ -93,6 +95,8 @@ git_url_other = {
     "open5gs": "https://github.com/open5gs/open5gs",
     "osmo-fl2k": "https://gitea.osmocom.org/sdr/osmo-fl2k",
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
+    "libnftnl": "https://git.netfilter.org/libnftnl",
+    "nftables": "https://git.netfilter.org/nftables",
 }
 
 git_branch_default = "master"
