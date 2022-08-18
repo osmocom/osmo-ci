@@ -92,6 +92,9 @@ def get_epoch(project):
         :returns: the epoch number if set, e.g. "1" or an empty string """
     version_epoch = lib.debian.get_last_version_from_changelog(project)
 
+    if version_epoch is None:
+        raise Exception("Failed to get the last version from changelog")
+
     if ":" in version_epoch:
         return version_epoch.split(":")[0]
 
