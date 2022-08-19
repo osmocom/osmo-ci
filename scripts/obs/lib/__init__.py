@@ -14,6 +14,7 @@ cmds_verbose = False
 
 
 def add_shared_arguments(parser):
+    """ Arguments shared between build_srcpkg.py and update_obs_project.py. """
     parser.add_argument("-f", "--feed",
 			help="package feed (default: nightly). The feed"
 			" determines the git revision to be built:"

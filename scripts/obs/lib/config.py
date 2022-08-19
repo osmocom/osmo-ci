@@ -112,3 +112,6 @@ git_latest_tag_pattern_other = {
 }
 
 docker_distro_default = "debian:11"
+docker_distro_other = [
+    "centos:8",
+]

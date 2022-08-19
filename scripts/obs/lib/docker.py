@@ -14,11 +14,23 @@ def get_image_name(distro, image_type):
     return ret
 
 
+def get_distro_from(distro):
+    # CentOS 8 is EOL (SYS#5818)
+    if distro == "centos:8":
+        return "almalinux:8"
+
+    return distro
+
+
 def build_image(distro, image_type):
-    image_name = get_image_name(distro, image_type),
+    image_name = get_image_name(distro, image_type)
+    distro_from = get_distro_from(distro)
+
     print(f"docker: building image {image_name}")
+
     lib.run_cmd(["docker", "build",
                  "--build-arg", f"DISTRO={distro}",
+                 "--build-arg", f"DISTRO_FROM={distro_from}",
                  "--build-arg", f"UID={os.getuid()}",
                  "-t", image_name,
                  "-f", f"{lib.config.path_top}/data/{image_type}.Dockerfile",
@@ -38,12 +50,15 @@ def get_oscrc():
 
 
 def run_in_docker_and_exit(script_path, add_oscrc=False,
-                           image_type="build_srcpkg", distro=None):
+                           image_type="build_srcpkg", distro=None,
+                           pass_argv=True, env={}):
     """
     :param script_path: what to run inside docker, relative to scripts/obs/
     :param add_oscrc: put user's oscrc in docker (contains obs credentials!)
     :param image_type: which Dockerfile to use (data/{image_type}.Dockerfile)
     :param distro: which Linux distribution to use, e.g. "debian:11"
+    :param pass_argv: pass arguments from sys.argv to the script
+    :param env: dict of environment variables
     """
     if "INSIDE_DOCKER" in os.environ:
         return
@@ -72,10 +87,17 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
            "-e", "PYTHONUNBUFFERED=1",
            "-v", f"{lib.config.path_top}:/obs"]
 
+
+    for env_key, env_val in env.items():
+        cmd += ["-e", f"{env_key}={env_val}"]
+
     if oscrc:
         cmd += ["-v", f"{oscrc}:/home/user/.oscrc"]
 
-    cmd += [image_name, f"/obs/{script_path}"] + sys.argv[1:]
+    cmd += [image_name, f"/obs/{script_path}"]
+
+    if pass_argv:
+        cmd += sys.argv[1:]
 
     print(f"docker: running: {script_path} inside docker")
     ret = subprocess.run(cmd)
