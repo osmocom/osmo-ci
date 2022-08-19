@@ -58,6 +58,12 @@ def get_version_for_feed(project, feed, conflict_version):
         # There's always a tag if we are here. If there was none, the build
         # would have been skipped for latest.
         ret = lib.git.get_latest_tag(project)
+
+        # HACK: remove -1, -2 etc. from debian version, so we can build it as
+        # format "3.0 (native)"
+        ret = ret.replace("debian/", "")
+        ret = ret.split("-")[0]
+
         return ret[1:] if ret.startswith("v") else ret
 
     ret = get_git_version(project)

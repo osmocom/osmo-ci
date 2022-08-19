@@ -80,16 +80,20 @@ projects_osmocom = [
     "simtrace2",
 ]
 projects_other = [
+    "libnftnl-deb",
     "limesuite",
     "neocon",
+    "nftables-deb",
     "open5gs",
 ]
 
 git_url_default = "https://gerrit.osmocom.org"  # /project gets appended
 git_url_other = {
+    "libnftnl-deb": "https://salsa.debian.org/pkg-netfilter-team/pkg-libnftnl",
     "libosmo-dsp": "https://gitea.osmocom.org/sdr/libosmo-dsp",
     "limesuite": "https://github.com/myriadrf/LimeSuite",
     "neocon": "https://github.com/laf0rge/neocon",
+    "nftables-deb": "https://salsa.debian.org/pkg-netfilter-team/pkg-nftables",
     "open5gs": "https://github.com/open5gs/open5gs",
     "osmo-fl2k": "https://gitea.osmocom.org/sdr/osmo-fl2k",
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
@@ -102,7 +106,9 @@ git_branch_other = {
 
 git_latest_tag_pattern_default = "^[0-9]*\\.[0-9]*\\.[0-9]*$"
 git_latest_tag_pattern_other = {
+        "libnftnl-deb": "^debian\/[0-9]*\\.[0-9]*\\.[0-9]*.*$",
         "limesuite": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
+        "nftables-deb": "^debian\/[0-9]*\\.[0-9]*\\.[0-9]*.*$",
         "open5gs": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
 }
 
