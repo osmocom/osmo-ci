@@ -74,7 +74,6 @@ projects_osmocom = [
     "osmo-sysmon",
     "osmo-trx",
     "osmo-uecups",
-    "osmo-upf",
     "python/osmo-python-tests",
     "rtl-sdr",
     "simtrace2",
