@@ -1,4 +1,5 @@
 #!/bin/sh
+. "$(dirname "$0")/common.sh"
 set -ex
 project="$1"
 branch="${2:-master}"
@@ -8,9 +9,8 @@ if [ "x$(git branch -a | grep -c "remotes/origin/$branch\$")" != "x0" ]; then
 fi
 
 
-if ! test -d "$project";
-then
-  git clone "https://git.osmocom.org/$project" "$project"
+if ! test -d "$project"; then
+	git clone "$(osmo_git_clone_url "$project")" "$project"
 fi
 
 cd "$project"
