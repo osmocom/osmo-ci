@@ -9,3 +9,7 @@
 # the dependency problem means that we can't simply install the package in
 # centos. In OBS we work around this in the project config.
 ulfius-devel
+
+# Also linked to opensuse versions
+nftables-devel
+python3-nftables
