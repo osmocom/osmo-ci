@@ -5,7 +5,6 @@
     name: gerrit-lint
     # following default values can be overridden by each repo
     disabled: false
-    cmd: '~/osmo-ci/lint/lint_diff.sh HEAD~1'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
@@ -34,10 +33,7 @@
       - osmo-hnodeb
       - osmo-hnbgw
       - osmo-upf
-
-      - osmo-ci:
-          # Run the lint script from the checked out branch
-          cmd: 'lint/lint_diff.sh HEAD~1'
+      - osmo-ci
 
       - osmo_dia2gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -149,7 +145,7 @@
           server-name: gerrit.osmocom.org
 
     builders:
-      - shell: '{obj:cmd}'
+      - shell: '~/osmo-ci/lint/lint_diff.sh HEAD~1'
 
     wrappers:
     - ansicolor:
