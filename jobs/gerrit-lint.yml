@@ -107,8 +107,16 @@
       </br></br>
       Related issue: <a href="https://osmocom.org/issues/5087">OS#5087</a>
 
+    parameters:
+      - string:
+          name: BRANCH_CI
+          description: |
+                osmo-ci.git branch
+          default: 'master'
+
     scm:
       - git:
+         basedir: 'code-from-gerrit'
          url: '{obj:repos_url}'
          credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
          branches:
@@ -120,6 +128,13 @@
          skip-tag: true
          submodule:
            recursive: false
+      - git:
+         basedir: 'osmo-ci'
+         url: '{gerrit_url}/osmo-ci'
+         credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+         branches:
+           - '$BRANCH_CI'
+         wipe-workspace: true
 
     triggers:
       - gerrit:
@@ -145,7 +160,7 @@
           server-name: gerrit.osmocom.org
 
     builders:
-      - shell: '~/osmo-ci/lint/lint_diff.sh HEAD~1'
+      - shell: 'cd code-from-gerrit && ../osmo-ci/lint/lint_diff.sh HEAD~1'
 
     wrappers:
     - ansicolor:
