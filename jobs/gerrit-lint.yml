@@ -165,9 +165,8 @@
     wrappers:
     - ansicolor:
         colormap: xterm
-    wrappers:
-      - ssh-agent-credentials:
-          users:
-          - d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+    - ssh-agent-credentials:
+        users:
+        - d5eda5e9-b59d-44ba-88d2-43473cb6e42d
 
 # vim: expandtab tabstop=2 shiftwidth=2
