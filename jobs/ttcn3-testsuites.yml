@@ -150,9 +150,6 @@
       - ttcn3-hnbgw-test:
           blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
           timer: 40 13 * * *
-      - ttcn3-hnbgw-test-pfcp:
-          blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
-          timer: 40 15 * * *
       - ttcn3-fr-test:
           blocking: "^(ttcn3|TTCN3-.*)-fr-test.*"
           timer: 40 10 * * *
