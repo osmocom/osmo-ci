@@ -68,6 +68,7 @@ exclude_paths_project() {
 # * LINE_CONTINUATIONS: false positives
 # * LINE_SPACING: we don't always put a blank line after declarations
 # * LONG_LINE*: should be 120 chars, but exceptions are done often so don't fail here
+# * MACRO_WITH_FLOW_CONTROL: not followed
 # * MISSING_SPACE: warns about breaking strings at space characters, not useful for long strings of hex chars
 # * PREFER_DEFINED_ATTRIBUTE_MACRO: macros like __packed not defined in libosmocore
 # * PREFER_FALLTHROUGH: pseudo keyword macro "fallthrough" is not defined in libosmocore
@@ -108,6 +109,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore LONG_LINE \
 	--ignore LONG_LINE_COMMENT \
 	--ignore LONG_LINE_STRING \
+	--ignore MACRO_WITH_FLOW_CONTROL \
 	--ignore MISSING_SPACE \
 	--ignore PREFER_DEFINED_ATTRIBUTE_MACRO \
 	--ignore PREFER_FALLTHROUGH \
