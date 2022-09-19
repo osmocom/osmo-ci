@@ -88,12 +88,17 @@ def check_package(package):
 
 def exit_error_cmd(completed, error_msg):
     """ :param completed: return from run_cmd() below """
+    global cmds_verbose
+
     print()
     print(f"ERROR: {error_msg}")
     print()
     print(f"*** command ***\n{completed.args}\n")
     print(f"*** returncode ***\n{completed.returncode}\n")
-    print(f"*** output ***\n{completed.output}")
+
+    if not cmds_verbose:
+        print(f"*** output ***\n{completed.output}")
+
     print("*** python trace ***")
     raise RuntimeError("shell command related error, find details right above"
                        " this python trace")
