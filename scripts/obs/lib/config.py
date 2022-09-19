@@ -111,4 +111,4 @@ git_latest_tag_pattern_other = {
         "open5gs": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
 }
 
-docker_image_name = "debian-bullseye-osmocom-obs"
+docker_distro_default = "debian:11"
