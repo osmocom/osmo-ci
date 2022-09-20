@@ -200,6 +200,7 @@ def main():
         lib.docker.run_in_docker_and_exit(__file__, args, True)
 
     lib.osc.check_proj(proj)
+    lib.osc.check_oscrc()
     lib.osc.set_apiurl(args.apiurl)
     lib.check_required_programs()
     lib.remove_temp()

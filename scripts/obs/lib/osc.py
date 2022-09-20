@@ -20,6 +20,18 @@ def check_proj(obs_project):
     exit(1)
 
 
+def check_oscrc():
+    configdir = os.environ.get("XDG_CONFIG_HOME", "~/.config")
+    paths = ["~/.oscrc", f"{configdir}/osc/oscrc"]
+    for path in paths:
+        if os.path.exists(os.path.expanduser(path)):
+            return
+
+    print("ERROR: oscrc does not exist, please create one as explained in the"
+          " README.")
+    exit(1)
+
+
 def set_apiurl(url):
     global apiurl
     apiurl = url

@@ -29,7 +29,7 @@ Verify that it worked:
  libosmo-pfcp
  osmo-hnbgw
 
-FYI, the config file will look like this:
+FYI, the config file (oscrc) will look like this:
 
  [general]
  apiurl = https://obs.osmocom.org
