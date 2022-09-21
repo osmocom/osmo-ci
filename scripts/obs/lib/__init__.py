@@ -119,9 +119,9 @@ def run_cmd(cmd, check=True, *args, **kwargs):
         print(f"+ {caller}(): {cmd}")
 
     with tempfile.TemporaryFile(encoding="utf8", mode="w+") as output_buf:
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                             stderr=subprocess.STDOUT, text=True, bufsize=1,
-                             *args, **kwargs)
+        p = subprocess.Popen(cmd, stdin=subprocess.DEVNULL,
+                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                             text=True, bufsize=1, *args, **kwargs)
 
         while True:
             out = p.stdout.read(1)
