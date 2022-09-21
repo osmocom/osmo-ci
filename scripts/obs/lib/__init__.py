@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import inspect
 import lib.config
 
 cmds_verbose = False
@@ -108,8 +109,9 @@ def run_cmd(cmd, check=True, *args, **kwargs):
         :param check: stop with error if exit code is not 0 """
     global cmds_verbose
 
+    caller = inspect.stack()[2][3]
     if cmds_verbose:
-        print(f"+ {cmd}")
+        print(f"+ {caller}(): {cmd}")
 
     with tempfile.TemporaryFile(encoding="utf8", mode="w+") as output_buf:
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
