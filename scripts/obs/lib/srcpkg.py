@@ -117,10 +117,13 @@ def write_tarball_version(project, version):
         f.write(f"{version}\n")
 
 
-def build(project, feed, branch, conflict_version, fetch):
+def build(project, feed, branch, conflict_version, fetch, gerrit_id=0):
     lib.git.clone(project, fetch)
     lib.git.clean(project)
-    checkout_for_feed(project, feed, branch)
+    if gerrit_id > 0:
+        lib.git.checkout_from_review(project, gerrit_id)
+    else:
+        checkout_for_feed(project, feed, branch)
     version = get_version_for_feed(project, feed, conflict_version)
     epoch = get_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version

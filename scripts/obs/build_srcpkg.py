@@ -18,6 +18,8 @@ def main():
                     " upload to https://obs.osmocom.org."
                     f" Output dir: {lib.config.path_temp}/srcpkgs")
     lib.add_shared_arguments(parser)
+    parser.add_argument("-g", "--gerrit-id", type=int, default=0,
+                        help="clone particular revision from gerrit using given ID")
     parser.add_argument("package", nargs="?",
                         help="package name, e.g. libosmocore or open5gs")
     args = parser.parse_args()
@@ -43,7 +45,7 @@ def main():
 
     if args.package:
         lib.srcpkg.build(args.package, args.feed, args.git_branch, args.conflict_version,
-                         args.git_fetch)
+                         args.git_fetch, args.gerrit_id)
 
 
 if __name__ == "__main__":

@@ -17,6 +17,7 @@ required_programs = [
     "fakeroot",
     "find",
     "git",
+    "git-review",
     "meson",
     "osc",
     "rebar3",

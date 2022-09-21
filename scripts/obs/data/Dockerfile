@@ -23,6 +23,7 @@ RUN	apt-get update && \
 		dpkg-dev \
 		fakeroot \
 		git \
+		git-review \
 		meson \
 		osc \
 		python3-setuptools \
