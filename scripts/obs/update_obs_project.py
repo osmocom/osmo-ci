@@ -202,7 +202,10 @@ def main():
     lib.osc.check_proj(proj)
     lib.osc.check_oscrc()
     lib.osc.set_apiurl(args.apiurl)
-    lib.check_required_programs()
+
+    if not args.ignore_req:
+        lib.check_required_programs()
+
     lib.remove_temp()
 
     pkgs_remote = lib.osc.get_remote_pkgs(proj)

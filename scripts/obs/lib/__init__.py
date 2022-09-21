@@ -33,6 +33,8 @@ def add_shared_arguments(parser):
                         action="store_false", dest="git_fetch")
     parser.add_argument("-m", "--meta", action="store_true",
                         help="build a meta package (e.g. osmocom-nightly)")
+    parser.add_argument("-i", "--ignore-req", action="store_true",
+                        help="skip required programs check")
     parser.add_argument("-c", "--conflict-version", nargs="?",
                         help="Of the generated source packages, all Osmocom"
                              " packages (not e.g. open5gs, see lib/config.py"

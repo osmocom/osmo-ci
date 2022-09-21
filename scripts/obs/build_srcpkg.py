@@ -31,7 +31,9 @@ def main():
     if args.docker:
         lib.docker.run_in_docker_and_exit(__file__, args)
 
-    lib.check_required_programs()
+    if not args.ignore_req:
+        lib.check_required_programs()
+
     if args.package:
         lib.check_package(args.package)
     lib.remove_temp()
