@@ -47,9 +47,10 @@ def run_in_docker_and_exit(script_path, args, add_oscrc=False):
     lib.set_cmds_verbose(args.verbose)
 
     cmd = ["docker", "run",
+           "--rm",
            "-e", "INSIDE_DOCKER=1",
            "-e", "PYTHONUNBUFFERED=1",
-           "--rm", "-v", f"{lib.config.path_top}:/obs"]
+           "-v", f"{lib.config.path_top}:/obs"]
 
     if oscrc:
         cmd += ["-v", f"{oscrc}:/home/user/.oscrc"]
