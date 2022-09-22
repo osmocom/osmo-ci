@@ -146,7 +146,6 @@
       - ttcn3-upf-test:
           blocking: "^(ttcn3|TTCN3-.*)-upf-test.*"
           timer: 00 13 * * *
-          disabled: true
       - ttcn3-hnbgw-test:
           blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
           timer: 40 13 * * *
