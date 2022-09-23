@@ -88,7 +88,7 @@ def get_head_remote(project, branch):
     repo_url = get_repo_url(project)
 
     print(f"{project}: getting head from git remote for {branch}")
-    ls_remote = lib.run_cmd(["git", "ls-remote", repo_url, branch])
+    ls_remote = lib.run_cmd(["git", "ls-remote", repo_url, f"heads/{branch}"])
 
     ret = ls_remote.output.split("\t")[0]
     if not ret:

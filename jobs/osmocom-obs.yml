@@ -4,6 +4,8 @@
     jobs:
       - Osmocom_OBS_{type}_{server}
     type:
+      - master:
+          conflict_version: ""
       - nightly:
           # For nightly we don't provide ABI compatibility, make sure packages
           # from different build dates are not mixed by accident
@@ -15,10 +17,16 @@
           proj: "network:osmocom"
       - obs.osmocom.org:
           proj: "osmocom"
+    # Pushing to build.opensuse.org is legacy, will be disabled soon (OS#5557).
+    # Don't push the new master repository there.
+    exclude:
+      - type: master
+        server: build.opensuse.org
 
 - job-template:
     name: 'Osmocom_OBS_{type}_{server}'
     project-type: freestyle
+    concurrent: false
     defaults: global
     description: |
       See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Binary_Packages">Wiki: binary packages</a>

@@ -491,6 +491,8 @@
            resolve-relative-paths: true
        - trigger:
            project: '{obj:trigger}'
+       - trigger:
+           project: 'Osmocom_OBS_master_obs.osmocom.org'
        - email:
            recipients: '{obj:email}'
            send-to-individuals: true
