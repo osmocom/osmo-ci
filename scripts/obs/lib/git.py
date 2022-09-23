@@ -65,11 +65,14 @@ def checkout_from_review(project, gerrit_id):
     lib.run_cmd(["git", "review", "-d", str(gerrit_id)], cwd=repo_path)
 
 
-def checkout_default_branch(project):
-    branch = lib.config.git_branch_default
+def get_default_branch(project):
     if project in lib.config.git_branch_other:
-        branch = lib.config.git_branch_other[project]
+       return lib.config.git_branch_other[project]
+    return lib.config.git_branch_default
 
+
+def checkout_default_branch(project):
+    branch = get_default_branch(project)
     checkout(project, f"origin/{branch}")
 
 
