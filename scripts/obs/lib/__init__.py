@@ -17,7 +17,7 @@ def add_shared_arguments(parser):
     parser.add_argument("-f", "--feed",
 			help="package feed (default: nightly). The feed"
 			" determines the git revision to be built:"
-			" 'nightly' builds 'origin/master',"
+			" 'nightly' and 'master' build 'origin/master',"
 			" 'latest' builds the last signed tag,"
 			" other feeds build their respective branch.",
                         metavar="FEED", default="nightly",

@@ -32,6 +32,7 @@ feeds = [
     "2022q1",
     "2022q2",
     "latest",
+    "master",
     "nightly",
 ]
 

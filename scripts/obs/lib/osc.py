@@ -62,7 +62,7 @@ def get_remote_pkgs(proj):
     return ret.output.rstrip().split("\n")
 
 
-def get_package_version(proj, package):
+def get_package_version(proj, package, feed):
     print(f"{package}: getting OBS version")
     ret = run_osc(["list", proj, os.path.basename(package)])
 
@@ -70,15 +70,21 @@ def get_package_version(proj, package):
     if ret.output == '\n':
         return "0"
 
-    # Extract the version from the dsc filename
+    # Extract the version from the file list
     for line in ret.output.split('\n'):
         line = line.rstrip()
 
-        if line.endswith(".dsc"):
-            return line.split("_")[-1][:-4]
+        if feed == "master" and package != "osmocom-master":
+            # Use commit_*.txt
+            if line.startswith("commit_") and line.endswith(".txt"):
+                return line.split("_")[1].split(".")[0]
+        else:
+            # Use *.dsc
+            if line.endswith(".dsc"):
+                return line.split("_")[-1][:-4]
 
     lib.exit_error_cmd(ret, "failed to find package version on OBS by"
-                       " extracting the version from the .dsc filename")
+                       " extracting the version from the file list")
 
 
 def create_package(proj, package):

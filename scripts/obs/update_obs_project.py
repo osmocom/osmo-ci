@@ -66,13 +66,16 @@ def build_srcpkg_if_needed(proj, feed, branch, pkgs_remote, package, conflict_ve
                            fetch, is_meta_pkg, skip_up_to_date):
     global srcpkgs_skipped
 
-    if feed == "latest":
+    if feed in ["master", "latest"]:
         """ Check if we can skip this package by comparing the OBS version with
             the git remote. """
         if is_meta_pkg:
             latest_version = conflict_version if conflict_version else "1.0.0"
         else:
-            latest_version = lib.git.get_latest_tag_remote(package)
+            if feed == "master":
+                latest_version = lib.git.get_head_remote(package, branch)
+            else:
+                latest_version = lib.git.get_latest_tag_remote(package)
 
         if latest_version is None:
             print(f"{package}: skipping (no git tag found)")
@@ -82,7 +85,7 @@ def build_srcpkg_if_needed(proj, feed, branch, pkgs_remote, package, conflict_ve
         if os.path.basename(package) not in pkgs_remote:
             print(f"{package}: building source package (not in OBS)")
         else:
-            obs_version = lib.osc.get_package_version(proj, package)
+            obs_version = lib.osc.get_package_version(proj, package, feed)
             if is_up_to_date(obs_version, latest_version):
                 if skip_up_to_date:
                     print(f"{package}: skipping ({obs_version} is up-to-date)")

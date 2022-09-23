@@ -76,6 +76,28 @@ def checkout_default_branch(project):
     checkout(project, f"origin/{branch}")
 
 
+def get_head(project):
+    repo_path = get_repo_path(project)
+    ret = lib.run_cmd(["git", "rev-parse", "HEAD"], cwd=repo_path)
+    return ret.output.rstrip()
+
+
+def get_head_remote(project, branch):
+    if not branch:
+        branch = get_default_branch(project)
+    repo_url = get_repo_url(project)
+
+    print(f"{project}: getting head from git remote for {branch}")
+    ls_remote = lib.run_cmd(["git", "ls-remote", repo_url, branch])
+
+    ret = ls_remote.output.split("\t")[0]
+    if not ret:
+        lib.exit_error_cmd(ls_remote, f"failed to find head commit for"
+                           "{project} in output")
+
+    return ret
+
+
 def get_latest_tag(project):
     pattern_str = get_latest_tag_pattern(project)
     pattern = re.compile(pattern_str)

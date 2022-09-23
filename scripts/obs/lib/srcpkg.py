@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import os
+import pathlib
 import lib.config
 import lib.debian
 import lib.rpm_spec
@@ -13,7 +14,7 @@ def checkout_for_feed(project, feed, branch=None):
         lib.git.checkout(project, f"origin/{branch}")
     elif feed == "latest":
         lib.git.checkout_latest_tag(project)
-    elif feed == "nightly":
+    elif feed in ["master", "nightly"]:
         lib.git.checkout_default_branch(project)
     else:  # 2022q1 etc
         lib.git.checkout(project, f"origin/{feed}")
@@ -117,6 +118,18 @@ def write_tarball_version(project, version):
         f.write(f"{version}\n")
 
 
+def write_commit_txt(project):
+    """ Write the current git commit to commit_$commit.txt file, so it gets
+        uploaded to OBS along with the rest of the source package. This allows
+        figuring out if the source package is still up-to-date or not for the
+        master feed. """
+    output_path = lib.get_output_path(project)
+    commit = lib.git.get_head(project)
+
+    print(f"{project}: adding commit_{commit}.txt")
+    pathlib.Path(f"{output_path}/commit_{commit}.txt").touch()
+
+
 def build(project, feed, branch, conflict_version, fetch, gerrit_id=0):
     lib.git.clone(project, fetch)
     lib.git.clean(project)
@@ -154,6 +167,9 @@ def build(project, feed, branch, conflict_version, fetch, gerrit_id=0):
     if has_rpm_spec:
         lib.rpm_spec.generate(project, version, epoch)
         lib.rpm_spec.copy_to_output(project)
+
+    if feed == "master":
+        write_commit_txt(project)
 
     lib.remove_cache_extra_files()
     return version_epoch
