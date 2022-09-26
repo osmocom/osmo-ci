@@ -110,16 +110,6 @@ osmo_git_last_tags() {
 	echo "$ret" | cut -d/ -f 3
 }
 
-# Pass all arguments to "git clone", but write the current date and time before the clone and on failure.
-# This helps analyzing errors with git.osmocom.org (OS#4083).
-osmo_git_clone_date() {
-	date "+%Y-%m-%d %H:%M:%S"
-	if ! git clone "$@"; then
-		date "+%Y-%m-%d %H:%M:%S"
-		exit 1
-	fi
-}
-
 # Echo git clone URL for an Osmocom git repository. For projects developed on
 # gerrit, use the gerrit URL to avoid the mirror sync delay, for other
 # repositories use the gitea URL.
