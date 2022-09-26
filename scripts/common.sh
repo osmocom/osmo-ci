@@ -1,7 +1,7 @@
 #!/bin/sh
 # Various functions and variables used in multiple osmo-ci shell scripts
 OSMO_CI_DIR="$(realpath "$(dirname "$0")/..")"
-OSMO_GIT_URL="https://git.osmocom.org"
+OSMO_GIT_URL_GITEA="https://gitea.osmocom.org"
 OSMO_GIT_URL_GERRIT="https://gerrit.osmocom.org"
 
 # Osmocom repositories of which we want to build release tarballs automatically, and list the current versions at
@@ -120,13 +120,18 @@ osmo_git_clone_date() {
 	fi
 }
 
-# Print git clone URL for an Osmocom git repository. Prefer the gerrit clone URL, because cloning from the regular URL
-# sometimes results in the "garbage at end of loose object" error (OS#4083).
+# Echo git clone URL for an Osmocom git repository. For projects developed on
+# gerrit, use the gerrit URL to avoid the mirror sync delay, for other
+# repositories use the gitea URL.
+# https://osmocom.org/projects/cellular-infrastructure/wiki/Git_infrastructure
 # $1: Osmocom project (e.g. "osmo-hlr")
 osmo_git_clone_url() {
 	case "$1" in
-		rtl-sdr|osmo-fl2k|libosmo-dsp|libgtpnl|libasn1c|libusrp|libsmpp34)
-			echo "$OSMO_GIT_URL"/"$1"
+		libgtpnl|libasn1c|libsmpp34)
+			echo "$OSMO_GIT_URL_GITEA"/cellular-infrastructure/"$1"
+			;;
+		rtl-sdr|osmo-fl2k|libosmo-dsp|libusrp)
+			echo "$OSMO_GIT_URL_GITEA"/sdr/"$1"
 			;;
 		*)
 			echo "$OSMO_GIT_URL_GERRIT"/"$1"
