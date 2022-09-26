@@ -7,6 +7,7 @@ export SRC_CLEAN=1
 
 mkdir -p /tmp/coverity
 cp "$SCRIPT_DIR"/* /tmp/coverity
+ln -sf "$SCRIPT_DIR/../scripts/common.sh" /tmp/coverity/common.sh
 
 cd /tmp/coverity
 

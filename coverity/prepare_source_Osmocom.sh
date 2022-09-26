@@ -1,4 +1,5 @@
 #!/bin/sh
+. $(realpath common.sh)
 BASEDIR=source-Osmocom
 
 # How to add a new project:
@@ -57,7 +58,7 @@ for proj in $PROJECTS $PROJECTS_DONT_BUILD_TEST; do
 			git -C "$proj" clean -ffxd
 		fi
 	else
-		git clone https://git.osmocom.org/$proj
+		git clone "$(osmo_git_clone_url "$proj")"
 	fi
 done
 
