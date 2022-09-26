@@ -5,7 +5,7 @@
     disabled: false
     description: |
         Run the a testsuite from
-        <a href="https://git.osmocom.org/docker-playground/">
+        <a href="https://gitea.osmocom.org/osmocom/docker-playground">
           docker-playground.git</a>.<br>
         If this job ends in <code>-latest</code>, the job runs the latest
         stable versions of the Osmocom stack. Otherwise the nightly builds.<br>

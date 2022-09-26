@@ -61,7 +61,7 @@
           description: |
                 Version of the Osmocom stack to test against the kernel. Either
                 <code>latest</code> for the latest release version, or
-                <code>master</code> for HEAD of git.osmocom.org.
+                <code>master</code> for HEAD of Osmocom git repositories.
           default: 'latest'
       - string:
           name: BRANCH

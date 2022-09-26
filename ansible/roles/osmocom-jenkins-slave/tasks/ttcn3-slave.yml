@@ -11,7 +11,7 @@
   become: yes
   become_user: "{{ jenkins_user }}"
   git:
-    repo: "https://git.osmocom.org/docker-playground"
+    repo: "https://gerrit.osmocom.org/docker-playground"
     dest: "/home/{{ jenkins_user }}/jenkins/docker-playground"
 
 - name: add apt.key

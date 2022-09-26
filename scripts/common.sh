@@ -155,7 +155,7 @@ docker_images_require() {
 		if [ -d "_docker_playground" ]; then
 			git -C _docker_playground fetch
 		else
-			git clone https://git.osmocom.org/docker-playground/ _docker_playground
+			git clone https://gerrit.osmocom.org/docker-playground/ _docker_playground
 		fi
 
 		cd _docker_playground

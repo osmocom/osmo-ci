@@ -16,7 +16,7 @@ case "$1" in
 	version="origin/master"
 	;;
     oct)
-	uri="https://git.osmocom.org/octphy-2g-headers"
+	uri="https://gitea.osmocom.org/cellular-infrastructure/octphy-2g-headers"
 	version_prefix=""
 	version="origin/master"
 	;;

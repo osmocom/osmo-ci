@@ -18,7 +18,7 @@
       become: yes
       become_user: "jenkins"
       git:
-        repo: "https://git.osmocom.org/osmo-ci"
+        repo: "https://gerrit.osmocom.org/osmo-ci"
         dest: "/home/jenkins/osmo-ci"
   roles:
     - name: gsm-tester

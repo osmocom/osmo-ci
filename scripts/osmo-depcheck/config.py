@@ -2,7 +2,7 @@
 # Copyright 2018 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 
 # Where to clone sources from (with trailing slash)
-git_url_prefix = "https://git.osmocom.org/"
+git_url_prefix = "https://gerrit.osmocom.org/"
 
 # Default projects to build when none are specified on the command line
 projects = ("osmo-bts",
