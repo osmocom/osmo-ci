@@ -45,7 +45,7 @@ PROJECTS_DONT_BUILD_TEST="
   asn1c
 "
 
-[ -d $BASEDIR ] || mkdir -p $BASEDIR
+mkdir -p $BASEDIR
 cd $BASEDIR
 
 for proj in $PROJECTS $PROJECTS_DONT_BUILD_TEST; do
