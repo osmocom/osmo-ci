@@ -36,7 +36,7 @@ def clone(project, fetch=False):
 
     print(f"{project}: cloning {url}")
     os.makedirs(lib.config.path_cache, exist_ok=True)
-    lib.run_cmd(["git", "clone", "--depth", "1", "--no-single-branch", url, repo_path])
+    lib.run_cmd(["git", "clone", url, repo_path])
 
     lib.run_cmd(["git", "config", "user.name", "Osmocom OBS scripts"],
                 cwd=repo_path)
