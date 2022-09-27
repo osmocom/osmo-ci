@@ -12,8 +12,13 @@ RUN	useradd --uid=${UID} -m user
 # build recipe. For rpm-based distributions, there is no build-essential or
 # similar package. Instead add relevant packages from prjconf, e.g.:
 # https://build.opensuse.org/projects/CentOS:CentOS-8/prjconf
+# For debian, make sure we don't have man pages as otherwise it takes some time
+# to regenerate the manuals database when installing build dependencies.
 RUN	case "$DISTRO" in \
 	debian*) \
+		echo "path-exclude=/usr/share/man/*" \
+			> /etc/dpkg/dpkg.cfg.d/exclude-man-pages && \
+		rm -rf /usr/share/man/ && \
 		apt-get update && \
 		apt-get install -y --no-install-recommends \
 			build-essential \
