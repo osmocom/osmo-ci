@@ -14,7 +14,11 @@ def get_image_name(distro, image_type):
     return ret
 
 
-def get_distro_from(distro):
+def get_distro_from(distro, image_type):
+    # Manuals: depend on regular image (data/build_binpkg_manuals.Dockerfile)
+    if image_type.endswith("_manuals"):
+        return get_image_name(distro, image_type.replace("_manuals", ""))
+
     # CentOS 8 is EOL (SYS#5818)
     if distro == "centos:8":
         return "almalinux:8"
@@ -24,7 +28,7 @@ def get_distro_from(distro):
 
 def build_image(distro, image_type):
     image_name = get_image_name(distro, image_type)
-    distro_from = get_distro_from(distro)
+    distro_from = get_distro_from(distro, image_type)
 
     print(f"docker: building image {image_name}")
 
@@ -75,10 +79,15 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
     if add_oscrc:
         oscrc = get_oscrc()
 
-    # Build the docker image. Unless it is up-to-date, this will take a few
+    # Unless the docker image is up-to-date, building will take a few
     # minutes or so, therefore print the output. No need to restore
     # set_cmds_verbose, as we use subprocess.run() below and exit afterwards.
     lib.set_cmds_verbose(True)
+
+    # Manuals: build regular image first (data/build_binpkg_manuals.Dockerfile)
+    if image_type.endswith("_manuals"):
+        build_image(distro, image_type.replace("_manuals",""))
+
     build_image(distro, image_type)
 
     cmd = ["docker", "run",

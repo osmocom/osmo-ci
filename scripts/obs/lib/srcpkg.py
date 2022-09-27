@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
+import glob
 import os
 import pathlib
 import lib.config
@@ -173,3 +174,18 @@ def build(project, feed, branch, conflict_version, fetch, gerrit_id=0):
 
     lib.remove_cache_extra_files()
     return version_epoch
+
+
+def requires_osmo_gsm_manuals_dev(project):
+    """ Check if an already built source package has osmo-gsm-manuals-dev in
+        Build-Depends of the .dsc file """
+    path_dsc = glob.glob(f"{lib.get_output_path(project)}/*.dsc")
+    assert len(path_dsc) == 1, f"failed to get dsc path for {project}"
+
+    with open(path_dsc[0], "r") as handle:
+        for line in handle.readlines():
+            if line.startswith("Build-Depends:") \
+                    and "osmo-gsm-manuals-dev" in line:
+                return True
+
+    return False

@@ -59,9 +59,17 @@ def main():
         script_path = "data/build_rpm.sh"
 
     if args.docker:
+        image_type = "build_binpkg"
+
+        # Optimization: use docker container with osmo-gsm-manuals-dev already
+        # installed if it is in build depends
+        if distro.startswith("debian:") \
+                and lib.srcpkg.requires_osmo_gsm_manuals_dev(args.package):
+            image_type += "_manuals"
+
         env["BUILDUSER"] = "user"
         lib.docker.run_in_docker_and_exit(script_path,
-                                          image_type="build_binpkg",
+                                          image_type=image_type,
                                           distro=distro,
                                           pass_argv=False, env=env)
     else:
