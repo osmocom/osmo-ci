@@ -20,7 +20,7 @@ def build_image(distro, image_type):
     lib.run_cmd(["docker", "build",
                  "--build-arg", f"DISTRO={distro}",
                  "--build-arg", f"UID={os.getuid()}",
-                 "-t", get_image_name(distro, image_type),
+                 "-t", image_name,
                  "-f", f"{lib.config.path_top}/data/{image_type}.Dockerfile",
                  f"{lib.config.path_top}/data"])
 
