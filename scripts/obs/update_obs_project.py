@@ -202,7 +202,7 @@ def main():
     lib.set_cmds_verbose(args.verbose)
 
     if args.docker:
-        lib.docker.run_in_docker_and_exit(__file__, args, True)
+        lib.docker.run_in_docker_and_exit(__file__, True)
 
     lib.osc.check_proj(proj)
     lib.osc.check_oscrc()

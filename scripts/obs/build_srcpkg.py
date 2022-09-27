@@ -31,7 +31,7 @@ def main():
     lib.set_cmds_verbose(args.verbose)
 
     if args.docker:
-        lib.docker.run_in_docker_and_exit(__file__, args)
+        lib.docker.run_in_docker_and_exit(__file__)
 
     if not args.ignore_req:
         lib.check_required_programs()

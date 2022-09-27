@@ -28,7 +28,7 @@ def get_oscrc():
     exit(1)
 
 
-def run_in_docker_and_exit(script_path, args, add_oscrc=False):
+def run_in_docker_and_exit(script_path, add_oscrc=False):
     if "INSIDE_DOCKER" in os.environ:
         return
 
@@ -41,10 +41,10 @@ def run_in_docker_and_exit(script_path, args, add_oscrc=False):
         oscrc = get_oscrc()
 
     # Build the docker image. Unless it is up-to-date, this will take a few
-    # minutes or so, therefore print the output.
+    # minutes or so, therefore print the output. No need to restore
+    # set_cmds_verbose, as we use subprocess.run() below and exit afterwards.
     lib.set_cmds_verbose(True)
     build_image()
-    lib.set_cmds_verbose(args.verbose)
 
     cmd = ["docker", "run",
            "--rm",
