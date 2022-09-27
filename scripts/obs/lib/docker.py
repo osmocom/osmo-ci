@@ -40,7 +40,7 @@ def get_oscrc():
 def run_in_docker_and_exit(script_path, add_oscrc=False,
                            image_type="build_srcpkg", distro=None):
     """
-    :param script_path: what to run inside docker
+    :param script_path: what to run inside docker, relative to scripts/obs/
     :param add_oscrc: put user's oscrc in docker (contains obs credentials!)
     :param image_type: which Dockerfile to use (data/{image_type}.Dockerfile)
     :param distro: which Linux distribution to use, e.g. "debian:11"
@@ -75,9 +75,8 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
     if oscrc:
         cmd += ["-v", f"{oscrc}:/home/user/.oscrc"]
 
-    script_path = f"/obs/{os.path.basename(script_path)}"
-    cmd += [image_name, script_path] + sys.argv[1:]
+    cmd += [image_name, f"/obs/{script_path}"] + sys.argv[1:]
 
-    print(f"docker: running: {os.path.basename(script_path)} inside docker")
+    print(f"docker: running: {script_path} inside docker")
     ret = subprocess.run(cmd)
     exit(ret.returncode)

@@ -31,7 +31,7 @@ def main():
     lib.set_cmds_verbose(args.verbose)
 
     if args.docker:
-        lib.docker.run_in_docker_and_exit(__file__)
+        lib.docker.run_in_docker_and_exit("build_srcpkg.py")
 
     if not args.ignore_req:
         lib.check_required_programs()
