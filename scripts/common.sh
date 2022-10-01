@@ -123,6 +123,9 @@ osmo_git_clone_url() {
 		rtl-sdr|osmo-fl2k|libosmo-dsp|libusrp)
 			echo "$OSMO_GIT_URL_GITEA"/sdr/"$1"
 			;;
+		osmo-gmr)
+			echo "$OSMO_GIT_URL_GITEA"/satellite/"$1"
+			;;
 		*)
 			echo "$OSMO_GIT_URL_GERRIT"/"$1"
 			;;
