@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -xe
 . $(realpath common.sh)
 BASEDIR=source-Osmocom
 
