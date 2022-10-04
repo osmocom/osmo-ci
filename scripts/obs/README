@@ -1,3 +1,22 @@
+Overview
+========
+This directory contains the following scripts, related to building Osmocom
+projects in OBS (Open Build Service) and building binary packages. Here is an
+overview of the scripts, run them with -h to get a more detailed description.
+
+* build_srcpkg.py: build one source package for an Osmocom project
+* update_obs_project.py: generate source packages and upload them to OBS
+* build_binpkg.py: build rpm/deb packages for one Osmocom project
+
+Docker
+------
+The above scripts have a -d parameter, that allows running them inside docker.
+This is how we run it in jenkins to avoid installing dependencies on the host.
+
+Note that when building binary packages, libosmocore socket tests and possibly
+others will fail unless docker has ipv6 configured:
+https://osmocom.org/issues/4700#note-3
+
 Usage Example: Submitting source packages to Osmocom's OBS build server
 =======================================================================
 
