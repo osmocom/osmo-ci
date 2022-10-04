@@ -65,7 +65,7 @@ done
 # We want to compile tests, but not execute them.  Using 'noinst_PROGRAMS'
 # instead of 'check_PROGRAMS' allows building test binaries during 'make all'.
 for proj in $PROJECTS; do
-	files="$(git -C $proj grep -l check_PROGRAMS)"
+	files="$(git -C $proj grep -l check_PROGRAMS)" || true
 	if [ -n "$files" ]; then
 		(cd $proj && sed -i "s/check_PROGRAMS/noinst_PROGRAMS/" $files)
 	fi
