@@ -39,9 +39,8 @@ feeds = [
 # Osmocom projects: generated source packages will depend on a meta package,
 # such as osmocom-nightly, osmocom-latest or osmocom-2022q1. This meta package
 # prevents that packages from different feeds are mixed by accident.
-# NOTE: Before adding new projects, make sure the rpm and deb build in OBS!
-#       Test it in your own namespace (home:youruser), see README for
-#       instructions and/or ask osmith for help.
+# NOTE: Before adding new projects, add them to jobs/gerrit-verifications.yml
+#       and ensure the rpm and deb packages build successfully in jenkins.
 projects_osmocom = [
     "erlang/osmo_dia2gsup",
     "libasn1c",
