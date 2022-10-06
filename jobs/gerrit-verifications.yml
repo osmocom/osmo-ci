@@ -64,6 +64,8 @@
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
+    # Which jobs to run in the pipeline
+    pipeline_build: true
 
     # in alphabetical order
     repos:
@@ -307,6 +309,11 @@
 - job-template:
     name: 'gerrit-{repos}'
     project-type: pipeline
+    parameters:
+      - bool:
+          name: PIPELINE_BUILD
+          description: Enable the build job (runs contrib/jenkins.sh)
+          default: '{obj:pipeline_build}'
     dsl: |
       pipeline {{
         agent {{ label "osmocom-gerrit" }}
@@ -314,6 +321,9 @@
           stage("Verification") {{
             parallel {{
               stage("Build") {{
+                when {{
+                  expression {{ params.PIPELINE_BUILD }}
+                }}
                 steps {{
                   script {{
                     // Run the build job for this repository and keep going on failure
