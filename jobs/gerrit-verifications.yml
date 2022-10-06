@@ -1,5 +1,22 @@
 # This file holds all gerrit build verifications https://jenkins.osmocom.org/jenkins/view/Jenkins-Gerrit/.
-# One cane simply add a gerrit job by adding project's repository to repos list.
+# One can simply add a gerrit job by adding project's repository to repos list.
+#
+# How it works:
+# * Two jobs get added for each repository:
+#   gerrit-{repos}
+#   gerrit-{repos}-build
+# * The gerrit-{repos} job is a pipeline that runs the gerrit-{repos}-build job
+#   and other jobs (linting, building debian packages, ...). The purpose of
+#   this job is to reduce the amount of comments (and resulting mails) in
+#   gerrit coming from the jenkins build verification. If each job ran
+#   separately without this pipeline job, they would each generate mails.
+#   The gerrit-{repos} job gets triggered from gerrit whenever a new patch to
+#   test is available. It passes the GERRIT_BRANCH and GERRIT_REFSPEC variables
+#   from gerrit to the jobs called in the pipeline.
+# * The gerrit-{repos}-build job runs contrib/jenkins.sh in docker in a matrix.
+#   By default the matrix results in only one job, however for some projects we
+#   use the matrix to build for multiple CPU architectures (x86_64, arm) or use
+#   it to build multiple configurations of the same project (see osmo-bts).
 
 - project:
     name: gerrit
@@ -285,9 +302,96 @@
 
     jobs:
       - 'gerrit-{repos}'
+      - 'gerrit-{repos}-build'
 
 - job-template:
     name: 'gerrit-{repos}'
+    project-type: pipeline
+    dsl: |
+      pipeline {{
+        agent {{ label "osmocom-gerrit" }}
+        stages {{
+          stage("Verification") {{
+            parallel {{
+              stage("Build") {{
+                steps {{
+                  script {{
+                    // Run the build job for this repository and keep going on failure
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
+                      env.PIPELINE_BUILD_PASSED = "0"
+                      build job: 'gerrit-{repos}-build', parameters: [
+                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+                      ]
+                      env.PIPELINE_BUILD_PASSED = "1"
+                    }}
+                  }}
+                }}
+              }}
+            }}
+          }}
+          stage("Result") {{
+            steps {{
+              echo "PIPELINE_BUILD_PASSED=${{env.PIPELINE_BUILD_PASSED}}"
+            }}
+          }}
+          // The end result is success if all started jobs were successful,
+          // and failed otherwise.
+        }}
+      }}
+    disabled: '{obj:disabled}'
+    retry-count: 3 # scm checkout
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+          artifact-days-to-keep: -1
+          artifact-num-to-keep: -1
+    description: |
+      Pipeline of CI for patches sent to
+      <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>
+      <br/><br/>
+      <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
+
+    scm:
+      - git:
+         url: '{obj:repos_url}'
+         credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+         branches:
+           - $GERRIT_BRANCH
+         refspec: $GERRIT_REFSPEC
+         name:
+         choosing-strategy: gerrit
+         wipe-workspace: false
+         skip-tag: true
+         submodule:
+           recursive: true
+
+    triggers:
+      - gerrit:
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: true
+                exclude-no-code-change: true
+          projects:
+            - project-compare-type: 'PLAIN'
+              project-pattern: '{obj:gerrit_project}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**'
+          skip-vote:
+              successful: false
+              failed: false
+              unstable: false
+              notbuilt: false
+          silent: false
+          escape-quotes: false
+          no-name-and-email: false
+          trigger-for-unreviewed-patches: true
+          server-name: gerrit.osmocom.org
+
+- job-template:
+    name: 'gerrit-{repos}-build'
     project-type: matrix
     node: '{node}'
     concurrent: '{obj:concurrent}'
@@ -300,7 +404,7 @@
           artifact-days-to-keep: -1
           artifact-num-to-keep: -1
     description: |
-      Pending gerrit code reviews of
+      Build job of CI for patches sent to
       <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>
       <br/><br/>
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
@@ -345,28 +449,13 @@
          submodule:
            recursive: true
 
-    triggers:
-      - gerrit:
-          trigger-on:
-            - patchset-created-event:
-                exclude-drafts: true
-                exclude-no-code-change: true
-          projects:
-            - project-compare-type: 'PLAIN'
-              project-pattern: '{obj:gerrit_project}'
-              branches:
-                - branch-compare-type: 'ANT'
-                  branch-pattern: '**'
-          skip-vote:
-              successful: false
-              failed: false
-              unstable: false
-              notbuilt: false
-          silent: false
-          escape-quotes: false
-          no-name-and-email: false
-          trigger-for-unreviewed-patches: true
-          server-name: gerrit.osmocom.org
+    parameters:
+      - string:
+          name: GERRIT_BRANCH
+          description: set by gerrit-{repos} job
+      - string:
+          name: GERRIT_REFSPEC
+          description: set by gerrit-{repos} job
 
     builders:
       - shell: '{obj:cmd}'
