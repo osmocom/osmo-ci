@@ -66,11 +66,16 @@
     gerrit_project: '{repos}'
     # Which jobs to run in the pipeline
     pipeline_build: true
+    pipeline_lint: true
 
     # in alphabetical order
     repos:
       - asn1c
       - cellmgr-ng
+
+      - docker-playground:
+          pipeline_build: false
+
       - libasn1c
       - libgtpnl
       - libosmo-abis
@@ -300,7 +305,8 @@
                 su build -c 'make compile';
                 "
 
-      - dahdi-tools
+      - dahdi-tools:
+          pipeline_lint: false
 
     jobs:
       - 'gerrit-{repos}'
@@ -314,6 +320,14 @@
           name: PIPELINE_BUILD
           description: Enable the build job (runs contrib/jenkins.sh)
           default: '{obj:pipeline_build}'
+      - bool:
+          name: PIPELINE_LINT
+          description: Enable the lint job
+          default: '{obj:pipeline_lint}'
+      - string:
+          name: REPO_URL
+          description: Clone URL, to be passed to jobs started in the pipeline
+          default: '{obj:repos_url}'
     dsl: |
       pipeline {{
         agent {{ label "osmocom-gerrit" }}
@@ -338,11 +352,34 @@
                   }}
                 }}
               }}
+              stage("Lint") {{
+                when {{
+                  expression {{ params.PIPELINE_LINT }}
+                }}
+                steps {{
+                  script {{
+                    // Run the lint job for this repository and keep going on failure
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
+                      env.PIPELINE_LINT_PASSED = "0"
+                      build job: 'gerrit-lint', parameters: [
+                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+                        string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
+                        string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
+                        string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
+                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+                        string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
+                      ]
+                      env.PIPELINE_LINT_PASSED = "1"
+                    }}
+                  }}
+                }}
+              }}
             }}
           }}
           stage("Result") {{
             steps {{
               echo "PIPELINE_BUILD_PASSED=${{env.PIPELINE_BUILD_PASSED}}"
+              echo "PIPELINE_LINT_PASSED=${{env.PIPELINE_LINT_PASSED}}"
             }}
           }}
           // The end result is success if all started jobs were successful,

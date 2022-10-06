@@ -1,99 +1,17 @@
 # This file holds all gerrit lint verifications https://jenkins.osmocom.org/jenkins/view/Jenkins-Gerrit/.
-# One can simply add a gerrit job by adding project's repository to repos list.
+# Add project's repositories to jobs/gerrit-verifications.yml. When
+# pipeline_lint is set for that project, the pipeline will call the gerrit-lint
+# job for it.
 
 - project:
     name: gerrit-lint
-    # following default values can be overridden by each repo
-    disabled: false
-    gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
-    repos_url: '{gerrit_url}/{repos}'
-    gerrit_project: '{repos}'
-
-    # in alphabetical order
-    repos:
-      - asn1c
-      - cellmgr-ng
-      - docker-playground
-      - libasn1c
-      - libgtpnl
-      - libosmo-abis
-      - libosmo-gprs
-      - libosmo-netif
-      - libosmo-pfcp
-      - libosmo-sccp
-      - libosmocore
-      - libsmpp34
-      - libtelnet
-      - libusrp
-      - openbsc
-      - openggsn
-      - osmo-bsc
-      - osmo-bsc-nat
-      - osmo-bts
-      - osmo-hnodeb
-      - osmo-hnbgw
-      - osmo-upf
-      - osmo-ci
-
-      - osmo_dia2gsup:
-          repos_url: '{gerrit_url}/erlang/{repos}'
-          gerrit_project: 'erlang/{repos}'
-
-      - osmo-e1-hardware
-      - osmo-ggsn
-      - osmo-gsm-manuals
-
-      - osmo_gsup:
-          repos_url: '{gerrit_url}/erlang/{repos}'
-          gerrit_project: 'erlang/{repos}'
-
-      - osmo-hlr
-      - osmo-iuh
-      - osmo-mgw
-      - osmo-msc
-      - osmo-pcap
-      - osmo-pcu
-
-      - osmo-python-tests:
-          repos_url: '{gerrit_url}/python/{repos}'
-          gerrit_project: 'python/{repos}'
-
-      - osmo-sgsn
-
-      - osmo_ss7:
-          repos_url: '{gerrit_url}/erlang/{repos}'
-          gerrit_project: 'erlang/{repos}'
-
-      - osmo-sip-connector
-      - osmo-trx
-      - osmocom-bb
-      - osmo-tetra
-      - osmo-sysmon
-      - osmo-remsim
-      - simtrace2
-      - osmo-asf4-dfu
-      - osmo-ccid-firmware
-      - osmo-e1d
-      - osmo-cbc
-      - osmo-e1-recorder
-      - gapk
-      - osmo-uecups
-      - osmo-el2tpd
-      - osmo-smlc
-      - osmo-gbproxy
-      - pysim
-
-      - osmo-ttcn3-hacks:
-          repos_url: 'https://gerrit.osmocom.org/{repos}'
-
     jobs:
-      - 'gerrit-{repos}-lint'
+      - 'gerrit-lint'
 
-- job-template:
-    name: 'gerrit-{repos}-lint'
+- job:
+    name: 'gerrit-lint'
     project-type: freestyle
     node: osmocom-gerrit-debian9
-    disabled: '{obj:disabled}'
     retry-count: 3 # scm checkout
     properties:
       - build-discarder:
@@ -102,8 +20,7 @@
           artifact-days-to-keep: -1
           artifact-num-to-keep: -1
     description: |
-      Run linting on patches submitted to gerrit for
-      <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>
+      Lint job of CI for patches sent to <a href="https://gerrit.osmocom.org">gerrit</a>.
       </br></br>
       Related issue: <a href="https://osmocom.org/issues/5087">OS#5087</a>
 
@@ -113,11 +30,29 @@
           description: |
                 osmo-ci.git branch
           default: 'master'
+      - string:
+          name: GERRIT_BRANCH
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_HOST
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_PATCHSET_REVISION
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_PORT
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_REFSPEC
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_REPO_URL
+          description: set by gerrit verification pipeline job
 
     scm:
       - git:
          basedir: 'code-from-gerrit'
-         url: '{obj:repos_url}'
+         url: '$GERRIT_REPO_URL'
          credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
          branches:
            - $GERRIT_BRANCH
@@ -130,34 +65,11 @@
            recursive: false
       - git:
          basedir: 'osmo-ci'
-         url: '{gerrit_url}/osmo-ci'
+         url: 'https://gerrit.osmocom.org/osmo-ci'
          credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
          branches:
            - '$BRANCH_CI'
          wipe-workspace: true
-
-    triggers:
-      - gerrit:
-          trigger-on:
-            - patchset-created-event:
-                exclude-drafts: true
-                exclude-no-code-change: true
-          projects:
-            - project-compare-type: 'PLAIN'
-              project-pattern: '{obj:gerrit_project}'
-              branches:
-                - branch-compare-type: 'ANT'
-                  branch-pattern: '**'
-          skip-vote:
-              successful: false
-              failed: false
-              unstable: false
-              notbuilt: false
-          silent: false
-          escape-quotes: false
-          no-name-and-email: false
-          trigger-for-unreviewed-patches: true
-          server-name: gerrit.osmocom.org
 
     builders:
       - shell: 'cd code-from-gerrit && ../osmo-ci/lint/lint_diff.sh HEAD~1'
