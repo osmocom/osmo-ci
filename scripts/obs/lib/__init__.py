@@ -78,11 +78,16 @@ def check_required_programs():
         exit(1)
 
 
-def check_package(package):
+def set_proper_package_name(package):
     if package in lib.config.projects_osmocom:
-        return
+        return package
     if package in lib.config.projects_other:
-        return
+        return package
+
+    # Add prefix to Osmocom package if missing
+    for package_cfg in lib.config.projects_osmocom:
+        if os.path.basename(package_cfg) == package:
+            return package_cfg
 
     print(f"ERROR: unknown package: {package}")
     print("See packages_osmocom and packages_other in obs/lib/config.py")

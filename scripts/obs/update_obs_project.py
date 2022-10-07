@@ -20,13 +20,13 @@ srcpkgs_updated = []  # list of pkgnames
 
 
 def parse_packages(packages_arg):
+    ret = []
     if packages_arg:
         for package in packages_arg:
-            lib.check_package(package)
-        return packages_arg
+            ret += [lib.set_proper_package_name(package)]
+        return ret
 
     # Default to all
-    ret = []
     ret += lib.config.projects_osmocom
     ret += lib.config.projects_other
     return ret
