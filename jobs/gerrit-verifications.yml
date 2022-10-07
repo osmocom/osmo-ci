@@ -67,14 +67,18 @@
     # Which jobs to run in the pipeline
     pipeline_build: true
     pipeline_lint: true
+    pipeline_binpkgs: true
 
     # in alphabetical order
     repos:
-      - asn1c
+      - asn1c:
+          pipeline_binpkgs: false
+
       - cellmgr-ng
 
       - docker-playground:
           pipeline_build: false
+          pipeline_binpkgs: false
 
       - libasn1c
       - libgtpnl
@@ -91,7 +95,10 @@
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
 
       - libsmpp34
-      - libtelnet
+
+      - libtelnet:
+          pipeline_binpkgs: false
+
       - libusrp
 
       - openbsc:
@@ -152,6 +159,7 @@
       - osmo-e1-hardware:
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
+          pipeline_binpkgs: false
 
       - osmo-ggsn:
           a1_name: GTP
@@ -173,6 +181,7 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          pipeline_binpkgs: false
 
       - osmo-hlr
       - osmo-iuh
@@ -242,6 +251,7 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          pipeline_binpkgs: false
 
       - osmo-sip-connector
 
@@ -262,22 +272,41 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
-      - osmocom-bb
-      - osmo-tetra
+      - osmocom-bb:
+          pipeline_binpkgs: false
+
+      - osmo-tetra:
+          pipeline_binpkgs: false
+
       - osmo-sysmon
       - osmo-remsim
       - simtrace2
+
       - osmo-opencm3-projects:
           docker_img: '$USER/debian-bullseye-jenkins'
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
-      - osmo-asf4-dfu
-      - osmo-ccid-firmware
+          pipeline_binpkgs: false
+
+      - osmo-asf4-dfu:
+          pipeline_binpkgs: false
+
+      - osmo-ccid-firmware:
+          pipeline_binpkgs: false
+
       - osmo-e1d
       - osmo-cbc
-      - osmo-e1-recorder
-      - gapk
+
+      - osmo-e1-recorder:
+          pipeline_binpkgs: false
+
+      - gapk:
+          pipeline_binpkgs: false
+
       - osmo-uecups
-      - osmo-el2tpd
+
+      - osmo-el2tpd:
+          pipeline_binpkgs: false
+
       - osmo-smlc
       - osmo-gbproxy
       - osmo-hnodeb
@@ -288,6 +317,7 @@
           slave_axis: !!python/tuple [simtester]
           concurrent: false
           cmd: '{timeout_cmd} ./contrib/jenkins.sh'
+          pipeline_binpkgs: false
 
       - osmo-ttcn3-hacks:
           slave_axis: !!python/tuple [ttcn3]
@@ -304,9 +334,11 @@
                 su build -c 'make clean';
                 su build -c 'make compile';
                 "
+          pipeline_binpkgs: false
 
       - dahdi-tools:
           pipeline_lint: false
+          pipeline_binpkgs: false
 
     jobs:
       - 'gerrit-{repos}'
@@ -328,6 +360,10 @@
           name: REPO_URL
           description: Clone URL, to be passed to jobs started in the pipeline
           default: '{obj:repos_url}'
+      - bool:
+          name: PIPELINE_BINPKGS
+          description: Enable the binpkgs job (build deb/rpm packages)
+          default: '{obj:pipeline_binpkgs}'
     dsl: |
       pipeline {{
         agent {{ label "osmocom-gerrit" }}
@@ -374,12 +410,54 @@
                   }}
                 }}
               }}
+              stage("deb") {{
+                when {{
+                  expression {{ params.PIPELINE_BINPKGS }}
+                }}
+                steps {{
+                  script {{
+                    // Run the binpkgs job for this repository and keep going on failure
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
+                        env.PIPELINE_DEB_PASSED = "0"
+                        build job: 'gerrit-binpkgs-deb', parameters: [
+                          string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+                          string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+                          string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
+                          string(name: "PROJECT_NAME", value: "{repos}"),
+                        ]
+                        env.PIPELINE_DEB_PASSED = "1"
+                    }}
+                  }}
+                }}
+              }}
+              stage("rpm") {{
+                  when {{
+                    expression {{ params.PIPELINE_BINPKGS }}
+                  }}
+                  steps {{
+                    script {{
+                      // Run the binpkgs job for this repository and keep going on failure
+                      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
+                        env.PIPELINE_RPM_PASSED = "0"
+                        build job: 'gerrit-binpkgs-rpm', parameters: [
+                          string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+                          string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+                          string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
+                          string(name: "PROJECT_NAME", value: "{repos}"),
+                        ]
+                        env.PIPELINE_RPM_PASSED = "1"
+                    }}
+                  }}
+                }}
+              }}
             }}
           }}
           stage("Result") {{
             steps {{
               echo "PIPELINE_BUILD_PASSED=${{env.PIPELINE_BUILD_PASSED}}"
               echo "PIPELINE_LINT_PASSED=${{env.PIPELINE_LINT_PASSED}}"
+              echo "PIPELINE_DEB_PASSED=${{env.PIPELINE_DEB_PASSED}}"
+              echo "PIPELINE_RPM_PASSED=${{env.PIPELINE_RPM_PASSED}}"
             }}
           }}
           // The end result is success if all started jobs were successful,
