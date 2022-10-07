@@ -458,6 +458,19 @@
               echo "PIPELINE_LINT_PASSED=${{env.PIPELINE_LINT_PASSED}}"
               echo "PIPELINE_DEB_PASSED=${{env.PIPELINE_DEB_PASSED}}"
               echo "PIPELINE_RPM_PASSED=${{env.PIPELINE_RPM_PASSED}}"
+
+              // Run the result job to get successful/failed links and add a
+              // comment + vote to gerrit
+              script {{
+               build job: 'gerrit-pipeline-result', parameters: [
+                 string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+                 string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
+                 string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
+                 string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
+                 string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+                 string(name: "PIPELINE_BUILD_URL", value: "${{env.BUILD_URL}}"),
+               ]
+              }}
             }}
           }}
           // The end result is success if all started jobs were successful,
@@ -509,7 +522,7 @@
               failed: false
               unstable: false
               notbuilt: false
-          silent: false
+          silent: true  # comment + vote is done in gerrit-pipeline-result.yml
           escape-quotes: false
           no-name-and-email: false
           trigger-for-unreviewed-patches: true

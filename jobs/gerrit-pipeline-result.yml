@@ -1,0 +1,68 @@
+# This job runs at the end of the pipeline in gerrit-verififactions.yml, to
+# post a list of failed/successful job links to gerrit and to vote +V/-V.
+
+- project:
+    name: gerrit-pipeline-result
+    jobs:
+      - 'gerrit-pipeline-result'
+
+- job:
+    name: 'gerrit-pipeline-result'
+    project-type: freestyle
+    node: osmocom-gerrit-debian10 || osmocom-gerrit-debian11
+    retry-count: 3 # scm checkout
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+          artifact-days-to-keep: -1
+          artifact-num-to-keep: -1
+    description: |
+      Result job of CI for patches sent to <a href="https://gerrit.osmocom.org">gerrit</a>.
+      </br></br>
+      Related issue: <a href="https://osmocom.org/issues/2385">OS#2385</a>
+
+    parameters:
+      - string:
+          name: BRANCH_CI
+          description: |
+                osmo-ci.git branch
+          default: 'master'
+      - string:
+          name: GERRIT_BRANCH
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_HOST
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_PATCHSET_REVISION
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_PORT
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_REFSPEC
+          description: set by gerrit verification pipeline job
+      - string:
+          name: PIPELINE_BUILD_URL
+          description: set by gerrit verification pipeline job
+
+    scm:
+      - git:
+         url: 'https://gerrit.osmocom.org/osmo-ci'
+         credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+         branches:
+           - '$BRANCH_CI'
+         wipe-workspace: true
+
+    builders:
+      - shell: 'cd scripts/jenkins-gerrit && ./pipeline_summary_send.sh'
+
+    wrappers:
+    - ansicolor:
+        colormap: xterm
+    - ssh-agent-credentials:
+        users:
+        - d5eda5e9-b59d-44ba-88d2-43473cb6e42d
+
+# vim: expandtab tabstop=2 shiftwidth=2
