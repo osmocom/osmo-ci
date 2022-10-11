@@ -166,6 +166,10 @@
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_binpkgs: false
 
+      - osmo-ci:
+          pipeline_build: false
+          pipeline_binpkgs: false
+
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
