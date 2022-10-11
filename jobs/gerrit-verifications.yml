@@ -534,8 +534,6 @@
               notbuilt: false
           silent: true  # comment + vote is done in gerrit-pipeline-result.yml
           escape-quotes: false
-          no-name-and-email: false
-          trigger-for-unreviewed-patches: true
           server-name: gerrit.osmocom.org
 
 - job-template:

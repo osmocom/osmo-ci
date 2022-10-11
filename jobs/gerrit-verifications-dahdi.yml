@@ -76,8 +76,6 @@
               notbuilt: false
           silent: false
           escape-quotes: false
-          no-name-and-email: false
-          trigger-for-unreviewed-patches: true
           server-name: gerrit.osmocom.org
 
     builders:
