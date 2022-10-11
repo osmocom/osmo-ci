@@ -14,6 +14,7 @@ RUN	useradd --uid=${UID} -m user
 # https://build.opensuse.org/projects/CentOS:CentOS-8/prjconf
 # For debian, make sure we don't have man pages as otherwise it takes some time
 # to regenerate the manuals database when installing build dependencies.
+# SYS#5818: using almalinux:8 instead of centos:8
 RUN	case "$DISTRO" in \
 	debian*) \
 		echo "path-exclude=/usr/share/man/*" \
@@ -29,7 +30,7 @@ RUN	case "$DISTRO" in \
 			&& \
 		apt-get clean \
 		;; \
-	centos*) \
+	almalinux*) \
 		dnf -y install \
 			autoconf \
 			automake \
@@ -58,7 +59,7 @@ RUN	case "$DISTRO" in \
 		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/Debian_11/ ./" \
 			> /etc/apt/sources.list.d/osmocom-master.list \
 		;; \
-	centos:8) \
+	almalinux:8) \
 		{ echo "[network_osmocom_master]"; \
 		  echo "name=Nightly packages of the Osmocom project (CentOS_8)"; \
 		  echo "type=rpm-md"; \

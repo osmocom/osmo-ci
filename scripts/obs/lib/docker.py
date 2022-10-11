@@ -19,10 +19,6 @@ def get_distro_from(distro, image_type):
     if image_type.endswith("_manuals"):
         return get_image_name(distro, image_type.replace("_manuals", ""))
 
-    # CentOS 8 is EOL (SYS#5818)
-    if distro == "centos:8":
-        return "almalinux:8"
-
     return distro
 
 
