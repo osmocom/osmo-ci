@@ -17,6 +17,11 @@
 #   By default the matrix results in only one job, however for some projects we
 #   use the matrix to build for multiple CPU architectures (x86_64, arm) or use
 #   it to build multiple configurations of the same project (see osmo-bts).
+#
+# NOTE: after updating the job with Jenkins Job Builder as usual, check if a
+# new pipeline script was generated and approve it here:
+# https://jenkins.osmocom.org/jenkins/scriptApproval/
+# This happens when changing the pipeline script, when adding new projects etc.
 
 - project:
     name: gerrit
@@ -364,6 +369,11 @@
           name: PIPELINE_BINPKGS
           description: Enable the binpkgs job (build deb/rpm packages)
           default: '{obj:pipeline_binpkgs}'
+    # NOTE: jenkins pipelines don't run unless the dsl-script was approved.
+    # Sadly this doesn't happen automatically when updating the job with
+    # Jenkins Job Builder. So if you change the pipeline script, update the job
+    # as usually with JJB and then approve the scripts here:
+    # https://jenkins.osmocom.org/jenkins/scriptApproval/
     dsl: |
       pipeline {{
         agent {{ label "osmocom-gerrit" }}
