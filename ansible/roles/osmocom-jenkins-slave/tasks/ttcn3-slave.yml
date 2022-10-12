@@ -15,12 +15,17 @@
     dest: "/home/{{ jenkins_user }}/jenkins/docker-playground"
 
 - name: add apt.key
-  apt_key:
+  get_url:
     url: https://obs.osmocom.org/projects/osmocom/public_key
+    dest: /etc/apt/trusted.gpg.d/obs.osmocom.org.asc
+    # OBS webserver needs this header, returns 404 otherwise
+    # https://github.com/ansible/ansible/issues/50436#issuecomment-451205256
+    headers:
+      Accept: '*/*'
 
 - name: add apt repository
   apt_repository:
-    repo: "deb https://downloads.osmocom.org/packages/osmocom:/latest/{{ obs_distro }}/ ./"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/obs.osmocom.org.asc] https://downloads.osmocom.org/packages/osmocom:/latest/{{ obs_distro }}/ ./"
     filename: obs_osmocom
     update_cache: yes
 
