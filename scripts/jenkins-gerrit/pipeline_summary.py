@@ -8,7 +8,7 @@ import re
 import urllib.request
 
 jenkins_url = "https://jenkins.osmocom.org"
-re_start_build = re.compile("Starting building: gerrit-[a-zA-Z-_]* #[0-9]*")
+re_start_build = re.compile("Starting building: gerrit-[a-zA-Z-_0-9]* #[0-9]*")
 re_result = re.compile("^PIPELINE_[A-Z]*_PASSED=[01]$")
 
 def parse_args():
