@@ -65,6 +65,10 @@ def parse_pipeline(build_url):
             # Parse result lines
             if re_result.match(line):
                 stage = line.split("_")[1].lower()
+                assert stage in ret, f"found result for stage {stage}, but" \
+                        " didn't find where it was started. The" \
+                        " re_start_build regex probably needs to be adjusted" \
+                        " to match the related gerrit-*-build job."
                 passed = line.split("=")[1].rstrip() == "1"
                 ret[stage]["passed"] = passed
 
