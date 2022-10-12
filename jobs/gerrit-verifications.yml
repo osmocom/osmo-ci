@@ -359,6 +359,7 @@
 - job-template:
     name: 'gerrit-{repos}'
     project-type: pipeline
+    concurrent: true
     parameters:
       - bool:
           name: PIPELINE_BUILD
