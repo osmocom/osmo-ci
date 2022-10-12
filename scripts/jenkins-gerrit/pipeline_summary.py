@@ -137,7 +137,8 @@ def get_pipeline_summary(build_url):
         :returns: a dict that is expected by gerrit's set-review api, e.g.
                   {"tag": "jenkins",
                    "message": "...",
-                   "labels": {"Code-Review": -1}} """
+                   "labels": {"Code-Review": -1},
+                   "notify": "OWNER"} """
     summary = ""
     pipeline = parse_pipeline(build_url)
 
@@ -164,15 +165,19 @@ def get_pipeline_summary(build_url):
     if jobs["failed"]:
         summary += "Build Failed\n"
         vote = -1
+        notify = "OWNER"
     else:
         summary += "Build Successful\n"
         vote = 1
+        notify = "NONE"
 
     # Reference:
     # https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#set-review
+    # https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-input
     return {"tag": "jenkins",
             "message": summary,
-            "labels": {"Verified": vote}}
+            "labels": {"Verified": vote},
+            "notify": notify}
 
 
 def main():
