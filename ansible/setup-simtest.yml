@@ -21,6 +21,26 @@
           - virtualenv
         install_recommends: no
 
+    - name: "pysim: get requirements.txt"
+      get_url:
+        url: https://gitea.osmocom.org/sim-card/pysim/raw/branch/master/requirements.txt
+        dest: /tmp/pysim_requirements.txt
+
+    - name: "pysim: install deps from requirements.txt"
+      pip:
+        executable: pip3
+        requirements: /tmp/pysim_requirements.txt
+
+    # https://gitea.osmocom.org/sim-card/pysim/src/branch/master/contrib/jenkins.sh
+    - name: "pysim: install other deps needed for contrib/jenkins.sh"
+      pip:
+        executable: pip3
+        name:
+          - "git+https://github.com/osmocom/sphinx-argparse@master#egg=sphinx-argparse"
+          - pylint
+          - sphinx
+          - sphinxcontrib-napoleon
+
   roles:
     - name: osmocom-jenkins-slave
       generic_slave: false
