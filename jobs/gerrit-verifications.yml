@@ -384,7 +384,7 @@
     # https://jenkins.osmocom.org/jenkins/scriptApproval/
     dsl: |
       pipeline {{
-        agent {{ label "osmocom-gerrit" }}
+        agent none
         stages {{
           stage("Verification") {{
             parallel {{
