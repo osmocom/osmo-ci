@@ -164,6 +164,8 @@ def get_pipeline_summary(build_url):
     summary += "\n"
     if jobs["failed"]:
         summary += "Build Failed\n"
+        summary += "\n"
+        summary += f"Find the Retrigger button here:\n{build_url}\n"
         vote = -1
         notify = "OWNER"
     else:
