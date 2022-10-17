@@ -1,5 +1,6 @@
 #!/bin/sh
 set -e -x
+WORKSPACE_DIR="$(realpath "$(dirname "$0")/..")"
 
 # Clone repository to ~/, or update existing
 # $1: name of osmocom project
@@ -12,12 +13,13 @@ clone_repo() {
 
 	git rev-parse HEAD
 	git status
+
+	cd "$WORKSPACE_DIR"
 }
 
 clone_repo osmo-ci
 clone_repo osmo-gsm-manuals
 
 if [ `uname` = "Linux" ] && [ "x${OSMO_CI_NO_DOCKER}" != "x1" ]; then
-	cd ~/osmo-ci
 	scripts/osmo-ci-docker-rebuild.sh
 fi
