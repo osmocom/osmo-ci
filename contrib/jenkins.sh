@@ -5,7 +5,18 @@ WORKSPACE_DIR="$(realpath "$(dirname "$0")/..")"
 # Clone repository to ~/, or update existing
 # $1: name of osmocom project
 clone_repo() {
-	cd ~/"$1" || (cd ~/ && git clone https://gerrit.osmocom.org/"$1" && cd ~/"$1")
+	local project="$1"
+	local url="https://gerrit.osmocom.org/$project"
+
+	if [ -d ~/"$project" ]; then
+		cd ~/"$project"
+		git remote set-url origin "$url"
+	else
+		cd ~
+		git clone "$url"
+		cd "$project"
+	fi
+
 	git rev-parse HEAD
 	git status
 
