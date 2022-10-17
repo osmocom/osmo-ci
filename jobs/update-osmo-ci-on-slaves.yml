@@ -30,6 +30,7 @@
           skip-tag: true
           branches:
             - 'origin/master'
+          wipe-workspace: true
 
     triggers:
       - pollscm:
