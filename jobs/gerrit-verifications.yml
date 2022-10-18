@@ -338,9 +338,26 @@
       - osmo-upf
 
       - pysim:
-          slave_axis: !!python/tuple [simtester]
           concurrent: false
-          cmd: '{timeout_cmd} ./contrib/jenkins.sh'
+          slave_axis: !!python/tuple [simtester,osmocom-master]
+          a2_name: JOB_TYPE
+          a2: !!python/tuple ["test", "pylint", "docs"]
+          combination_filter: >
+            (JOB_TYPE == "test" && label == "simtester") ||
+            (JOB_TYPE == "pylint" && label == "osmocom-master") ||
+            (JOB_TYPE == "docs" && label == "osmocom-master")
+          cmd: |
+            case "$JOB_TYPE" in
+            "test")
+              {timeout_cmd} ./contrib/jenkins.sh
+              ;;
+            *)
+              {docker_run} \
+                -e JOB_TYPE="$JOB_TYPE" \
+                {docker_img} \
+                  {timeout_cmd} /build/contrib/jenkins.sh
+              ;;
+            esac
           pipeline_binpkgs: false
 
       - osmo-ttcn3-hacks:
