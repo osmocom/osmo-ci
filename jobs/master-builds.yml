@@ -42,7 +42,8 @@
               -v "$ARTIFACT_STORE:/artifact_store" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
     docker_img: '$USER/debian-buster-jenkins'
-    cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh'
+    timeout_cmd: '/usr/bin/timeout 30m'
+    cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     wrappers: []
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
@@ -76,7 +77,7 @@
           git_base_url: https://gitea.osmocom.org/sdr
           cmd: |
             {docker_run} \
-              {docker_img} sh -ex -c \
+              {docker_img} {timeout_cmd} sh -ex -c \
                 'autoreconf -fi; \
                  ./configure; \
                  $MAKE $PARALLEL_MAKE; \
@@ -136,7 +137,7 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
           # Full triggers would be:
           # trigger: >
           #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp, master-openbsc,
@@ -203,7 +204,7 @@
               -e IU="$IU" \
               -e SMPP="$SMPP" \
               -e MGCP="$MGCP" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-bsc
       - osmo-bsc-nat
@@ -232,19 +233,19 @@
             {docker_run} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
+              {docker_img} {timeout_cmd} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
       - osmo-e1-hardware:
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
-          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
       - ice40-usbtrace:
           git_base_url: https://gitea.osmocom.org/electronics
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
-          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
       - no2bootloader:
           git_base_url: https://github.com/no2fpga
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
-          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de 246tnt@gmail.com
 
       - osmo-fl2k:
@@ -261,7 +262,7 @@
             {docker_run} \
               -e GTP="$GTP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
           trigger: master-osmo-sgsn
 
       - osmo-upf
@@ -274,7 +275,7 @@
           node: 'osmocom-master-debian9'
 
       - osmo-gsm-tester:
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins-build-manuals.sh'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins-build-manuals.sh'
 
       - osmo-hlr
 
@@ -304,7 +305,7 @@
             {docker_run} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-pcap
 
@@ -331,7 +332,7 @@
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-sgsn:
           a1_name: IU
@@ -345,7 +346,7 @@
             {docker_run} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-sip-connector:
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org holger@freyther.de
@@ -368,24 +369,24 @@
             {docker_run} \
               -e INSTR="$INSTR" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} /build/contrib/jenkins.sh
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmocom-bb
       - osmo-sysmon
       - osmo-remsim
       - osmo-asf4-dfu:
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org ewild@sysmocom.de
       - osmo-ccid-firmware:
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org ewild@sysmocom.de
       - simtrace2:
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
       - osmo-opencm3-projects:
           git_base_url: https://gitea.osmocom.org/electronics
           docker_img: '$USER/debian-bullseye-jenkins'
-          cmd: '{docker_run} {docker_img} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
 
       - osmo-e1d
@@ -406,11 +407,11 @@
       - pysim:
           concurrent: false
           slave_axis: !!python/tuple [simtester]
-          cmd: 'PUBLISH=1 WITH_MANUALS=1 /usr/bin/timeout 30m ./contrib/jenkins.sh'
+          cmd: 'PUBLISH=1 WITH_MANUALS=1 {timeout_cmd} ./contrib/jenkins.sh'
 
       - sysmo-usim-tool:
           concurrent: false
-          cmd: cd ./tests; ./run-tests
+          cmd: cd ./tests; {timeout_cmd} ./run-tests
           slave_axis: !!python/tuple [simtester]
           git_base_url: https://gitea.sysmocom.de/sysmocom
 
