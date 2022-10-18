@@ -156,6 +156,14 @@ def get_pipeline_summary(build_url):
     summary += f"{len(jobs['passed'])} passed:\n"
     summary += get_jobs_list_str(jobs["passed"])
 
+    if "build" in pipeline and "deb" in pipeline and "rpm" in pipeline and \
+            not pipeline["build"]["passed"] and pipeline["deb"]["passed"] \
+            and pipeline["rpm"]["passed"]:
+        summary += "\n"
+        summary += "The build job(s) failed, but deb/rpm jobs passed.\n"
+        summary += "We don't enable external/vty tests when building\n"
+        summary += "packages, so maybe those failed. Check the logs.\n"
+
     if "lint" in pipeline and not pipeline["lint"]["passed"]:
         summary += "\n"
         summary += "Please fix the linting errors. More information:\n"
