@@ -61,7 +61,7 @@ RUN	case "$DISTRO" in \
 		;; \
 	almalinux:8) \
 		{ echo "[network_osmocom_master]"; \
-		  echo "name=Nightly packages of the Osmocom project (CentOS_8)"; \
+		  echo "name=osmocom:master"; \
 		  echo "type=rpm-md"; \
 		  echo "baseurl=https://downloads.osmocom.org/packages/osmocom:/master/CentOS_8/"; \
 		  echo "gpgcheck=1"; \
