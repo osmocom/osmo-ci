@@ -1,0 +1,28 @@
+---
+- project:
+    name: Osmocom_OBS_check_builders
+    jobs:
+      - Osmocom_OBS_check_builders
+
+- job-template:
+    name: 'Osmocom_OBS_check_builders'
+    project-type: freestyle
+    defaults: global
+    description: |
+        Verify that the expected amount of builders are connected to
+        obs.osmocom.org.
+    builders:
+      - shell: |
+          scripts/obs/check_builders.sh
+    scm:
+      - git:
+          branches:
+            - 'origin/master'
+          url: https://gerrit.osmocom.org/osmo-ci
+    triggers:
+      - timed: "@hourly"
+    node: obs
+    publishers:
+       - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
