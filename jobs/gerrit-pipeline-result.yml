@@ -38,6 +38,9 @@
           name: GERRIT_PATCHSET_REVISION
           description: set by gerrit verification pipeline job
       - string:
+          name: GERRIT_PATCHSET_UPLOADER_NAME
+          description: set by gerrit verification pipeline job
+      - string:
           name: GERRIT_PORT
           description: set by gerrit verification pipeline job
       - string:

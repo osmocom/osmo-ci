@@ -19,6 +19,9 @@ def parse_args():
                         help="$BUILD_URL of the pipeline job, e.g."
                              " https://jenkins.osmocom.org/jenkins/job/gerrit-osmo-bsc-nat/17/")
     parser.add_argument("-o", "--output", help="output json file")
+    parser.add_argument("-n", "--notify-on-success", action="store_true",
+                        help="always indicate in json that the owner should be"
+                             " notified via mail, not only on failure")
     return parser.parse_args()
 
 
@@ -132,7 +135,7 @@ def get_jobs_list_str(jobs):
     return ret
 
 
-def get_pipeline_summary(build_url):
+def get_pipeline_summary(build_url, notify_on_success):
     """ Generate a summary of failed and successful builds for gerrit.
         :returns: a dict that is expected by gerrit's set-review api, e.g.
                   {"tag": "jenkins",
@@ -179,7 +182,7 @@ def get_pipeline_summary(build_url):
     else:
         summary += "Build Successful\n"
         vote = 1
-        notify = "NONE"
+        notify = "OWNER" if notify_on_success else "NONE"
 
     # Reference:
     # https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#set-review
@@ -192,9 +195,11 @@ def get_pipeline_summary(build_url):
 
 def main():
     args = parse_args()
-    summary = get_pipeline_summary(args.build_url)
+    summary = get_pipeline_summary(args.build_url, args.notify_on_success)
 
+    print()
     print(summary["message"])
+    print(f"notify: {summary['notify']}")
 
     if args.output:
         with open(args.output, "w") as handle:

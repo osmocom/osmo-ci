@@ -484,6 +484,7 @@
                  string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
                  string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
                  string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
+                 string(name: "GERRIT_PATCHSET_UPLOADER_NAME", value: "${{env.GERRIT_PATCHSET_UPLOADER_NAME}}"),
                  string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
                  string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
                  string(name: "PIPELINE_BUILD_URL", value: "${{env.BUILD_URL}}"),
