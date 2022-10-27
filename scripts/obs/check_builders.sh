@@ -8,4 +8,5 @@ if ! grep -q " of $count build hosts" index.html; then
 	echo
 	echo "ERROR: expected $count builders to be connected to OBS!"
 	echo
+	exit 1
 fi
