@@ -19,6 +19,7 @@ spec="$(basename "$(find _temp/srcpkgs/"$PACKAGE" -name '*.spec')")"
 su "$BUILDUSER" -c "cp _temp/srcpkgs/$PACKAGE/$spec ~/rpmbuild/SPECS"
 su "$BUILDUSER" -c "cp _temp/srcpkgs/$PACKAGE/*.tar.* ~/rpmbuild/SOURCES"
 su "$BUILDUSER" -c "cp _temp/srcpkgs/$PACKAGE/rpmlintrc ~/rpmbuild/SOURCES"
+su "$BUILDUSER" -c "cp /obs/data/rpmmacros ~/.rpmmacros"
 
 $yum_builddep "/home/$BUILDUSER/rpmbuild/SPECS/$spec"
 

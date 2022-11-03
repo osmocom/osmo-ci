@@ -1,0 +1,5 @@
+# Default values for macros from OBS project config:
+# https://build.opensuse.org/projects/CentOS:CentOS-8/prjconf
+
+%ext_info .gz
+%ext_man .gz
