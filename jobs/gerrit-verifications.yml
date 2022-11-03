@@ -165,8 +165,20 @@
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - osmo-e1-hardware:
-          docker_img: 'registry.osmocom.org/$USER/fpga-build'
-          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
+          a2_name: JOB_TYPE
+          a2: !!python/tuple ["firmware", "gateware", "manuals", "software"]
+          cmd: |
+            DOCKER_IMG="{docker_img}"
+            case "$JOB_TYPE" in
+            firmware|gateware|manuals)
+              DOCKER_IMG="registry.osmocom.org/$USER/fpga-build"
+              docker pull "$DOCKER_IMG"
+              ;;
+            esac
+            {docker_run} \
+              -e JOB_TYPE="$JOB_TYPE" \
+              "$DOCKER_IMG" \
+                {timeout_cmd} /build/contrib/jenkins.sh
           pipeline_binpkgs: false
 
       - osmo-ci:

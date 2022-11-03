@@ -236,8 +236,20 @@
               {docker_img} {timeout_cmd} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
       - osmo-e1-hardware:
-          docker_img: 'registry.osmocom.org/$USER/fpga-build'
-          cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
+          a2_name: JOB_TYPE
+          a2: !!python/tuple ["firmware", "gateware", "manuals", "software"]
+          cmd: |
+            DOCKER_IMG="{docker_img}"
+            case "$JOB_TYPE" in
+            firmware|gateware|manuals)
+              DOCKER_IMG="registry.osmocom.org/$USER/fpga-build"
+              docker pull "$DOCKER_IMG"
+              ;;
+            esac
+            {docker_run} \
+              -e JOB_TYPE="$JOB_TYPE" \
+              "$DOCKER_IMG" \
+                {timeout_cmd} /build/contrib/jenkins.sh --publish
       - ice40-usbtrace:
           git_base_url: https://gitea.osmocom.org/electronics
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
