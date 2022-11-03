@@ -13,15 +13,8 @@
       - latest:
           conflict_version: ""
     server:
-      - build.opensuse.org:
-          proj: "network:osmocom"
       - obs.osmocom.org:
           proj: "osmocom"
-    # Pushing to build.opensuse.org is legacy, will be disabled soon (OS#5557).
-    # Don't push the new master repository there.
-    exclude:
-      - type: master
-        server: build.opensuse.org
 
 - job-template:
     name: 'Osmocom_OBS_{type}_{server}'
