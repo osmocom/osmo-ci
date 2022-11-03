@@ -51,7 +51,7 @@ def get_oscrc():
 
 def run_in_docker_and_exit(script_path, add_oscrc=False,
                            image_type="build_srcpkg", distro=None,
-                           pass_argv=True, env={}):
+                           pass_argv=True, env={}, docker_args=[]):
     """
     :param script_path: what to run inside docker, relative to scripts/obs/
     :param add_oscrc: put user's oscrc in docker (contains obs credentials!)
@@ -59,6 +59,7 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
     :param distro: which Linux distribution to use, e.g. "debian:11"
     :param pass_argv: pass arguments from sys.argv to the script
     :param env: dict of environment variables
+    :param docker_args: extra arguments to pass to docker
     """
     if "INSIDE_DOCKER" in os.environ:
         return
@@ -92,13 +93,13 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
            "-e", "PYTHONUNBUFFERED=1",
            "-v", f"{lib.config.path_top}:/obs"]
 
-
     for env_key, env_val in env.items():
         cmd += ["-e", f"{env_key}={env_val}"]
 
     if oscrc:
         cmd += ["-v", f"{oscrc}:/home/user/.oscrc"]
 
+    cmd += docker_args
     cmd += [image_name, f"/obs/{script_path}"]
 
     if pass_argv:

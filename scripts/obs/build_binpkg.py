@@ -29,6 +29,8 @@ def main():
                              f" distro (default: {distro_default})")
     parser.add_argument("-j", "--jobs", type=int, default=jobs_default,
                         help=f"parallel running jobs (default: {jobs_default})")
+    parser.add_argument("-r", "--run-shell-on-error", action="store_true",
+                        help="run an interactive shell if the build fails")
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="always print shell commands and their output,"
                              " instead of only printing them on error")
@@ -52,11 +54,18 @@ def main():
 
     env = {"JOBS": str(args.jobs),
            "PACKAGE": args.package,
-           "BUILDUSER": os.environ["USER"]}
+           "BUILDUSER": os.environ["USER"],
+           "PACKAGEFORMAT": "deb"}
 
-    script_path = "data/build_deb.sh"
+    docker_args = []
+    if args.run_shell_on_error:
+        env["RUN_SHELL_ON_ERROR"] = "1"
+        docker_args += ["-i", "-t"]
+
+    script_path = "data/build.sh"
+
     if not distro.startswith("debian:"):
-        script_path = "data/build_rpm.sh"
+        env["PACKAGEFORMAT"] = "rpm"
 
     if args.docker:
         image_type = "build_binpkg"
@@ -71,7 +80,8 @@ def main():
         lib.docker.run_in_docker_and_exit(script_path,
                                           image_type=image_type,
                                           distro=distro,
-                                          pass_argv=False, env=env)
+                                          pass_argv=False, env=env,
+                                          docker_args=docker_args)
     else:
         lib.run_cmd(["sudo", "-E", script_path], env=env,
                     cwd=lib.config.path_top)
