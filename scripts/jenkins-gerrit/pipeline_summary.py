@@ -10,6 +10,8 @@ import urllib.request
 jenkins_url = "https://jenkins.osmocom.org"
 re_start_build = re.compile("Starting building: gerrit-[a-zA-Z-_0-9]* #[0-9]*")
 re_result = re.compile("^PIPELINE_[A-Z]*_PASSED=[01]$")
+re_job_type = re.compile("JOB_TYPE=([a-zA-Z-_0-9]*),")
+
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -128,10 +130,26 @@ def jobs_for_summary(pipeline, build_matrix):
     return ret
 
 
+def get_job_short_name(job):
+    """ :returns: a short job name, usually the stage (lint, deb, rpm, build).
+                  Or in case of build a more useful name like the JOB_TYPE part
+                  of the URL if it is found. For osmo-e1-hardware it could be
+                  one of: manuals, gateware, firmware, software """
+    global re_job_type
+    stage = job["stage"]
+
+    if stage == "build":
+        match = re_job_type.search(job["url"])
+        if match:
+            return match.group(1)
+
+    return stage
+
+
 def get_jobs_list_str(jobs):
     ret = ""
     for job in jobs:
-        ret += f"  [{job['stage']}] {job['url']}/consoleFull\n"
+        ret += f"  [{get_job_short_name(job)}] {job['url']}/consoleFull\n"
     return ret
 
 
