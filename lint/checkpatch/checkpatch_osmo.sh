@@ -61,7 +61,6 @@ exclude_paths_project() {
 # * EMBEDDED_FUNCTION_NAME: often __func__ isn't used, arguably not much benefit in changing this when touching code
 # * EXECUTE_PERMISSIONS: not followed, files need to be executable: git-version-gen, some in debian/
 # * FILE_PATH_CHANGES: we don't use a MAINTAINERS file
-# * FUNCTION_WITHOUT_ARGS: not followed: warns about func() instead of func(void)
 # * GLOBAL_INITIALISERS: we initialise globals to NULL for talloc ctx (e.g. *tall_lapd_ctx = NULL)
 # * IF_0: used intentionally
 # * INITIALISED_STATIC: we use this, see also http://lkml.iu.edu/hypermail/linux/kernel/0808.1/2235.html
@@ -100,7 +99,6 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore EMBEDDED_FUNCTION_NAME \
 	--ignore EXECUTE_PERMISSIONS \
 	--ignore FILE_PATH_CHANGES \
-	--ignore FUNCTION_WITHOUT_ARGS \
 	--ignore GLOBAL_INITIALISERS \
 	--ignore IF_0 \
 	--ignore INITIALISED_STATIC \
