@@ -48,7 +48,7 @@ apt-get clean
 
 # add osmocom:nightly feed + install libosmocore-dev
 apt-key add /tmp/postinst/Release.key
-echo "deb http://download.opensuse.org/repositories/network:/osmocom:/nightly/Debian_9.0/ ./" > /etc/apt/sources.list.d/osmocom-nightly.list
+echo "deb http://downloads.osmocom.org/packages/osmocom:/nightly/Debian_9.0/ ./" > /etc/apt/sources.list.d/osmocom-nightly.list
 apt-get update
 apt-get install -y --no-install-recommends \
 	libosmocore-dev
