@@ -33,7 +33,7 @@
           name: BRANCH_CI
           description: |
                 osmo-ci.git branch
-          default: 'origin/master'
+          default: 'master'
       - string:
           name: GERRIT_REPO_URL
           description: set by gerrit verification pipeline job
@@ -61,13 +61,6 @@
          skip-tag: true
          submodule:
            recursive: false
-      - git:
-         basedir: 'osmo-ci'
-         url: 'https://gerrit.osmocom.org/osmo-ci'
-         credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
-         branches:
-           - '$BRANCH_CI'
-         wipe-workspace: true
 
     builders:
       - shell: |-
@@ -79,6 +72,15 @@
             echo
             exit 0
           fi
+
+          # Clone osmo-ci.git
+          rm -rf osmo-ci
+          git clone \
+            --depth=1 \
+            --branch="$BRANCH_CI" \
+            https://gerrit.osmocom.org/osmo-ci \
+            osmo-ci
+          git -C osmo-ci log --oneline
 
           # Get distro from type
           case "{type}" in
