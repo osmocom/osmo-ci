@@ -445,6 +445,9 @@
                     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
                       env.PIPELINE_LINT_PASSED = "0"
                       build job: 'gerrit-lint', parameters: [
+                        string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
+                        string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
+                        string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
                         string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
                         string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
                         string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
@@ -510,6 +513,9 @@
               // comment + vote to gerrit
               script {{
                build job: 'gerrit-pipeline-result', parameters: [
+                 string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
+                 string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
+                 string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
                  string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
                  string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
                  string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),

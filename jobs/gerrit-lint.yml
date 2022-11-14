@@ -31,6 +31,15 @@
                 osmo-ci.git branch
           default: 'master'
       - string:
+          name: GERRIT_PROJECT
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_CHANGE_NUMBER
+          description: set by gerrit verification pipeline job
+      - string:
+          name: GERRIT_PATCHSET_NUMBER
+          description: set by gerrit verification pipeline job
+      - string:
           name: GERRIT_BRANCH
           description: set by gerrit verification pipeline job
       - string:

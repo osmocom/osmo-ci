@@ -26,6 +26,7 @@ ssh \
 	"$GERRIT_HOST" \
 		gerrit \
 			review \
-			"$GERRIT_PATCHSET_REVISION" \
+			--project "$GERRIT_PROJECT" \
+			"$GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER" \
 			--json \
 			< gerrit_report.json
