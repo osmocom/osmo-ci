@@ -418,13 +418,14 @@
 
       - pysim:
           concurrent: false
-          slave_axis: !!python/tuple [simtester,osmocom-master]
+          # OS#5767: only build2-deb9build-ansible is able to upload docs
+          slave_axis: !!python/tuple [simtester,osmocom-master,build2-deb9build-ansible]
           a2_name: JOB_TYPE
           a2: !!python/tuple ["test", "pylint", "docs"]
           combination_filter: >
             (JOB_TYPE == "test" && label == "simtester") ||
             (JOB_TYPE == "pylint" && label == "osmocom-master") ||
-            (JOB_TYPE == "docs" && label == "osmocom-master")
+            (JOB_TYPE == "docs" && label == "build2-deb9build-ansible")
           cmd: |
             case "$JOB_TYPE" in
             "test")
