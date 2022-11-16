@@ -1,0 +1,89 @@
+- job:
+    concurrent: false
+    description: This job builds the doxygen API documentation for latest libosmo*
+      and uploads it to <a href="https://downloads.osmocom.org/api/latest/"
+      >https://downloads.osmocom.org/api/latest/</a>
+    name: Osmocom_API
+    node: osmocom-master-debian9
+    project-type: freestyle
+    publishers:
+     - email:
+         notify-every-unstable-build: true
+         recipients: jenkins-notifications@lists.osmocom.org
+    triggers:
+    - timed: "H H * * *"
+    wrappers:
+    - ssh-agent-credentials:
+        users:
+        - api@osmocom
+    parameters:
+      - string:
+          name: BRANCH
+          description: osmo-ci.git branch
+          default: 'master'
+    scm:
+      - git:
+          branches:
+            - '$BRANCH'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          wipe-workspace: true
+    builders:
+      - shell: |
+          # Repositories for which doxygen documentation will be generated and
+          # uploaded, also dependencies which need to be built
+          repos_api="
+            libosmocore
+            libosmo-abis
+            libosmo-dsp
+            libosmo-netif
+            libosmo-sccp
+            osmo-gmr"
+
+          # Source common.sh from osmo-ci.git for osmo_git_clone_url()
+          . scripts/common.sh
+
+          # Put git repos and install data in a subdir, so it isn't in the root
+          # of the cloned osmo-ci.git repository
+          mkdir _osmocom_api
+          cd _osmocom_api
+
+          # Prepare pkgconfig path
+          export PKG_CONFIG_PATH=$PWD/install/lib/pkgconfig
+          mkdir -p "$PKG_CONFIG_PATH"
+
+          # Prepare known_hosts
+          cat > known_hosts <<EOF
+          [ftp.osmocom.org]:48 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDgQ9HntlpWNmh953a2Gc8NysKE4orOatVT1wQkyzhARnfYUerRuwyNr1GqMyBKdSI9amYVBXJIOUFcpV81niA7zQRUs66bpIMkE9/rHxBd81SkorEPOIS84W4vm3SZtuNqa+fADcqe88Hcb0ZdTzjKILuwi19gzrQyME2knHY71EOETe9Yow5RD2hTIpB5ecNxI0LUKDq+Ii8HfBvndPBIr0BWYDugckQ3Bocf+yn/tn2/GZieFEyFpBGF/MnLbAAfUKIdeyFRX7ufaiWWz5yKAfEhtziqdAGZaXNaLG6gkpy3EixOAy6ZXuTAk3b3Y0FUmDjhOHllbPmTOcKMry9
+          [ftp.osmocom.org]:48 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBPdWn1kEousXuKsZ+qJEZTt/NSeASxCrUfNDW3LWtH+d8Ust7ZuKp/vuyG+5pe5pwpPOgFu7TjN+0lVjYJVXH54=
+          [ftp.osmocom.org]:48 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK8iivY70EiR5NiGChV39gRLjNpC8lvu1ZdHtdMw2zuX
+          EOF
+
+          # Clone and build the repositories
+          for i in $repos_api; do
+            git clone "$(osmo_git_clone_url "$i")"
+            cd "$i"
+            autoreconf -fi
+            ./configure \
+              --prefix=$PWD/../install \
+              --with-systemdsystemunitdir=no
+            make $PARALLEL_MAKE install
+            cd ..
+          done
+
+          # Upload all docs
+          for i in $repos_api; do
+            if ! [ -d "$i"/doc ]; then
+              # e.g. libosmo-abis is built as dependency for others but doesn't
+              # have its own doxygen documentation as of writing
+              continue
+            fi
+
+            rsync \
+              -avz \
+              --delete \
+              -e "ssh -o 'UserKnownHostsFile=known_hosts' -p 48" \
+              ./"$i"/doc/ \
+              api@ftp.osmocom.org:web-files/latest/"$i"/
+          done
