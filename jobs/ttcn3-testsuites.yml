@@ -476,7 +476,7 @@
           allow-empty-results: false
       - email:
           notify-every-unstable-build: true
-          recipients: jenkins-notifications@lists.osmocom.org
+          recipients: '{obj:email}'
           send-to-individuals: false
       - archive:
           allow-empty: false
@@ -498,5 +498,6 @@
     wrappers:
     - ansicolor:
         colormap: xterm
+    email: jenkins-notifications@lists.osmocom.org
 
 # vim: expandtab tabstop=2 shiftwidth=2
