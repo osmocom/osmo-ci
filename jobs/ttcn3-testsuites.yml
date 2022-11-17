@@ -476,7 +476,7 @@
           allow-empty-results: false
       - email:
           notify-every-unstable-build: true
-          recipients: laforge@gnumonks.org osmith@sysmocom.de
+          recipients: jenkins-notifications@lists.osmocom.org
           send-to-individuals: false
       - archive:
           allow-empty: false
