@@ -65,6 +65,7 @@
           timer: 35 04 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd main.
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-msc-test:
           blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 40 04 * * *
@@ -158,6 +159,7 @@
           timer: 00 14 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       # debian latest stable
       - nplab-m3ua-test-latest:
