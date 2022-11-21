@@ -105,10 +105,9 @@ def prepare_project_osmo_dia2gsup():
 
 
 def prepare_project_open5gs():
-    """ Build fails without downloading freeDiameter sources. Also we can't
-        just update all subprojects because it would fail with 'Subproject
-        exists but has no meson.build file' for promethous-client-c. """
-    lib.run_cmd(["meson", "subprojects", "download", "freeDiameter"],
+    """ Download the subproject sources here, so the package can be built in
+        OBS without Internet access. """
+    lib.run_cmd(["meson", "subprojects", "download"],
                 cwd=lib.git.get_repo_path("open5gs"))
 
 
