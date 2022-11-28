@@ -36,15 +36,16 @@
               -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
+              -e SSH_AUTH_SOCK=/ssh-agent \
               -e WITH_MANUALS="1" \
               -w /build -i -u build \
+              -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
               -v "$PWD:/build" \
               -v "$ARTIFACT_STORE:/artifact_store" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
     docker_img: '$USER/debian-buster-jenkins'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
-    wrappers: []
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
     git_base_url: https://gerrit.osmocom.org
@@ -531,6 +532,9 @@
        - email:
            recipients: '{obj:email}'
            send-to-individuals: true
-    wrappers: '{obj:wrappers}'
+    wrappers:
+       - ssh-agent-credentials:
+           users:
+           - 97634b9d-a867-4f6d-825d-1da99813e93d
 
 # vim: expandtab tabstop=2 shiftwidth=2
