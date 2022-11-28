@@ -1,9 +1,11 @@
 ---
-- name: install bzip2 and tar
+- name: install dependencies for poky installer
   apt:
     name:
-      - tar
+      - build-essential
       - bzip2
+      - file
+      - tar
     cache_valid_time: 3600
     update_cache: yes
 
