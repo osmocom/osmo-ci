@@ -6,18 +6,18 @@
           type: slave
           name: label
           values:
-            - simtester
-            - host2-deb11build-ansible
             - build2-deb9build-ansible
             - build2-deb10build-ansible
             - build3-deb11build-ansible
+            - gtp0-deb9build
+            - gtp0-deb10fr
+            - host2-deb11build-ansible
+            - osmo-gsm-tester-prod
+            - osmo-gsm-tester-rnd
             - rpi4-raspbian11build-ansible-1
             - rpi4-raspbian11build-ansible-2
             - rpi4-raspbian11build-ansible-3
-            - gtp0-deb9build
-            - gtp0-deb10fr
-            - osmo-gsm-tester-prod
-            - osmo-gsm-tester-rnd
+            - simtester
     properties:
       - build-discarder:
           days-to-keep: 30
