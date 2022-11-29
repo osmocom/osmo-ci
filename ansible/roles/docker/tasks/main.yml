@@ -57,4 +57,4 @@
   shell: "docker info | grep -q 'Storage Driver: overlay2' || rm -rf /var/lib/docker/vfs"
 
 # After docker is set up, add docuum to clean old docker images
-- include: docuum.yml
+- import_tasks: docuum.yml
