@@ -29,12 +29,9 @@
           url: https://gerrit.osmocom.org/docker-playground
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
-          # Don't wipe workspace to keep generated release tarballs
-          wipe-workspace: false
+          wipe-workspace: true
     triggers:
       - timed: "@midnight"
-    # Limit to one specific builder (so we don't regenerate all tarballs when switching to another builder)
-    node: build2-deb9build-ansible
     publishers:
        - email:
           notify-every-unstable-build: true
