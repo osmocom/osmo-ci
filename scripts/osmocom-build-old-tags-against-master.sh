@@ -54,6 +54,8 @@ tags_to_ignore() {
 			echo "1.0.0" # testsuite
 			echo "1.3.1" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
 			echo "1.3.2" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
+			echo "1.4.0" # error: potential null pointer dereference, fixed in 1.4.2
+			echo "1.4.1" # error: potential null pointer dereference, fixed in 1.4.2
 			;;
 		osmo-bsc)
 			# Depends on libosmo-legacy-mgcp, but missing LIBOSMOLEGACYMGCP_CFLAGS so we can't build it with
