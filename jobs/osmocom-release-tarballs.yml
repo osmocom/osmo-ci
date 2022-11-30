@@ -42,6 +42,6 @@
     wrappers:
       - ssh-agent-credentials:
           users:
-          - releases
+          - releases_ftp.osmocom.org
 
 # vim: expandtab tabstop=2 shiftwidth=2

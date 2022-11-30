@@ -15,7 +15,7 @@
     wrappers:
     - ssh-agent-credentials:
         users:
-        - api@osmocom
+        - api_ftp.osmocom.org
     parameters:
       - string:
           name: BRANCH
