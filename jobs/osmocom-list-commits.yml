@@ -11,7 +11,7 @@
     description: |
         Generate and upload a list of Osmocom git repositories and their latest tag and commits.
         <b>The latest list is <a href="https://jenkins.osmocom.org/jenkins/job/Osmocom-list-commits/lastSuccessfulBuild/artifact/commits.txt/*view*/">here</a>.</b>
-    node: osmocom-master-debian9
+    node: osmocom-master
     parameters:
       - string:
           name: BRANCH

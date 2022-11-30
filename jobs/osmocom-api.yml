@@ -4,7 +4,7 @@
       and uploads it to <a href="https://downloads.osmocom.org/api/latest/"
       >https://downloads.osmocom.org/api/latest/</a>
     name: Osmocom_API
-    node: osmocom-master-debian9
+    node: osmocom-master
     project-type: freestyle
     publishers:
      - email:

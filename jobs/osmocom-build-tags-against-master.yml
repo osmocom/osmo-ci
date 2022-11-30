@@ -11,7 +11,7 @@
     description: |
         Build old releases of programs/libraries against "master of the day" libosmo*
         (<a href="https://osmocom.org/issues/3765">OS#3765</a>)
-    node: osmocom-master-debian9
+    node: osmocom-master
     parameters:
       - string:
           name: BRANCH

@@ -11,7 +11,7 @@
 - job:
     name: 'gerrit-lint'
     project-type: freestyle
-    node: osmocom-gerrit-debian9
+    node: osmocom-gerrit
     retry-count: 3 # scm checkout
     properties:
       - build-discarder:

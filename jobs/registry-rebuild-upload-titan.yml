@@ -24,7 +24,7 @@
         <ul>
           <li> <a href="https://osmocom.org/issues/5017">OS#5017</a>
         </ul>
-    node: osmocom-master-debian9
+    node: osmocom-master
     scm:
       - 'osmocom-docker-playground'
     builders:
@@ -48,7 +48,7 @@
         <ul>
           <li>SYS#5765
         </ul>
-    node: osmocom-master-debian9
+    node: osmocom-master
     triggers:
       - reverse:
             jobs:

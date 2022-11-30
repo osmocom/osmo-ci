@@ -1,6 +1,5 @@
 - project:
     name: master-builds-dahdi-linux
-    node: osmocom-gerrit-debian9
     linux-ver:
       - "v4.19"
       - "v5.10"
@@ -11,7 +10,7 @@
 - job-template:
     name: 'master-dahdi-linux-{linux-ver}'
     project-type: freestyle
-    node: osmocom-master-debian9
+    node: osmocom-master
     concurrent: true
     retry-count: 0 # scm checkout
     properties:

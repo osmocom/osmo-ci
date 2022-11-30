@@ -8,7 +8,7 @@
     name: registry-rebuild-upload-fpga-build
     description: |
         Rebuild + push fpga-build docker images in our private registry.osmocom.org
-    node: osmocom-master-debian9
+    node: osmocom-master
     scm:
       - git:
           url: https://gerrit.osmocom.org/docker-playground
