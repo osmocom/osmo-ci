@@ -15,7 +15,6 @@
       Roll out osmo-gsm-manuals to relevant build environments.<br>
       <br>
       Related: <a href="https://osmocom.org/issues/4912">OS#4912</a>
-    node: osmocom-master-debian9
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-gsm-manuals

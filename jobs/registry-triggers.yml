@@ -12,7 +12,6 @@
     name: 'registry-trigger-{repos}'
     description: |
       Update registry.osmocom.org after changes in {repos}.
-    node: osmocom-master-debian9
     scm:
       - git:
          url: https://gerrit.osmocom.org/{repos}
