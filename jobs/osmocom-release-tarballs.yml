@@ -26,7 +26,7 @@
       - git:
           branches:
             - '$BRANCH_DOCKER_PLAYGROUND'
-          url: https://gitea.osmocom.org/osmocom/docker-playground
+          url: https://gerrit.osmocom.org/docker-playground
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           # Don't wipe workspace to keep generated release tarballs
