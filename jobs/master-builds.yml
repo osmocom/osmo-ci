@@ -253,10 +253,16 @@
               -e JOB_TYPE="$JOB_TYPE" \
               "$DOCKER_IMG" \
                 {timeout_cmd} /build/contrib/jenkins.sh --publish
+          ssh:
+            - binaries_ftp.osmocom.org
+            - docs_ftp.osmocom.org
       - ice40-usbtrace:
           git_base_url: https://gitea.osmocom.org/electronics
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
+          ssh:
+            - binaries_ftp.osmocom.org
+            - docs_ftp.osmocom.org
       - no2bootloader:
           git_base_url: https://github.com/no2fpga
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
@@ -401,9 +407,15 @@
       - osmo-ccid-firmware:
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org ewild@sysmocom.de
+          ssh:
+            - binaries_ftp.osmocom.org
+            - docs_ftp.osmocom.org
       - simtrace2:
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
+          ssh:
+            - binaries_ftp.osmocom.org
+            - docs_ftp.osmocom.org
       - osmo-opencm3-projects:
           git_base_url: https://gitea.osmocom.org/electronics
           docker_img: '$USER/debian-bullseye-jenkins'
