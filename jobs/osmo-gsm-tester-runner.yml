@@ -261,6 +261,9 @@
       - junit:
           results: 'trial-*/last_run/trial-*.xml'
           allow-empty-results: true
+      - email:
+          notify-every-unstable-build: true
+          recipients: jenkins-notifications@lists.osmocom.org
     parameters:
       - string:
           name: "OSMO_GSM_TESTER_OPTS"
