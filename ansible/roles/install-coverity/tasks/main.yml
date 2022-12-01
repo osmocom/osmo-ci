@@ -13,9 +13,9 @@
   ignore_errors: yes
   tags: [coverity]
 
-- name: create /opt/coverity
+- name: create /opt/coverity/{{ coverity_version }}/
   file:
-    path: /opt/coverity/
+    path: /opt/coverity/{{ coverity_version }}/
     state: directory
   when: coverity_copy.failed == False
   tags: [coverity]
@@ -23,16 +23,15 @@
 - name: unpack coverity
   unarchive:
     src: "/tmp/{{ coverity_installer_file }}"
-    dest: /opt/coverity/
+    dest: /opt/coverity/{{ coverity_version }}
     remote_src: yes
   when: coverity_copy.failed == False
   tags: [coverity]
 
-- name: create link /opt/coverity/last
-  file:
-    src: /opt/coverity/cov-analysis-linux64-{{ coverity_version }}
-    dest: /opt/coverity/current
-    state: link
+- name: create link /opt/coverity/current
+  shell: ln -sf /opt/coverity/{{ coverity_version }}/* /opt/coverity/current
+  args:
+    warn: false
   when: coverity_copy.failed == False
   tags: [coverity]
 
