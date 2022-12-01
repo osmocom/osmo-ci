@@ -224,6 +224,16 @@
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmocom-bb
       - shell: |
+            # Build the docker image
+            rm -rf docker-playground
+            git clone \
+              --depth=1 \
+              --branch="$DOCKER_PLAYGROUND_BRANCH" \
+              https://gerrit.osmocom.org/docker-playground \
+              docker-playground
+            git -C docker-playground log --oneline
+            make -C docker-playground/osmo-gsm-tester
+
             unlink osmo-gsm-tester/sysmocom/resources.conf || true
 
             ln -s resources.conf.virtual osmo-gsm-tester/sysmocom/resources.conf
@@ -260,3 +270,7 @@
           name: "OSMO_GSM_TESTER_BRANCH"
           default: "master"
           description: "Which branch/sha should be used for testing"
+      - string:
+          name: "DOCKER_PLAYGROUND_BRANCH"
+          default: "master"
+          description: "Which branch/sha should be used for building the osmo-gsm-tester docker container"

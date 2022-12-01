@@ -10,8 +10,3 @@ if [ "$(arch)" = "x86_64" ]; then
 		"debian-bullseye-erlang" \
 		"debian-bullseye-jenkins"
 fi
-
-if [ -d "/var/tmp/osmo-gsm-tester/state" ]; then
-	docker_images_require \
-		"osmo-gsm-tester"
-fi
