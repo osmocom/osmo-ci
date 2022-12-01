@@ -171,8 +171,8 @@
                   branch-pattern: '**'
     builders:
       - shell: |
-          # make sure no bin artifacts from a previous run remain
-          rm -f *.tgz *.md5
+          # make sure no test results/bin artifacts from a previous run remain
+          rm -rf trial-* *.tgz *.md5
       - copy_artifact_all
       - shell: !include-raw: osmo-gsm-tester_run-gerrit.sh
     publishers:
@@ -193,8 +193,8 @@
       - timed: "H 23 * * *"
     builders:
       - shell: |
-          # make sure no bin artifacts from a previous run remain
-          rm -f *.tgz *.md5
+          # make sure no test results/bin artifacts from a previous run remain
+          rm -rf trial-* *.tgz *.md5
       - copy_artifact_all
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmocom-bb
@@ -218,8 +218,8 @@
       - timed: "H 22 * * *"
     builders:
       - shell: |
-          # make sure no bin artifacts from a previous run remain
-          rm -f *.tgz *.md5
+          # make sure no test results/bin artifacts from a previous run remain
+          rm -rf trial-* *.tgz *.md5
       - copy_artifact_all
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmocom-bb
