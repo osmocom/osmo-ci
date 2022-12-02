@@ -218,12 +218,35 @@
       - timed: "H 22 * * *"
     builders:
       - shell: |
-          # make sure no test results/bin artifacts from a previous run remain
-          rm -rf trial-* *.tgz *.md5
+          # make sure no bin artifacts from a previous run remain
+          rm -rf *.tgz *.md5
       - copy_artifact_all
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmocom-bb
       - shell: |
+            # Set a trap to fix workspace permissions on exit
+            fix_permissions() {
+              docker run --rm \
+                -v "$WORKSPACE":/workspace \
+                debian:bullseye \
+                  chmod -R a+rwX /workspace/
+            }
+            fix_permissions_trap() {
+              set +x
+              echo
+              echo "### Clean up ###"
+              echo
+              set -x
+
+              trap - EXIT INT TERM 0
+              fix_permissions
+            }
+            trap fix_permissions_trap EXIT INT TERM 0
+
+            # Make sure no test results from a previous run remain
+            fix_permissions
+            rm -rf trial-*
+
             # Build the docker image
             rm -rf docker-playground
             git clone \
