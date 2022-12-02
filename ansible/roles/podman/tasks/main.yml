@@ -1,7 +1,9 @@
 ---
 
-- name: Include tasks for Debian
-  include_tasks: debian.yml
-  when: (ansible_distribution in ['Debian', 'Raspbian'])
-
-# TODO: add other distributions below
+- name: install podman
+  apt:
+    pkg:
+      - podman
+      - buildah
+    # Has reasonable recommends needed for dns resolving etc.
+    install_recommends: yes
