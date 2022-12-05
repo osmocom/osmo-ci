@@ -6,11 +6,9 @@
           type: slave
           name: label
           values:
-            - build2-deb9build-ansible
             - build2-deb10build-ansible
             - build2-deb11build-ansible
             - build3-deb11build-ansible
-            - gtp0-deb9build
             - gtp0-deb10fr
             - host2-deb11build-ansible
             - osmo-gsm-tester-prod
