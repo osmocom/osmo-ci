@@ -9,7 +9,7 @@
 - job:
     name: 'gerrit-pipeline-result'
     project-type: freestyle
-    node: osmocom-gerrit-debian10 || osmocom-gerrit-debian11
+    node: osmocom-gerrit
     retry-count: 3 # scm checkout
     properties:
       - build-discarder:

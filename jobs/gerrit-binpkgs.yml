@@ -13,7 +13,7 @@
 - job-template:
     name: 'gerrit-binpkgs-{type}'
     project-type: freestyle
-    node: osmocom-gerrit-debian10 || osmocom-gerrit-debian11
+    node: osmocom-gerrit
     concurrent: true
     retry-count: 3 # scm checkout
     properties:
