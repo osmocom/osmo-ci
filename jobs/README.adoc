@@ -5,8 +5,6 @@ https://docs.openstack.org/infra/jenkins-job-builder/index.html[Jenkins Job Buil
 
 Install jenkins-job-builder:
 
-For debian 9, see troubleshooting below. Otherwise:
-
   apt-get install jenkins-job-builder
 
 Have a jenkins-job-builder.ini file. One of
@@ -74,30 +72,21 @@ individual job names.
 
 Also be aware that jobs are only actually updated when anything changed.
 
-- debian 9
-
-For jenkins-job-builder to work on debian 9:
-
-add 'testing' to /etc/apt/sources.list like
-
-  deb http://ftp.de.debian.org/debian/ testing main
-
-then
-
-    sudo apt-get update
-    sudo apt-get -t testing install python-jenkins
-    sudo apt-get install jenkins-job-builder
-
-and make sure to *not* pick the python3 versions
-(or you'll need to add catching of HTTPError to jenkins/__init__.py in
-'def maybe_add_crumb')
-
 *Jenkins labels*
 
-The build jobs are using labels to specify on which nodes the job should be run.
-Please use the following labels
+Most jenkins jobs should run a docker container and install all required
+dependencies inside that, so we don't need to install them on the jenkins node.
+These jobs don't need to set a label, they can just run on any generic jenkins
+node that has docker available. So if you add a new job, you probably don't
+need a label at all.
 
-- osmocom-master-debian8: are nodes which can build osmocom-master and is a debian 8
-- osmocom-master-debian9: are nodes which can build osmocom-master and is a debian 9
-- osmocom-gerrit-debian8: are nodes which can build osmocom-gerrit and is a debian 8
-- osmocom-gerrit-debian9: are nodes which can build osmocom-gerrit and is a debian 9
+Existing jobs typically have a label set by the topic they belong to, e.g.:
+- osmocom-master
+- osmocom-gerrit
+- ttcn3
+
+Other labels indicate specific software/hardware works here, e.g.:
+- coverity
+- hdlc
+- osmo-gsm-tester
+- podman
