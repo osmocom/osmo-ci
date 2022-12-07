@@ -378,19 +378,29 @@ test_binaries() {
 		osmo-bsc \
 		osmo-bts-trx \
 		osmo-bts-virtual \
+		osmo-cbc \
 		osmo-gbproxy \
-		osmo-gtphub \
 		osmo-ggsn \
+		osmo-gtphub \
 		osmo-hlr \
 		osmo-hlr-db-tool \
 		osmo-hnbgw \
 		osmo-hnodeb \
 		osmo-mgw \
 		osmo-msc \
+		osmo-mslookup-client \
+		osmo-pcap-client \
+		osmo-pcap-server \
 		osmo-pcu \
+		osmo-remsim-bankd \
+		osmo-remsim-client-shell \
+		osmo-remsim-client-st2 \
+		osmo-remsim-server \
 		osmo-sgsn \
 		osmo-sip-connector \
+		osmo-smlc \
 		osmo-stp \
+		osmo-trx-ipc \
 		osmo-trx-uhd
 
 	case "$DISTRO" in
@@ -398,7 +408,24 @@ test_binaries() {
 		test_binaries_version \
 			osmo-trx-usrp1
 		;;
+	centos8*)
+		# OS#5817: not packaged for debian
+		test_binaries_version \
+			osmo-pfcp-tool
+		;;
 	esac
+
+	if [ "$DISTRO" != "debian10" ]; then
+		test_binaries_version \
+			osmo-upf
+	fi
+
+	if [ "$FEED" = "nightly" ]; then
+		test_binaries_version \
+			osmo-bsc-nat \
+			osmo-e1d \
+			osmo-uecups-daemon
+	fi
 }
 
 services_check() {
