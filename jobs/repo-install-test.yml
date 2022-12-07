@@ -25,31 +25,25 @@
           <li> <a href="https://osmocom.org/issues/3176">OS#3176</a>: install all Osmocom debian packages
           <li> <a href="https://osmocom.org/issues/3369">OS#3369</a>: check if systemd services start properly
           <li> <a href="https://osmocom.org/issues/4563">OS#4563</a>: extend for centos
+          <li> <a href="https://osmocom.org/issues/5365">OS#5365</a>: run in qemu
         </ul>
-    node: osmocom-master-debian9
     parameters:
       - string:
           name: BRANCH_CI
           description: |
                 osmo-ci.git branch
           default: 'master'
-      - string:
-          name: BRANCH_DP
-          description: |
-                docker-playground.git branch
-          default: 'master'
     axes:
       - axis:
           type: slave
           name: label
-          values: !!python/tuple [repo-install-test]
+          values: !!python/tuple [qemu]
       - axis:
           type: user-defined
           name: feed
           values: '{obj:feeds}'
     builders:
       - shell: |
-          export OSMO_BRANCH_DOCKER_PLAYGROUND="$BRANCH_DP"
           export FEED="$feed"
           scripts/repo-install-test.sh "{distro}"
     scm:
