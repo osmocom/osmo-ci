@@ -11,28 +11,36 @@
 # Systemd services that must start up successfully after installing all packages (OS#3369)
 # Disabled services:
 # * osmo-ctrl2cgi (missing config: /etc/osmocom/ctrl2cgi.ini, OS#4108)
+# * osmo-e1d (missing config, OS#5817)
+# * osmo-ggsn (conflicting config, OS#5817)
+# * osmo-remsim-client (exits immediately without USB device)
 # * osmo-trap2cgi (missing config: /etc/osmocom/%N.ini, OS#4108)
-# * osmo-ggsn (no tun device in docker)
+# * osmo-trx-* (exits immediately without trx device)
+# * osmo-upf (not available for debian 10, gets added in services_check())
 SERVICES="
 	osmo-bsc
 	osmo-bts-virtual
+	osmo-cbc
 	osmo-gbproxy
 	osmo-gtphub
 	osmo-hlr
 	osmo-hnbgw
+	osmo-hnodeb
 	osmo-mgw
 	osmo-msc
 	osmo-pcap-client
+	osmo-pcap-server
 	osmo-pcu
+	osmo-remsim-bankd
+	osmo-remsim-server
 	osmo-sgsn
 	osmo-sip-connector
+	osmo-smlc
 	osmo-stp
 "
 # Services working in nightly, but not yet in latest
-# * osmo-pcap-server 0.2.0: VTY port in default config conflicts with osmo-bts (OS#5203)
 SERVICES_NIGHTLY="
-	osmo-pcap-server
-	osmo-hnodeb
+	osmo-bsc-nat
 "
 
 distro_obsdir() {
@@ -399,6 +407,18 @@ services_check() {
 	if [ "$FEED" = "nightly" ]; then
 		services_feed="$services_feed $SERVICES_NIGHTLY"
 	fi
+
+	# We don't build osmo-upf for debian 10
+	if [ "$DISTRO" != "debian10" ]; then
+		# osmo-upf <= 0.1.1 needs GTP kernel module
+		if [ "$FEED" = "nightly" ]; then
+			services_feed="$services_feed osmo-upf"
+		fi
+	fi
+
+	# OS#5817: osmo-ggsn conflicts with osmo-gtphub; explicitly stop it
+	# here until it is fixed, as it gets auto-started after installation
+	systemctl stop osmo-ggsn
 
 	systemctl start $services_feed
 	sleep 2
