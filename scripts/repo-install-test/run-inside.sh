@@ -105,10 +105,9 @@ configure_osmocom_repo_debian() {
 
 	# Add repository key
 	if ! [ -e "$release_key" ]; then
-		apt-get update
-		apt install -y wget
 		wget -O /tmp/Release.key "https://obs.osmocom.org/projects/$proj/public_key"
 	fi
+
 	apt-key add /tmp/Release.key
 
 	echo "deb http://$obs_repo ./" > "/etc/apt/sources.list.d/$proj.list"
@@ -158,30 +157,44 @@ configure_osmocom_repo() {
 	esac
 }
 
-configure_keep_cache_debian() {
-	rm /etc/apt/apt.conf.d/docker-clean
+prepare_vm_debian() {
+	# fmtutil fails in tex-common postinst script. This gets installed as
+	# dependency of osmo-gsm-manuals-dev, but is completely unrelated to
+	# what we want to test here so just stub it out.
+	ln -sf /bin/true /usr/bin/fmtutil
+	echo "path-exclude=/usr/bin/fmtutil" >> /etc/dpkg/dpkg.cfg.d/stub
 
-	# "apt" will actually remove the cache by default, even if "apt-get" keeps it.
-	# https://unix.stackexchange.com/a/447607
-	echo "Binary::apt::APT::Keep-Downloaded-Packages "true";" \
-		> /etc/apt/apt.conf.d/01keep-debs
-}
-
-configure_keep_cache_centos() {
-	echo "keepcache=1" >> /etc/dnf/dnf.conf
-}
-
-configure_keep_cache() {
-	if [ -z "$KEEP_CACHE" ]; then
-		return
-	fi
+	apt-get update --allow-releaseinfo-change
+	apt-get install -y --no-install-recommends \
+		aptitude \
+		ca-certificates \
+		gnupg2 \
+		wget
 
 	case "$DISTRO" in
+		debian10)
+			# Can't access https://osmocom.org otherwise
+			apt-get install -y --no-install-recommends \
+				libgnutls30
+		;;
+	esac
+}
+
+prepare_vm_centos() {
+	# Install dnf-utils for repoquery
+	dnf install -y dnf-utils
+
+	# Make additional development libraries available
+	yum config-manager --set-enabled powertools
+}
+
+prepare_vm() {
+	case "$DISTRO" in
 		debian*)
-			configure_keep_cache_debian
+			prepare_vm_debian
 			;;
 		centos*)
-			configure_keep_cache_centos
+			prepare_vm_centos
 			;;
 	esac
 }
@@ -402,7 +415,7 @@ services_check() {
 }
 
 check_env
-configure_keep_cache
+prepare_vm
 configure_osmocom_repo "$PROJ"
 
 for test in $TESTS; do
