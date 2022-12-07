@@ -393,10 +393,12 @@ test_binaries() {
 		osmo-stp \
 		osmo-trx-uhd
 
-	if [ "$DISTRO" = "debian" ]; then
+	case "$DISTRO" in
+	debian*)
 		test_binaries_version \
 			osmo-trx-usrp1
-	fi
+		;;
+	esac
 }
 
 services_check() {
