@@ -32,7 +32,7 @@
           name: BRANCH_CI
           description: |
                 osmo-ci.git branch
-          default: 'master'
+          default: 'osmith/wip-repo-install-qemu'
     axes:
       - axis:
           type: slave
