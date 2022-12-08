@@ -1,0 +1,22 @@
+---
+
+- name: install packages
+  apt:
+    name:
+      - libguestfs-tools
+      - netcat
+      - qemu-system-x86
+      - sshpass
+    cache_valid_time: 3600
+    update_cache: yes
+
+- name: run qemu-create-vms.sh
+  ansible.builtin.script: qemu-create-vms.sh
+  args:
+    creates: /opt/qemu/.qemu-create-vms-done-v1
+
+- name: add jenkins to the kvm group
+  user:
+    name: "{{ jenkins_user }}"
+    groups: kvm
+    append: yes

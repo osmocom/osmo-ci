@@ -53,3 +53,12 @@
     - name: install-coverity
       tags:
         - coverity
+
+- name: setup qemu images
+  hosts: qemu
+  user: root
+  roles:
+    - name: qemu
+      jenkins_user: osmocom-build
+      tags:
+        - qemu
