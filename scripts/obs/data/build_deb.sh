@@ -12,3 +12,9 @@ cd _temp/binpkgs/*
 $apt_get update
 $apt_get build-dep .
 su "$BUILDUSER" -c "dpkg-buildpackage -us -uc -j$JOBS"
+
+# Show contents
+cd ..
+for i in *.deb; do
+	dpkg -c "$i"
+done

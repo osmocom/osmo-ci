@@ -29,3 +29,9 @@ su "$BUILDUSER" -c "rpmbuild -bb ~/rpmbuild/SPECS/$spec"
 if [ -n "$INSIDE_DOCKER" ]; then
 	su "$BUILDUSER" -c "mv ~/rpmbuild/RPMS/*/*.rpm _temp/binpkgs/"
 fi
+
+# Show contents
+cd _temp/binpkgs
+for i in *.rpm; do
+	rpm -qlp "$i"
+done
