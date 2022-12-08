@@ -105,7 +105,7 @@ configure_osmocom_repo_debian() {
 	echo "Configuring Osmocom repository"
 
 	# Add repository key
-	if ! [ -e "$release_key" ]; then
+	if ! [ -e /tmp/Release.key ]; then
 		wget -O /tmp/Release.key "https://obs.osmocom.org/projects/$proj/public_key"
 	fi
 
