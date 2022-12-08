@@ -5,6 +5,7 @@
 # * KEEP_VM: for development: don't kill/start VM if still running
 # * PROJ: OBS project namespace (e.g. "osmocom:latest")
 # * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "osmocom:nightly")
+# * SKIP_PREPARE_VM: for development, skip the prepare_vm code
 # * TESTS: which tests to run (all by default, see below for possible values)
 . "$(dirname "$0")/common.sh"
 
@@ -138,6 +139,7 @@ qemu_run_test_script() {
 	export FEED="$FEED"
 	export PROJ="$PROJ"
 	export PROJ_CONFLICT="$PROJ_CONFLICT"
+	export SKIP_PREPARE_VM="$SKIP_PREPARE_VM"
 	export TESTS="$TESTS"
 
 	/repo-install-test/run-inside.sh

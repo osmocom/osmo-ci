@@ -5,6 +5,7 @@
 # * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * PROJ: OBS project namespace (e.g. "osmocom:latest")
 # * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "osmocom:nightly")
+# * SKIP_PREPARE_VM: for development, skip the prepare_vm code
 # * TESTS: which tests to run (see repo-install-test.sh)
 
 # Systemd services that must start up successfully after installing all packages (OS#3369)
@@ -189,6 +190,10 @@ prepare_vm_centos() {
 }
 
 prepare_vm() {
+	if [ -n "$SKIP_PREPARE_VM" ]; then
+		return
+	fi
+
 	case "$DISTRO" in
 		debian*)
 			prepare_vm_debian
@@ -197,6 +202,8 @@ prepare_vm() {
 			prepare_vm_centos
 			;;
 	esac
+
+	configure_osmocom_repo "$PROJ"
 }
 
 # $1: file
@@ -416,7 +423,6 @@ services_check() {
 
 check_env
 prepare_vm
-configure_osmocom_repo "$PROJ"
 
 for test in $TESTS; do
 	set +x
