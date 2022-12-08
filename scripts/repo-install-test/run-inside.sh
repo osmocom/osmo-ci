@@ -321,6 +321,8 @@ install_repo_packages_debian() {
 		"?origin(.*$PROJ.*) ?architecture(native)" | sort \
 		> osmocom_packages_all.txt
 
+	cat osmocom_packages_all.txt
+
 	filter_packages_txt
 	apt install -y $(cat osmocom_packages.txt)
 }
@@ -335,6 +337,8 @@ install_repo_packages_centos() {
 		--archlist="x86_64,noarch" \
 		--qf="%{name}" \
 		> osmocom_packages_all.txt
+
+	cat osmocom_packages_all.txt
 
 	filter_packages_txt
 	dnf install -y $(cat osmocom_packages.txt)
