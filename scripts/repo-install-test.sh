@@ -1,10 +1,10 @@
 #!/bin/sh -ex
 # Environment variables:
-# * INTERACTIVE: set to 1 to keep an interactive shell open after the script ran (for debugging)
 # * FEED: binary package feed (e.g. "latest", "nightly")
+# * INTERACTIVE: set to 1 to keep an interactive shell open after the script ran (for debugging)
+# * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * PROJ: OBS project namespace (e.g. "osmocom:latest")
 # * PROJ_CONFLICT: Conflicting OBS project namespace (e.g. "osmocom:nightly")
-# * KEEP_CACHE: set to 1 to keep downloaded binary packages (for development)
 # * TESTS: which tests to run (all by default, see below for possible values)
 . "$(dirname "$0")/common.sh"
 
