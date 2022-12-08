@@ -336,6 +336,7 @@ install_repo_packages_centos() {
 		--repoid="$(proj_with_underscore "$PROJ")" \
 		--archlist="x86_64,noarch" \
 		--qf="%{name}" \
+		| sort \
 		> osmocom_packages_all.txt
 
 	cat osmocom_packages_all.txt
