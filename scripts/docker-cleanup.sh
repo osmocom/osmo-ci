@@ -10,11 +10,9 @@ if [ -z "$(docker ps -q -f name=docuum)" ]; then
 	done
 fi
 
-# delete all containers where we forgot to use --rm with docker run
-CONTAINERS="$(docker ps -q -a -f status=exited -f status=created)"
-if [ -n "$CONTAINERS" ]; then
-	docker rm $CONTAINERS
-fi
+# delete all containers where we forgot to use --rm with docker run,
+# older than 24 hours
+docker container prune --filter "until=24h" -f
 
-# remove dangling images, containers, volumes, and networks (not tagged or associated with a container)
-docker system prune -f
+# remove unused networks older than 24 hours
+docker network prune --filter "until=24h" -f
