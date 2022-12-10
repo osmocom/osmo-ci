@@ -12,4 +12,4 @@ latest/xUbuntu_22.04
 nightly/CentOS_8
 nightly/Debian_11
 nightly/Raspbian_11
-nightly/xUbuntu_21.04
+nightly/xUbuntu_22.04
