@@ -31,7 +31,6 @@
     # following default values can be overridden by each repo
     disabled: false
     concurrent: true
-    node: osmocom-gerrit
     # axes related defaults
     slave_axis: !!python/tuple [osmocom-gerrit]
     a1_name: a1
@@ -583,7 +582,6 @@
 - job-template:
     name: 'gerrit-{repos}-build'
     project-type: matrix
-    node: '{node}'
     concurrent: '{obj:concurrent}'
     disabled: '{obj:disabled}'
     retry-count: 3 # scm checkout
