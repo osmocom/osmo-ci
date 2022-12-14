@@ -111,6 +111,7 @@
 
 - job-template:
     name: 'osmo-gsm-tester_run-{stage}'
+    disabled: true
     defaults: runner
     node: 'osmo-gsm-tester-{stage}'
     triggers:
@@ -186,6 +187,7 @@
 # ttcn3 job
 - job:
     name: 'osmo-gsm-tester_ttcn3'
+    disabled: true
     defaults: runner
     scm:
       - 'osmo-gsm-tester-repo'
