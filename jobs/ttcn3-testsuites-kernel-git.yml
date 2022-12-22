@@ -105,7 +105,7 @@
           results: '**/junit-xml-*.log'
           allow-empty-results: false
       - email:
-          notify-every-unstable-build: true
+          notify-every-unstable-build: false
           recipients: laforge@gnumonks.org osmith@sysmocom.de
           send-to-individuals: false
       - archive:

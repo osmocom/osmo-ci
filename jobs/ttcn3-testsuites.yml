@@ -477,7 +477,7 @@
           results: '**/junit-xml-*.log'
           allow-empty-results: false
       - email:
-          notify-every-unstable-build: true
+          notify-every-unstable-build: false
           recipients: '{obj:email}'
           send-to-individuals: false
       - archive:
