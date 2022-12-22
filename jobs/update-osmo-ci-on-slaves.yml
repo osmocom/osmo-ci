@@ -50,7 +50,6 @@
     description: |
       Trigger <a href="https://jenkins.osmocom.org/jenkins/job/update-osmo-ci-on-slaves/">update-osmo-ci-on-slaves</a>
       on changes in docker-playground.git, so it can rebuild docker containers relevant for the jenkins slaves.
-    node: osmocom-master-debian9
     scm:
       - git:
           url: https://gerrit.osmocom.org/docker-playground
