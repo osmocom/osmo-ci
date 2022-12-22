@@ -8,13 +8,11 @@
     disabled: false
     description: ""
     node: ttcn3
-    blocking: "^{job-name}.*"
     wipe_workspace: false
     jobs:
       - "{job-name}"
     job-name:
       - ttcn3-ggsn-test-kernel-git:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           # Cache the linux source tree in the workspace of one node
           node: ttcn3-ggsn-test-kernel-git
           description: |

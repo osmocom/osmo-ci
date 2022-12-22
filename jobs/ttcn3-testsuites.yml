@@ -13,8 +13,6 @@
             TTCN3 Testsuite</a> for more information.
     timer: "@midnight"
     node: ttcn3
-    # Block *-latest for all master jobs (without suffix)
-    blocking: "^{job-name}.*"
     wipe_workspace: true
     jobs:
       - "{job-name}"
@@ -22,26 +20,20 @@
     job-name:
       # debian nightly - order by time
       - nplab-m3ua-test:
-          blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
           timer: 10 03 * * *
       - nplab-sua-test:
-          blocking: "^(nplab|NPLAB-.*)-sua-test.*"
           timer: 15 03 * * *
       - ttcn3-ggsn-test:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 00 04 * * *
       - ttcn3-ggsn-test-kernel:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 10 04 * * *
           description: |
             Test osmo-ggsn master with the Debian kernel.
       - ttcn3-ggsn-test-kernel-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 20 04 * * *
           description: |
             Test osmo-ggsn latest with the Debian kernel.
       - ttcn3-ggsn-test-kernel-latest-net-next:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 25 04 * * *
           # Cache the linux source tree in the workspace of one node
           wipe_workspace: false
@@ -51,7 +43,6 @@
             <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/">
               net-next.git</a>.
       - ttcn3-ggsn-test-kernel-latest-torvalds:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 30 04 * * *
           # Cache the linux source tree in the workspace of one node
           wipe_workspace: false
@@ -61,101 +52,71 @@
             <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/">
               torvalds/linux.git</a>.
       - ttcn3-ggsn-test-ogs:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 35 04 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-msc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 40 04 * * *
       - ttcn3-pcu-test:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 00 05 * * *
       - ttcn3-pcu-test-sns:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 15 05 * * *
       - ttcn3-sgsn-test:
-          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
           timer: 30 05 * * *
       - ttcn3-bsc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 00 06 * * *
       - ttcn3-mgw-test:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
           timer: 30 06 * * *
       - ttcn3-hlr-test:
-          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
           timer: 45 06 * * *
       - ttcn3-bts-test:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
           timer: 00 07 * * *
       - ttcn3-sip-test:
-          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
           timer: 30 07 * * *
       - ttcn3-bscnat-test:
-          blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
           timer: 00 08 * * *
           disabled: true
       - ttcn3-bsc-test-sccplite:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
       - ttcn3-remsim-test:
-          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
           timer: 00 09 * * *
       - ttcn3-stp-test:
-          blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
       - ttcn3-sccp-test:
-          blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
           timer: 00 10 * * *
       - ttcn3-smlc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 10 10 * * *
       - ttcn3-gbproxy-test:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
       - ttcn3-gbproxy-test-fr:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test-fr.*"
           timer: 30 10 * * *
           node: hdlc
       - ttcn3-cbc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
       - ttcn3-ns-test:
-          blocking: "^(ttcn3|TTCN3-.*)-ns-test.*"
           timer: 00 11 * * *
       - ttcn3-ns-test-sns:
-          blocking: "^(ttcn3|TTCN3-.*)-ns-test-sns.*"
           timer: 10 11 * * *
       - ttcn3-ns-test-fr:
-          blocking: "^(ttcn3|TTCN3-.*)-ns-test-fr.*"
           timer: 20 11 * * *
           node: hdlc
       - ttcn3-ns-test-sgsn-sns:
-          blocking: "^(ttcn3|TTCN3-.*)-ns-test-sgsn-sns.*"
           timer: 30 11 * * *
       - ttcn3-pcap-client-test:
-          blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
           timer: 40 11 * * *
       - ttcn3-bsc-test-vamos:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 00 12 * * *
       - ttcn3-hnodeb-test:
-          blocking: "^(ttcn3|TTCN3-.*)-hnodeb-test.*"
           timer: 40 12 * * *
       - ttcn3-upf-test:
-          blocking: "^(ttcn3|TTCN3-.*)-upf-test.*"
           timer: 00 13 * * *
       - ttcn3-hnbgw-test:
-          blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
           timer: 40 13 * * *
       - ttcn3-fr-test:
-          blocking: "^(ttcn3|TTCN3-.*)-fr-test.*"
           timer: 40 10 * * *
           node: hdlc
       - ttcn3-pgw-test:
-          blocking: "^(ttcn3|TTCN3-.*)-pgw-test.*"
           timer: 00 14 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
@@ -163,219 +124,153 @@
 
       # debian latest stable
       - nplab-m3ua-test-latest:
-          blocking: "^(nplab|NPLAB-.*)-m3ua-test.*"
           timer: 10 03 * * *
       - nplab-sua-test-latest:
-          blocking: "^(nplab|NPLAB-.*)-sua-test.*"
           timer: 15 03 * * *
       - ttcn3-ggsn-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 00 04 * * *
       - ttcn3-msc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 30 04 * * *
       - ttcn3-pcu-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 00 05 * * *
       - ttcn3-pcu-test-sns-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 15 05 * * *
       - ttcn3-sgsn-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
           timer: 30 05 * * *
       - ttcn3-bsc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 00 06 * * *
       - ttcn3-mgw-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
           timer: 30 06 * * *
       - ttcn3-hlr-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
           timer: 45 06 * * *
       - ttcn3-bts-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
           timer: 00 07 * * *
       - ttcn3-sip-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
           timer: 30 07 * * *
       - ttcn3-bscnat-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bscnat-test.*"
           timer: 00 08 * * *
           disabled: true
       - ttcn3-bsc-test-sccplite-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
       - ttcn3-remsim-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
           timer: 00 09 * * *
       - ttcn3-stp-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
       - ttcn3-sccp-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
           timer: 00 10 * * *
       - ttcn3-smlc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 10 10 * * *
       - ttcn3-gbproxy-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
       - ttcn3-gbproxy-test-fr-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test-fr.*"
           timer: 30 10 * * *
           node: hdlc
       - ttcn3-cbc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
       - ttcn3-pcap-client-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
           timer: 40 11 * * *
       - ttcn3-hnodeb-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-hnodeb-test.*"
           timer: 40 12 * * *
       - ttcn3-upf-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-upf-test.*"
           timer: 00 13 * * *
           disabled: true
       - ttcn3-hnbgw-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-hnbgw-test.*"
           timer: 40 13 * * *
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian) jobs
 
       # centos7 nightly
       - TTCN3-centos7-pcap-client-test:
-          blocking: "^(ttcn3|TTCN3-.*)-pcap-client-test.*"
           timer: 10 13 * * *
 
       # centos7 latest
       - TTCN3-centos7-pcap-client-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 40 13 * * *
 
       # centos8 nightly
       - TTCN3-centos-ggsn-test:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 00 04 * * *
       - TTCN3-centos-msc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 30 04 * * *
       - TTCN3-centos-pcu-test:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 00 05 * * *
       - TTCN3-centos-pcu-test-sns:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 15 05 * * *
       - TTCN3-centos-sgsn-test:
-          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
           timer: 30 05 * * *
       - TTCN3-centos-bsc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 00 06 * * *
       - TTCN3-centos-mgw-test:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
           timer: 30 06 * * *
       - TTCN3-centos-hlr-test:
-          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
           timer: 45 06 * * *
       - TTCN3-centos-bts-test:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
           timer: 00 07 * * *
       - TTCN3-centos-sip-test:
-          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
           timer: 30 07 * * *
       - TTCN3-centos-bsc-test-sccplite:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
       - TTCN3-centos-remsim-test:
-          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
           timer: 00 09 * * *
           disabled: true
       - TTCN3-centos-stp-test:
-          blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
       - TTCN3-centos-gbproxy-test:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
       - TTCN3-centos-cbc-test:
-          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
 
       # centos8 latest stable
       - TTCN3-centos-ggsn-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-ggsn-test.*"
           timer: 00 04 * * *
       - TTCN3-centos-msc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-msc-test.*"
           timer: 30 04 * * *
       - TTCN3-centos-pcu-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 00 05 * * *
       - TTCN3-centos-pcu-test-sns-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 15 05 * * *
       - TTCN3-centos-sgsn-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sgsn-test.*"
           timer: 30 05 * * *
       - TTCN3-centos-bsc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 00 06 * * *
       - TTCN3-centos-mgw-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
           timer: 30 06 * * *
       - TTCN3-centos-hlr-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-hlr-test.*"
           timer: 45 06 * * *
       - TTCN3-centos-bts-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
           timer: 00 07 * * *
       - TTCN3-centos-sip-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sip-test.*"
           timer: 30 07 * * *
       - TTCN3-centos-bsc-test-sccplite-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 08 * * *
       - TTCN3-centos-remsim-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-remsim-test.*"
           timer: 00 09 * * *
           disabled: true
       - TTCN3-centos-stp-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-stp-test.*"
           timer: 30 09 * * *
       - TTCN3-centos-smlc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 10 10 * * *
       - TTCN3-centos-sccp-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-sccp-test.*"
           timer: 00 10 * * *
       - TTCN3-centos-gbproxy-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 20 10 * * *
       - TTCN3-centos-cbc-test-latest:
-          blocking: "^(ttcn3|TTCN3-.*)-cbc-test.*"
           timer: 40 10 * * *
 
       # centos8 2022q2 (SYS#6007)
       - TTCN3-centos-pcu-test-2022q2:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 00 17 * * *
       - TTCN3-centos-pcu-test-sns-2022q2:
-          blocking: "^(ttcn3|TTCN3-.*)-pcu-test.*"
           timer: 15 17 * * *
       - TTCN3-centos-bsc-test-2022q2:
-          blocking: "^(ttcn3|TTCN3-.*)-bsc-test.*"
           timer: 30 17 * * *
       - TTCN3-centos-mgw-test-2022q2:
-          blocking: "^(ttcn3|TTCN3-.*)-mgw-test.*"
           timer: 45 17 * * *
       - TTCN3-centos-bts-test-2022q2:
-          blocking: "^(ttcn3|TTCN3-.*)-bts-test.*"
           timer: 00 18 * * *
       - TTCN3-centos-smlc-test-2022q2:
-          blocking: "^(ttcn3|TTCN3-.*)-smlc-test.*"
           timer: 15 18 * * *
       - TTCN3-centos-gbproxy-test-2022q2:
-          blocking: "^(ttcn3|TTCN3-.*)-gbproxy-test.*"
           timer: 30 18 * * *
 
 - job-template:
