@@ -56,6 +56,8 @@ def checkout(project, branch):
     lib.run_cmd(["git", "checkout", "-f", branch], cwd=repo_path)
     print(f"{project}: 'git reset --hard {branch}'")
     lib.run_cmd(["git", "reset", "--hard", branch], cwd=repo_path)
+    print(f"{project}: 'git submodule update --init'")
+    lib.run_cmd(["git", "submodule", "update", "--init"], cwd=repo_path)
 
 
 def checkout_from_review(project, gerrit_id):
