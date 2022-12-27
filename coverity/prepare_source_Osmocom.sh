@@ -52,13 +52,13 @@ cd $BASEDIR
 for proj in $PROJECTS $PROJECTS_DONT_BUILD_TEST; do
 	if [ -d $proj ]; then
 		if [ -z "$SRC_SKIP_FETCH" ]; then
-			(cd $proj && git fetch && git checkout -f -B master origin/master)
+			(cd $proj && git fetch && git checkout -f -B master origin/master && git submodule update --recursive --remote)
 		fi
 		if [ -n "$SRC_CLEAN" ]; then
 			git -C "$proj" clean -ffxd
 		fi
 	else
-		git clone "$(osmo_git_clone_url "$proj")"
+		git clone --recursive "$(osmo_git_clone_url "$proj")"
 	fi
 done
 
