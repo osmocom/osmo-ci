@@ -112,6 +112,7 @@ build_default osmo-gmr
 build_default osmo-sip-connector
 
 build_default osmo-trx \
+	--with-mstrx \
 	--with-usrp1 \
 	--with-uhd \
 	--with-lms \
