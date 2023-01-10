@@ -3,6 +3,7 @@
   apt:
     name:
       - curl
+  tags: [coverity]
 
 - name: copy coverity installer
   copy:
