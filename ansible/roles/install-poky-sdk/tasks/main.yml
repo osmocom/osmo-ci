@@ -9,40 +9,45 @@
     cache_valid_time: 3600
     update_cache: yes
 
-- name: copy poky installer
-  copy:
-    src: "{{ poky_installer_file }}"
-    dest: "/tmp/{{ poky_installer_file }}"
-    mode: 0750
-  register: poky_copy
-  ignore_errors: yes
-  tags: [poky]
-
-- name: execute poky installer
-  command: "/tmp/{{ poky_installer_file }} -y -d '{{ poky_dest }}'"
-  args:
-    creates: "{{ poky_dest }}"
-  when: poky_copy.failed == False
-  tags: [poky]
-
-- name: change owner/group to jenkins user
-  file:
+- name: check if poky needs to be installed
+  stat:
     path: "{{ poky_dest }}"
-    owner: "{{ jenkins_user }}"
-    group: "{{ jenkins_user }}"
-    recurse: yes
-  when: poky_copy.failed == False
+  register: poky_stat
   tags: [poky]
 
-- name: remove poky installer
-  file:
-    path: "/tmp/{{ poky_installer_file }}"
-    state: absent
-  when: poky_copy.failed == False
+- name: install poky if required
   tags: [poky]
+  when: poky_stat.stat.exists == False
+  block:
+  - name: copy poky installer
+    copy:
+      src: "{{ poky_installer_file }}"
+      dest: "/tmp/{{ poky_installer_file }}"
+      mode: 0750
+    register: poky_copy
+    ignore_errors: yes
 
-- name: "Please download {{ poky_installer_file }} to your ansible directory to allow ansible to install poky"
-  debug:
-    msg: "Ansible can not find or copy {{ poky_installer_file }}"
-  when: poky_copy.failed == True
-  tags: [poky]
+  - name: execute poky installer
+    command: "/tmp/{{ poky_installer_file }} -y -d '{{ poky_dest }}'"
+    args:
+      creates: "{{ poky_dest }}"
+    when: poky_copy.failed == False
+
+  - name: change owner/group to jenkins user
+    file:
+      path: "{{ poky_dest }}"
+      owner: "{{ jenkins_user }}"
+      group: "{{ jenkins_user }}"
+      recurse: yes
+    when: poky_copy.failed == False
+
+  - name: remove poky installer
+    file:
+      path: "/tmp/{{ poky_installer_file }}"
+      state: absent
+    when: poky_copy.failed == False
+
+  - name: "Please download {{ poky_installer_file }} to your ansible directory to allow ansible to install poky"
+    debug:
+      msg: "Ansible can not find or copy {{ poky_installer_file }}"
+    when: poky_copy.failed == True
