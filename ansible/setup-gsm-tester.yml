@@ -1,6 +1,6 @@
 ---
 - name: setup osmo-gsm-tester apu
-  hosts: gsm-tester
+  hosts: gsm_tester
   user: root
   tasks:
     - name: install common utilities

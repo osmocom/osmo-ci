@@ -1,6 +1,6 @@
 ---
 - name: setup jenkins slaves
-  hosts: jenkins-slaves
+  hosts: jenkins_slaves
   user: root
   vars_files:
     - "vars/{{ ansible_facts['os_family'] }}-{{ ansible_facts['distribution_major_version']}}.yml"
@@ -47,7 +47,7 @@
     - name: ntpd
 
 - name: setup coverity slaves
-  hosts: coverity-slaves
+  hosts: coverity_slaves
   user: root
   roles:
     - name: install-coverity

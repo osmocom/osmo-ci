@@ -1,6 +1,6 @@
 ---
 - name: setup OBS worker
-  hosts: obs-workers
+  hosts: obs_workers
   user: root
   vars_files:
     - "vars/{{ ansible_facts['os_family'] }}-{{ ansible_facts['distribution_major_version']}}.yml"
