@@ -1,4 +1,4 @@
-poky-*
+poky-*toolchain*
 cov-analysis-*.tar.gz
 *.retry
 *.swo
