@@ -1,0 +1,3 @@
+    UserKnownHostsFile=util/known_hosts
+    HashKnownHosts=no
+
