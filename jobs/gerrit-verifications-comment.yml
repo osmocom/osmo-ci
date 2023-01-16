@@ -1,5 +1,6 @@
-# This job runs at the end of the pipeline in gerrit-verififactions.yml, to
-# post a list of failed/successful job links to gerrit and to vote +V/-V.
+# This job runs at the start/end of the pipeline in gerrit-verifications.yml.
+# On start it posts a link to the pipeline to gerrit, and on end a list of
+# failed/successful job links together with a vote +V/-V.
 
 - project:
     name: gerrit-verifications-comment
@@ -18,7 +19,7 @@
           artifact-days-to-keep: -1
           artifact-num-to-keep: -1
     description: |
-      Result job of CI for patches sent to <a href="https://gerrit.osmocom.org">gerrit</a>.
+      Send start and result comments to <a href="https://gerrit.osmocom.org">gerrit</a>.
       </br></br>
       Related issue: <a href="https://osmocom.org/issues/2385">OS#2385</a>
 
@@ -28,6 +29,9 @@
           description: |
                 osmo-ci.git branch
           default: 'master'
+      - string:
+          name: COMMENT_TYPE
+          description: set by gerrit verification pipeline job
       - string:
           name: GERRIT_PROJECT
           description: set by gerrit verification pipeline job

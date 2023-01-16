@@ -15,12 +15,16 @@ re_job_type = re.compile("JOB_TYPE=([a-zA-Z-_0-9]*),")
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Get a summary of failed / successful builds from the CI"
-                    " pipeline we run for patches submitted to gerrit.")
+        description="Prepare a comment to be submitted to gerrit. Depending on"
+                    " the comment type, (start) either a link to the pipeline,"
+                    " or (result) a summary of failed / successful builds from"
+                    " the pipeline we run for patches submitted to gerrit.")
     parser.add_argument("build_url",
                         help="$BUILD_URL of the pipeline job, e.g."
                              " https://jenkins.osmocom.org/jenkins/job/gerrit-osmo-bsc-nat/17/")
     parser.add_argument("-o", "--output", help="output json file")
+    parser.add_argument("-t", "--type", help="comment type",
+                        choices=["start", "result"], required=True)
     parser.add_argument("-n", "--notify-on-success", action="store_true",
                         help="always indicate in json that the owner should be"
                              " notified via mail, not only on failure")
@@ -153,7 +157,7 @@ def get_jobs_list_str(jobs):
     return ret
 
 
-def get_pipeline_summary(build_url, notify_on_success):
+def get_comment_result(build_url, notify_on_success):
     """ Generate a summary of failed and successful builds for gerrit.
         :returns: a dict that is expected by gerrit's set-review api, e.g.
                   {"tag": "jenkins",
@@ -211,17 +215,26 @@ def get_pipeline_summary(build_url, notify_on_success):
             "notify": notify}
 
 
+def get_comment_start(build_url):
+    return {"tag": "jenkins",
+            "message": f"Build Started\n{build_url}consoleFull",
+            "notify": "NONE"}
+
+
 def main():
     args = parse_args()
-    summary = get_pipeline_summary(args.build_url, args.notify_on_success)
+    if args.type == "result":
+        comment = get_comment_result(args.build_url, args.notify_on_success)
+    else:
+        comment = get_comment_start(args.build_url)
 
     print()
-    print(summary["message"])
-    print(f"notify: {summary['notify']}")
+    print(comment["message"])
+    print(f"notify: {comment['notify']}")
 
     if args.output:
         with open(args.output, "w") as handle:
-            json.dump(summary, handle, indent=4)
+            json.dump(comment, handle, indent=4)
 
 if __name__ == "__main__":
     main()

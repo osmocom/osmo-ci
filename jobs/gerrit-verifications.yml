@@ -416,6 +416,29 @@
         stages {{
           stage("Verification") {{
             parallel {{
+              stage("Start Comment") {{
+                steps {{
+                  // Run the comment job to add the pipeline link to gerrit
+                  script {{
+                    // Keep going on failure
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
+                      build job: 'gerrit-verifications-comment', parameters: [
+                        string(name: "COMMENT_TYPE", value: "start"),
+                        string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
+                        string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
+                        string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
+                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+                        string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
+                        string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
+                        string(name: "GERRIT_PATCHSET_UPLOADER_NAME", value: "${{env.GERRIT_PATCHSET_UPLOADER_NAME}}"),
+                        string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
+                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+                        string(name: "PIPELINE_BUILD_URL", value: "${{env.BUILD_URL}}"),
+                      ]
+                    }}
+                  }}
+                }}
+              }}
               stage("Build") {{
                 when {{
                   expression {{ params.PIPELINE_BUILD }}
@@ -512,6 +535,7 @@
               // comment + vote to gerrit
               script {{
                build job: 'gerrit-verifications-comment', parameters: [
+                 string(name: "COMMENT_TYPE", value: "result"),
                  string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
                  string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
                  string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),

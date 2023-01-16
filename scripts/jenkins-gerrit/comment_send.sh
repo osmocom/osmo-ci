@@ -18,6 +18,7 @@ set -x
 
 ./comment_generate.py "$PIPELINE_BUILD_URL" \
 	-o gerrit_report.json \
+	-t "$COMMENT_TYPE" \
 	$arg_notify
 
 ssh \
