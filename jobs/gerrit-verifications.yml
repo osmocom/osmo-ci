@@ -501,17 +501,17 @@
               }}
             }}
           }}
-          stage("Result") {{
+          stage("Result Comment") {{
             steps {{
               echo "PIPELINE_BUILD_PASSED=${{env.PIPELINE_BUILD_PASSED}}"
               echo "PIPELINE_LINT_PASSED=${{env.PIPELINE_LINT_PASSED}}"
               echo "PIPELINE_DEB_PASSED=${{env.PIPELINE_DEB_PASSED}}"
               echo "PIPELINE_RPM_PASSED=${{env.PIPELINE_RPM_PASSED}}"
 
-              // Run the result job to get successful/failed links and add a
+              // Run the comment job to get successful/failed links and add a
               // comment + vote to gerrit
               script {{
-               build job: 'gerrit-pipeline-result', parameters: [
+               build job: 'gerrit-verifications-comment', parameters: [
                  string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
                  string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
                  string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),

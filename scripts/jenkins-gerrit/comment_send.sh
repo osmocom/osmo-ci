@@ -16,7 +16,7 @@ done
 
 set -x
 
-./pipeline_summary.py "$PIPELINE_BUILD_URL" \
+./comment_generate.py "$PIPELINE_BUILD_URL" \
 	-o gerrit_report.json \
 	$arg_notify
 

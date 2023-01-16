@@ -2,12 +2,12 @@
 # post a list of failed/successful job links to gerrit and to vote +V/-V.
 
 - project:
-    name: gerrit-pipeline-result
+    name: gerrit-verifications-comment
     jobs:
-      - 'gerrit-pipeline-result'
+      - 'gerrit-verifications-comment'
 
 - job:
-    name: 'gerrit-pipeline-result'
+    name: 'gerrit-verifications-comment'
     project-type: freestyle
     node: osmocom-gerrit
     retry-count: 3 # scm checkout
@@ -68,7 +68,7 @@
          wipe-workspace: true
 
     builders:
-      - shell: 'cd scripts/jenkins-gerrit && ./pipeline_summary_send.sh'
+      - shell: 'cd scripts/jenkins-gerrit && ./comment_send.sh'
 
     wrappers:
     - ansicolor:

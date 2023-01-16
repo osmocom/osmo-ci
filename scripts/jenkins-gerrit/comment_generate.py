@@ -28,7 +28,7 @@ def parse_args():
 
 
 def stage_from_job_name(job_name):
-    if job_name == "gerrit-pipeline-result":
+    if job_name == "gerrit-verifications-comment":
         # The job that runs this script. Don't include it in the summary.
         return None
     if job_name == "gerrit-lint":
