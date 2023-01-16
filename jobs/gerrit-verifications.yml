@@ -281,7 +281,7 @@
       - osmo-trx:
           slave_axis: !!python/tuple [osmocom-gerrit,rpi4-raspbian11]
           a1_name: INSTR
-          a1: !!python/tuple [--with-sse, --without-sse --with-neon, --with-neon-vfpv4]
+          a1: !!python/tuple [--with-sse, --without-sse, --with-neon, --with-neon-vfpv4]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
           combination_filter: >
