@@ -48,11 +48,8 @@
     # Documentation for variables (keep in sync!):
     # https://osmocom.org/projects/osmocom-servers/wiki/Jenkins_build_verification_jobs
     docker_run: |
-            ARTIFACT_STORE="$HOME/jenkins_build_artifact_store"
-            mkdir -p "$ARTIFACT_STORE"
             docker run --rm=true \
               --cap-add SYS_PTRACE \
-              -e ARTIFACT_STORE=/artifact_store \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
@@ -63,7 +60,6 @@
               -e WITH_MANUALS="1" \
               -w /build -i -u build \
               -v "$PWD:/build" \
-              -v "$ARTIFACT_STORE:/artifact_store" \
     docker_img: '$USER/debian-buster-jenkins'
     docker_img_erlang: '$USER/debian-bullseye-erlang'
     timeout_cmd: '/usr/bin/timeout 30m'
