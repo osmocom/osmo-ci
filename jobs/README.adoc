@@ -90,3 +90,15 @@ Other labels indicate specific software/hardware works here, e.g.:
 - hdlc
 - osmo-gsm-tester
 - podman
+
+*ccache*
+
+The jobs from master-builds and gerrit-verifications use ccache. View the
+statistics with SSH on the build nodes with:
+
+ $ CCACHE_DIR=~/ccache/gerrit-verifications ccache -s
+ $ CCACHE_DIR=~/ccache/master-builds ccache -s
+
+Note that running multiple jobs in parallel influence the ccache statistics,
+and it's impossible to tell which job caused which change in the stats (that's
+why they are not printed at the end of each job, it would be confusing).

@@ -25,17 +25,20 @@
             docker run --rm=true \
               --cap-add SYS_PTRACE \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e CCACHE_DIR="/ccache" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
+              -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
               -e SSH_AUTH_SOCK=/ssh-agent \
               -e WITH_MANUALS="1" \
               -w /build -i -u build \
               -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
+              -v "$HOME/ccache/master-builds:/ccache" \
               -v "$PWD:/build" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
     docker_img: '$USER/debian-buster-jenkins'
@@ -545,6 +548,10 @@
       - timed: "H H * * *"
 
     builders:
+      - shell: |-
+          CCACHE_DIR="$HOME/ccache/master-builds"
+          mkdir -p "$CCACHE_DIR"
+          chown osmocom-build:osmocom-build "$CCACHE_DIR"
       - shell: '{obj:cmd}'
 
     publishers:
