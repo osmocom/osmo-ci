@@ -53,7 +53,6 @@ exclude_paths_project() {
 # * ASSIGN_IN_IF: not followed (e.g. 'if ((u8 = gsup_msg->cause))')
 # * AVOID_EXTERNS: we do use externs
 # * BLOCK_COMMENT_STYLE: we don't use a trailing */ on a separate line
-# * BRACES_NOT_NECESSARY: not followed
 # * COMPLEX_MACRO: we don't use parentheses when building macros of strings across multiple lines
 # * CONSTANT_COMPARISON: not followed: "Comparisons should place the constant on the right side"
 # * DEEP_INDENTATION: warns about many leading tabs, not useful if changing existing code without refactoring
@@ -91,7 +90,6 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore ASSIGN_IN_IF \
 	--ignore AVOID_EXTERNS \
 	--ignore BLOCK_COMMENT_STYLE \
-	--ignore BRACES_NOT_NECESSARY \
 	--ignore COMPLEX_MACRO \
 	--ignore CONSTANT_COMPARISON \
 	--ignore DEEP_INDENTATION \
