@@ -74,6 +74,7 @@ exclude_paths_project() {
 # * SPDX_LICENSE_TAG: we don't place it on line 1
 # * SPLIT_STRING: we do split long messages over multiple lines
 # * STRING_FRAGMENTS: sometimes used intentionally to improve readability
+# * SYMBOLIC_PERMS: recommends using octal permissions over symbolic ones, not followed
 # * TRACING_LOGGING: recommends to use kernel's internal ftrace instead of printf("%s()\n", __func__)
 # * TRAILING_STATEMENTS: not followed, e.g. 'while (osmo_select_main_ctx(1) > 0);' is put in one line
 # * UNNECESSARY_BREAK: not followed (see https://gerrit.osmocom.org/c/libosmo-netif/+/26429)
@@ -113,6 +114,7 @@ $SCRIPT_DIR/checkpatch.pl \
 	--ignore SPDX_LICENSE_TAG \
 	--ignore SPLIT_STRING \
 	--ignore STRING_FRAGMENTS \
+	--ignore SYMBOLIC_PERMS \
 	--ignore TRACING_LOGGING \
 	--ignore TRAILING_STATEMENTS \
 	--ignore UNNECESSARY_BREAK \
