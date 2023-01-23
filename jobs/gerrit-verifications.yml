@@ -120,6 +120,7 @@
               -e SMPP="$SMPP" \
               -e MGCP="$MGCP" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+          pipeline_binpkgs: false
 
       - openggsn:
           a1_name: GTP
