@@ -2,11 +2,16 @@
 set -e -x
 cd "$(dirname "$0")/.."
 . scripts/common.sh
-docker_images_require \
-	"debian-buster-jenkins"
 
-if [ "$(arch)" = "x86_64" ]; then
+case "$(arch)" in
+x86_64)
 	docker_images_require \
 		"debian-bullseye-erlang" \
-		"debian-bullseye-jenkins"
-fi
+		"debian-bullseye-jenkins" \
+		"debian-buster-jenkins"
+	;;
+arm*)
+	docker_images_require \
+		"debian-buster-jenkins-arm"
+	;;
+esac

@@ -149,10 +149,14 @@
             (FIRMWARE_VERSION == "oc2g-next" && BTS_MODEL == "oc2g" && WITH_MANUALS == "0" && label == "osmocom-gerrit")
           concurrent: false
           cmd: |
+            DOCKER_IMG="{docker_img}"
+            case "$(arch)" in
+            arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
+            esac
             {docker_run} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
+              "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
       - osmo_dia2gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -241,12 +245,16 @@
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1" && label == "osmocom-gerrit") ||
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "rpi4-raspbian11")
           cmd: |
+            DOCKER_IMG="{docker_img}"
+            case "$(arch)" in
+            arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
+            esac
             {docker_run} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
@@ -286,10 +294,14 @@
             (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-raspbian11") ||
             (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-raspbian11")
           cmd: |
+            DOCKER_IMG="{docker_img}"
+            case "$(arch)" in
+            arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
+            esac
             {docker_run} \
               -e INSTR="$INSTR" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmocom-bb:
           pipeline_binpkgs: false
