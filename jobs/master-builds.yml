@@ -39,6 +39,10 @@
               -v "$PWD:/build" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
     docker_run_ccache: |
+            CCACHE_DIR="$HOME/ccache/master-builds"
+            mkdir -p "$CCACHE_DIR"
+            chown osmocom-build:osmocom-build "$CCACHE_DIR"
+
             docker run --rm=true \
               --cap-add SYS_PTRACE \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
@@ -58,7 +62,7 @@
               \
               -e CCACHE_DIR="/ccache" \
               -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
-              -v "$HOME/ccache/master-builds:/ccache" \
+              -v "$CCACHE_DIR:/ccache" \
     docker_img: '$USER/debian-buster-jenkins'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
@@ -566,10 +570,6 @@
       - timed: "H H * * *"
 
     builders:
-      - shell: |-
-          CCACHE_DIR="$HOME/ccache/master-builds"
-          mkdir -p "$CCACHE_DIR"
-          chown osmocom-build:osmocom-build "$CCACHE_DIR"
       - shell: '{obj:cmd}'
 
     publishers:
