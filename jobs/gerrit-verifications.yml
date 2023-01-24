@@ -51,22 +51,36 @@
             docker run --rm=true \
               --cap-add SYS_PTRACE \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -e CCACHE_DIR="/ccache" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
-              -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e WITH_MANUALS="1" \
               -w /build -i -u build \
-              -v "$HOME/ccache/gerrit-verifications:/ccache" \
               -v "$PWD:/build" \
+    docker_run_ccache: |
+            docker run --rm=true \
+              --cap-add SYS_PTRACE \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e HOME=/build \
+              -e JOB_NAME="$JOB_NAME" \
+              -e MAKE=make \
+              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
+              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e WITH_MANUALS="1" \
+              -w /build -i -u build \
+              -v "$PWD:/build" \
+              \
+              -e CCACHE_DIR="/ccache" \
+              -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+              -v "$HOME/ccache/gerrit-verifications:/ccache" \
     docker_img: '$USER/debian-buster-jenkins'
     docker_img_erlang: '$USER/debian-bullseye-erlang'
     timeout_cmd: '/usr/bin/timeout 30m'
-    cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
+    cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
@@ -98,7 +112,7 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
 
       - libsmpp34
 
@@ -115,7 +129,7 @@
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e IU="$IU" \
               -e SMPP="$SMPP" \
               -e MGCP="$MGCP" \
@@ -157,7 +171,7 @@
             case "$(arch)" in
             arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
-            {docker_run} \
+            {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
@@ -197,7 +211,7 @@
             (GTP == "--enable-gtp-linux" && WITH_MANUALS == "0") ||
             (GTP == "--disable-gtp-linux" && WITH_MANUALS == "1")
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e GTP="$GTP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
@@ -207,7 +221,7 @@
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          cmd: '{docker_run_ccache} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_binpkgs: false
 
       - osmo-hlr
@@ -223,7 +237,7 @@
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
@@ -253,7 +267,7 @@
             case "$(arch)" in
             arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
-            {docker_run} \
+            {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
@@ -273,7 +287,7 @@
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
@@ -302,7 +316,7 @@
             case "$(arch)" in
             arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
-            {docker_run} \
+            {docker_run_ccache} \
               -e INSTR="$INSTR" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins.sh

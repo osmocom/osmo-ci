@@ -25,25 +25,43 @@
             docker run --rm=true \
               --cap-add SYS_PTRACE \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
-              -e CCACHE_DIR="/ccache" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
               -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
-              -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e PUBLISH="1" \
               -e SSH_AUTH_SOCK=/ssh-agent \
               -e WITH_MANUALS="1" \
               -w /build -i -u build \
               -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
-              -v "$HOME/ccache/master-builds:/ccache" \
               -v "$PWD:/build" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
+    docker_run_ccache: |
+            docker run --rm=true \
+              --cap-add SYS_PTRACE \
+              -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e HOME=/build \
+              -e JOB_NAME="$JOB_NAME" \
+              -e MAKE=make \
+              -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
+              -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
+              -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+              -e PUBLISH="1" \
+              -e SSH_AUTH_SOCK=/ssh-agent \
+              -e WITH_MANUALS="1" \
+              -w /build -i -u build \
+              -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
+              -v "$PWD:/build" \
+              -v "$HOME/.ssh:/home/build/.ssh:ro" \
+              \
+              -e CCACHE_DIR="/ccache" \
+              -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+              -v "$HOME/ccache/master-builds:/ccache" \
     docker_img: '$USER/debian-buster-jenkins'
     timeout_cmd: '/usr/bin/timeout 30m'
-    cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
+    cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
     git_base_url: https://gerrit.osmocom.org
@@ -81,7 +99,7 @@
       - libosmo-dsp:
           git_base_url: https://gitea.osmocom.org/sdr
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               {docker_img} {timeout_cmd} sh -ex -c \
                 'autoreconf -fi; \
                  ./configure; \
@@ -142,7 +160,7 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
           # Full triggers would be:
           # trigger: >
           #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp, master-openbsc,
@@ -205,7 +223,7 @@
           a3_name: IU
           a3: !!python/tuple [--disable-iu]
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e IU="$IU" \
               -e SMPP="$SMPP" \
               -e MGCP="$MGCP" \
@@ -239,7 +257,7 @@
             case "$(arch)" in
             arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
-            {docker_run} \
+            {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
@@ -289,7 +307,7 @@
             (GTP == "--enable-gtp-linux" && WITH_MANUALS == "0") ||
             (GTP == "--disable-gtp-linux" && WITH_MANUALS == "1")
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e GTP="$GTP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
@@ -331,7 +349,7 @@
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
@@ -360,7 +378,7 @@
             case "$(arch)" in
             arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
-            {docker_run} \
+            {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
@@ -376,7 +394,7 @@
             (IU == "--enable-iu" && WITH_MANUALS == "0") ||
             (IU == "--disable-iu" && WITH_MANUALS == "1")
           cmd: |
-            {docker_run} \
+            {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
@@ -403,7 +421,7 @@
             case "$(arch)" in
             arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
-            {docker_run} \
+            {docker_run_ccache} \
               -e INSTR="$INSTR" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins.sh
@@ -412,19 +430,19 @@
       - osmo-sysmon
       - osmo-remsim
       - osmo-asf4-dfu:
-          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org ewild@sysmocom.de
           ssh:
             - binaries_ftp.osmocom.org
             - docs_ftp.osmocom.org
       - osmo-ccid-firmware:
-          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org ewild@sysmocom.de
           ssh:
             - binaries_ftp.osmocom.org
             - docs_ftp.osmocom.org
       - simtrace2:
-          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
           ssh:
             - binaries_ftp.osmocom.org
