@@ -126,6 +126,9 @@ osmo_git_clone_url() {
 		osmo-gmr)
 			echo "$OSMO_GIT_URL_GITEA"/satellite/"$1"
 			;;
+		osmo-isdntap)
+			echo "$OSMO_GIT_URL_GITEA"/retronetworking/"$1"
+			;;
 		*)
 			echo "$OSMO_GIT_URL_GERRIT"/"$1"
 			;;

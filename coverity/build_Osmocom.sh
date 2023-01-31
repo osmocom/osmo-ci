@@ -122,3 +122,11 @@ build_default osmo-trx \
 build_osmocombb
 # SIMTrace host tools
 build_simtrace2
+
+build_default osmo-pcap
+build_default osmo-e1d
+build_default osmo-e1-recorder
+build_default osmo-upf
+build_default osmo-isdntap
+build_default osmo-uecups
+build_default osmo-remsim

@@ -40,6 +40,13 @@ PROJECTS="
   osmo-hnodeb
   osmo-hnbgw
   osmo-bsc-nat
+  osmo-pcap
+  osmo-e1d
+  osmo-e1-recorder
+  osmo-upf
+  osmo-isdntap
+  osmo-uecups
+  osmo-remsim
 "
 
 PROJECTS_DONT_BUILD_TEST="
