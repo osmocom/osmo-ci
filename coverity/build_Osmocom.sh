@@ -79,7 +79,9 @@ build_default libosmo-netif
 build_default libosmo-pfcp
 build_default libosmo-sccp
 build_default libsmpp34
-build_default osmo-ggsn
+build_default libgtpnl
+build_default osmo-ggsn \
+	--enable-gtp-linux
 build_default osmo-gbproxy
 build_default osmo-iuh
 build_default osmo-pcu \
@@ -126,7 +128,6 @@ build_simtrace2
 build_default osmo-pcap
 build_default osmo-e1d
 build_default osmo-e1-recorder
-build_default libgtpnl
 build_default osmo-upf
 
 # OS#5886: doesn't build
