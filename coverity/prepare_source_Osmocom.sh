@@ -2,6 +2,8 @@
 . $(realpath common.sh)
 BASEDIR=source-Osmocom
 
+osmo_cmd_require sdcc
+
 # How to add a new project:
 # * add it to the list below
 # * add it to build_Osmocom.sh
