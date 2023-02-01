@@ -4,6 +4,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 
 export SRC_SKIP_FETCH=1
 export SRC_CLEAN=1
+export PARALLEL_MAKE="-j$(echo $(nproc) + 1 | bc)"
 
 mkdir -p /tmp/coverity
 rm -f /tmp/coverity/common.sh
