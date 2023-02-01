@@ -126,6 +126,7 @@ build_simtrace2
 build_default osmo-pcap
 build_default osmo-e1d
 build_default osmo-e1-recorder
+build_default libgtpnl
 build_default osmo-upf
 build_default osmo-isdntap
 build_default osmo-uecups

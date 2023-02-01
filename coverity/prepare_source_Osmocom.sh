@@ -43,6 +43,7 @@ PROJECTS="
   osmo-pcap
   osmo-e1d
   osmo-e1-recorder
+  libgtpnl
   osmo-upf
   osmo-isdntap
   osmo-uecups
