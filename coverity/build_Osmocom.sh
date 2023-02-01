@@ -128,7 +128,10 @@ build_default osmo-e1d
 build_default osmo-e1-recorder
 build_default libgtpnl
 build_default osmo-upf
-build_default osmo-isdntap
+
+# OS#5886: doesn't build
+# build_default osmo-isdntap
+
 build_default osmo-uecups
 build_default osmo-remsim \
 	--with-usbdropdir=$prefix/usr/lib/pcsc/drivers \
