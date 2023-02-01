@@ -6,6 +6,7 @@ export SRC_SKIP_FETCH=1
 export SRC_CLEAN=1
 
 mkdir -p /tmp/coverity
+rm -f /tmp/coverity/common.sh
 cp "$SCRIPT_DIR"/* /tmp/coverity
 ln -sf "$SCRIPT_DIR/../scripts/common.sh" /tmp/coverity/common.sh
 
