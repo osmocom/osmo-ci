@@ -66,6 +66,7 @@
       - libgnutls28-dev
       - libgps-dev
       - libgsm1-dev
+      - libnftables-dev
       - libnl-3-dev
       - libnl-route-3-dev
       - libmnl-dev
