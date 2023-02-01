@@ -130,4 +130,6 @@ build_default libgtpnl
 build_default osmo-upf
 build_default osmo-isdntap
 build_default osmo-uecups
-build_default osmo-remsim
+build_default osmo-remsim \
+	--with-usbdropdir=$prefix/usr/lib/pcsc/drivers \
+	--with-serialconfdir=$prefix/etc/reader.conf.d
