@@ -94,8 +94,8 @@ def get_head_remote(project, branch):
 
     ret = ls_remote.output.split("\t")[0]
     if not ret:
-        lib.exit_error_cmd(ls_remote, f"failed to find head commit for"
-                           "{project} in output")
+        lib.exit_error_cmd(ls_remote, "failed to find head commit for"
+                           f" {project} in output")
 
     return ret
 
