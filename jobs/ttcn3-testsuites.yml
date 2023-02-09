@@ -257,20 +257,20 @@
       - TTCN3-centos-cbc-test-latest:
           timer: 40 10 * * *
 
-      # centos8 2022q2 (SYS#6007)
-      - TTCN3-centos-pcu-test-2022q2:
+      # centos8 2023q1 (SYS#6283)
+      - TTCN3-centos-pcu-test-2023q1:
           timer: 00 17 * * *
-      - TTCN3-centos-pcu-test-sns-2022q2:
+      - TTCN3-centos-pcu-test-sns-2023q1:
           timer: 15 17 * * *
-      - TTCN3-centos-bsc-test-2022q2:
+      - TTCN3-centos-bsc-test-2023q1:
           timer: 30 17 * * *
-      - TTCN3-centos-mgw-test-2022q2:
+      - TTCN3-centos-mgw-test-2023q1:
           timer: 45 17 * * *
-      - TTCN3-centos-bts-test-2022q2:
+      - TTCN3-centos-bts-test-2023q1:
           timer: 00 18 * * *
-      - TTCN3-centos-smlc-test-2022q2:
+      - TTCN3-centos-smlc-test-2023q1:
           timer: 15 18 * * *
-      - TTCN3-centos-gbproxy-test-2022q2:
+      - TTCN3-centos-gbproxy-test-2023q1:
           timer: 30 18 * * *
 
 - job-template:
