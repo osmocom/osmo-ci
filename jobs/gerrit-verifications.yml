@@ -92,6 +92,7 @@
     pipeline_build: true
     pipeline_lint: true
     pipeline_binpkgs: true
+    pipeline_endianness: true
 
     # in alphabetical order
     repos:
@@ -103,6 +104,7 @@
       - docker-playground:
           pipeline_build: false
           pipeline_binpkgs: false
+          pipeline_endianness: false
 
       - libasn1c
       - libgtpnl
@@ -184,6 +186,7 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          pipeline_endianness: false
 
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
@@ -220,7 +223,8 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
-      - osmo-gsm-manuals
+      - osmo-gsm-manuals:
+          pipeline_endianness: false
 
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -281,6 +285,7 @@
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
+          pipeline_endianness: false
 
       - osmo-sgsn:
           a1_name: IU
@@ -301,6 +306,7 @@
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_binpkgs: false
+          pipeline_endianness: false
 
       - osmo-sip-connector
 
@@ -388,6 +394,7 @@
               ;;
             esac
           pipeline_binpkgs: false
+          pipeline_endianness: false
 
       - osmo-ttcn3-hacks:
           slave_axis: !!python/tuple [ttcn3]
@@ -405,6 +412,7 @@
                 su build -c 'make compile';
                 "
           pipeline_binpkgs: false
+          pipeline_endianness: false
 
       - dahdi-tools:
           pipeline_lint: false
@@ -435,6 +443,10 @@
           name: PIPELINE_BINPKGS
           description: Enable the binpkgs job (build deb/rpm packages)
           default: '{obj:pipeline_binpkgs}'
+      - bool:
+          name: PIPELINE_ENDIANNESS
+          description: Run struct_endianness.py from libosmocore.git
+          default: '{obj:pipeline_endianness}'
     # NOTE: jenkins pipelines don't run unless the dsl-script was approved.
     # Sadly this doesn't happen automatically when updating the job with
     # Jenkins Job Builder. So if you change the pipeline script, update the job
@@ -552,6 +564,31 @@
                   }}
                 }}
               }}
+              stage("Endianness") {{
+                when {{
+                  expression {{ params.PIPELINE_ENDIANNESS }}
+                }}
+                steps {{
+                  script {{
+                    // Run the endianness job for this repository and keep going on failure
+                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
+                      env.PIPELINE_ENDIANNESS_PASSED = "0"
+                      build job: 'gerrit-pipeline-endianness', parameters: [
+                        string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
+                        string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
+                        string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
+                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+                        string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
+                        string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
+                        string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
+                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+                        string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
+                      ]
+                      env.PIPELINE_ENDIANNESS_PASSED = "1"
+                    }}
+                  }}
+                }}
+              }}
             }}
           }}
           stage("Result Comment") {{
@@ -560,6 +597,7 @@
               echo "PIPELINE_LINT_PASSED=${{env.PIPELINE_LINT_PASSED}}"
               echo "PIPELINE_DEB_PASSED=${{env.PIPELINE_DEB_PASSED}}"
               echo "PIPELINE_RPM_PASSED=${{env.PIPELINE_RPM_PASSED}}"
+              echo "PIPELINE_ENDIANNESS_PASSED=${{env.PIPELINE_ENDIANNESS_PASSED}}"
 
               // Run the comment job to get successful/failed links and add a
               // comment + vote to gerrit

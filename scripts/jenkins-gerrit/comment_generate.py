@@ -41,6 +41,8 @@ def stage_from_job_name(job_name):
         return "deb"
     if job_name == "gerrit-binpkgs-rpm":
         return "rpm"
+    if job_name == "gerrit-pipeline-endianness":
+        return "endianness"
     if job_name.endswith("-build"):
         return "build"
     assert False, f"couldn't figure out stage from job_name: {job_name}"
