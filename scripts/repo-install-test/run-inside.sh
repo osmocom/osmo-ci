@@ -477,6 +477,8 @@ services_check() {
 check_env
 prepare_vm
 
+uname -a
+
 for test in $TESTS; do
 	set +x
 	echo
