@@ -384,6 +384,7 @@ test_binaries() {
 		osmo-bts-trx \
 		osmo-bts-virtual \
 		osmo-cbc \
+		osmo-e1d \
 		osmo-gbproxy \
 		osmo-ggsn \
 		osmo-gtphub \
@@ -406,7 +407,8 @@ test_binaries() {
 		osmo-smlc \
 		osmo-stp \
 		osmo-trx-ipc \
-		osmo-trx-uhd
+		osmo-trx-uhd \
+		osmo-uecups-daemon
 
 	case "$DISTRO" in
 	debian*)
@@ -427,9 +429,7 @@ test_binaries() {
 
 	if [ "$FEED" = "nightly" ]; then
 		test_binaries_version \
-			osmo-bsc-nat \
-			osmo-e1d \
-			osmo-uecups-daemon
+			osmo-bsc-nat
 	fi
 }
 
