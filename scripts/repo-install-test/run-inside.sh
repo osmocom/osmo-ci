@@ -446,7 +446,9 @@ services_check() {
 	if [ "$DISTRO" != "debian10" ]; then
 		# osmo-upf <= 0.1.1 needs GTP kernel module
 		if [ "$FEED" = "nightly" ]; then
-			services_feed="$services_feed osmo-upf"
+			# osmo-upf nightly needs a newer kernel (OS#5905)
+			# services_feed="$services_feed osmo-upf"
+			true
 		fi
 	fi
 
