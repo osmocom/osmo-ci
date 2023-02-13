@@ -1,5 +1,6 @@
 #!/bin/sh -ex
 # Environment variables:
+# * DOMAIN: default is downloads.osmocom.org, set to people.osmocom.org for testing pkgs from home:…
 # * FEED: binary package feed (e.g. "latest", "nightly")
 # * INTERACTIVE: set to 1 to keep an interactive shell open after the script ran (for debugging)
 # * KEEP_VM: for development: don't kill/start VM if still running
@@ -9,6 +10,7 @@
 # * TESTS: which tests to run (all by default, see below for possible values)
 . "$(dirname "$0")/common.sh"
 
+DOMAIN="${DOMAIN:-downloads.osmocom.org}"
 DISTRO="$1"
 DISTROS="
 	centos8
@@ -136,6 +138,7 @@ qemu_run_test_script() {
 	#!/bin/sh -ex
 
 	export DISTRO="$DISTRO"
+	export DOMAIN="$DOMAIN"
 	export FEED="$FEED"
 	export PROJ="$PROJ"
 	export PROJ_CONFLICT="$PROJ_CONFLICT"

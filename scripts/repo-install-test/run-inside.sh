@@ -108,7 +108,7 @@ check_env() {
 # $1: OBS project (e.g. "osmocom:nightly")
 configure_osmocom_repo_debian() {
 	local proj="$1"
-	local obs_repo="downloads.osmocom.org/packages/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR/"
+	local obs_repo="$DOMAIN/packages/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR/"
 
 	echo "Configuring Osmocom repository"
 
@@ -132,7 +132,7 @@ configure_osmocom_repo_debian_remove() {
 # $1: OBS project (e.g. "osmocom:nightly")
 configure_osmocom_repo_centos() {
 	local proj="$1"
-	local baseurl="https://downloads.osmocom.org/packages/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR"
+	local baseurl="https://$DOMAIN/packages/$(proj_with_slashes "$proj")/$DISTRO_OBSDIR"
 
 	echo "Configuring Osmocom repository"
 	# Generate this file, based on the feed:
