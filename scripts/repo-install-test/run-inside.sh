@@ -11,8 +11,6 @@
 # Systemd services that must start up successfully after installing all packages (OS#3369)
 # Disabled services:
 # * osmo-ctrl2cgi (missing config: /etc/osmocom/ctrl2cgi.ini, OS#4108)
-# * osmo-e1d (missing config, OS#5817)
-# * osmo-ggsn (conflicting config, OS#5817)
 # * osmo-remsim-client (exits immediately without USB device)
 # * osmo-trap2cgi (missing config: /etc/osmocom/%N.ini, OS#4108)
 # * osmo-trx-* (exits immediately without trx device)
@@ -21,7 +19,9 @@ SERVICES="
 	osmo-bsc
 	osmo-bts-virtual
 	osmo-cbc
+	osmo-e1d
 	osmo-gbproxy
+	osmo-ggsn
 	osmo-gtphub
 	osmo-hlr
 	osmo-hnbgw
@@ -415,16 +415,17 @@ test_binaries() {
 		test_binaries_version \
 			osmo-trx-usrp1
 		;;
-	centos8*)
-		# OS#5817: not packaged for debian
-		test_binaries_version \
-			osmo-pfcp-tool
-		;;
 	esac
 
 	if [ "$DISTRO" != "debian10" ]; then
 		test_binaries_version \
 			osmo-upf
+
+		# OS#5817: not packaged for debian, needs osmo-upf release
+		if [ "$FEED" = "nightly" ] || [ "$DISTRO" = "centos8" ]; then
+			test_binaries_version \
+				osmo-pfcp-tool
+		fi
 	fi
 
 	if [ "$FEED" = "nightly" ]; then
@@ -451,10 +452,6 @@ services_check() {
 			true
 		fi
 	fi
-
-	# OS#5817: osmo-ggsn conflicts with osmo-gtphub; explicitly stop it
-	# here until it is fixed, as it gets auto-started after installation
-	systemctl stop osmo-ggsn
 
 	systemctl start $services_feed
 	sleep 2
