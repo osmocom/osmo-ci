@@ -153,7 +153,7 @@ def get_job_short_name(job):
 def get_jobs_list_str(jobs):
     ret = ""
     for job in jobs:
-        ret += f"  [{get_job_short_name(job)}] {job['url']}/consoleFull\n"
+        ret += f"* [{get_job_short_name(job)}] {job['url']}/consoleFull\n"
     return ret
 
 
