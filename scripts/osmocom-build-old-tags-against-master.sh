@@ -68,6 +68,11 @@ tags_to_ignore() {
 			echo "1.2.0" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
 			echo "1.2.1" # testsuite: libosmocore 6407c822ae0d45d047deb0dff095f028a90c1ecc
 			;;
+		osmo-hlr)
+			echo "1.4.0" # testsuite: libosmocore I446e54d0ddf4a18c46ee022b1249af73552e3ce1
+			echo "1.5.0" # testsuite: libosmocore I446e54d0ddf4a18c46ee022b1249af73552e3ce1
+			echo "1.6.0" # testsuite: libosmocore I446e54d0ddf4a18c46ee022b1249af73552e3ce1
+			;;
 		osmo-mgw)
 			echo "1.3.0" # testsuite
 			echo "1.4.0" # testsuite
