@@ -1,0 +1,42 @@
+---
+- project:
+    name: Osmocom-release-manuals
+    jobs:
+      - Osmocom-release-manuals
+
+- job:
+    name: 'Osmocom-release-manuals'
+    project-type: freestyle
+    defaults: global
+    description: |
+        Build manuals for all new Osmocom releases
+        (<a href="https://osmocom.org/issues/5902">OS#5902</a>).
+    parameters:
+      - string:
+          name: BRANCH_CI
+          description: |
+                osmo-ci.git branch
+          # FIXME
+          default: 'osmith/wip-manuals'
+    builders:
+      - shell: |
+          scripts/manuals/publish-manuals-for-tags.sh
+    scm:
+      - git:
+          branches:
+            - '$BRANCH_CI'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          wipe-workspace: true
+    triggers:
+      - timed: "@midnight"
+# FIXME
+#    publishers:
+#       - email:
+#          notify-every-unstable-build: true
+#          recipients: 'jenkins-notifications@lists.osmocom.org'
+    wrappers:
+      - ssh-agent-credentials:
+          users:
+          - docs_ftp.osmocom.org
