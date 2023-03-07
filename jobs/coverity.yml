@@ -22,7 +22,6 @@
     properties:
       - build-discarder:
           days-to-keep: 30
-          num-to-keep: 30
     parameters:
       - string:
           name: BRANCH

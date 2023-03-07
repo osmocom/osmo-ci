@@ -384,10 +384,7 @@
           only-if-success: false
     properties:
     - build-discarder:
-        days-to-keep: 30
-        num-to-keep: 120
-        artifact-days-to-keep: -1
-        artifact-num-to-keep: -1
+        days-to-keep: 120
     wrappers:
     - ansicolor:
         colormap: xterm
