@@ -64,7 +64,7 @@ def main():
 
     script_path = "data/build.sh"
 
-    if not distro.startswith("debian:"):
+    if not distro.startswith("debian:") and not distro.startswith("ubuntu:"):
         env["PACKAGEFORMAT"] = "rpm"
 
     if args.docker:

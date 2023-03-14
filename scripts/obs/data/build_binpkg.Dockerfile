@@ -16,7 +16,7 @@ RUN	useradd --uid=${UID} -m user
 # to regenerate the manuals database when installing build dependencies.
 # SYS#5818: using almalinux:8 instead of centos:8
 RUN	case "$DISTRO" in \
-	debian*) \
+	debian*|ubuntu*) \
 		echo "path-exclude=/usr/share/man/*" \
 			> /etc/dpkg/dpkg.cfg.d/exclude-man-pages && \
 		rm -rf /usr/share/man/ && \
@@ -57,6 +57,12 @@ RUN	case "$DISTRO" in \
 		apt-key add /tmp/Release.key && \
 		rm /tmp/Release.key && \
 		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/Debian_11/ ./" \
+			> /etc/apt/sources.list.d/osmocom-master.list \
+		;; \
+	ubuntu:22.04) \
+		apt-key add /tmp/Release.key && \
+		rm /tmp/Release.key && \
+		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/xUbuntu_22.04/ ./" \
 			> /etc/apt/sources.list.d/osmocom-master.list \
 		;; \
 	almalinux:8) \

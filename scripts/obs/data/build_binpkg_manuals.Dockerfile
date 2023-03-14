@@ -10,7 +10,7 @@ FROM	${DISTRO_FROM}
 ARG	DISTRO
 
 RUN	case "$DISTRO" in \
-	debian*) \
+	debian*|ubuntu*) \
 		apt-get update && \
 		apt-get install -y --no-install-recommends \
 			osmo-gsm-manuals-dev \
