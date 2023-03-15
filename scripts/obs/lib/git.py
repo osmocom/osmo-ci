@@ -22,7 +22,8 @@ def get_latest_tag_pattern(project):
     return lib.config.git_latest_tag_pattern_default
 
 
-def clone(project, fetch=False):
+def clone(project):
+    fetch = lib.args.git_fetch
     repo_path = get_repo_path(project)
     url = get_repo_url(project)
 

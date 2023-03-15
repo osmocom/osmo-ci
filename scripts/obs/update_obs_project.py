@@ -32,7 +32,7 @@ def parse_packages(packages_arg):
     return ret
 
 
-def build_srcpkg(package, fetch, is_meta_pkg):
+def build_srcpkg(package, is_meta_pkg):
     global srcpkgs_built
     global srcpkgs_failed_build
 
@@ -42,7 +42,7 @@ def build_srcpkg(package, fetch, is_meta_pkg):
         if is_meta_pkg:
             version = lib.metapkg.build()
         else:
-            version = lib.srcpkg.build(package, fetch)
+            version = lib.srcpkg.build(package)
         srcpkgs_built[package] = version
     except Exception as ex:
         traceback.print_exception(type(ex), ex, ex.__traceback__)
@@ -62,8 +62,7 @@ def is_up_to_date(obs_version, git_latest_version):
     return False
 
 
-def build_srcpkg_if_needed(pkgs_remote, package,
-                           fetch, is_meta_pkg, skip_up_to_date):
+def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg, skip_up_to_date):
     global srcpkgs_skipped
     feed = lib.args.feed
     branch = lib.args.git_branch
@@ -104,7 +103,7 @@ def build_srcpkg_if_needed(pkgs_remote, package,
     else:
         print(f"{package}: building source package (feed is {feed})")
 
-    build_srcpkg(package, fetch, is_meta_pkg)
+    build_srcpkg(package, is_meta_pkg)
 
 
 def upload_srcpkg(pkgs_remote, package, version):
@@ -113,8 +112,7 @@ def upload_srcpkg(pkgs_remote, package, version):
     lib.osc.update_package(package, version)
 
 
-def build_srcpkgs(pkgs_remote, packages, fetch,
-                  meta, skip_up_to_date):
+def build_srcpkgs(pkgs_remote, packages, meta, skip_up_to_date):
     print()
     print("### Building source packages ###")
     print()
@@ -122,11 +120,11 @@ def build_srcpkgs(pkgs_remote, packages, fetch,
     if meta:
         feed = lib.args.feed
         build_srcpkg_if_needed(pkgs_remote, f"osmocom-{feed}",
-                               fetch, True, skip_up_to_date)
+                               True, skip_up_to_date)
 
     for package in packages:
         build_srcpkg_if_needed(pkgs_remote, package,
-                               fetch, False, skip_up_to_date)
+                               False, skip_up_to_date)
 
 
 def upload_srcpkgs(pkgs_remote):
@@ -216,8 +214,7 @@ def main():
 
     pkgs_remote = lib.osc.get_remote_pkgs()
 
-    build_srcpkgs(pkgs_remote, packages,
-                  args.git_fetch, args.meta, args.skip_up_to_date)
+    build_srcpkgs(pkgs_remote, packages, args.meta, args.skip_up_to_date)
     upload_srcpkgs(pkgs_remote)
     exit_with_summary()
 

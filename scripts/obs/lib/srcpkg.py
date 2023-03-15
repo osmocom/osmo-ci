@@ -133,9 +133,9 @@ def write_commit_txt(project):
     pathlib.Path(f"{output_path}/commit_{commit}.txt").touch()
 
 
-def build(project, fetch, gerrit_id=0):
+def build(project, gerrit_id=0):
     feed = lib.args.feed
-    lib.git.clone(project, fetch)
+    lib.git.clone(project)
     lib.git.clean(project)
     if gerrit_id > 0:
         lib.git.checkout_from_review(project, gerrit_id)

@@ -44,8 +44,7 @@ def main():
         lib.metapkg.build()
 
     if args.package:
-        lib.srcpkg.build(args.package,
-                         args.git_fetch, args.gerrit_id)
+        lib.srcpkg.build(args.package, args.gerrit_id)
 
 
 if __name__ == "__main__":
