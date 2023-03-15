@@ -63,6 +63,10 @@ def add_shared_arguments(parser):
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="always print shell commands and their output,"
                              " instead of only printing them on error")
+    parser.add_argument("-e", "--version-append",
+                        help="add a string at the end of the version, e.g."
+                             " '~osmocom' for the wireshark package to"
+                             " indicate that it is the version from our repo")
 
 
 def set_cmds_verbose(new_val):

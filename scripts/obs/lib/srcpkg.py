@@ -136,15 +136,21 @@ def write_commit_txt(project):
 def build(project, gerrit_id=0):
     conflict_version = lib.args.conflict_version
     feed = lib.args.feed
+    version_append = lib.args.version_append
+
     lib.git.clone(project)
     lib.git.clean(project)
     if gerrit_id > 0:
         lib.git.checkout_from_review(project, gerrit_id)
     else:
         checkout_for_feed(project)
+
     version = get_version_for_feed(project)
+    if version_append:
+        version += version_append
     epoch = get_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version
+
     has_rpm_spec = lib.rpm_spec.get_spec_in_path(project) is not None
 
     print(f"{project}: building source package {version_epoch}")
