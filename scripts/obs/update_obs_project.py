@@ -62,7 +62,7 @@ def is_up_to_date(obs_version, git_latest_version):
     return False
 
 
-def build_srcpkg_if_needed(proj, feed, branch, pkgs_remote, package, conflict_version,
+def build_srcpkg_if_needed(feed, branch, pkgs_remote, package, conflict_version,
                            fetch, is_meta_pkg, skip_up_to_date):
     global srcpkgs_skipped
 
@@ -85,7 +85,7 @@ def build_srcpkg_if_needed(proj, feed, branch, pkgs_remote, package, conflict_ve
         if os.path.basename(package) not in pkgs_remote:
             print(f"{package}: building source package (not in OBS)")
         else:
-            obs_version = lib.osc.get_package_version(proj, package, feed)
+            obs_version = lib.osc.get_package_version(package, feed)
             if is_up_to_date(obs_version, latest_version):
                 if skip_up_to_date:
                     print(f"{package}: skipping ({obs_version} is up-to-date)")
@@ -104,28 +104,28 @@ def build_srcpkg_if_needed(proj, feed, branch, pkgs_remote, package, conflict_ve
     build_srcpkg(feed, branch, package, conflict_version, fetch, is_meta_pkg)
 
 
-def upload_srcpkg(proj, feed, pkgs_remote, package, version):
+def upload_srcpkg(feed, pkgs_remote, package, version):
     if os.path.basename(package) not in pkgs_remote:
-        lib.osc.create_package(proj, package)
-    lib.osc.update_package(proj, package, version)
+        lib.osc.create_package(package)
+    lib.osc.update_package(package, version)
 
 
-def build_srcpkgs(proj, feed, branch, pkgs_remote, packages, conflict_version, fetch,
+def build_srcpkgs(feed, branch, pkgs_remote, packages, conflict_version, fetch,
                   meta, skip_up_to_date):
     print()
     print("### Building source packages ###")
     print()
 
     if meta:
-        build_srcpkg_if_needed(proj, feed, branch, pkgs_remote, f"osmocom-{feed}",
+        build_srcpkg_if_needed(feed, branch, pkgs_remote, f"osmocom-{feed}",
                                conflict_version, fetch, True, skip_up_to_date)
 
     for package in packages:
-        build_srcpkg_if_needed(proj, feed, branch, pkgs_remote, package,
+        build_srcpkg_if_needed(feed, branch, pkgs_remote, package,
                                conflict_version, fetch, False, skip_up_to_date)
 
 
-def upload_srcpkgs(proj, feed, pkgs_remote):
+def upload_srcpkgs(feed, pkgs_remote):
     global srcpkgs_built
     global srcpkgs_failed_upload
     global srcpkgs_updated
@@ -142,7 +142,7 @@ def upload_srcpkgs(proj, feed, pkgs_remote):
 
     for package, version in srcpkgs_built.items():
         try:
-            upload_srcpkg(proj, feed, pkgs_remote, package, version)
+            upload_srcpkg(feed, pkgs_remote, package, version)
             srcpkgs_updated += [package]
         except Exception as ex:
             traceback.print_exception(type(ex), ex, ex.__traceback__)
@@ -194,7 +194,6 @@ def main():
                         help="package name, e.g. libosmocore or open5gs,"
                              " default is all packages")
     args = parser.parse_args()
-    proj = args.obs_project
     feed = args.feed
     branch = args.git_branch
     packages = parse_packages(args.package)
@@ -204,7 +203,7 @@ def main():
     if args.docker:
         lib.docker.run_in_docker_and_exit("update_obs_project.py", True)
 
-    lib.osc.check_proj(proj)
+    lib.osc.check_proj()
     lib.osc.check_oscrc()
     lib.osc.set_apiurl(args.apiurl)
 
@@ -213,11 +212,11 @@ def main():
 
     lib.remove_temp()
 
-    pkgs_remote = lib.osc.get_remote_pkgs(proj)
+    pkgs_remote = lib.osc.get_remote_pkgs()
 
-    build_srcpkgs(proj, feed, branch, pkgs_remote, packages, args.conflict_version,
+    build_srcpkgs(feed, branch, pkgs_remote, packages, args.conflict_version,
                   args.git_fetch, args.meta, args.skip_up_to_date)
-    upload_srcpkgs(proj, feed, pkgs_remote)
+    upload_srcpkgs(feed, pkgs_remote)
     exit_with_summary()
 
 
