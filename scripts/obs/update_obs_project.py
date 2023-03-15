@@ -112,12 +112,12 @@ def upload_srcpkg(pkgs_remote, package, version):
     lib.osc.update_package(package, version)
 
 
-def build_srcpkgs(pkgs_remote, packages, meta, skip_up_to_date):
+def build_srcpkgs(pkgs_remote, packages, skip_up_to_date):
     print()
     print("### Building source packages ###")
     print()
 
-    if meta:
+    if lib.args.meta:
         feed = lib.args.feed
         build_srcpkg_if_needed(pkgs_remote, f"osmocom-{feed}",
                                True, skip_up_to_date)
@@ -214,7 +214,7 @@ def main():
 
     pkgs_remote = lib.osc.get_remote_pkgs()
 
-    build_srcpkgs(pkgs_remote, packages, args.meta, args.skip_up_to_date)
+    build_srcpkgs(pkgs_remote, packages, args.skip_up_to_date)
     upload_srcpkgs(pkgs_remote)
     exit_with_summary()
 
