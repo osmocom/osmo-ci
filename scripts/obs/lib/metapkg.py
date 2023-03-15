@@ -85,9 +85,10 @@ def generate_rpm_spec(version):
         f.write("%files\n")
 
 
-def build(conflict_version):
+def build():
     feed = lib.args.feed
     pkgname = f"osmocom-{feed}"
+    conflict_version = lib.args.conflict_version
     version = conflict_version if conflict_version else "1.0.0"
     print(f"{pkgname}: generating meta package {version}")
 

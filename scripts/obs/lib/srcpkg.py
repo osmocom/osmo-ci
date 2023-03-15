@@ -57,7 +57,7 @@ def get_git_version(project):
     return ret.output
 
 
-def get_version_for_feed(project, conflict_version):
+def get_version_for_feed(project):
     if lib.args.feed == "latest":
         # There's always a tag if we are here. If there was none, the build
         # would have been skipped for latest.
@@ -76,6 +76,7 @@ def get_version_for_feed(project, conflict_version):
 
     # Append the conflict_version to increase the version even if the commit
     # did not change (OS#5135)
+    conflict_version = lib.args.conflict_version
     if conflict_version:
         ret = f"{ret}.{conflict_version}"
 
@@ -132,7 +133,7 @@ def write_commit_txt(project):
     pathlib.Path(f"{output_path}/commit_{commit}.txt").touch()
 
 
-def build(project, conflict_version, fetch, gerrit_id=0):
+def build(project, fetch, gerrit_id=0):
     feed = lib.args.feed
     lib.git.clone(project, fetch)
     lib.git.clean(project)
@@ -140,7 +141,7 @@ def build(project, conflict_version, fetch, gerrit_id=0):
         lib.git.checkout_from_review(project, gerrit_id)
     else:
         checkout_for_feed(project)
-    version = get_version_for_feed(project, conflict_version)
+    version = get_version_for_feed(project)
     epoch = get_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version
     has_rpm_spec = lib.rpm_spec.get_spec_in_path(project) is not None
@@ -150,9 +151,9 @@ def build(project, conflict_version, fetch, gerrit_id=0):
 
     if project in lib.config.projects_osmocom:
         metapkg = f"osmocom-{feed}"
-        lib.debian.control_add_depend(project, metapkg, conflict_version)
+        lib.debian.control_add_depend(project, metapkg, version)
         if has_rpm_spec:
-            lib.rpm_spec.add_depend(project, metapkg, conflict_version)
+            lib.rpm_spec.add_depend(project, metapkg, version)
 
     lib.debian.changelog_add_entry_if_needed(project, version_epoch)
 
