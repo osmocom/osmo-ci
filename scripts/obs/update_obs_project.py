@@ -62,7 +62,7 @@ def is_up_to_date(obs_version, git_latest_version):
     return False
 
 
-def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg, skip_up_to_date):
+def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg):
     global srcpkgs_skipped
     feed = lib.args.feed
     branch = lib.args.git_branch
@@ -89,7 +89,7 @@ def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg, skip_up_to_date):
         else:
             obs_version = lib.osc.get_package_version(package)
             if is_up_to_date(obs_version, latest_version):
-                if skip_up_to_date:
+                if lib.args.skip_up_to_date:
                     print(f"{package}: skipping ({obs_version} is up-to-date)")
                     srcpkgs_skipped += [package]
                     return
@@ -112,19 +112,17 @@ def upload_srcpkg(pkgs_remote, package, version):
     lib.osc.update_package(package, version)
 
 
-def build_srcpkgs(pkgs_remote, packages, skip_up_to_date):
+def build_srcpkgs(pkgs_remote, packages):
     print()
     print("### Building source packages ###")
     print()
 
     if lib.args.meta:
         feed = lib.args.feed
-        build_srcpkg_if_needed(pkgs_remote, f"osmocom-{feed}",
-                               True, skip_up_to_date)
+        build_srcpkg_if_needed(pkgs_remote, f"osmocom-{feed}", True)
 
     for package in packages:
-        build_srcpkg_if_needed(pkgs_remote, package,
-                               False, skip_up_to_date)
+        build_srcpkg_if_needed(pkgs_remote, package, False)
 
 
 def upload_srcpkgs(pkgs_remote):
@@ -214,7 +212,7 @@ def main():
 
     pkgs_remote = lib.osc.get_remote_pkgs()
 
-    build_srcpkgs(pkgs_remote, packages, args.skip_up_to_date)
+    build_srcpkgs(pkgs_remote, packages)
     upload_srcpkgs(pkgs_remote)
     exit_with_summary()
 
