@@ -44,7 +44,7 @@ def main():
         lib.metapkg.build(args.conflict_version)
 
     if args.package:
-        lib.srcpkg.build(args.package, args.git_branch, args.conflict_version,
+        lib.srcpkg.build(args.package, args.conflict_version,
                          args.git_fetch, args.gerrit_id)
 
 

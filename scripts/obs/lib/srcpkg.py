@@ -9,9 +9,10 @@ import lib.debian
 import lib.rpm_spec
 
 
-def checkout_for_feed(project, branch=None):
+def checkout_for_feed(project):
     """ checkout a commit, either latest tag or master or 20YY branch """
     feed = lib.args.feed
+    branch = lib.args.git_branch
     if branch:
         lib.git.checkout(project, f"origin/{branch}")
     elif feed == "latest":
@@ -131,14 +132,14 @@ def write_commit_txt(project):
     pathlib.Path(f"{output_path}/commit_{commit}.txt").touch()
 
 
-def build(project, branch, conflict_version, fetch, gerrit_id=0):
+def build(project, conflict_version, fetch, gerrit_id=0):
     feed = lib.args.feed
     lib.git.clone(project, fetch)
     lib.git.clean(project)
     if gerrit_id > 0:
         lib.git.checkout_from_review(project, gerrit_id)
     else:
-        checkout_for_feed(project, branch)
+        checkout_for_feed(project)
     version = get_version_for_feed(project, conflict_version)
     epoch = get_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version

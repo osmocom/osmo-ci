@@ -32,7 +32,7 @@ def parse_packages(packages_arg):
     return ret
 
 
-def build_srcpkg(branch, package, conflict_version, fetch, is_meta_pkg):
+def build_srcpkg(package, conflict_version, fetch, is_meta_pkg):
     global srcpkgs_built
     global srcpkgs_failed_build
 
@@ -42,7 +42,7 @@ def build_srcpkg(branch, package, conflict_version, fetch, is_meta_pkg):
         if is_meta_pkg:
             version = lib.metapkg.build(conflict_version)
         else:
-            version = lib.srcpkg.build(package, branch, conflict_version, fetch)
+            version = lib.srcpkg.build(package, conflict_version, fetch)
         srcpkgs_built[package] = version
     except Exception as ex:
         traceback.print_exception(type(ex), ex, ex.__traceback__)
@@ -62,10 +62,11 @@ def is_up_to_date(obs_version, git_latest_version):
     return False
 
 
-def build_srcpkg_if_needed(branch, pkgs_remote, package, conflict_version,
+def build_srcpkg_if_needed(pkgs_remote, package, conflict_version,
                            fetch, is_meta_pkg, skip_up_to_date):
     global srcpkgs_skipped
     feed = lib.args.feed
+    branch = lib.args.git_branch
 
     if feed in ["master", "latest"]:
         """ Check if we can skip this package by comparing the OBS version with
@@ -102,7 +103,7 @@ def build_srcpkg_if_needed(branch, pkgs_remote, package, conflict_version,
     else:
         print(f"{package}: building source package (feed is {feed})")
 
-    build_srcpkg(branch, package, conflict_version, fetch, is_meta_pkg)
+    build_srcpkg(package, conflict_version, fetch, is_meta_pkg)
 
 
 def upload_srcpkg(pkgs_remote, package, version):
@@ -111,7 +112,7 @@ def upload_srcpkg(pkgs_remote, package, version):
     lib.osc.update_package(package, version)
 
 
-def build_srcpkgs(branch, pkgs_remote, packages, conflict_version, fetch,
+def build_srcpkgs(pkgs_remote, packages, conflict_version, fetch,
                   meta, skip_up_to_date):
     print()
     print("### Building source packages ###")
@@ -119,11 +120,11 @@ def build_srcpkgs(branch, pkgs_remote, packages, conflict_version, fetch,
 
     if meta:
         feed = lib.args.feed
-        build_srcpkg_if_needed(branch, pkgs_remote, f"osmocom-{feed}",
+        build_srcpkg_if_needed(pkgs_remote, f"osmocom-{feed}",
                                conflict_version, fetch, True, skip_up_to_date)
 
     for package in packages:
-        build_srcpkg_if_needed(branch, pkgs_remote, package,
+        build_srcpkg_if_needed(pkgs_remote, package,
                                conflict_version, fetch, False, skip_up_to_date)
 
 
@@ -196,7 +197,6 @@ def main():
                         help="package name, e.g. libosmocore or open5gs,"
                              " default is all packages")
     args = parser.parse_args()
-    branch = args.git_branch
     packages = parse_packages(args.package)
 
     lib.set_args(args)
@@ -215,7 +215,7 @@ def main():
 
     pkgs_remote = lib.osc.get_remote_pkgs()
 
-    build_srcpkgs(branch, pkgs_remote, packages, args.conflict_version,
+    build_srcpkgs(pkgs_remote, packages, args.conflict_version,
                   args.git_fetch, args.meta, args.skip_up_to_date)
     upload_srcpkgs(pkgs_remote)
     exit_with_summary()
