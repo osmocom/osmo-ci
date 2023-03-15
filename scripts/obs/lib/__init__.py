@@ -10,6 +10,10 @@ import tempfile
 import inspect
 import lib.config
 
+# Argparse result
+args = None
+
+# Print output of commands as they run, not only on error
 cmds_verbose = False
 
 
@@ -58,6 +62,12 @@ def add_shared_arguments(parser):
 def set_cmds_verbose(new_val):
     global cmds_verbose
     cmds_verbose = new_val
+
+
+def set_args(new_val):
+    global args
+    args = new_val
+    set_cmds_verbose(args.verbose)
 
 
 def check_required_programs():

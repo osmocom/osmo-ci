@@ -38,7 +38,7 @@ def main():
                         help="package name, e.g. libosmocore")
     args = parser.parse_args()
 
-    lib.set_cmds_verbose(args.verbose)
+    lib.set_args(args)
 
     srcdir = f"{lib.config.path_temp}/srcpkgs/{args.package}"
     if not os.path.exists(srcdir):

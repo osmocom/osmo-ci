@@ -199,7 +199,7 @@ def main():
     branch = args.git_branch
     packages = parse_packages(args.package)
 
-    lib.set_cmds_verbose(args.verbose)
+    lib.set_args(args)
 
     if args.docker:
         lib.docker.run_in_docker_and_exit("update_obs_project.py", True)

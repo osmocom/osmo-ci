@@ -28,7 +28,7 @@ def main():
         print("ERROR: specify -m and/or a package. See -h for help.")
         exit(1)
 
-    lib.set_cmds_verbose(args.verbose)
+    lib.set_args(args)
 
     if args.docker:
         lib.docker.run_in_docker_and_exit("build_srcpkg.py")
