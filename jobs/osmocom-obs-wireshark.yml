@@ -1,0 +1,38 @@
+---
+- project:
+    name: Osmocom_OBS
+    jobs:
+      - Osmocom_OBS_wireshark
+
+- job:
+    name: 'Osmocom_OBS_wireshark'
+    project-type: freestyle
+    defaults: global
+    description: |
+      See <a href="https://osmocom.org/issues/2537">OS#2537</a>
+      for more information.
+    node: obs
+    parameters:
+      - string:
+          name: BRANCH
+          description: osmo-ci.git branch
+          default: 'master'
+    builders:
+      - shell: |
+          export PYTHONUNBUFFERED=1
+          ./scripts/obs/update_obs_wireshark.sh osmocom:wireshark
+    scm:
+      - git:
+          branches:
+            - '$BRANCH'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          wipe-workspace: true
+    triggers:
+      - timed: "H 05 * * *"
+
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
