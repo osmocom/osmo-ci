@@ -53,6 +53,11 @@ def clean(project):
 
 def checkout(project, branch):
     repo_path = get_repo_path(project)
+    if not lib.args.git_checkout:
+        ref = lib.run_cmd(["git", "log", "--pretty=oneline", "--abbrev-commit",
+                           "-1"], cwd=repo_path).output.rstrip()
+        print(f"{project}: skipping git checkout, current commit: {ref}")
+        return
     print(f"{project}: 'git checkout -f {branch}'")
     lib.run_cmd(["git", "checkout", "-f", branch], cwd=repo_path)
     print(f"{project}: 'git reset --hard {branch}'")
