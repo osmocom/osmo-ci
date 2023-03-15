@@ -41,10 +41,10 @@ def main():
     lib.remove_temp()
 
     if args.meta:
-        lib.metapkg.build(args.feed, args.conflict_version)
+        lib.metapkg.build(args.conflict_version)
 
     if args.package:
-        lib.srcpkg.build(args.package, args.feed, args.git_branch, args.conflict_version,
+        lib.srcpkg.build(args.package, args.git_branch, args.conflict_version,
                          args.git_fetch, args.gerrit_id)
 
 

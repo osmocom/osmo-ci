@@ -22,8 +22,9 @@ def control_add_depend(project, pkgname, version):
     lib.run_cmd(cmd, cwd=repo_path)
 
 
-def changelog_add_entry(project, feed, version):
+def changelog_add_entry(project, version):
     """ :param version: for the new changelog entry """
+    feed = lib.args.feed
     repo_path = lib.git.get_repo_path(project)
     changelog_path = f"{repo_path}/debian/changelog"
 
@@ -84,7 +85,7 @@ def get_last_version_from_changelog(project):
     return ret
 
 
-def changelog_add_entry_if_needed(project, feed, version):
+def changelog_add_entry_if_needed(project, version):
     """ Adjust the changelog if the version in the changelog is different from
         the given version. """
     version_changelog = get_last_version_from_changelog(project)
@@ -93,7 +94,7 @@ def changelog_add_entry_if_needed(project, feed, version):
 
     print(f"{project}: adding debian/changelog entry ({version_changelog} =>"
           f" {version})")
-    changelog_add_entry(project, feed, version)
+    changelog_add_entry(project, version)
 
 
 def build_source_package(project):

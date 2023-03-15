@@ -7,17 +7,17 @@ import lib.debian
 import lib.rpm_spec
 
 
-def get_conflicts(feed):
+def get_conflicts():
     ret = []
     for f in lib.config.feeds:
-        if f == feed:
+        if f == lib.args.feed:
             continue
         ret += [f"osmocom-{f}"]
     return ret
 
 
-def prepare_source_dir(feed):
-    path = f"{lib.config.path_cache}/osmocom-{feed}"
+def prepare_source_dir():
+    path = f"{lib.config.path_cache}/osmocom-{lib.args.feed}"
 
     if os.path.exists(path):
         lib.run_cmd(["rm", "-rf", path])
@@ -26,9 +26,10 @@ def prepare_source_dir(feed):
     os.makedirs(f"{path}/contrib")
 
 
-def generate_debian_pkg(feed, version):
+def generate_debian_pkg(version):
+    feed = lib.args.feed
     path = f"{lib.config.path_cache}/osmocom-{feed}"
-    conflicts = get_conflicts(feed)
+    conflicts = get_conflicts()
 
     with open(f"{path}/debian/control", "w") as f:
         f.write(f"Source: osmocom-{feed}\n")
@@ -63,11 +64,12 @@ def generate_debian_pkg(feed, version):
         f.write("10\n")
 
 
-def generate_rpm_spec(feed, version):
+def generate_rpm_spec(version):
+    feed = lib.args.feed
     print(f"osmocom-{feed}: generating rpm spec file")
     path = (f"{lib.config.path_cache}/osmocom-{feed}/contrib/osmocom-{feed}"
             ".spec.in")
-    conflicts = get_conflicts(feed)
+    conflicts = get_conflicts()
 
     with open(path, "w") as f:
         f.write(f"Name:    osmocom-{feed}\n")
@@ -83,13 +85,14 @@ def generate_rpm_spec(feed, version):
         f.write("%files\n")
 
 
-def build(feed, conflict_version):
+def build(conflict_version):
+    feed = lib.args.feed
     pkgname = f"osmocom-{feed}"
     version = conflict_version if conflict_version else "1.0.0"
     print(f"{pkgname}: generating meta package {version}")
 
-    prepare_source_dir(feed)
-    generate_debian_pkg(feed, version)
+    prepare_source_dir()
+    generate_debian_pkg(version)
 
     os.makedirs(lib.get_output_path(pkgname))
     lib.remove_cache_extra_files()
@@ -97,7 +100,7 @@ def build(feed, conflict_version):
     lib.debian.build_source_package(pkgname)
     lib.debian.move_files_to_output(pkgname)
 
-    generate_rpm_spec(feed, version)
+    generate_rpm_spec(version)
     lib.rpm_spec.copy_to_output(pkgname)
 
     lib.remove_cache_extra_files()

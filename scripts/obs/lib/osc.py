@@ -64,7 +64,8 @@ def get_remote_pkgs():
     return ret.output.rstrip().split("\n")
 
 
-def get_package_version(package, feed):
+def get_package_version(package):
+    feed = lib.args.feed
     proj = lib.args.obs_project
     print(f"{package}: getting OBS version")
     ret = run_osc(["list", proj, os.path.basename(package)])

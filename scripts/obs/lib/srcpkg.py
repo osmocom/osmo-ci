@@ -9,8 +9,9 @@ import lib.debian
 import lib.rpm_spec
 
 
-def checkout_for_feed(project, feed, branch=None):
+def checkout_for_feed(project, branch=None):
     """ checkout a commit, either latest tag or master or 20YY branch """
+    feed = lib.args.feed
     if branch:
         lib.git.checkout(project, f"origin/{branch}")
     elif feed == "latest":
@@ -55,8 +56,8 @@ def get_git_version(project):
     return ret.output
 
 
-def get_version_for_feed(project, feed, conflict_version):
-    if feed == "latest":
+def get_version_for_feed(project, conflict_version):
+    if lib.args.feed == "latest":
         # There's always a tag if we are here. If there was none, the build
         # would have been skipped for latest.
         ret = lib.git.get_latest_tag(project)
@@ -130,14 +131,15 @@ def write_commit_txt(project):
     pathlib.Path(f"{output_path}/commit_{commit}.txt").touch()
 
 
-def build(project, feed, branch, conflict_version, fetch, gerrit_id=0):
+def build(project, branch, conflict_version, fetch, gerrit_id=0):
+    feed = lib.args.feed
     lib.git.clone(project, fetch)
     lib.git.clean(project)
     if gerrit_id > 0:
         lib.git.checkout_from_review(project, gerrit_id)
     else:
-        checkout_for_feed(project, feed, branch)
-    version = get_version_for_feed(project, feed, conflict_version)
+        checkout_for_feed(project, branch)
+    version = get_version_for_feed(project, conflict_version)
     epoch = get_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version
     has_rpm_spec = lib.rpm_spec.get_spec_in_path(project) is not None
@@ -151,7 +153,7 @@ def build(project, feed, branch, conflict_version, fetch, gerrit_id=0):
         if has_rpm_spec:
             lib.rpm_spec.add_depend(project, metapkg, conflict_version)
 
-    lib.debian.changelog_add_entry_if_needed(project, feed, version_epoch)
+    lib.debian.changelog_add_entry_if_needed(project, version_epoch)
 
     os.makedirs(lib.get_output_path(project))
     lib.remove_cache_extra_files()
