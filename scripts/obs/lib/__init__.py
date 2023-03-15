@@ -27,6 +27,9 @@ def add_shared_arguments(parser):
 			" other feeds build their respective branch.",
                         metavar="FEED", default="nightly",
                         choices=lib.config.feeds)
+    parser.add_argument("-a", "--allow-unknown-package", action="store_true",
+                        help="don't complain if the name of the package is not"
+                             " stored in lib/config.py")
     parser.add_argument("-b", "--git-branch", help="instead of using a branch"
                               " based on the feed, checkout this git branch",
                         metavar="BRANCH", default=None)
@@ -101,6 +104,9 @@ def set_proper_package_name(package):
     for package_cfg in lib.config.projects_osmocom:
         if os.path.basename(package_cfg) == package:
             return package_cfg
+
+    if lib.args.allow_unknown_package:
+        return package
 
     print(f"ERROR: unknown package: {package}")
     print("See packages_osmocom and packages_other in obs/lib/config.py")

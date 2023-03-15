@@ -194,9 +194,8 @@ def main():
                         help="package name, e.g. libosmocore or open5gs,"
                              " default is all packages")
     args = parser.parse_args()
-    packages = parse_packages(args.package)
-
     lib.set_args(args)
+    packages = parse_packages(args.package)
 
     if args.docker:
         lib.docker.run_in_docker_and_exit("update_obs_project.py", True)
