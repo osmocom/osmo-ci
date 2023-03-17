@@ -134,6 +134,7 @@ def write_commit_txt(project):
 
 
 def build(project, gerrit_id=0):
+    conflict_version = lib.args.conflict_version
     feed = lib.args.feed
     lib.git.clone(project)
     lib.git.clean(project)
@@ -151,9 +152,9 @@ def build(project, gerrit_id=0):
 
     if project in lib.config.projects_osmocom:
         metapkg = f"osmocom-{feed}"
-        lib.debian.control_add_depend(project, metapkg, version)
+        lib.debian.control_add_depend(project, metapkg, conflict_version)
         if has_rpm_spec:
-            lib.rpm_spec.add_depend(project, metapkg, version)
+            lib.rpm_spec.add_depend(project, metapkg, conflict_version)
 
     lib.debian.changelog_add_entry_if_needed(project, version_epoch)
 
