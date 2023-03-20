@@ -12,6 +12,7 @@ x86_64)
 	;;
 arm*)
 	docker_images_require \
+		"debian-bullseye-jenkins-arm" \
 		"debian-buster-jenkins-arm"
 	;;
 esac
