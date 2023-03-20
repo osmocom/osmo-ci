@@ -272,7 +272,7 @@
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$JOB_TYPE" in
-            firmware|gateware|manuals)
+            firmware|gateware)
               DOCKER_IMG="registry.osmocom.org/$USER/fpga-build"
               docker pull "$DOCKER_IMG"
               ;;
