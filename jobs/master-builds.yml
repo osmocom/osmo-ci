@@ -63,7 +63,7 @@
               -e CCACHE_DIR="/ccache" \
               -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -v "$CCACHE_DIR:/ccache" \
-    docker_img: '$USER/debian-buster-jenkins'
+    docker_img: '$USER/debian-bullseye-jenkins'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     trigger:
