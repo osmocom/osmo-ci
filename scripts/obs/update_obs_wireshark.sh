@@ -30,7 +30,7 @@ prepare_git_repo() {
 update_obs_project() {
 	cd "$DIR"
 	./update_obs_project.py \
-		--apiurl obs.osmocom.org \
+		--apiurl https://obs.osmocom.org \
 		--docker \
 		--allow-unknown-package \
 		--git-skip-checkout \
