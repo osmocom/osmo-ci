@@ -4,7 +4,6 @@ PROJ="$1"
 
 BRANCHES="
 	osmith/deb-packaging
-	laforge/amr-2023
 	laforge/doc-fixes
 	osmocom/qcdiag
 	laforge/rspro
