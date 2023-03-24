@@ -385,6 +385,10 @@ build_publish_manuals() {
 }
 
 check_ssh_auth_sock
+
+# Get the UserKnownHostsFile for $SSH_COMMAND
+clone_repo osmo-gsm-manuals master
+
 get_server_ls "/docs"
 
 for docs_dir in $(cat "$TEMP"/ls_docs); do
