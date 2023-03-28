@@ -15,6 +15,7 @@
     properties:
       - build-discarder:
           days-to-keep: 30
+          num-to-keep: 120
     scm:
       - git:
           url: https://gerrit.osmocom.org/python/osmo-python-tests
