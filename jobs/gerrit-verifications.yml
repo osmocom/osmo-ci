@@ -628,8 +628,6 @@
       - build-discarder:
           days-to-keep: 30
           num-to-keep: 120
-          artifact-days-to-keep: -1
-          artifact-num-to-keep: -1
     description: |
       Pipeline of CI for patches sent to
       <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>
@@ -681,8 +679,6 @@
       - build-discarder:
           days-to-keep: 30
           num-to-keep: 120
-          artifact-days-to-keep: -1
-          artifact-num-to-keep: -1
     description: |
       Build job of CI for patches sent to
       <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>

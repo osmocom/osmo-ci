@@ -17,8 +17,6 @@
       - build-discarder:
           days-to-keep: 30
           num-to-keep: 120
-          artifact-days-to-keep: -1
-          artifact-num-to-keep: -1
     description: |
       Lint job of CI for patches sent to <a href="https://gerrit.osmocom.org">gerrit</a>.
       </br></br>
