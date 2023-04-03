@@ -16,7 +16,7 @@
     properties:
       - build-discarder:
           days-to-keep: 30
-          num-to-keep: 120
+          num-to-keep: 1000
     description: |
       Lint job of CI for patches sent to <a href="https://gerrit.osmocom.org">gerrit</a>.
       </br></br>

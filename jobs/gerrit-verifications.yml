@@ -627,7 +627,7 @@
     properties:
       - build-discarder:
           days-to-keep: 30
-          num-to-keep: 120
+          num-to-keep: 1000
     description: |
       Pipeline of CI for patches sent to
       <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>
@@ -678,7 +678,7 @@
     properties:
       - build-discarder:
           days-to-keep: 30
-          num-to-keep: 120
+          num-to-keep: 1000
     description: |
       Build job of CI for patches sent to
       <a href="https://gerrit.osmocom.org/#/q/status:open+project:{repos}">{repos}</a>
