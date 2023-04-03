@@ -11,6 +11,10 @@
     description: |
       See <a href="https://osmocom.org/issues/2537">OS#2537</a>
       for more information.
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     node: obs
     parameters:
       - string:

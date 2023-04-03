@@ -24,6 +24,10 @@
     description: |
       See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Binary_Packages">Wiki: binary packages</a>
       for more information.
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     node: obs
     parameters:
       - string:

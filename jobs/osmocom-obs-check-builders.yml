@@ -11,6 +11,10 @@
     description: |
         Verify that the expected amount of builders are connected to
         obs.osmocom.org.
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     builders:
       - shell: |
           scripts/obs/check_builders.sh

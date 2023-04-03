@@ -27,6 +27,10 @@
           <li> <a href="https://osmocom.org/issues/4563">OS#4563</a>: extend for centos
           <li> <a href="https://osmocom.org/issues/5365">OS#5365</a>: run in qemu
         </ul>
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     parameters:
       - string:
           name: BRANCH_CI

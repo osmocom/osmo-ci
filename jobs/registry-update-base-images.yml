@@ -12,6 +12,10 @@
         <ul>
           <li> <a href="https://osmocom.org/issues/4839">OS#4839</a>
         </ul>
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     node: osmocom-master
     builders:
       - shell: |

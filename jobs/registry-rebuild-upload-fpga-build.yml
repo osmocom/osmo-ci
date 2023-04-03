@@ -8,6 +8,10 @@
     name: registry-rebuild-upload-fpga-build
     description: |
         Rebuild + push fpga-build docker images in our private registry.osmocom.org
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     node: osmocom-master
     scm:
       - git:

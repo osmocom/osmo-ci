@@ -24,6 +24,10 @@
         <ul>
           <li> <a href="https://osmocom.org/issues/5017">OS#5017</a>
         </ul>
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     node: osmocom-master
     scm:
       - 'osmocom-docker-playground'

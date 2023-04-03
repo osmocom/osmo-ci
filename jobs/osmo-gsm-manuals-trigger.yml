@@ -15,6 +15,10 @@
       Roll out osmo-gsm-manuals to relevant build environments.<br>
       <br>
       Related: <a href="https://osmocom.org/issues/4912">OS#4912</a>
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-gsm-manuals

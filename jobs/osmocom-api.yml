@@ -3,6 +3,10 @@
     description: This job builds the doxygen API documentation for latest libosmo*
       and uploads it to <a href="https://downloads.osmocom.org/api/latest/"
       >https://downloads.osmocom.org/api/latest/</a>
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     name: Osmocom_API
     node: osmocom-master
     project-type: freestyle

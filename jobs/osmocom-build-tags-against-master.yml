@@ -11,6 +11,10 @@
     description: |
         Build old releases of programs/libraries against "master of the day" libosmo*
         (<a href="https://osmocom.org/issues/3765">OS#3765</a>)
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     node: osmocom-master
     parameters:
       - string:

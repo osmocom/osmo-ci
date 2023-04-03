@@ -12,6 +12,10 @@
         For each relevant Osmocom repository and its tags, build release tarballs (<a href="https://osmocom.org/issues/3870">OS#3870</a>).
         <br><br>
         Publishes to: <a href="https://ftp.osmocom.org/releases/">https://ftp.osmocom.org/releases</a>
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     parameters:
       - string:
           name: BRANCH_DOCKER_PLAYGROUND

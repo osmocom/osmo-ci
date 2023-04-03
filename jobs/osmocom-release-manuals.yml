@@ -11,6 +11,10 @@
     description: |
         Build manuals for all new Osmocom releases
         (<a href="https://osmocom.org/issues/5902">OS#5902</a>).
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     parameters:
       - string:
           name: BRANCH_CI

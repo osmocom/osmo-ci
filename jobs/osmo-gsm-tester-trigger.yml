@@ -8,6 +8,10 @@
 - job:
     name: 'osmo-gsm-tester_build-trigger-all'
     description: 'Manually kick off all osmo-gsm-tester_build-osmo-* builds at once.'
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     project-type: freestyle
     node: osmo-gsm-tester-build
     publishers:

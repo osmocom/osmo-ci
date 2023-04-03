@@ -12,6 +12,10 @@
     name: 'registry-trigger-{repos}'
     description: |
       Update registry.osmocom.org after changes in {repos}.
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
     scm:
       - git:
          url: https://gerrit.osmocom.org/{repos}
