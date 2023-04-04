@@ -157,7 +157,7 @@ def build(project, gerrit_id=0):
     write_tarball_version(project, version_epoch)
 
     if project in lib.config.projects_osmocom:
-        metapkg = f"osmocom-{feed}"
+        metapkg = lib.args.conflict_pkgname or f"osmocom-{feed}"
         lib.debian.control_add_depend(project, metapkg, conflict_version)
         if has_rpm_spec:
             lib.rpm_spec.add_depend(project, metapkg, conflict_version)

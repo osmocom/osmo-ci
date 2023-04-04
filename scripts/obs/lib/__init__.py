@@ -60,6 +60,9 @@ def add_shared_arguments(parser):
                              " 20YYqX packages to ensure they are not mixed"
                              " from different build dates (ABI compatibility"
                              " is only on latest).")
+    parser.add_argument("-p", "--conflict-pkgname", nargs="?",
+                        help="name of the meta-package to depend on (default:"
+                             " osmocom-$feed)")
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="always print shell commands and their output,"
                              " instead of only printing them on error")
