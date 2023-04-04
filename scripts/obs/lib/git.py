@@ -90,7 +90,7 @@ def get_head(project):
     return ret.output.rstrip()
 
 
-def get_head_remote(project, branch):
+def get_head_remote(project, branch, branch_missing_ok=True):
     if not branch:
         branch = get_default_branch(project)
     repo_url = get_repo_url(project)
@@ -99,7 +99,13 @@ def get_head_remote(project, branch):
     ls_remote = lib.run_cmd(["git", "ls-remote", repo_url, f"heads/{branch}"])
 
     ret = ls_remote.output.split("\t")[0]
+
+    # If the branch is missing from the remote, git ls-remote exits with 0 and
+    # the output is empty
     if not ret:
+        if branch_missing_ok:
+            print(f"{project}: branch not found: {branch}")
+            return None
         lib.exit_error_cmd(ls_remote, "failed to find head commit for"
                            f" {project} in output")
 

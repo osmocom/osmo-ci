@@ -14,6 +14,7 @@ import lib.srcpkg
 
 srcpkgs_built = {}  # dict of pkgname: version
 srcpkgs_skipped = []  # list of pkgnames
+srcpkgs_deleted = []  # list of pkgnames
 srcpkgs_failed_build = []  # list of pkgnames
 srcpkgs_failed_upload = []  # list of pkgnames
 srcpkgs_updated = []  # list of pkgnames
@@ -51,6 +52,14 @@ def build_srcpkg(package, is_meta_pkg):
         srcpkgs_failed_build += [package]
 
 
+def delete_srcpkg(package):
+    global srcpkgs_deleted
+    branch = lib.args.git_branch
+
+    lib.osc.delete_package(package, f"branch {branch} does not exist anymore")
+    srcpkgs_deleted += [package]
+
+
 def is_up_to_date(obs_version, git_latest_version):
     if obs_version == git_latest_version:
         return True
@@ -66,6 +75,7 @@ def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg):
     global srcpkgs_skipped
     feed = lib.args.feed
     branch = lib.args.git_branch
+    delete = lib.args.delete
 
     if feed in ["master", "latest"]:
         """ Check if we can skip this package by comparing the OBS version with
@@ -75,12 +85,17 @@ def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg):
             latest_version = conflict_version if conflict_version else "1.0.0"
         else:
             if feed == "master":
-                latest_version = lib.git.get_head_remote(package, branch)
+                latest_version = lib.git.get_head_remote(package, branch,
+                    branch_missing_ok=delete)
             else:
                 latest_version = lib.git.get_latest_tag_remote(package)
 
         if latest_version is None:
-            print(f"{package}: skipping (no git tag found)")
+            if delete and os.path.basename(package) in pkgs_remote:
+                delete_srcpkg(package)
+                return
+
+            print(f"{package}: skipping (no git tag/branch found)")
             srcpkgs_skipped += [package]
             return
 
@@ -164,6 +179,7 @@ def exit_with_summary():
     print(f"Skipped:                {len(srcpkgs_skipped)}")
     print(f"Failed (srcpkg build):  {len(srcpkgs_failed_build)}")
     print(f"Failed (srcpkg upload): {len(srcpkgs_failed_upload)}")
+    print(f"Deleted:                {len(srcpkgs_deleted)}")
 
     if not srcpkgs_failed_build and not srcpkgs_failed_upload:
         exit(0)
@@ -178,6 +194,14 @@ def exit_with_summary():
     exit(1)
 
 
+def validate_args(args):
+    # Only with feed=master we check the current commit of a branch on a remote
+    # git repository before trying to update/delete a package from OBS
+    if args.delete and args.feed != "master":
+        print("ERROR: --delete can only be used with --feed=master")
+        exit(1)
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate source packages and upload them to OBS.")
@@ -188,12 +212,16 @@ def main():
                         dest="skip_up_to_date", action="store_false",
                         help="for latest feed, build and upload packages even"
                              " if the version did not change")
+    parser.add_argument("--delete", action="store_true",
+                        help="remove packages from OBS if the git branch (-b)"
+                             " does not exist anymore")
     parser.add_argument("obs_project",
                         help="OBS project, e.g. home:osmith:nightly")
     parser.add_argument("package", nargs="*",
                         help="package name, e.g. libosmocore or open5gs,"
                              " default is all packages")
     args = parser.parse_args()
+    validate_args(args)
     lib.set_args(args)
     packages = parse_packages(args.package)
 

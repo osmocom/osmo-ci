@@ -142,3 +142,9 @@ def update_package(package, version):
     run_osc(["commit", "-m", f"upgrade to {version}"], cwd=path_temp_osc_pkg)
 
     remove_temp_osc()
+
+
+def delete_package(package, commit_msg):
+    print(f"{package}: removing from OBS ({commit_msg})")
+    run_osc(["rdelete", "-m", commit_msg, lib.args.obs_project,
+             os.path.basename(package)])
