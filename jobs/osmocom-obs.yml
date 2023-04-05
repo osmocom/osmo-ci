@@ -2,7 +2,7 @@
 - project:
     name: Osmocom_OBS
     jobs:
-      - Osmocom_OBS_{type}_{server}
+      - Osmocom_OBS_{type}
     type:
       - master:
           conflict_version: ""
@@ -12,12 +12,9 @@
           conflict_version: "$(date +%Y%m%d%H%M)"
       - latest:
           conflict_version: ""
-    server:
-      - obs.osmocom.org:
-          proj: "osmocom"
 
 - job-template:
-    name: 'Osmocom_OBS_{type}_{server}'
+    name: 'Osmocom_OBS_{type}'
     project-type: freestyle
     concurrent: false
     defaults: global
@@ -39,12 +36,12 @@
           export PYTHONUNBUFFERED=1
 
           ./scripts/obs/update_obs_project.py \
-            --apiurl {server} \
+            --apiurl https://obs.osmocom.org \
             --conflict-version {conflict_version} \
             --docker \
             --feed {type} \
             --meta \
-            {proj}:{type}
+            osmocom:{type}
     scm:
       - git:
           branches:

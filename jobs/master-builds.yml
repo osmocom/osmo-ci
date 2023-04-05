@@ -581,7 +581,7 @@
        - trigger:
            project: '{obj:trigger}'
        - trigger:
-           project: 'Osmocom_OBS_master_obs.osmocom.org'
+           project: 'Osmocom_OBS_master'
        - email:
            recipients: '{obj:email}'
            send-to-individuals: true
