@@ -24,7 +24,10 @@ def parse_packages(packages_arg):
     ret = []
     if packages_arg:
         for package in packages_arg:
-            ret += [lib.set_proper_package_name(package)]
+            if package == "ALL_OSMOCOM_PACKAGES":
+                ret += lib.config.projects_osmocom
+            else:
+                ret += [lib.set_proper_package_name(package)]
         return ret
 
     # Default to all
@@ -218,8 +221,8 @@ def main():
     parser.add_argument("obs_project",
                         help="OBS project, e.g. home:osmith:nightly")
     parser.add_argument("package", nargs="*",
-                        help="package name, e.g. libosmocore or open5gs,"
-                             " default is all packages")
+                        help="package name, e.g. libosmocore or open5gs or"
+                             " ALL_OSMOCOM_PACKAGES, default is all packages")
     args = parser.parse_args()
     validate_args(args)
     lib.set_args(args)
