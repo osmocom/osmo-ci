@@ -1,22 +1,22 @@
 ---
 - project:
-    name: Osmocom_OBS_rhizomatica
+    name: Osmocom_OBS_nhofmeyr
     jobs:
-      - Osmocom_OBS_rhizomatica_{branch_suffix}
+      - Osmocom_OBS_nhofmeyr_{branch_suffix}
     branch_suffix:
-      - testing
-      - production
+      - dev
 
 - job-template:
-    name: 'Osmocom_OBS_rhizomatica_{branch_suffix}'
+    name: 'Osmocom_OBS_nhofmeyr_{branch_suffix}'
     project-type: freestyle
     concurrent: false
     defaults: global
     description: |
       Iterate over Osmocom projects, and update projects from the
-      "rhizomatica/{branch_suffix}" branch in OBS. If a package exists in OBS
+      "neels/{branch_suffix}" branch in OBS. If a package exists in OBS
       for a project, but it doesn't have the git branch anymore then delete the
-      package from OBS (<a href="https://osmocom.org/issues/5981">OS#5981</a>).
+      package from OBS. (created from osmo-ci.git/jobs/osmocom-obs-nhofmeyr.yml
+      which was originally a copy of osmocom-obs-rhizomatica.yml)
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -30,9 +30,9 @@
     builders:
       - shell: |
           export PYTHONUNBUFFERED=1
-          BRANCH="rhizomatica/{branch_suffix}"
-          PROJ="rhizomatica:{branch_suffix}"
-          VERSION_APPEND="~rhizomatica.{branch_suffix}"
+          BRANCH="neels/{branch_suffix}"
+          PROJ="home:nhofmeyr:{branch_suffix}"
+          VERSION_APPEND="~nhofmeyr.{branch_suffix}"
           PACKAGE="$GERRIT_PROJECT"
 
           # When manually triggered, run on all Osmocom packages
@@ -65,9 +65,9 @@
             - project-compare-type: 'ANT'
               project-pattern: '**'
               branches:
-                - branch-pattern: 'rhizomatica/{branch_suffix}'
+                - branch-pattern: 'neels/{branch_suffix}'
           server-name: gerrit.osmocom.org
     publishers:
       - email:
           notify-every-unstable-build: true
-          recipients: 'jenkins-notifications@lists.osmocom.org'
+          recipients: 'nhofmeyr@sysmocom.de'
