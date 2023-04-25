@@ -350,8 +350,8 @@
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
           combination_filter: >
-            (IU == "--enable-iu" && WITH_MANUALS == "0") ||
-            (IU == "--disable-iu" && WITH_MANUALS == "1")
+            (IU == "--enable-iu" && WITH_MANUALS == "1") ||
+            (IU == "--disable-iu" && WITH_MANUALS == "0")
           cmd: |
             {docker_run_ccache} \
               -e IU="$IU" \
@@ -395,8 +395,8 @@
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
           combination_filter: >
-            (IU == "--enable-iu" && WITH_MANUALS == "0") ||
-            (IU == "--disable-iu" && WITH_MANUALS == "1")
+            (IU == "--enable-iu" && WITH_MANUALS == "1") ||
+            (IU == "--disable-iu" && WITH_MANUALS == "0")
           cmd: |
             {docker_run_ccache} \
               -e IU="$IU" \
