@@ -213,6 +213,19 @@ check_ssh_auth_sock() {
 	fi
 }
 
+# Additional configure options to use, so manuals include all VTY commands
+# $1: repo name
+get_configure_opts_from_repo_name() {
+	case "$1" in
+	osmo-hnbgw)
+		echo "--enable-pfcp"
+		;;
+	osmo-msc|osmo-sgsn)
+		echo "--enable-iu"
+		;;
+	esac
+}
+
 # $1: docs dir
 get_repo_name_from_docs_dir() {
 	case "$1" in
@@ -323,6 +336,7 @@ clone_repo() {
 build_publish_manuals() {
 	local repo="$1"
 	local tag="$2"
+	local configure_opts="--enable-manuals $(get_configure_opts_from_repo_name "$repo")"
 	echo "$LOG_PREFIX Building manuals"
 
 	if ! docker run \
@@ -361,7 +375,7 @@ build_publish_manuals() {
 				;;
 			*)
 				su build -c \"autoreconf -fi\"
-				su build -c \"./configure --enable-manuals\"
+				su build -c \"./configure $configure_opts\"
 				su build -c \"make -j$(nproc)\"
 				;;
 			esac
