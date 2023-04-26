@@ -208,6 +208,7 @@
       - osmo-ci:
           pipeline_build: false
           pipeline_binpkgs: false
+          pipeline_endianness: false
 
       - osmo-ggsn:
           a1_name: GTP
