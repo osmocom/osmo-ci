@@ -113,6 +113,7 @@ git_latest_tag_pattern_other = {
 
 docker_distro_default = "debian:11"
 docker_distro_other = [
-    "almalinux:8",  # instead of centos:8 (SYS#5818)
-    "ubuntu:22.04",
+    "almalinux:*",  # instead of centos (SYS#5818)
+    "debian:*",
+    "ubuntu:*",
 ]

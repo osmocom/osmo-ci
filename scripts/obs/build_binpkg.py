@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import argparse
+import fnmatch
 import multiprocessing
 import os
 import lib
@@ -13,9 +14,15 @@ import lib.metapkg
 import lib.srcpkg
 
 
+def arg_type_docker_distro(arg):
+    for pattern in lib.config.docker_distro_other:
+        if fnmatch.fnmatch(arg, pattern):
+            return arg
+    raise ValueError
+
+
 def main():
     distro_default = lib.config.docker_distro_default
-    distro_choices = [distro_default] + lib.config.docker_distro_other
     jobs_default = multiprocessing.cpu_count() + 1
 
     parser = argparse.ArgumentParser(
@@ -23,10 +30,11 @@ def main():
                     " obs.osmocom.org. Use after building a source package"
                     " with build_srcpkg.py."
                     f" Output dir: {lib.config.path_temp}/binpkgs")
-    parser.add_argument("-d", "--docker", choices=distro_choices,
+    parser.add_argument("-d", "--docker", type=arg_type_docker_distro,
                         const=distro_default, nargs="?",
                         help="build the package in docker for a specific"
-                             f" distro (default: {distro_default})")
+                             f" distro (default: {distro_default}, other:"
+                             f" almalinux:8, debian:10, ubuntu:22.04 etc.)")
     parser.add_argument("-j", "--jobs", type=int, default=jobs_default,
                         help=f"parallel running jobs (default: {jobs_default})")
     parser.add_argument("-r", "--run-shell-on-error", action="store_true",

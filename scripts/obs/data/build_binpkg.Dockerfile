@@ -52,26 +52,28 @@ RUN	case "$DISTRO" in \
 
 # Add master repository, where packages immediately get updated after merging
 # patches to master.
-RUN	case "$DISTRO" in \
-	debian:11) \
+RUN	set -x; \
+	VERSION="$(echo "$DISTRO" | cut -d : -f 2)"; \
+	case "$DISTRO" in \
+	debian:*) \
 		apt-key add /tmp/Release.key && \
 		rm /tmp/Release.key && \
-		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/Debian_11/ ./" \
+		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/Debian_$VERSION/ ./" \
 			> /etc/apt/sources.list.d/osmocom-master.list \
 		;; \
-	ubuntu:22.04) \
+	ubuntu:*) \
 		apt-key add /tmp/Release.key && \
 		rm /tmp/Release.key && \
-		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/xUbuntu_22.04/ ./" \
+		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/xUbuntu_$VERSION/ ./" \
 			> /etc/apt/sources.list.d/osmocom-master.list \
 		;; \
-	almalinux:8) \
+	almalinux:*) \
 		{ echo "[network_osmocom_master]"; \
 		  echo "name=osmocom:master"; \
 		  echo "type=rpm-md"; \
-		  echo "baseurl=https://downloads.osmocom.org/packages/osmocom:/master/CentOS_8/"; \
+		  echo "baseurl=https://downloads.osmocom.org/packages/osmocom:/master/CentOS_$VERSION/"; \
 		  echo "gpgcheck=1"; \
-		  echo "gpgkey=https://downloads.osmocom.org/packages/osmocom:/master/CentOS_8/repodata/repomd.xml.key"; \
+		  echo "gpgkey=https://downloads.osmocom.org/packages/osmocom:/master/CentOS_$VERSION/repodata/repomd.xml.key"; \
 		  echo "enabled=1"; \
 		} > /etc/yum.repos.d/network:osmocom:master.repo \
 		;; \
