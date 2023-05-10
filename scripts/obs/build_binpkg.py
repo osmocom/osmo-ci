@@ -31,7 +31,7 @@ def main():
                     " with build_srcpkg.py."
                     f" Output dir: {lib.config.path_temp}/binpkgs")
     parser.add_argument("-d", "--docker", type=arg_type_docker_distro,
-                        const=distro_default, nargs="?",
+                        const=distro_default, nargs="?", metavar="DISTRO",
                         help="build the package in docker for a specific"
                              f" distro (default: {distro_default}, other:"
                              f" almalinux:8, debian:10, ubuntu:22.04 etc.)")
