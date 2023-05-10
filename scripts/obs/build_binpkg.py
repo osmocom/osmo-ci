@@ -85,7 +85,7 @@ def main():
 
         # Optimization: use docker container with osmo-gsm-manuals-dev already
         # installed if it is in build depends
-        if distro.startswith("debian:") \
+        if env["PACKAGEFORMAT"] == "deb" \
                 and lib.srcpkg.requires_osmo_gsm_manuals_dev(args.package):
             image_type += "_manuals"
 
