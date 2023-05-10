@@ -1,6 +1,7 @@
 ARG	DISTRO_FROM
 FROM	${DISTRO_FROM}
 ARG	DISTRO
+ARG	FEED
 ARG	UID
 
 COPY	Release.key /tmp/Release.key
@@ -58,24 +59,24 @@ RUN	set -x; \
 	debian:*) \
 		apt-key add /tmp/Release.key && \
 		rm /tmp/Release.key && \
-		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/Debian_$VERSION/ ./" \
-			> /etc/apt/sources.list.d/osmocom-master.list \
+		echo "deb https://downloads.osmocom.org/packages/osmocom:/$FEED/Debian_$VERSION/ ./" \
+			> /etc/apt/sources.list.d/osmocom-$FEED.list \
 		;; \
 	ubuntu:*) \
 		apt-key add /tmp/Release.key && \
 		rm /tmp/Release.key && \
-		echo "deb https://downloads.osmocom.org/packages/osmocom:/master/xUbuntu_$VERSION/ ./" \
-			> /etc/apt/sources.list.d/osmocom-master.list \
+		echo "deb https://downloads.osmocom.org/packages/osmocom:/$FEED/xUbuntu_$VERSION/ ./" \
+			> /etc/apt/sources.list.d/osmocom-$FEED.list \
 		;; \
 	almalinux:*) \
-		{ echo "[network_osmocom_master]"; \
-		  echo "name=osmocom:master"; \
+		{ echo "[network_osmocom_$FEED]"; \
+		  echo "name=osmocom:$FEED"; \
 		  echo "type=rpm-md"; \
-		  echo "baseurl=https://downloads.osmocom.org/packages/osmocom:/master/CentOS_$VERSION/"; \
+		  echo "baseurl=https://downloads.osmocom.org/packages/osmocom:/$FEED/CentOS_$VERSION/"; \
 		  echo "gpgcheck=1"; \
-		  echo "gpgkey=https://downloads.osmocom.org/packages/osmocom:/master/CentOS_$VERSION/repodata/repomd.xml.key"; \
+		  echo "gpgkey=https://downloads.osmocom.org/packages/osmocom:/$FEED/CentOS_$VERSION/repodata/repomd.xml.key"; \
 		  echo "enabled=1"; \
-		} > /etc/yum.repos.d/network:osmocom:master.repo \
+		} > /etc/yum.repos.d/network:osmocom:$FEED.repo \
 		;; \
 	*) \
 		echo "can't install repo for $DISTRO" && \

@@ -28,11 +28,20 @@ def build_image(distro, image_type):
 
     print(f"docker: building image {image_name}")
 
+    # Set the feed of packages to be configured inside the docker container
+    # (master, nightly, latest). This can be set with build_binpkg.py --feed,
+    # to reproduce a build error that happens with a distro that is only in
+    # nightly but not in the master feed (all ubuntu versions as of writing).
+    build_arg_feed = []
+    if getattr(lib.args, "docker_feed", None):
+        build_arg_feed = ["--build-arg", f"FEED={lib.args.docker_feed}"]
+
     lib.run_cmd(["docker", "build",
                  "--build-arg", f"DISTRO={distro}",
                  "--build-arg", f"DISTRO_FROM={distro_from}",
-                 "--build-arg", f"UID={os.getuid()}",
-                 "-t", image_name,
+                 "--build-arg", f"UID={os.getuid()}"] +
+                build_arg_feed +
+                ["-t", image_name,
                  "-f", f"{lib.config.path_top}/data/{image_type}.Dockerfile",
                  f"{lib.config.path_top}/data"])
 

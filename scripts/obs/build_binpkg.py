@@ -35,6 +35,11 @@ def main():
                         help="build the package in docker for a specific"
                              f" distro (default: {distro_default}, other:"
                              f" almalinux:8, debian:10, ubuntu:22.04 etc.)")
+    parser.add_argument("-f", "--feed", dest="docker_feed", default="master",
+                        choices=["master", "nightly", "latest"],
+                        help="the OBS feed to configure inside docker, against"
+                             " which the package will get built (use nightly"
+                             " if master doesn't get built for DISTRO)")
     parser.add_argument("-j", "--jobs", type=int, default=jobs_default,
                         help=f"parallel running jobs (default: {jobs_default})")
     parser.add_argument("-r", "--run-shell-on-error", action="store_true",
