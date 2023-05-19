@@ -21,6 +21,9 @@ su "$BUILDUSER" -c "cp _temp/srcpkgs/$PACKAGE/*.tar.* ~/rpmbuild/SOURCES"
 su "$BUILDUSER" -c "cp _temp/srcpkgs/$PACKAGE/rpmlintrc ~/rpmbuild/SOURCES"
 su "$BUILDUSER" -c "cp /obs/data/rpmmacros ~/.rpmmacros"
 
+# Force refresh of package index data (OS#6038)
+dnf makecache --refresh
+
 $yum_builddep "/home/$BUILDUSER/rpmbuild/SPECS/$spec"
 
 su "$BUILDUSER" -c "rpmbuild -bb ~/rpmbuild/SPECS/$spec"
