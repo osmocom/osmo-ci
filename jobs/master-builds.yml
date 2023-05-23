@@ -26,6 +26,7 @@
               --cap-add SYS_PTRACE \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
+              -e IS_MASTER_BUILD=1 \
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
@@ -47,6 +48,7 @@
               --cap-add SYS_PTRACE \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
+              -e IS_MASTER_BUILD=1 \
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
               -e OSMOPY_DEBUG_TCP_SOCKETS="1" \
