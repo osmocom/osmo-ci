@@ -7,6 +7,9 @@
 # The format of each line is:
 # mistake||correction
 #
+# Osmocom specific:
+s.m.f.c.||s.f.m.c.
+#
 abandonning||abandoning
 abigious||ambiguous
 abitrary||arbitrary
