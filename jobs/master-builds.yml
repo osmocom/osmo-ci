@@ -588,7 +588,7 @@
     publishers:
        - archive:
            allow-empty: true
-           artifacts: '**/core, **/testsuite.log'
+           artifacts: '**/core, **/testsuite.log, **/workspace.tar.xz'
        - warnings:
            console-log-parsers:
              - 'GNU C Compiler 4 (gcc)'
