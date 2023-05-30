@@ -354,6 +354,12 @@ build_publish_manuals() {
 		sh -ex -c "
 			apt-get update
 
+			# The docker image has the nightly repository
+			# configured, in which packages can't be installed from
+			# different build dates. Upgrade osmocom-nightly first
+			# to prevent errors in apt-get build-dep below.
+			apt-get -y upgrade osmocom-nightly
+
 			# Install dependencies
 			case $repo in
 			*)
