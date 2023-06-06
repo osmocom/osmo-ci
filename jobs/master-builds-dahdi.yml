@@ -1,14 +1,25 @@
 - project:
-    name: master-builds-dahdi-linux
+    name: master-builds-dahdi-linux-stable
+    type: stable
+    repo: 'https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git'
     linux-ver:
-      - "v4.19"
-      - "v5.10"
+      - "linux-4.19.y"
+      - "linux-5.10.y"
+      - "linux-6.1.y"
+    jobs:
+      - 'master-dahdi-linux-{type}-{linux-ver}'
+
+- project:
+    name: master-builds-dahdi-linux-torvalds
+    type: torvalds
+    repo: 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
+    linux-ver:
       - "master"
     jobs:
-      - 'master-dahdi-linux-{linux-ver}'
+      - 'master-dahdi-linux-{type}-{linux-ver}'
 
 - job-template:
-    name: 'master-dahdi-linux-{linux-ver}'
+    name: 'master-dahdi-linux-{type}-{linux-ver}'
     project-type: freestyle
     node: osmocom-master
     concurrent: true
@@ -31,7 +42,7 @@
       # the shell part below.
       - git:
          basedir: 'linux'
-         url: 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
+         url: '{repo}'
          branches:
            - '{linux-ver}'
          refspec: '{linux-ver}'
