@@ -114,6 +114,13 @@ def prepare_project_open5gs():
                 cwd=lib.git.get_repo_path("open5gs"))
 
 
+def prepare_project_limesuite():
+    """ Fix Debian 12 compat, until this is merged and in the next release:
+        https://github.com/myriadrf/LimeSuite/pull/381 """
+    lib.run_cmd(["sed", "s/libwxgtk3.0-gtk3-dev,$/libwxgtk3.0-gtk3-dev | libwxgtk3.2-dev,/g",
+                 "-i", "debian/control"], cwd=lib.git.get_repo_path("limesuite"))
+
+
 def write_tarball_version(project, version):
     repo_path = lib.git.get_repo_path(project)
 
