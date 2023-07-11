@@ -121,6 +121,11 @@
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+      - ttcn3-mme-test-ogs:
+          timer: 15 14 * * *
+          description: |
+            Test open5gs-mme
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       # debian latest stable
       - nplab-m3ua-test-latest:
