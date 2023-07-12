@@ -19,6 +19,18 @@
       - build-discarder:
           days-to-keep: 30
           num-to-keep: 120
+    parameters:
+      - string:
+          name: OSMO_BRANCH_CI
+          description: |
+                osmo-ci.git branch
+          default: 'master'
+      - string:
+          # Used in scripts/common.sh:docker_images_require()
+          name: OSMO_BRANCH_DOCKER_PLAYGROUND
+          description: |
+                docker-playground.git branch
+          default: 'master'
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ci
@@ -26,7 +38,7 @@
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true
           branches:
-            - 'origin/master'
+            - '$OSMO_BRANCH_CI'
           wipe-workspace: true
 
     triggers:
