@@ -49,6 +49,11 @@
 
     builders:
       - shell: './contrib/jenkins.sh'
+
+    wrappers:
+    - ansicolor:
+        colormap: xterm
+
     description: |
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
