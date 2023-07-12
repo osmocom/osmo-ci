@@ -81,8 +81,8 @@
               -e CCACHE_DIR="/ccache" \
               -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -v "$CCACHE_DIR:/ccache" \
-    docker_img: '$USER/debian-buster-jenkins'
-    docker_img_erlang: '$USER/debian-bullseye-erlang'
+    docker_img: '$USER/debian-bookworm-build'
+    docker_img_erlang: '$USER/debian-bookworm-erlang'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
@@ -128,6 +128,7 @@
       - libusrp
 
       - openbsc:
+          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
           a1_name: SMPP
           a1: !!python/tuple [--enable-smpp]
           a2_name: MGCP
@@ -343,7 +344,6 @@
       - simtrace2
 
       - osmo-opencm3-projects:
-          docker_img: '$USER/debian-bullseye-jenkins'
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_binpkgs: false
 
@@ -357,6 +357,7 @@
       - osmo-cbc
 
       - osmo-e1-recorder:
+          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
           pipeline_binpkgs: false
 
       - gapk:
@@ -367,7 +368,9 @@
       - osmo-el2tpd:
           pipeline_binpkgs: false
 
-      - osmo-smlc
+      - osmo-smlc:
+          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
+
       - osmo-gbproxy
       - osmo-hnodeb
 

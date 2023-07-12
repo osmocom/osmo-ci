@@ -5,14 +5,14 @@ cd "$(dirname "$0")/.."
 
 case "$(arch)" in
 x86_64)
+	# debian-bullseye-jenkins: has python2 (OS#5950)
 	docker_images_require \
-		"debian-bullseye-erlang" \
-		"debian-bullseye-jenkins" \
-		"debian-buster-jenkins"
+		"debian-bookworm-build" \
+		"debian-bookworm-erlang" \
+		"debian-bullseye-jenkins"
 	;;
 arm*)
 	docker_images_require \
-		"debian-bullseye-jenkins-arm" \
-		"debian-buster-jenkins-arm"
+		"debian-bookworm-build-arm"
 	;;
 esac

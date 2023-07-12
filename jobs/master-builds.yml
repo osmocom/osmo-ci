@@ -65,7 +65,7 @@
               -e CCACHE_DIR="/ccache" \
               -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -v "$CCACHE_DIR:/ccache" \
-    docker_img: '$USER/debian-bullseye-jenkins'
+    docker_img: '$USER/debian-bookworm-build'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     trigger:
@@ -222,6 +222,7 @@
           trigger: master-osmo-trx
 
       - openbsc:
+          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
           a1_name: SMPP
           a1: !!python/tuple [--enable-smpp]
           a2_name: MGCP
@@ -455,7 +456,6 @@
             - docs_ftp.osmocom.org
       - osmo-opencm3-projects:
           git_base_url: https://gitea.osmocom.org/electronics
-          docker_img: '$USER/debian-bullseye-jenkins'
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
           ssh:
@@ -464,11 +464,13 @@
 
       - osmo-e1d
       - osmo-cbc
-      - osmo-e1-recorder
+      - osmo-e1-recorder:
+          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
       - gapk
       - osmo-uecups
       - osmo-el2tpd
-      - osmo-smlc
+      - osmo-smlc:
+          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
       - osmo-gbproxy
       - osmo-hnodeb
 
