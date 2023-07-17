@@ -98,6 +98,7 @@
     repos:
       - asn1c:
           pipeline_binpkgs: false
+          pipeline_lint: false
 
       - cellmgr-ng
 
