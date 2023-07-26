@@ -92,20 +92,21 @@
     # Which jobs to run in the pipeline
     pipeline_build: true
     pipeline_lint: true
-    pipeline_binpkgs: true
+    pipeline_binpkgs: "almalinux:8 debian:11"
     pipeline_endianness: true
 
     # in alphabetical order
     repos:
       - asn1c:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
           pipeline_lint: false
 
-      - cellmgr-ng
+      - cellmgr-ng:
+          pipeline_binpkgs: "debian:11"
 
       - docker-playground:
           pipeline_build: false
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
           pipeline_endianness: false
 
       - libasn1c
@@ -125,7 +126,7 @@
       - libsmpp34
 
       - libtelnet:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - libusrp
 
@@ -143,7 +144,7 @@
               -e SMPP="$SMPP" \
               -e MGCP="$MGCP" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - openggsn:
           a1_name: GTP
@@ -190,6 +191,7 @@
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_endianness: false
+          pipeline_binpkgs: "debian:11"
 
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
@@ -206,11 +208,11 @@
               -e JOB_TYPE="$JOB_TYPE" \
               "$DOCKER_IMG" \
                 {timeout_cmd} /build/contrib/jenkins.sh
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-ci:
           pipeline_build: false
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
           pipeline_endianness: false
 
       - osmo-ggsn:
@@ -229,12 +231,13 @@
 
       - osmo-gsm-manuals:
           pipeline_endianness: false
+          pipeline_binpkgs: "debian:11"
 
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run_ccache} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-hlr
       - osmo-iuh
@@ -290,6 +293,7 @@
           repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
           pipeline_endianness: false
+          pipeline_binpkgs: "debian:11"
 
       - osmo-sgsn:
           a1_name: IU
@@ -309,7 +313,7 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
           pipeline_endianness: false
 
       - osmo-sip-connector
@@ -336,39 +340,41 @@
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmocom-bb:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-tetra:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
-      - osmo-sysmon
+      - osmo-sysmon:
+          pipeline_binpkgs: "debian:11"
+
       - osmo-remsim
       - simtrace2
 
       - osmo-opencm3-projects:
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-asf4-dfu:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-ccid-firmware:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-e1d
       - osmo-cbc
 
       - osmo-e1-recorder:
           docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - gapk:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-uecups
 
       - osmo-el2tpd:
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
       - osmo-smlc:
           docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
@@ -413,7 +419,7 @@
                   {timeout_cmd} /build/contrib/jenkins.sh
               ;;
             esac
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
           pipeline_endianness: false
 
       - osmo-ttcn3-hacks:
@@ -431,12 +437,12 @@
                 su build -c 'make clean';
                 su build -c 'make compile';
                 "
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
           pipeline_endianness: false
 
       - dahdi-tools:
           pipeline_lint: false
-          pipeline_binpkgs: false
+          pipeline_binpkgs: ""
 
     jobs:
       - 'gerrit-{repos}'
@@ -459,21 +465,26 @@
           name: REPO_URL
           description: Clone URL, to be passed to jobs started in the pipeline
           default: '{obj:repos_url}'
-      - bool:
+      - string:
           name: PIPELINE_BINPKGS
-          description: Enable the binpkgs job (build deb/rpm packages)
+          description: |
+            Enable the binpkgs job (build deb/rpm packages) for the given space
+            separated distributions. Empty list disables the binpkgs job. The
+            distributions must have binary packages in the osmocom:master
+            repository.
           default: '{obj:pipeline_binpkgs}'
       - bool:
           name: PIPELINE_ENDIANNESS
           description: Run struct_endianness.py from libosmocore.git
           default: '{obj:pipeline_endianness}'
     dsl: |
-      def run_job(display_name, job_name, comment_type=null) {{
+      def run_job(display_name, job_name, comment_type=null, distro=null) {{
         try {{
           echo "pipeline_${{display_name}}: running job ${{job_name}}"
 
           build job: job_name, parameters: [
             string(name: "COMMENT_TYPE", value: comment_type),
+            string(name: "DISTRO", value: distro),
             string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
             string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
             string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
@@ -530,24 +541,42 @@
                 }}
               }}
 
-              stage("deb") {{
+              // Generating binpkgs stages is not possible if we want to run
+              // them in parallel and not have another job that just waits
+              // until they complete.
+
+              stage("binpkgs-0") {{
                 when {{
-                  expression {{ params.PIPELINE_BINPKGS }}
+                  expression {{ params.PIPELINE_BINPKGS.split().size() > 0 }}
                 }}
                 steps {{
                   script {{
-                    run_job("deb", "gerrit-binpkgs-deb")
+                    distro = params.PIPELINE_BINPKGS.split()[0]
+                    run_job(distro, "gerrit-binpkgs", null, distro)
                   }}
                 }}
               }}
 
-              stage("rpm") {{
+              stage("binpkgs-1") {{
                 when {{
-                  expression {{ params.PIPELINE_BINPKGS }}
+                  expression {{ params.PIPELINE_BINPKGS.split().size() > 1 }}
                 }}
                 steps {{
                   script {{
-                    run_job("rpm", "gerrit-binpkgs-rpm")
+                    distro = params.PIPELINE_BINPKGS.split()[1]
+                    run_job(distro, "gerrit-binpkgs", null, distro)
+                  }}
+                }}
+              }}
+
+              stage("binpkgs-2") {{
+                when {{
+                  expression {{ params.PIPELINE_BINPKGS.split().size() > 2 }}
+                }}
+                steps {{
+                  script {{
+                    distro = params.PIPELINE_BINPKGS.split()[2]
+                    run_job(distro, "gerrit-binpkgs", null, distro)
                   }}
                 }}
               }}

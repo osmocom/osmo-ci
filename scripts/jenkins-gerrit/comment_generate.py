@@ -9,8 +9,9 @@ import urllib.request
 
 jenkins_url = "https://jenkins.osmocom.org"
 re_start_build = re.compile("Starting building: gerrit-[a-zA-Z-_0-9]* #[0-9]*")
-re_result = re.compile("^pipeline_([a-zA-Z-_0-9]*): (SUCCESS|FAILED)$")
+re_result = re.compile("^pipeline_([a-zA-Z-_0-9:]*): (SUCCESS|FAILED)$")
 re_job_type = re.compile("JOB_TYPE=([a-zA-Z-_0-9]*),")
+re_distro = re.compile("Building binary packages for distro: '([a-zA-Z0-9:].*)'")
 
 
 def parse_args():
@@ -31,16 +32,29 @@ def parse_args():
     return parser.parse_args()
 
 
-def stage_from_job_name(job_name):
+def stage_binpkgs_from_url(job_url):
+    """ Multiple gerrit-binpkgs jobs may be started to build binary packages
+        for multiple distributions. It is not clear from the job name / URL of
+        a job for which distro it is building, so read it from the log output.
+        :returns: a distro like "debian:12" """
+    global re_distro
+
+    url = f"{job_url}/consoleText"
+    with urllib.request.urlopen(url) as response:
+        content = response.read().decode("utf-8")
+        match = re_distro.search(content)
+        assert match, f"couldn't find distro name in log: {url}"
+        return match.group(1)
+
+
+def stage_from_job_name(job_name, job_url):
     if job_name == "gerrit-verifications-comment":
         # The job that runs this script. Don't include it in the summary.
         return None
     if job_name == "gerrit-lint":
         return "lint"
-    if job_name == "gerrit-binpkgs-deb":
-        return "deb"
-    if job_name == "gerrit-binpkgs-rpm":
-        return "rpm"
+    if job_name == "gerrit-binpkgs":
+        return stage_binpkgs_from_url(job_url)
     if job_name == "gerrit-pipeline-endianness":
         return "endianness"
     if job_name.endswith("-build"):
@@ -69,7 +83,7 @@ def parse_pipeline(build_url):
                 job_name = match.split(" ")[2]
                 job_id = int(match.split(" ")[3].replace("#", ""))
                 job_url = f"{jenkins_url}/jenkins/job/{job_name}/{job_id}"
-                stage = stage_from_job_name(job_name)
+                stage = stage_from_job_name(job_name, job_url)
                 if stage:
                     ret[stage] = {"url": job_url, "name": job_name, "id": job_id}
 

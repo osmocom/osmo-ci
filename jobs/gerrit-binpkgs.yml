@@ -5,13 +5,10 @@
 - project:
     name: gerrit-binpkgs
     jobs:
-      - 'gerrit-binpkgs-{type}'
-    type:
-      - 'deb'
-      - 'rpm'
+      - 'gerrit-binpkgs'
 
-- job-template:
-    name: 'gerrit-binpkgs-{type}'
+- job:
+    name: 'gerrit-binpkgs'
     project-type: freestyle
     node: osmocom-gerrit
     concurrent: true
@@ -21,7 +18,7 @@
           days-to-keep: 30
           num-to-keep: 1000
     description: |
-      {type} package job of CI for patches sent to
+      binary packages job (deb/rpm) of CI for patches sent to
       <a href="https://gerrit.osmocom.org">gerrit</a>
       </br></br>
       Related issue: <a href="https://osmocom.org/issues/2385">OS#2385</a>
@@ -44,6 +41,9 @@
       - string:
           name: PROJECT_NAME
           description: project to test, e.g. 'libosmocore' (set by pipeline)
+      - string:
+          name: DISTRO
+          description: distribution to build for, e.g. 'debian:12' (set by pipeline)
 
     scm:
       - git:
@@ -62,14 +62,13 @@
 
     builders:
       - shell: |-
-          # Skip rpm build if .spec.in file is missing
-          if [ "{type}" = "rpm" ] && [ -z "$(find code-from-gerrit -name '*.spec.in')" ]; then
-            set +x
-            echo
-            echo "No *.spec.in file found, skipping rpm build."
-            echo
-            exit 0
-          fi
+          # Make obvious which distro we build for, for humans and for parsing
+          # by scripts/jenkins-gerrit/comment_generate.py
+          set +x
+          echo
+          echo "Building binary packages for distro: '$DISTRO'"
+          echo
+          set -x
 
           # Clone osmo-ci.git
           rm -rf osmo-ci
@@ -79,13 +78,6 @@
             https://gerrit.osmocom.org/osmo-ci \
             osmo-ci
           git -C osmo-ci log --oneline
-
-          # Get distro from type
-          case "{type}" in
-          deb) distro="debian:11" ;;
-          rpm) distro="almalinux:8" ;;
-          *) echo "unknown package format: '{type}'"; exit 1 ;;
-          esac
 
           # Move code from gerrit to build_srcpkg.py's git cache
           cache_dir=osmo-ci/scripts/obs/_cache
@@ -106,7 +98,7 @@
 
           # Build binary package
           ./build_binpkg.py \
-            --docker "$distro" \
+            --docker "$DISTRO" \
             "$PROJECT_NAME"
     wrappers:
     - ansicolor:
