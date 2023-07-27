@@ -128,7 +128,9 @@
       - libtelnet:
           pipeline_binpkgs: ""
 
-      - libusrp
+      - libusrp:
+          # centos8/almalinux doesn't have SDCC (OS#5898)
+          pipeline_binpkgs: "debian:11"
 
       - openbsc:
           docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
