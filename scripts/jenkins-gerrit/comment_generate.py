@@ -9,7 +9,7 @@ import urllib.request
 
 jenkins_url = "https://jenkins.osmocom.org"
 re_start_build = re.compile("Starting building: gerrit-[a-zA-Z-_0-9]* #[0-9]*")
-re_result = re.compile("^PIPELINE_[A-Z]*_PASSED=[01]$")
+re_result = re.compile("^pipeline_([a-zA-Z-_0-9]*): (SUCCESS|FAILED)$")
 re_job_type = re.compile("JOB_TYPE=([a-zA-Z-_0-9]*),")
 
 
@@ -74,14 +74,17 @@ def parse_pipeline(build_url):
                     ret[stage] = {"url": job_url, "name": job_name, "id": job_id}
 
             # Parse result lines
-            if re_result.match(line):
-                stage = line.split("_")[1].lower()
+            match = re_result.match(line)
+            if match:
+                stage = match.group(1)
+                if stage.startswith("comment_"):
+                    # Jobs that run this script, not relevant for summary
+                    continue
                 assert stage in ret, f"found result for stage {stage}, but" \
                         " didn't find where it was started. The" \
                         " re_start_build regex probably needs to be adjusted" \
                         " to match the related gerrit-*-build job."
-                passed = line.split("=")[1].rstrip() == "1"
-                ret[stage]["passed"] = passed
+                ret[stage]["passed"] = (match.group(2) == "SUCCESS")
 
     return ret
 

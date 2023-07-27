@@ -468,173 +468,114 @@
           description: Run struct_endianness.py from libosmocore.git
           default: '{obj:pipeline_endianness}'
     dsl: |
+      def run_job(display_name, job_name, comment_type=null) {{
+        try {{
+          echo "pipeline_${{display_name}}: running job ${{job_name}}"
+
+          build job: job_name, parameters: [
+            string(name: "COMMENT_TYPE", value: comment_type),
+            string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
+            string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
+            string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
+            string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
+            string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
+            string(name: "GERRIT_PATCHSET_UPLOADER_NAME", value: "${{env.GERRIT_PATCHSET_UPLOADER_NAME}}"),
+            string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
+            string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
+            string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
+            string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
+            string(name: "PIPELINE_BUILD_URL", value: "${{env.BUILD_URL}}"),
+            string(name: "PROJECT_NAME", value: "{repos}"),
+          ]
+          echo "pipeline_${{display_name}}: SUCCESS"
+        }} catch (Exception e) {{
+          echo "pipeline_${{display_name}}: FAILED"
+        }}
+      }}
+
       pipeline {{
         agent none
         stages {{
           stage("Verification") {{
             parallel {{
+
+              // Run the comment job to add the pipeline link to gerrit
               stage("Start Comment") {{
                 steps {{
-                  // Run the comment job to add the pipeline link to gerrit
                   script {{
-                    // Keep going on failure
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
-                      build job: 'gerrit-verifications-comment', parameters: [
-                        string(name: "COMMENT_TYPE", value: "start"),
-                        string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
-                        string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
-                        string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
-                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
-                        string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
-                        string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
-                        string(name: "GERRIT_PATCHSET_UPLOADER_NAME", value: "${{env.GERRIT_PATCHSET_UPLOADER_NAME}}"),
-                        string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
-                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
-                        string(name: "PIPELINE_BUILD_URL", value: "${{env.BUILD_URL}}"),
-                      ]
-                    }}
+                    run_job("comment_start", "gerrit-verifications-comment", "start")
                   }}
                 }}
               }}
+
               stage("Build") {{
                 when {{
                   expression {{ params.PIPELINE_BUILD }}
                 }}
                 steps {{
                   script {{
-                    // Run the build job for this repository and keep going on failure
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
-                      env.PIPELINE_BUILD_PASSED = "0"
-                      build job: 'gerrit-{repos}-build', parameters: [
-                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
-                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
-                      ]
-                      env.PIPELINE_BUILD_PASSED = "1"
-                    }}
+                    run_job("build", "gerrit-{repos}-build")
                   }}
                 }}
               }}
+
               stage("Lint") {{
                 when {{
                   expression {{ params.PIPELINE_LINT }}
                 }}
                 steps {{
                   script {{
-                    // Run the lint job for this repository and keep going on failure
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
-                      env.PIPELINE_LINT_PASSED = "0"
-                      build job: 'gerrit-lint', parameters: [
-                        string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
-                        string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
-                        string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
-                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
-                        string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
-                        string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
-                        string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
-                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
-                        string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
-                      ]
-                      env.PIPELINE_LINT_PASSED = "1"
-                    }}
+                    run_job("lint", "gerrit-lint")
                   }}
                 }}
               }}
+
               stage("deb") {{
                 when {{
                   expression {{ params.PIPELINE_BINPKGS }}
                 }}
                 steps {{
                   script {{
-                    // Run the binpkgs job for this repository and keep going on failure
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
-                        env.PIPELINE_DEB_PASSED = "0"
-                        build job: 'gerrit-binpkgs-deb', parameters: [
-                          string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
-                          string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
-                          string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
-                          string(name: "PROJECT_NAME", value: "{repos}"),
-                        ]
-                        env.PIPELINE_DEB_PASSED = "1"
-                    }}
+                    run_job("deb", "gerrit-binpkgs-deb")
                   }}
                 }}
               }}
+
               stage("rpm") {{
-                  when {{
-                    expression {{ params.PIPELINE_BINPKGS }}
-                  }}
-                  steps {{
-                    script {{
-                      // Run the binpkgs job for this repository and keep going on failure
-                      catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
-                        env.PIPELINE_RPM_PASSED = "0"
-                        build job: 'gerrit-binpkgs-rpm', parameters: [
-                          string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
-                          string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
-                          string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
-                          string(name: "PROJECT_NAME", value: "{repos}"),
-                        ]
-                        env.PIPELINE_RPM_PASSED = "1"
-                    }}
+                when {{
+                  expression {{ params.PIPELINE_BINPKGS }}
+                }}
+                steps {{
+                  script {{
+                    run_job("rpm", "gerrit-binpkgs-rpm")
                   }}
                 }}
               }}
+
               stage("Endianness") {{
                 when {{
                   expression {{ params.PIPELINE_ENDIANNESS }}
                 }}
                 steps {{
                   script {{
-                    // Run the endianness job for this repository and keep going on failure
-                    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {{
-                      env.PIPELINE_ENDIANNESS_PASSED = "0"
-                      build job: 'gerrit-pipeline-endianness', parameters: [
-                        string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
-                        string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
-                        string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
-                        string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
-                        string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
-                        string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
-                        string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
-                        string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
-                        string(name: "GERRIT_REPO_URL", value: "${{env.REPO_URL}}"),
-                      ]
-                      env.PIPELINE_ENDIANNESS_PASSED = "1"
-                    }}
+                    run_job("endianness", "gerrit-pipeline-endianness")
                   }}
                 }}
               }}
-            }}
-          }}
+
+            }} // end of parallel
+          }} // end of Verification stage
+
+          // Run the comment job to get successful/failed links and add a
+          // comment + vote to gerrit
           stage("Result Comment") {{
             steps {{
-              echo "PIPELINE_BUILD_PASSED=${{env.PIPELINE_BUILD_PASSED}}"
-              echo "PIPELINE_LINT_PASSED=${{env.PIPELINE_LINT_PASSED}}"
-              echo "PIPELINE_DEB_PASSED=${{env.PIPELINE_DEB_PASSED}}"
-              echo "PIPELINE_RPM_PASSED=${{env.PIPELINE_RPM_PASSED}}"
-              echo "PIPELINE_ENDIANNESS_PASSED=${{env.PIPELINE_ENDIANNESS_PASSED}}"
-
-              // Run the comment job to get successful/failed links and add a
-              // comment + vote to gerrit
               script {{
-               build job: 'gerrit-verifications-comment', parameters: [
-                 string(name: "COMMENT_TYPE", value: "result"),
-                 string(name: "GERRIT_PROJECT", value: "${{env.GERRIT_PROJECT}}"),
-                 string(name: "GERRIT_CHANGE_NUMBER", value: "${{env.GERRIT_CHANGE_NUMBER}}"),
-                 string(name: "GERRIT_PATCHSET_NUMBER", value: "${{env.GERRIT_PATCHSET_NUMBER}}"),
-                 string(name: "GERRIT_BRANCH", value: "${{env.GERRIT_BRANCH}}"),
-                 string(name: "GERRIT_HOST", value: "${{env.GERRIT_HOST}}"),
-                 string(name: "GERRIT_PATCHSET_REVISION", value: "${{env.GERRIT_PATCHSET_REVISION}}"),
-                 string(name: "GERRIT_PATCHSET_UPLOADER_NAME", value: "${{env.GERRIT_PATCHSET_UPLOADER_NAME}}"),
-                 string(name: "GERRIT_PORT", value: "${{env.GERRIT_PORT}}"),
-                 string(name: "GERRIT_REFSPEC", value: "${{env.GERRIT_REFSPEC}}"),
-                 string(name: "PIPELINE_BUILD_URL", value: "${{env.BUILD_URL}}"),
-               ]
+                run_job("comment_result", "gerrit-verifications-comment", "result")
               }}
             }}
           }}
-          // The end result is success if all started jobs were successful,
-          // and failed otherwise.
+
         }}
       }}
     disabled: '{obj:disabled}'
