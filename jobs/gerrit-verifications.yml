@@ -92,7 +92,7 @@
     # Which jobs to run in the pipeline
     pipeline_build: true
     pipeline_lint: true
-    pipeline_binpkgs: "almalinux:8 debian:11"
+    pipeline_binpkgs: "almalinux:8 debian:10 debian:12"
     pipeline_endianness: true
 
     # in alphabetical order
@@ -102,7 +102,7 @@
           pipeline_lint: false
 
       - cellmgr-ng:
-          pipeline_binpkgs: "debian:11"
+          pipeline_binpkgs: "debian:10 debian:12"
 
       - docker-playground:
           pipeline_build: false
@@ -130,7 +130,7 @@
 
       - libusrp:
           # centos8/almalinux doesn't have SDCC (OS#5898)
-          pipeline_binpkgs: "debian:11"
+          pipeline_binpkgs: "debian:10 debian:12"
 
       - openbsc:
           docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
@@ -193,7 +193,7 @@
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_endianness: false
-          pipeline_binpkgs: "debian:11"
+          pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
@@ -233,7 +233,7 @@
 
       - osmo-gsm-manuals:
           pipeline_endianness: false
-          pipeline_binpkgs: "debian:11"
+          pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -295,7 +295,7 @@
           repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
           pipeline_endianness: false
-          pipeline_binpkgs: "debian:11"
+          pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo-sgsn:
           a1_name: IU
@@ -348,7 +348,7 @@
           pipeline_binpkgs: ""
 
       - osmo-sysmon:
-          pipeline_binpkgs: "debian:11"
+          pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo-remsim
       - simtrace2
