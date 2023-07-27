@@ -24,7 +24,8 @@
 # NOTE: after updating the job with Jenkins Job Builder as usual, check if a
 # new pipeline script was generated and approve it here:
 # https://jenkins.osmocom.org/jenkins/scriptApproval/
-# This happens when changing the pipeline script, when adding new projects etc.
+# This used to be necessary when changing the pipeline script, adding new
+# projects etc. But it seems to get auto-approved now.
 
 - project:
     name: gerrit
@@ -466,11 +467,6 @@
           name: PIPELINE_ENDIANNESS
           description: Run struct_endianness.py from libosmocore.git
           default: '{obj:pipeline_endianness}'
-    # NOTE: jenkins pipelines don't run unless the dsl-script was approved.
-    # Sadly this doesn't happen automatically when updating the job with
-    # Jenkins Job Builder. So if you change the pipeline script, update the job
-    # as usually with JJB and then approve the scripts here:
-    # https://jenkins.osmocom.org/jenkins/scriptApproval/
     dsl: |
       pipeline {{
         agent none
