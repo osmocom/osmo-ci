@@ -222,7 +222,6 @@
           trigger: master-osmo-trx
 
       - openbsc:
-          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
           a1_name: SMPP
           a1: !!python/tuple [--enable-smpp]
           a2_name: MGCP
@@ -464,13 +463,11 @@
 
       - osmo-e1d
       - osmo-cbc
-      - osmo-e1-recorder:
-          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
+      - osmo-e1-recorder
       - gapk
       - osmo-uecups
       - osmo-el2tpd
-      - osmo-smlc:
-          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
+      - osmo-smlc
       - osmo-gbproxy
       - osmo-hnodeb
 

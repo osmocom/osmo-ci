@@ -133,7 +133,6 @@
           pipeline_binpkgs: "debian:10 debian:12"
 
       - openbsc:
-          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
           a1_name: SMPP
           a1: !!python/tuple [--enable-smpp]
           a2_name: MGCP
@@ -367,7 +366,6 @@
       - osmo-cbc
 
       - osmo-e1-recorder:
-          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
           pipeline_binpkgs: ""
 
       - gapk:
@@ -378,9 +376,7 @@
       - osmo-el2tpd:
           pipeline_binpkgs: ""
 
-      - osmo-smlc:
-          docker_img: '$USER/debian-bullseye-jenkins'  # needs python2 (OS#5950)
-
+      - osmo-smlc
       - osmo-gbproxy
       - osmo-hnodeb
 
