@@ -97,7 +97,8 @@ def parse_pipeline(build_url):
                 assert stage in ret, f"found result for stage {stage}, but" \
                         " didn't find where it was started. The" \
                         " re_start_build regex probably needs to be adjusted" \
-                        " to match the related gerrit-*-build job."
+                        " to match the related gerrit-*-build job.\n\n" \
+                        f"ret: {ret}"
                 ret[stage]["passed"] = (match.group(2) == "SUCCESS")
 
     return ret
