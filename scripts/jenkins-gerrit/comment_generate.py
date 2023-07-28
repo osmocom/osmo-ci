@@ -171,10 +171,10 @@ def get_job_short_name(job):
 
 
 def get_jobs_list_str(jobs):
-    ret = ""
+    lines = []
     for job in jobs:
-        ret += f"* [{get_job_short_name(job)}] {job['url']}/consoleFull\n"
-    return ret
+        lines += [f"* [{get_job_short_name(job)}] {job['url']}/consoleFull\n"]
+    return "".join(sorted(lines))
 
 
 def get_comment_result(build_url, notify_on_success):
