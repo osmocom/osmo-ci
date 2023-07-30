@@ -2,15 +2,17 @@ latest/CentOS_7
 latest/CentOS_8
 latest/Debian_10
 latest/Debian_11
+latest/Debian_12
 latest/Raspbian_10
 latest/Raspbian_11
 latest/xUbuntu_18.04
 latest/xUbuntu_20.04
 latest/xUbuntu_21.04
 latest/xUbuntu_22.04
+latest/xUbuntu_23.04
 
 nightly/CentOS_8
-nightly/Debian_10
 nightly/Debian_11
+nightly/Debian_12
 nightly/Raspbian_11
-nightly/xUbuntu_22.04
+nightly/xUbuntu_23.04
