@@ -6,6 +6,7 @@
 
 - job-template:
     name: 'Osmocom-release-tarballs'
+    node: osmocom-master
     project-type: freestyle
     defaults: global
     description: |

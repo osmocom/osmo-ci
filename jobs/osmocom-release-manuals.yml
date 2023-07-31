@@ -6,6 +6,7 @@
 
 - job:
     name: 'Osmocom-release-manuals'
+    node: osmocom-master
     project-type: freestyle
     defaults: global
     description: |
