@@ -10,6 +10,8 @@
           feeds: !!python/tuple [nightly, latest]
       - debian11:
           feeds: !!python/tuple [nightly, latest]
+      - debian12:
+          feeds: !!python/tuple [nightly, latest]
 
 - job-template:
     name: Osmocom-repo-install-{distro}

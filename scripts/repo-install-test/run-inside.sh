@@ -54,6 +54,9 @@ distro_obsdir() {
 		debian11)
 			echo "Debian_11"
 			;;
+		debian12)
+			echo "Debian_12"
+			;;
 		*)
 			echo "ERROR: unknown obsdir for '$DISTRO'." >&2
 			exit 1
@@ -256,7 +259,7 @@ test_conflict_debian() {
 				"Depends: osmocom-" \
 				"but it is not going to be installed"
 			;;
-		debian11)
+		debian11|debian12)
 			find_patterns_or_exit \
 				/tmp/out \
 				"Conflicts: osmocom-"

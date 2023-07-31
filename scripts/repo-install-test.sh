@@ -16,6 +16,7 @@ DISTROS="
 	centos8
 	debian10
 	debian11
+	debian12
 "
 IMG_DIR="/opt/qemu"
 TEST_DIR="scripts/repo-install-test"
@@ -50,6 +51,9 @@ get_backing_img_path() {
 		;;
 	debian11)
 		ret="$IMG_DIR/debian-11.qcow2"
+		;;
+	debian12)
+		ret="$IMG_DIR/debian-12.qcow2"
 		;;
 	*)
 		set +x

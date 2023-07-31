@@ -10,6 +10,7 @@ DISTROS="
 	alma-8.5
 	debian-10
 	debian-11
+	debian-12
 "
 TEMP_SCRIPT="$(mktemp)"
 
@@ -53,13 +54,22 @@ for distro in $DISTROS; do
 		;;
 	esac
 
+	EXTRA_ARGS=""
+	case "$distro" in
+	debian-12)
+		# repo-install-test runs out of space with the default size
+		EXTRA_ARGS="--size 8G"
+		;;
+	esac
+
 	virt-builder \
 		"$distro" \
 		-o "/opt/qemu/$distro.qcow2" \
 		--format qcow2 \
 		--root-password password:root \
 		--run "$TEMP_SCRIPT" \
-		--verbose
+		--verbose \
+		$EXTRA_ARGS
 
 	if [ -z "$KEEP_CACHE" ]; then
 		virt-builder --delete-cache
@@ -68,8 +78,8 @@ done
 
 rm "$TEMP_SCRIPT"
 
-# Marker for ansible main.yml to skipt the script
-touch /opt/qemu/.qemu-create-vms-done-v1
+# Marker for ansible main.yml to skip the script
+touch /opt/qemu/.qemu-create-vms-done-v2
 
 echo
 echo "Done!"

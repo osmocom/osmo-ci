@@ -13,7 +13,7 @@
 - name: run qemu-create-vms.sh
   ansible.builtin.script: qemu-create-vms.sh
   args:
-    creates: /opt/qemu/.qemu-create-vms-done-v1
+    creates: /opt/qemu/.qemu-create-vms-done-v2
 
 - name: add jenkins to the kvm group
   user:
