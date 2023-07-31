@@ -93,7 +93,6 @@
     pipeline_build: true
     pipeline_lint: true
     pipeline_binpkgs: "almalinux:8 debian:10 debian:12"
-    pipeline_endianness: true
 
     # in alphabetical order
     repos:
@@ -107,7 +106,6 @@
       - docker-playground:
           pipeline_build: false
           pipeline_binpkgs: ""
-          pipeline_endianness: false
 
       - libasn1c
       - libgtpnl
@@ -191,7 +189,6 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
-          pipeline_endianness: false
           pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo-e1-hardware:
@@ -214,7 +211,6 @@
       - osmo-ci:
           pipeline_build: false
           pipeline_binpkgs: ""
-          pipeline_endianness: false
 
       - osmo-ggsn:
           a1_name: GTP
@@ -231,7 +227,6 @@
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-gsm-manuals:
-          pipeline_endianness: false
           pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo_gsup:
@@ -293,7 +288,6 @@
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
-          pipeline_endianness: false
           pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo-sgsn:
@@ -315,7 +309,6 @@
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_binpkgs: ""
-          pipeline_endianness: false
 
       - osmo-sip-connector
 
@@ -418,7 +411,6 @@
               ;;
             esac
           pipeline_binpkgs: ""
-          pipeline_endianness: false
 
       - osmo-ttcn3-hacks:
           slave_axis: !!python/tuple [ttcn3]
@@ -436,7 +428,6 @@
                 su build -c 'make compile';
                 "
           pipeline_binpkgs: ""
-          pipeline_endianness: false
 
       - dahdi-tools:
           pipeline_lint: false
@@ -471,10 +462,6 @@
             distributions must have binary packages in the osmocom:master
             repository.
           default: '{obj:pipeline_binpkgs}'
-      - bool:
-          name: PIPELINE_ENDIANNESS
-          description: Run struct_endianness.py from libosmocore.git
-          default: '{obj:pipeline_endianness}'
     dsl: |
       def run_job(display_name, job_name, comment_type=null, distro=null) {{
         try {{
@@ -575,17 +562,6 @@
                   script {{
                     distro = params.PIPELINE_BINPKGS.split()[2]
                     run_job(distro, "gerrit-binpkgs", null, distro)
-                  }}
-                }}
-              }}
-
-              stage("Endianness") {{
-                when {{
-                  expression {{ params.PIPELINE_ENDIANNESS }}
-                }}
-                steps {{
-                  script {{
-                    run_job("endianness", "gerrit-pipeline-endianness")
                   }}
                 }}
               }}
