@@ -257,6 +257,7 @@
               https://gerrit.osmocom.org/docker-playground \
               docker-playground
             git -C docker-playground log --oneline
+            make -C docker-playground/debian-buster-jenkins  # OS#6126
             make -C docker-playground/osmo-gsm-tester
 
             unlink osmo-gsm-tester/sysmocom/resources.conf || true
