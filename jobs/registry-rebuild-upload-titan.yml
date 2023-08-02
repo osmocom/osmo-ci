@@ -17,7 +17,7 @@
 - job:
     name: registry-rebuild-upload-titan
     description: |
-        Rebuild + push ttcn3 base images (debian-bullseye-titan) in our private
+        Rebuild + push ttcn3 base images (debian-bookworm-titan) in our private
         registry.osmocom.org
         <br><br>
         Related:<br>
@@ -34,8 +34,8 @@
     builders:
       - shell: |
           REGISTRY="registry.osmocom.org"
-          make -C debian-bullseye-titan REGISTRY_HOST=$REGISTRY
-          docker push "$REGISTRY/$USER/debian-bullseye-titan"
+          make -C debian-bookworm-titan REGISTRY_HOST=$REGISTRY
+          docker push "$REGISTRY/$USER/debian-bookworm-titan"
     publishers:
       - email:
           notify-every-unstable-build: true
