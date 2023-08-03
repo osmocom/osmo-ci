@@ -4,7 +4,7 @@ OSMO_CI_DIR="$(realpath $(dirname "$0")/../..)"
 TEMP="$OSMO_CI_DIR/_temp_manuals"
 WEB_PATH="/downloads/home/docs/web-files"
 SSH_COMMAND="ssh -o UserKnownHostsFile=$TEMP/src/osmo-gsm-manuals/build/known_hosts -p 48"
-DOCKER_IMAGE="$USER/debian-bullseye-jenkins"
+DOCKER_IMAGE="$USER/debian-bookworm-build"
 LOG_PREFIX="::"
 
 # Releases that were made before shared osmo-gsm-manuals, or where build fails
