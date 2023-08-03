@@ -418,7 +418,7 @@
             docker run \
               --rm \
               -v "$PWD:/build" \
-              "registry.osmocom.org/osmocom-build/debian-bullseye-titan" \
+              "registry.osmocom.org/osmocom-build/debian-bookworm-titan" \
               {timeout_cmd} \
               sh -e -x -c "
                 useradd --uid=1000 build;
