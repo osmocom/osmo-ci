@@ -23,6 +23,7 @@
           IMAGES="
             debian:buster
             debian:bullseye
+            debian:bookworm
             debian:sid
 
             centos:centos7
