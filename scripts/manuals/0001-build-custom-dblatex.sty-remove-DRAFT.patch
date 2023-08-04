@@ -1,4 +1,4 @@
-From ed812f2bd79e7e01c833d90ee279ae4750f82f2f Mon Sep 17 00:00:00 2001
+From 92a645d74fde8b86ab0a8f6e3d089a0f1edc34d0 Mon Sep 17 00:00:00 2001
 From: Oliver Smith <osmith@sysmocom.de>
 Date: Wed, 8 Mar 2023 17:48:17 +0100
 Subject: [PATCH] build/custom-dblatex.sty: remove DRAFT
@@ -9,25 +9,9 @@ releases, so they don't have the draft watermark.
 Related: OS#5902
 Change-Id: Id9a27b01412b0e615638f20fa5e36f5b114a15d8
 ---
- build/Makefile.asciidoc.inc | 4 ----
- build/custom-dblatex.sty    | 4 ----
- 2 files changed, 8 deletions(-)
+ build/custom-dblatex.sty | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/build/Makefile.asciidoc.inc b/build/Makefile.asciidoc.inc
-index 1b7375e..9a9e829 100644
---- a/build/Makefile.asciidoc.inc
-+++ b/build/Makefile.asciidoc.inc
-@@ -69,10 +69,6 @@ $(ASCIIDOC_PDF): %.pdf: %.adoc %-docinfo.xml \
- 
- 	# TEXINPUTS: find LaTeX includes like \includegraphics{./common/images/sysmocom.pdf}
- 	# in $(OSMO_GSM_MANUALS_DIR).
--	@test -n "$(BUILD_RELEASE)" && echo -e "\n\n\
--	  NOTE: TO REMOVE DRAFT MODE, YOU NEED TO EDIT build/custom-dblatex.sty\n\
--	        and remove three lines starting with '% \"DRAFT\" on first page'\n" \
--	  || true
- 	TEXINPUTS="$(OSMO_GSM_MANUALS_DIR)" \
- 		a2x -vv $(A2X_OPTS) $(notdir $<)
- 
 diff --git a/build/custom-dblatex.sty b/build/custom-dblatex.sty
 index 16931ad..0d53bb1 100644
 --- a/build/custom-dblatex.sty
