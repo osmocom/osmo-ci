@@ -36,7 +36,6 @@
     - name: osmocom-jenkins-slave
       generic_slave: false
       install_jenkins_utilities: false
-      install_osmocom_build_deps: false
       ttcn3_slave: false
       tags:
         - jenkins-slave
