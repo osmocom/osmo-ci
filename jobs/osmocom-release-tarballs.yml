@@ -19,19 +19,18 @@
           num-to-keep: 30
     parameters:
       - string:
-          name: BRANCH_DOCKER_PLAYGROUND
+          name: BRANCH_OSMO_CI
           description: |
-                docker-playground.git branch where the Dockerfile gets pulled from
+                osmo-ci.git branch with scripts/tarballs/publish-tarballs-for-tags.sh
           default: 'master'
     builders:
       - shell: |
-          cd release-tarball-build-dist
-          ./jenkins.sh
+          PUBLISH=1 scripts/tarballs/publish-tarballs-for-tags.sh
     scm:
       - git:
           branches:
-            - '$BRANCH_DOCKER_PLAYGROUND'
-          url: https://gerrit.osmocom.org/docker-playground
+            - '$BRANCH_OSMO_CI'
+          url: https://gerrit.osmocom.org/osmo-ci
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           wipe-workspace: true

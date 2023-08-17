@@ -13,4 +13,5 @@ _release_tarballs/
 _docker_playground
 _repo_install_test_data/
 _temp_manuals/
+_temp_releases/
 scripts/repo-install-test/run-inside-env.sh
