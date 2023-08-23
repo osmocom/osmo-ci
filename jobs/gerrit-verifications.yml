@@ -189,7 +189,7 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
-          pipeline_binpkgs: "debian:10 debian:12"
+          pipeline_binpkgs: "debian:11 debian:12"
 
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
