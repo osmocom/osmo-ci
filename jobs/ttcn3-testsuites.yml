@@ -126,6 +126,8 @@
           description: |
             Test open5gs-mme
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+      - ttcn3-dia2gsup-test:
+          timer: 30 14 * * *
 
       # debian latest stable
       - nplab-m3ua-test-latest:
