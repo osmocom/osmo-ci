@@ -24,7 +24,14 @@
           default: '*/master'
     builders:
       - shell: |
-          PARALLEL_MAKE=-j8 scripts/osmocom-build-old-tags-against-master.sh
+          docker run \
+            --rm=true \
+            -e PARALLEL_MAKE="-j8" \
+            -u build \
+            -v "$PWD:/build" \
+            -w /build \
+            "$USER/debian-bookworm-build" \
+            scripts/osmocom-build-old-tags-against-master.sh
     scm:
       - git:
           branches:
