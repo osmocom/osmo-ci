@@ -1,4 +1,6 @@
 #!/bin/sh -ex
+SSH_CMD="ssh -o UserKnownHostsFile=/build/contrib/known_hosts -p 48"
+
 # Repositories for which doxygen documentation will be generated and
 # uploaded, also dependencies which need to be built
 repos_api="
@@ -12,6 +14,9 @@ repos_api="
 
 # Source common.sh from osmo-ci.git for osmo_git_clone_url()
 . scripts/common.sh
+
+# Check early that SSH works
+$SSH_CMD api@ftp.osmocom.org -T -- true
 
 # Put git repos and install data in a subdir, so it isn't in the root
 # of the cloned osmo-ci.git repository
@@ -45,7 +50,7 @@ for i in $repos_api; do
 	rsync \
 		-avz \
 		--delete \
-		-e "ssh -o UserKnownHostsFile=/build/contrib/known_hosts -p 48" \
+		-e "$SSH_CMD" \
 		./"$i"/doc/ \
 		api@ftp.osmocom.org:web-files/latest/"$i"/
 done
