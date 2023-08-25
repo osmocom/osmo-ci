@@ -12,9 +12,16 @@
     node: coverity
     builders:
       - shell: |
-          cd coverity
-          export PATH=$PATH:/opt/coverity/current/bin
-          ./jenkins.sh
+          docker run \
+            --rm=true \
+            -e PARALLEL_MAKE="$PARALLEL_MAKE" \
+            -u build \
+            -v "$PWD:/build" \
+            -v "/home/osmo-ci/coverity:/home/osmo-ci/coverity:ro" \
+            -v "/opt/coverity:/opt/coverity:ro" \
+            -w /build/coverity \
+            "$USER/debian-bookworm-build" \
+            ./jenkins.sh
     publishers:
       - email:
           recipients: 'jenkins-notifications@lists.osmocom.org'

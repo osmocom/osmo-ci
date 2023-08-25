@@ -3,6 +3,8 @@
 
 set -e -x
 
+export PATH=$PATH:/opt/coverity/current/bin
+
 base_dir="$HOME/osmo-ci/coverity"
 src_dir="$PWD/source-Osmocom"
 cov_dir="$src_dir/cov-int"
