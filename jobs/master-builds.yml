@@ -343,6 +343,10 @@
             master-osmo-hnodeb,
             master-osmo-hnbgw
 
+      - osmo-ir77:
+          git_base_url: https://gitea.osmocom.org/satellite
+          email: jenkins-notifications@lists.osmocom.org 246tnt@gmail.com
+
       - osmo-mgw:
           trigger: master-osmo-msc, master-osmo-bsc
 
