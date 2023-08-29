@@ -173,7 +173,7 @@
           #   master-osmo-bsc, master-osmo-bts, master-osmo-ggsn, master-osmo-gmr, master-osmo-hlr,
           #   master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-pcap, master-osmo-pcu,
           #   master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra, master-osmo-hnodeb
-          #   master-osmocom-bb, SIMtrace, xgoldmon
+          #   master-osmocom-bb, SIMtrace, master-xgoldmon
           # Optimized:
           # libosmocore
           # -> master-libosmo-abis
@@ -212,7 +212,7 @@
             master-osmo-trx,
             master-osmocom-bb,
             SIMtrace,
-            xgoldmon
+            master-xgoldmon
 
       - libsmpp34:
           trigger: master-osmo-msc, master-openbsc
@@ -518,6 +518,12 @@
           git_base_url: https://gitea.sysmocom.de/sysmocom
 
       - dahdi-tools
+
+      - xgoldmon:
+          git_base_url: https://github.com/2b-as
+          cmd: |
+            git clone --depth=1 https://gerrit.osmocom.org/osmo-ci -b master
+            {docker_run_ccache} {docker_img} {timeout_cmd} /build/osmo-ci/scripts/xgoldmon-jenkins.sh
 
     jobs:
       - 'master-{repos}'
