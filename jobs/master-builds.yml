@@ -529,6 +529,7 @@
       - xgoldmon:
           git_base_url: https://github.com/2b-as
           cmd: |
+            rm -rf osmo-ci
             git clone --depth=1 https://gerrit.osmocom.org/osmo-ci -b master
             {docker_run_ccache} {docker_img} {timeout_cmd} /build/osmo-ci/scripts/xgoldmon-jenkins.sh
 
