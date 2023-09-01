@@ -7,6 +7,7 @@ RUN	apt-get update && \
 	apt-get upgrade -y && \
 	apt-get install -y --no-install-recommends \
 		ca-certificates \
+		colordiff \
 		debhelper \
 		dh-python \
 		dpkg-dev \
@@ -14,6 +15,7 @@ RUN	apt-get update && \
 		git \
 		git-review \
 		gnupg2 \
+		libxml2-utils \
 		meson \
 		osc \
 		python3-setuptools \

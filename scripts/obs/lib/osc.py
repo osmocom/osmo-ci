@@ -143,3 +143,39 @@ def update_package(package, version):
 def delete_package(package, commit_msg):
     print(f"{package}: removing from OBS ({commit_msg})")
     run_osc(["rdelete", "-m", commit_msg, proj, os.path.basename(package)])
+
+
+def get_prjconf(output_file):
+    print(f"{proj}: getting prjconf")
+    prjconf = lib.osc.run_osc(["meta", "prjconf", proj]).output
+    with open(output_file, "w") as h:
+        h.write(prjconf)
+
+
+def update_prjconf(prjconf_file, commit_msg):
+    print(f"{proj}: updating prjconf")
+    lib.osc.run_osc(["meta",
+                     "prjconf",
+                     "-F", prjconf_file,
+                     "-m", commit_msg,
+                     proj])
+
+
+def get_meta(output_file):
+    print(f"{proj}: getting meta")
+    meta = lib.osc.run_osc(["meta", "prj", proj]).output
+    with open(output_file, "w") as h:
+        h.write(meta)
+
+
+def update_meta(meta_file, commit_msg):
+    print(f"{proj}: updating meta")
+    lib.osc.run_osc(["meta",
+                     "prj",
+                     "-F", meta_file,
+                     "-m", commit_msg,
+                     proj])
+
+def get_projects():
+    print(f"OBS: getting list of projects")
+    return lib.osc.run_osc(["ls"]).output.rstrip().split("\n")
