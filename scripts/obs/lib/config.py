@@ -117,3 +117,17 @@ docker_distro_other = [
     "debian:*",
     "ubuntu:*",
 ]
+
+#
+# Options related to sync from build.opensuse.org (OS#6165)
+#
+
+sync_remove_paths = [
+    # This path has a kernel-obs-build package that other OBS instances use to
+    # build armv7l/hl packages, but we don't need it
+    "OBS:DefaultKernel",
+]
+
+sync_set_maintainers = [
+    "osmocom-jenkins",
+]
