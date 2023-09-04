@@ -231,9 +231,8 @@ def main():
     if args.docker:
         lib.docker.run_in_docker_and_exit("update_obs_project.py", True)
 
-    lib.osc.check_proj()
     lib.osc.check_oscrc()
-    lib.osc.set_apiurl(args.apiurl)
+    lib.osc.set_apiurl(args.apiurl, args.obs_project)
 
     if not args.ignore_req:
         lib.check_required_programs()
