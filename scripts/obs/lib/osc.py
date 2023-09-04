@@ -10,15 +10,7 @@ import lib
 import lib.config
 
 apiurl = None
-
-
-def check_proj():
-    proj = lib.args.obs_project
-    if ":" in proj:
-        return
-
-    print(f"ERROR: this doesn't look like a valid OBS project: {proj}")
-    exit(1)
+proj = None
 
 
 def check_oscrc():
@@ -33,8 +25,16 @@ def check_oscrc():
     exit(1)
 
 
-def set_apiurl(url):
+def set_apiurl(url, obs_proj=None):
     global apiurl
+    global proj
+
+    if obs_proj is not None:
+        if ":" not in obs_proj:
+            print(f"ERROR: this doesn't look like a valid OBS project: {obs_proj}")
+            exit(1)
+        proj = obs_proj
+
     apiurl = url
 
 
@@ -58,7 +58,6 @@ def run_osc(cmd, *args, **kwargs):
 
 
 def get_remote_pkgs():
-    proj = lib.args.obs_project
     print(f"OBS: getting packages in {proj}")
     ret = run_osc(["list", proj])
     return ret.output.rstrip().split("\n")
@@ -66,7 +65,6 @@ def get_remote_pkgs():
 
 def get_package_version(package):
     feed = lib.args.feed
-    proj = lib.args.obs_project
     print(f"{package}: getting OBS version")
     ret = run_osc(["list", proj, os.path.basename(package)])
 
@@ -92,7 +90,6 @@ def get_package_version(package):
 
 
 def create_package(package):
-    proj = lib.args.obs_project
     print(f"{package}: creating new OBS package")
 
     # cut off repository prefix like in "python/osmo-python-tests"
@@ -117,7 +114,6 @@ def remove_temp_osc():
 
 
 def update_package(package, version):
-    proj = lib.args.obs_project
     print(f"{package}: updating OBS package")
 
     # cut off repository prefix like in "python/osmo-python-tests"
@@ -146,5 +142,4 @@ def update_package(package, version):
 
 def delete_package(package, commit_msg):
     print(f"{package}: removing from OBS ({commit_msg})")
-    run_osc(["rdelete", "-m", commit_msg, lib.args.obs_project,
-             os.path.basename(package)])
+    run_osc(["rdelete", "-m", commit_msg, proj, os.path.basename(package)])
