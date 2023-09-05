@@ -111,7 +111,7 @@ git_latest_tag_pattern_other = {
         "open5gs": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
 }
 
-docker_distro_default = "debian:11"
+docker_distro_default = "debian:12"
 docker_distro_other = [
     "almalinux:*",  # instead of centos (SYS#5818)
     "debian:*",
