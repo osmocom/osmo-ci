@@ -1,0 +1,54 @@
+---
+- job:
+    name: 'Osmocom_OBS_sync'
+    project-type: freestyle
+    concurrent: false
+    defaults: global
+    description: |
+      Sync base distributions (Debian:12 etc.) from openSUSE's OBS to our OBS
+      (<a href="https://osmocom.org/issues/6165">OS#6165</a>).
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    node: obs
+    parameters:
+      - string:
+          name: CI_BRANCH
+          description: osmo-ci.git branch
+          default: 'master'
+    scm:
+      - git:
+          branches:
+            - '$CI_BRANCH'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    builders:
+      - shell: |
+          export PYTHONUNBUFFERED=1
+          export DISTROS="
+            AlmaLinux:8
+            Debian:10
+            Debian:11
+            Debian:12
+            Debian:Next
+            Debian:Testing
+            Raspbian:10
+            Raspbian:11
+            Ubuntu:20.04
+            Ubuntu:22.04
+            Ubuntu:23.04
+          "
+          ./scripts/obs/sync_obs_projects.py \
+            --docker \
+            $DISTROS
+    triggers:
+      - timed: "H H * * *"
+    wrappers:
+    - ansicolor:
+        colormap: xterm
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
