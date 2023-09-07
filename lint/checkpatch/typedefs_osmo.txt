@@ -2,3 +2,4 @@ A_SEQUENCE_OF
 A_SET_OF
 l1if_compl_cb
 ranap_message
+osmo_ss7_asp_rx_unknown_cb
