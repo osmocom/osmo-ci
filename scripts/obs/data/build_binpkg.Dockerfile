@@ -53,8 +53,9 @@ RUN	case "$DISTRO" in \
 
 # Add master repository, where packages immediately get updated after merging
 # patches to master.
+# sed: first letter uppercase (testing -> Testing)
 RUN	set -x; \
-	VERSION="$(echo "$DISTRO" | cut -d : -f 2)"; \
+	VERSION="$(echo "$DISTRO" | cut -d : -f 2 | sed 's/./\u&/')"; \
 	case "$DISTRO" in \
 	debian:*) \
 		apt-key add /tmp/Release.key && \
