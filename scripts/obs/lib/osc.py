@@ -6,6 +6,7 @@ import glob
 import os
 import shlex
 import shutil
+import sys
 import lib
 import lib.config
 
@@ -22,7 +23,7 @@ def check_oscrc():
 
     print("ERROR: oscrc does not exist, please create one as explained in the"
           " README.")
-    exit(1)
+    sys.exit(1)
 
 
 def set_apiurl(url, obs_proj=None):
@@ -32,7 +33,7 @@ def set_apiurl(url, obs_proj=None):
     if obs_proj is not None:
         if ":" not in obs_proj:
             print(f"ERROR: this doesn't look like a valid OBS project: {obs_proj}")
-            exit(1)
+            sys.exit(1)
         proj = obs_proj
 
     apiurl = url

@@ -4,6 +4,7 @@
 import glob
 import os
 import pathlib
+import sys
 import lib.config
 import lib.debian
 import lib.rpm_spec
@@ -42,7 +43,7 @@ def get_git_version_gen_path(project):
     print(f"ERROR: {project}.git doesn't have a git-version-gen script and"
           " couldn't find libosmocore.git's copy of the script here either: "
           + ret)
-    exit(1)
+    sys.exit(1)
 
 
 def get_git_version(project):

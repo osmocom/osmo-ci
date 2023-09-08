@@ -55,7 +55,7 @@ def get_oscrc():
         return os.path.realpath(ret)
 
     print("ERROR: couldn't find ~/.oscrc. Put it there or set OSCRC.")
-    exit(1)
+    sys.exit(1)
 
 
 def run_in_docker_and_exit(script_path, add_oscrc=False,
@@ -75,7 +75,7 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
 
     if not shutil.which("docker"):
         print("ERROR: docker is not installed")
-        exit(1)
+        sys.exit(1)
 
     if not distro:
         distro = lib.config.docker_distro_default
@@ -116,4 +116,4 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
 
     print(f"docker: running: {script_path} inside docker")
     ret = subprocess.run(cmd)
-    exit(ret.returncode)
+    sys.exit(ret.returncode)

@@ -98,7 +98,7 @@ def check_required_programs():
 
     if not ok:
         print("Either install them or use the -d argument to run in docker")
-        exit(1)
+        sys.exit(1)
 
 
 def set_proper_package_name(package):
@@ -117,7 +117,7 @@ def set_proper_package_name(package):
 
     print(f"ERROR: unknown package: {package}")
     print("See packages_osmocom and packages_other in obs/lib/config.py")
-    exit(1)
+    sys.exit(1)
 
 
 def exit_error_cmd(completed, error_msg):

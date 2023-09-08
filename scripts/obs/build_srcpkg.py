@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import argparse
+import sys
 import lib
 import lib.config
 import lib.docker
@@ -26,7 +27,7 @@ def main():
 
     if not args.meta and not args.package:
         print("ERROR: specify -m and/or a package. See -h for help.")
-        exit(1)
+        sys.exit(1)
 
     lib.set_args(args)
 

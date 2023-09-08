@@ -3,9 +3,10 @@
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import argparse
 import fnmatch
+import lib
 import multiprocessing
 import os
-import lib
+import sys
 import lib.binpkg_deb
 import lib.config
 import lib.docker
@@ -57,7 +58,7 @@ def main():
     if not os.path.exists(srcdir):
         print(f"ERROR: {args.package}: no srcpkg found, run build_srcpkg.py"
               " first!")
-        exit(1)
+        sys.exit(1)
 
     bindir = f"{lib.config.path_temp}/binpkgs"
     lib.run_cmd(["rm", "-rf", bindir])

@@ -3,6 +3,7 @@
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import argparse
 import os
+import sys
 import traceback
 import lib
 import lib.config
@@ -185,7 +186,7 @@ def exit_with_summary():
     print(f"Deleted:                {len(srcpkgs_deleted)}")
 
     if not srcpkgs_failed_build and not srcpkgs_failed_upload:
-        exit(0)
+        sys.exit(0)
 
     print()
     print("List of failed packages:")
@@ -194,7 +195,7 @@ def exit_with_summary():
     for package in srcpkgs_failed_upload:
         print(f"* {package} (srcpkg upload)")
 
-    exit(1)
+    sys.exit(1)
 
 
 def validate_args(args):
@@ -202,7 +203,7 @@ def validate_args(args):
     # git repository before trying to update/delete a package from OBS
     if args.delete and args.feed != "master":
         print("ERROR: --delete can only be used with --feed=master")
-        exit(1)
+        sys.exit(1)
 
 
 def main():

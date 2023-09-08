@@ -8,6 +8,7 @@ import html
 import os
 import shlex
 import shutil
+import sys
 import xml.etree.ElementTree
 
 import lib
@@ -75,7 +76,7 @@ def check_required_programs():
 
     if not ok:
         print("Either install them or use the -d argument to run in docker")
-        exit(1)
+        sys.exit(1)
 
 
 def generate_prjconf_header(project):
