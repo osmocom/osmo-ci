@@ -25,6 +25,7 @@ required_programs = [
 ]
 
 required_python_modules = [
+    "packaging",
     "setuptools",
 ]
 

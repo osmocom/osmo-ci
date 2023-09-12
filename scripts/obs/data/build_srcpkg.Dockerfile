@@ -18,6 +18,7 @@ RUN	apt-get update && \
 		libxml2-utils \
 		meson \
 		osc \
+		python3-packaging \
 		python3-setuptools \
 		rebar3 \
 		sed \

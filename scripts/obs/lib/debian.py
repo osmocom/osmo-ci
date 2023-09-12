@@ -7,6 +7,13 @@ import shlex
 import lib
 import lib.git
 
+# Imports that may not be available during startup, ignore it here and rely on
+# lib.check_required_programs() checking this later on (possibly after the
+# script executed itself in docker if using --docker).
+try:
+    import packaging.version
+except ImportError:
+    pass
 
 def control_add_depend(project, pkgname, version):
     """ :param pkgname: of the meta-package to depend on (e.g. osmocom-nightly)
@@ -89,6 +96,16 @@ def changelog_add_entry_if_needed(project, version):
     """ Adjust the changelog if the version in the changelog is different from
         the given version. """
     version_changelog = get_last_version_from_changelog(project)
+
+    # Don't use a lower number (OS#6173)
+    if packaging.version.parse(version_changelog.split("-")[0]) > \
+            packaging.version.parse(version.split("-")[0]):
+        print(f"{project}: WARNING: version from changelog"
+              f" ({version_changelog}) is higher than version based on git tag"
+              f" ({version}), using version from changelog (git tag not pushed"
+              " yet?)")
+        return
+
     if version_changelog == version:
         return
 
