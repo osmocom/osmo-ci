@@ -98,13 +98,19 @@ def changelog_add_entry_if_needed(project, version):
     version_changelog = get_last_version_from_changelog(project)
 
     # Don't use a lower number (OS#6173)
-    if packaging.version.parse(version_changelog.split("-")[0]) > \
-            packaging.version.parse(version.split("-")[0]):
-        print(f"{project}: WARNING: version from changelog"
-              f" ({version_changelog}) is higher than version based on git tag"
-              f" ({version}), using version from changelog (git tag not pushed"
-              " yet?)")
-        return
+    try:
+        if packaging.version.parse(version_changelog.split("-")[0]) > \
+                packaging.version.parse(version.split("-")[0]):
+            print(f"{project}: WARNING: version from changelog"
+                  f" ({version_changelog}) is higher than version based on git tag"
+                  f" ({version}), using version from changelog (git tag not pushed"
+                  " yet?)")
+            return
+    except packaging.version.InvalidVersion:
+        # packaging.version.parse can parse the version numbers used in Osmocom
+        # projects (where we need the above check), but not e.g. some versions
+        # from wireshark. Don't abort here if that is the case.
+        pass
 
     if version_changelog == version:
         return
