@@ -34,7 +34,7 @@
           git-config-email: 'jenkins@osmocom.org'
           wipe-workspace: true
     triggers:
-      - timed: "H 05 * * *"
+      - timed: "H 19 * * *"
 
     publishers:
       - email:

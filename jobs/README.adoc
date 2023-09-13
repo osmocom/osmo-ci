@@ -102,3 +102,46 @@ statistics with SSH on the build nodes with:
 Note that running multiple jobs in parallel influence the ccache statistics,
 and it's impossible to tell which job caused which change in the stats (that's
 why they are not printed at the end of each job, it would be confusing).
+
+*timers*
+
+A lot of the jenkins jobs run daily with a timer:
+
+ triggers:
+   - timed: "H 20 * * *"
+
+or weekly:
+
+ triggers:
+   - timed: "H 20 * * H"
+
+Use H for the minute / day of week, to have it derivated as hash of the job
+name. Replace 20 with the hour (UTC) the job should run.
+
+The jobs follow this timetable, to ensure we don't attempt to use binary
+packages before they have been built (leading to failing jobs).
+
+ 18:00 - 21:00 OBS related
+   18:XX osmocom-obs-sync (sync Debian:12 etc. with openSUSE OBS)
+   19:XX osmocom-obs-wireshark
+   20:XX osmocom-obs (new binary packages start building on OBS!)
+
+ 22:00 - 03:00 Jobs that don't need binary packages
+   22:XX coverity
+   22:XX octsim_osmo-ccid-firmware
+   22:XX osmo-gsm-tester-runner (virtual)
+   23:XX master-builds-dahdi
+   00:XX osmocom-api
+   00:XX registry-update-base-images
+   01:XX osmocom-build-tags-against-master
+   01:XX osmocom-list-commits
+   02:XX registry-triggers
+   02:XX registry-rebuild-upload-fpga-build (weekly)
+
+ 04:00 - 18:00 Jobs that need binary packages
+   ttcn3-testsuites
+   04:XX osmocom-release-manuals
+   05:XX osmocom-release-tarballs
+   06:XX repo-install-test
+
+master-builds: to avoid complexity, these run throughout the day (H H * * *).

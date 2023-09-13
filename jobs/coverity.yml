@@ -43,7 +43,7 @@
           branches:
             - '$BRANCH'
     triggers:
-      - timed: "@daily"
+      - timed: "H 22 * * *"
     publishers:
       - email:
           notify-every-unstable-build: true

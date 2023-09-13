@@ -50,7 +50,7 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
     triggers:
-      - timed: "H 00 * * *" # run before repo-install-test.yml
+      - timed: "H 20 * * *"
 
     publishers:
       - email:

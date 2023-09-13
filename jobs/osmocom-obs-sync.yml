@@ -44,7 +44,7 @@
             --docker \
             $DISTROS
     triggers:
-      - timed: "H H * * *"
+      - timed: "H 18 * * *"
     wrappers:
     - ansicolor:
         colormap: xterm

@@ -34,7 +34,7 @@
           git-config-email: 'jenkins@osmocom.org'
           wipe-workspace: true
     triggers:
-      - timed: "@midnight"
+      - timed: "H 04 * * *"
     publishers:
        - email:
           notify-every-unstable-build: true

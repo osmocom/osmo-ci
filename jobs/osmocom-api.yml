@@ -15,7 +15,7 @@
          notify-every-unstable-build: true
          recipients: jenkins-notifications@lists.osmocom.org
     triggers:
-    - timed: "H H * * *"
+    - timed: "H 00 * * *"
     wrappers:
     - ssh-agent-credentials:
         users:

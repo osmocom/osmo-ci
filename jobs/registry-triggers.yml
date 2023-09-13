@@ -27,7 +27,7 @@
       - pollscm:
           cron: "H/5 * * * *"
           ignore-post-commit-hooks: false
-      - timed: "H H * * *"
+      - timed: "H 02 * * *"
     publishers:
        - trigger:
            project: '{obj:trigger}'

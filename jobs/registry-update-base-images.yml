@@ -39,7 +39,7 @@
             docker push $dst
           done
     triggers:
-      - timed: "@daily"
+      - timed: "H 00 * * *"
 
     publishers:
       - email:

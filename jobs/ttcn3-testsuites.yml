@@ -17,24 +17,25 @@
     jobs:
       - "{job-name}"
     # Folders from docker-playground.git
+    # timer: 10 per hour from 04:00 - 18:00, see jobs/README.adoc
     job-name:
       # debian nightly - order by time
       - nplab-m3ua-test:
-          timer: 10 03 * * *
+          timer: H 04 * * *
       - nplab-sua-test:
-          timer: 15 03 * * *
+          timer: H 04 * * *
       - ttcn3-ggsn-test:
-          timer: 00 04 * * *
+          timer: H 04 * * *
       - ttcn3-ggsn-test-kernel:
-          timer: 10 04 * * *
+          timer: H 04 * * *
           description: |
             Test osmo-ggsn master with the Debian kernel.
       - ttcn3-ggsn-test-kernel-latest:
-          timer: 20 04 * * *
+          timer: H 04 * * *
           description: |
             Test osmo-ggsn latest with the Debian kernel.
       - ttcn3-ggsn-test-kernel-latest-net-next:
-          timer: 25 04 * * *
+          timer: H 04 * * *
           # Cache the linux source tree in the workspace of one node
           wipe_workspace: false
           node: ttcn3-ggsn-test-kernel-git
@@ -43,7 +44,7 @@
             <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/">
               net-next.git</a>.
       - ttcn3-ggsn-test-kernel-latest-torvalds:
-          timer: 30 04 * * *
+          timer: H 04 * * *
           # Cache the linux source tree in the workspace of one node
           wipe_workspace: false
           node: ttcn3-ggsn-test-kernel-git
@@ -52,233 +53,233 @@
             <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/">
               torvalds/linux.git</a>.
       - ttcn3-ggsn-test-ogs:
-          timer: 35 04 * * *
+          timer: H 04 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-msc-test:
-          timer: 40 04 * * *
+          timer: H 04 * * *
       - ttcn3-pcu-test:
-          timer: 00 05 * * *
+          timer: H 04 * * *
       - ttcn3-pcu-test-sns:
-          timer: 15 05 * * *
+          timer: H 05 * * *
       - ttcn3-sgsn-test:
-          timer: 30 05 * * *
+          timer: H 05 * * *
       - ttcn3-bsc-test:
-          timer: 00 06 * * *
+          timer: H 05 * * *
       - ttcn3-mgw-test:
-          timer: 30 06 * * *
+          timer: H 05 * * *
       - ttcn3-hlr-test:
-          timer: 45 06 * * *
+          timer: H 05 * * *
       - ttcn3-bts-test:
-          timer: 00 07 * * *
+          timer: H 05 * * *
       - ttcn3-sip-test:
-          timer: 30 07 * * *
+          timer: H 05 * * *
       - ttcn3-bscnat-test:
-          timer: 00 08 * * *
+          timer: H 05 * * *
           disabled: true
       - ttcn3-bsc-test-sccplite:
-          timer: 30 08 * * *
+          timer: H 05 * * *
       - ttcn3-remsim-test:
-          timer: 00 09 * * *
+          timer: H 05 * * *
       - ttcn3-stp-test:
-          timer: 30 09 * * *
+          timer: H 06 * * *
       - ttcn3-sccp-test:
-          timer: 00 10 * * *
+          timer: H 06 * * *
       - ttcn3-smlc-test:
-          timer: 10 10 * * *
+          timer: H 06 * * *
       - ttcn3-gbproxy-test:
-          timer: 20 10 * * *
+          timer: H 06 * * *
       - ttcn3-gbproxy-test-fr:
-          timer: 30 10 * * *
+          timer: H 06 * * *
           node: hdlc
       - ttcn3-cbc-test:
-          timer: 40 10 * * *
+          timer: H 06 * * *
       - ttcn3-ns-test:
-          timer: 00 11 * * *
+          timer: H 06 * * *
       - ttcn3-ns-test-sns:
-          timer: 10 11 * * *
+          timer: H 06 * * *
       - ttcn3-ns-test-fr:
-          timer: 20 11 * * *
+          timer: H 06 * * *
           node: hdlc
       - ttcn3-ns-test-sgsn-sns:
-          timer: 30 11 * * *
+          timer: H 06 * * *
       - ttcn3-pcap-client-test:
-          timer: 40 11 * * *
+          timer: H 07 * * *
       - ttcn3-bsc-test-vamos:
-          timer: 00 12 * * *
+          timer: H 07 * * *
       - ttcn3-hnodeb-test:
-          timer: 40 12 * * *
+          timer: H 07 * * *
       - ttcn3-upf-test:
-          timer: 00 13 * * *
+          timer: H 07 * * *
       - ttcn3-hnbgw-test:
-          timer: 40 13 * * *
+          timer: H 07 * * *
       - ttcn3-fr-test:
-          timer: 40 10 * * *
+          timer: H 07 * * *
           node: hdlc
       - ttcn3-pgw-test:
-          timer: 00 14 * * *
+          timer: H 07 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-mme-test-ogs:
-          timer: 15 14 * * *
+          timer: H 07 * * *
           description: |
             Test open5gs-mme
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-dia2gsup-test:
-          timer: 30 14 * * *
+          timer: H 07 * * *
 
       # debian latest stable
       - nplab-m3ua-test-latest:
-          timer: 10 03 * * *
+          timer: H 07 * * *
       - nplab-sua-test-latest:
-          timer: 15 03 * * *
+          timer: H 08 * * *
       - ttcn3-ggsn-test-latest:
-          timer: 00 04 * * *
+          timer: H 08 * * *
       - ttcn3-msc-test-latest:
-          timer: 30 04 * * *
+          timer: H 08 * * *
       - ttcn3-pcu-test-latest:
-          timer: 00 05 * * *
+          timer: H 08 * * *
       - ttcn3-pcu-test-sns-latest:
-          timer: 15 05 * * *
+          timer: H 08 * * *
       - ttcn3-sgsn-test-latest:
-          timer: 30 05 * * *
+          timer: H 08 * * *
       - ttcn3-bsc-test-latest:
-          timer: 00 06 * * *
+          timer: H 08 * * *
       - ttcn3-mgw-test-latest:
-          timer: 30 06 * * *
+          timer: H 08 * * *
       - ttcn3-hlr-test-latest:
-          timer: 45 06 * * *
+          timer: H 08 * * *
       - ttcn3-bts-test-latest:
-          timer: 00 07 * * *
+          timer: H 08 * * *
       - ttcn3-sip-test-latest:
-          timer: 30 07 * * *
+          timer: H 09 * * *
       - ttcn3-bscnat-test-latest:
-          timer: 00 08 * * *
+          timer: H 09 * * *
           disabled: true
       - ttcn3-bsc-test-sccplite-latest:
-          timer: 30 08 * * *
+          timer: H 09 * * *
       - ttcn3-remsim-test-latest:
-          timer: 00 09 * * *
+          timer: H 09 * * *
       - ttcn3-stp-test-latest:
-          timer: 30 09 * * *
+          timer: H 09 * * *
       - ttcn3-sccp-test-latest:
-          timer: 00 10 * * *
+          timer: H 09 * * *
       - ttcn3-smlc-test-latest:
-          timer: 10 10 * * *
+          timer: H 09 * * *
       - ttcn3-gbproxy-test-latest:
-          timer: 20 10 * * *
+          timer: H 09 * * *
       - ttcn3-gbproxy-test-fr-latest:
-          timer: 30 10 * * *
+          timer: H 09 * * *
           node: hdlc
       - ttcn3-cbc-test-latest:
-          timer: 40 10 * * *
+          timer: H 09 * * *
       - ttcn3-pcap-client-test-latest:
-          timer: 40 11 * * *
+          timer: H 10 * * *
       - ttcn3-hnodeb-test-latest:
-          timer: 40 12 * * *
+          timer: H 10 * * *
       - ttcn3-upf-test-latest:
-          timer: 00 13 * * *
+          timer: H 10 * * *
           disabled: true
       - ttcn3-hnbgw-test-latest:
-          timer: 40 13 * * *
+          timer: H 10 * * *
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian) jobs
 
       # centos7 nightly
       - TTCN3-centos7-pcap-client-test:
-          timer: 10 13 * * *
+          timer: H 10 * * *
 
       # centos7 latest
       - TTCN3-centos7-pcap-client-test-latest:
-          timer: 40 13 * * *
+          timer: H 10 * * *
 
       # centos8 nightly
       - TTCN3-centos-ggsn-test:
-          timer: 00 04 * * *
+          timer: H 10 * * *
       - TTCN3-centos-msc-test:
-          timer: 30 04 * * *
+          timer: H 10 * * *
       - TTCN3-centos-pcu-test:
-          timer: 00 05 * * *
+          timer: H 10 * * *
       - TTCN3-centos-pcu-test-sns:
-          timer: 15 05 * * *
+          timer: H 10 * * *
       - TTCN3-centos-sgsn-test:
-          timer: 30 05 * * *
+          timer: H 11 * * *
       - TTCN3-centos-bsc-test:
-          timer: 00 06 * * *
+          timer: H 11 * * *
       - TTCN3-centos-mgw-test:
-          timer: 30 06 * * *
+          timer: H 11 * * *
       - TTCN3-centos-hlr-test:
-          timer: 45 06 * * *
+          timer: H 11 * * *
       - TTCN3-centos-bts-test:
-          timer: 00 07 * * *
+          timer: H 11 * * *
       - TTCN3-centos-sip-test:
-          timer: 30 07 * * *
+          timer: H 11 * * *
       - TTCN3-centos-bsc-test-sccplite:
-          timer: 30 08 * * *
+          timer: H 11 * * *
       - TTCN3-centos-remsim-test:
-          timer: 00 09 * * *
+          timer: H 11 * * *
           disabled: true
       - TTCN3-centos-stp-test:
-          timer: 30 09 * * *
+          timer: H 11 * * *
       - TTCN3-centos-gbproxy-test:
-          timer: 20 10 * * *
+          timer: H 11 * * *
       - TTCN3-centos-cbc-test:
-          timer: 40 10 * * *
+          timer: H 12 * * *
 
       # centos8 latest stable
       - TTCN3-centos-ggsn-test-latest:
-          timer: 00 04 * * *
+          timer: H 12 * * *
       - TTCN3-centos-msc-test-latest:
-          timer: 30 04 * * *
+          timer: H 12 * * *
       - TTCN3-centos-pcu-test-latest:
-          timer: 00 05 * * *
+          timer: H 12 * * *
       - TTCN3-centos-pcu-test-sns-latest:
-          timer: 15 05 * * *
+          timer: H 12 * * *
       - TTCN3-centos-sgsn-test-latest:
-          timer: 30 05 * * *
+          timer: H 12 * * *
       - TTCN3-centos-bsc-test-latest:
-          timer: 00 06 * * *
+          timer: H 12 * * *
       - TTCN3-centos-mgw-test-latest:
-          timer: 30 06 * * *
+          timer: H 12 * * *
       - TTCN3-centos-hlr-test-latest:
-          timer: 45 06 * * *
+          timer: H 12 * * *
       - TTCN3-centos-bts-test-latest:
-          timer: 00 07 * * *
+          timer: H 12 * * *
       - TTCN3-centos-sip-test-latest:
-          timer: 30 07 * * *
+          timer: H 13 * * *
       - TTCN3-centos-bsc-test-sccplite-latest:
-          timer: 30 08 * * *
+          timer: H 13 * * *
       - TTCN3-centos-remsim-test-latest:
-          timer: 00 09 * * *
+          timer: H 13 * * *
           disabled: true
       - TTCN3-centos-stp-test-latest:
-          timer: 30 09 * * *
+          timer: H 13 * * *
       - TTCN3-centos-smlc-test-latest:
-          timer: 10 10 * * *
+          timer: H 13 * * *
       - TTCN3-centos-sccp-test-latest:
-          timer: 00 10 * * *
+          timer: H 13 * * *
       - TTCN3-centos-gbproxy-test-latest:
-          timer: 20 10 * * *
+          timer: H 13 * * *
       - TTCN3-centos-cbc-test-latest:
-          timer: 40 10 * * *
+          timer: H 13 * * *
 
       # centos8 2023q1 (SYS#6283)
       - TTCN3-centos-pcu-test-2023q1:
-          timer: 00 17 * * *
+          timer: H 13 * * *
       - TTCN3-centos-pcu-test-sns-2023q1:
-          timer: 15 17 * * *
+          timer: H 13 * * *
       - TTCN3-centos-bsc-test-2023q1:
-          timer: 30 17 * * *
+          timer: H 14 * * *
       - TTCN3-centos-mgw-test-2023q1:
-          timer: 45 17 * * *
+          timer: H 14 * * *
       - TTCN3-centos-bts-test-2023q1:
-          timer: 00 18 * * *
+          timer: H 14 * * *
       - TTCN3-centos-smlc-test-2023q1:
-          timer: 15 18 * * *
+          timer: H 14 * * *
       - TTCN3-centos-gbproxy-test-2023q1:
-          timer: 30 18 * * *
+          timer: H 14 * * *
 
 - job-template:
     name: '{job-name}'

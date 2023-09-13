@@ -52,7 +52,7 @@
           before: true
 
     triggers:
-      - timed: "H H * * *"
+      - timed: "H 23 * * *"
 
     builders:
       - shell: |
