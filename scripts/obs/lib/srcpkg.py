@@ -24,38 +24,40 @@ def checkout_for_feed(project):
         lib.git.checkout(project, f"origin/{feed}")
 
 
-def get_git_version_gen_path(project):
-    # Use git-version-gen in the project's repository if available
-    repo_path = lib.git.get_repo_path(project)
-    ret = f"{repo_path}/git-version-gen"
-    if os.path.exists(ret):
-        return ret
-
-    # Use git-version-gen script from libosmocore.git as fallback
-    print(f"{project}: has no git-version-gen, using the one from libosmocore")
-    repo_path = lib.git.get_repo_path("libosmocore")
-    ret = f"{repo_path}/git-version-gen"
-    if not os.path.exists(ret):
-        lib.git.clone("libosmocore")
-    if os.path.exists(ret):
-        return ret
-
-    print(f"ERROR: {project}.git doesn't have a git-version-gen script and"
-          " couldn't find libosmocore.git's copy of the script here either: "
-          + ret)
-    sys.exit(1)
-
-
 def get_git_version(project):
     """ :returns: the string from git-version-gen, e.g. '1.7.0.10-76bdb' """
     repo_path = lib.git.get_repo_path(project)
-    script_path = get_git_version_gen_path(project)
 
-    ret = lib.run_cmd([script_path, "."], cwd=repo_path)
-    if not ret.output:
-        lib.exit_error_cmd(ret, "empty output from git-version-gen")
+    # Run git-version-gen if it is in the repository
+    script_path = f"{repo_path}/git-version-gen"
+    if os.path.exists(script_path):
+        ret = lib.run_cmd([script_path, "."], cwd=repo_path).output
+        if not ret:
+            lib.exit_error_cmd(ret, "empty output from git-version-gen")
+        return ret
 
-    return ret.output
+    # Generate a version string similar to git-version-gen, but run use git
+    # describe --tags, so it works with non-annotated tags as well (needed for
+    # e.g. limesuite's tags).
+    pattern = lib.git.get_latest_tag_pattern(project)
+    pattern = pattern.replace("^", "", 1)
+    pattern = pattern.replace("$", "", -1)
+    ret = lib.run_cmd(["git", "describe",
+                       "--abbrev=4",
+                       "--tags",
+                       f"--match={pattern}",
+                       "HEAD"], cwd=repo_path).output.rstrip()
+
+    # Like git-version-gen:
+    # * Change the first '-' to '.'
+    # * Remove the 'g' in git describe's output string
+    # * Remove the leading 'v'
+    ret = ret.replace("-", ".", 1)
+    ret = ret.replace("-g", "-", 1)
+    if ret.startswith("v"):
+        ret = ret[1:]
+
+    return ret
 
 
 def get_version_for_feed(project):
