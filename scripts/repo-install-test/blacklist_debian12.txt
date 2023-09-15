@@ -34,6 +34,7 @@ libyder2.0-dbgsym
 limesuite-dbgsym
 soapysdr0.7-module-lms7
 soapysdr0.7-module-lms7-dbgsym
+soapysdr-module-lms7
 
 # Depends on specific verions 0.5.4.38.0847 of rtl-sdr, which we won't install
 librtlsdr0-dbgsym
