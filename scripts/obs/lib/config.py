@@ -110,6 +110,7 @@ git_latest_tag_pattern_default = "^[0-9]*\\.[0-9]*\\.[0-9]*$"
 git_latest_tag_pattern_other = {
         "limesuite": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
         "open5gs": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
+        "wireshark": "^v[0-9]*\\.[0-9]*\\.[0-9a-z]*$",
 }
 
 docker_distro_default = "debian:12"
