@@ -45,6 +45,7 @@ feeds = [
 #       and ensure the rpm and deb packages build successfully in jenkins.
 projects_osmocom = [
     "erlang/osmo_dia2gsup",
+    "erlang/osmo-epdg",
     "libasn1c",
     "libgtpnl",
     "libosmo-abis",
