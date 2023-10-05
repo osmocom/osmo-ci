@@ -28,6 +28,7 @@ RUN	case "$DISTRO" in \
 			fakeroot \
 			git \
 			gnupg2 \
+			iproute2 \
 			&& \
 		apt-get clean \
 		;; \
@@ -40,6 +41,7 @@ RUN	case "$DISTRO" in \
 			gcc \
 			gcc-c++ \
 			glibc-devel \
+			iproute \
 			libtool \
 			make \
 			redhat-rpm-config \

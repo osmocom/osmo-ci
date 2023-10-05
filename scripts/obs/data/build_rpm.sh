@@ -26,6 +26,10 @@ dnf makecache --refresh
 
 $yum_builddep "/home/$BUILDUSER/rpmbuild/SPECS/$spec"
 
+if [ -n "$INSIDE_DOCKER" ]; then
+	ip link set eth0 down
+fi
+
 su "$BUILDUSER" -c "rpmbuild -bb ~/rpmbuild/SPECS/$spec"
 
 # Make built rpms available outside of docker

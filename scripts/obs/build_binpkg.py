@@ -76,6 +76,9 @@ def main():
         env["RUN_SHELL_ON_ERROR"] = "1"
         docker_args += ["-i", "-t"]
 
+    # Add capability needed for building without network
+    docker_args += ["--cap-add=NET_ADMIN"]
+
     script_path = "data/build.sh"
 
     if not distro.startswith("debian:") and not distro.startswith("ubuntu:"):

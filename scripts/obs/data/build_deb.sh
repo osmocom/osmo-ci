@@ -11,6 +11,11 @@ cd _temp/binpkgs/*
 
 $apt_get update
 $apt_get build-dep .
+
+if [ -n "$INSIDE_DOCKER" ]; then
+	ip link set eth0 down
+fi
+
 su "$BUILDUSER" -c "dpkg-buildpackage -us -uc -j$JOBS"
 
 # Show contents
