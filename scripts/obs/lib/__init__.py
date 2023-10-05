@@ -116,7 +116,7 @@ def set_proper_package_name(package):
         return package
 
     print(f"ERROR: unknown package: {package}")
-    print("See packages_osmocom and packages_other in obs/lib/config.py")
+    print("See projects_osmocom and projects_other in obs/lib/config.py")
     sys.exit(1)
 
 
