@@ -66,6 +66,7 @@
               -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -v "$CCACHE_DIR:/ccache" \
     docker_img: '$USER/debian-bookworm-build'
+    docker_img_erlang: '$USER/debian-bookworm-erlang'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     trigger:
@@ -270,6 +271,14 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
+      - osmo_dia2gsup:
+          repos_url: '{gerrit_url}/erlang/{repos}'
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+
+      - osmo-epdg:
+          repos_url: '{gerrit_url}/erlang/{repos}'
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
           a2: !!python/tuple ["firmware", "gateware", "manuals", "software"]
@@ -329,6 +338,10 @@
           email: jenkins-notifications@lists.osmocom.org 246tnt@gmail.com
 
       - osmo-gsm-manuals
+
+      - osmo_gsup:
+          repos_url: '{gerrit_url}/erlang/{repos}'
+          cmd: '{docker_run_ccache} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - osmo-gsm-tester:
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins-build-manuals.sh'
