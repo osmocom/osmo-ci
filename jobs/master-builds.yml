@@ -70,7 +70,9 @@
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
-    git_base_url: https://gerrit.osmocom.org
+    gerrit_url: 'https://gerrit.osmocom.org'
+    gitea_url: 'https://gitea.osmocom.org'
+    repos_url: '{gerrit_url}/{repos}'
     branches:
       - master
     ssh:
@@ -103,7 +105,7 @@
             master-libosmo-netif, master-osmo-bts
 
       - libosmo-dsp:
-          git_base_url: https://gitea.osmocom.org/sdr
+          repos_url: '{gitea_url}/sdr/{repos}'
           cmd: |
             {docker_run_ccache} \
               {docker_img} {timeout_cmd} sh -ex -c \
@@ -287,14 +289,14 @@
             - binaries_ftp.osmocom.org
             - docs_ftp.osmocom.org
       - ice40-usbtrace:
-          git_base_url: https://gitea.osmocom.org/electronics
+          repos_url: '{gitea_url}/electronics/{repos}'
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           ssh:
             - binaries_ftp.osmocom.org
             - docs_ftp.osmocom.org
       - no2bootloader:
-          git_base_url: https://github.com/no2fpga
+          repos_url: 'https://github.com/no2fpga/{repos}'
           docker_img: 'registry.osmocom.org/$USER/fpga-build'
           cmd: 'docker pull {docker_img} && {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de 246tnt@gmail.com
@@ -303,7 +305,8 @@
             - docs_ftp.osmocom.org
 
       - osmo-fl2k:
-          git_base_url: https://gitea.osmocom.org/sdr
+          repos_url: '{gitea_url}/sdr/{repos}'
+
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
@@ -322,7 +325,7 @@
       - osmo-upf
 
       - osmo-gmr:
-          git_base_url: https://gitea.osmocom.org/satellite
+          repos_url: '{gitea_url}/satellite/{repos}'
           email: jenkins-notifications@lists.osmocom.org 246tnt@gmail.com
 
       - osmo-gsm-manuals
@@ -344,7 +347,7 @@
             master-osmo-hnbgw
 
       - osmo-ir77:
-          git_base_url: https://gitea.osmocom.org/satellite
+          repos_url: '{gitea_url}/satellite/{repos}'
           email: jenkins-notifications@lists.osmocom.org 246tnt@gmail.com
 
       - osmo-mgw:
@@ -396,7 +399,7 @@
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-python-tests:
-          git_base_url: https://gerrit.osmocom.org/python
+          repos_url: '{gerrit_url}/python/{repos}'
 
       - osmo-sgsn:
           a1_name: IU
@@ -455,7 +458,7 @@
             - binaries_ftp.osmocom.org
             - docs_ftp.osmocom.org
       - simtrace:
-          git_base_url: https://gitea.osmocom.org/sim-card
+          repos_url: '{gitea_url}/sim-card/{repos}'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
       - simtrace2:
           cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
@@ -464,7 +467,7 @@
             - binaries_ftp.osmocom.org
             - docs_ftp.osmocom.org
       - osmo-opencm3-projects:
-          git_base_url: https://gitea.osmocom.org/electronics
+          repos_url: '{gitea_url}/electronics/{repos}'
           cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
           ssh:
@@ -496,7 +499,7 @@
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - rtl-sdr:
-          git_base_url: https://gitea.osmocom.org/sdr
+          repos_url: '{gitea_url}/sdr/{repos}'
           email: laforge@gnumonks.org steve@steve-m.de
 
       - pysim:
@@ -525,12 +528,12 @@
           concurrent: false
           cmd: cd ./tests; {timeout_cmd} ./run-tests
           slave_axis: !!python/tuple [simtester]
-          git_base_url: https://gitea.sysmocom.de/sysmocom
+          repos_url: 'https://gitea.sysmocom.de/sysmocom/{repos}'
 
       - dahdi-tools
 
       - xgoldmon:
-          git_base_url: https://github.com/2b-as
+          repos_url: 'https://github.com/2b-as/{repos}'
           cmd: |
             rm -rf osmo-ci
             git clone --depth=1 https://gerrit.osmocom.org/osmo-ci -b master
@@ -551,7 +554,7 @@
           num-to-keep: 120
     description: |
       Automatic jenkins test job of
-      <a href="{git_base_url}/{repos}">{repos}</a>
+      <a href="{repos_url}">{repos}</a>
       <br/><br/>
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
@@ -583,7 +586,7 @@
 
     scm:
       - git:
-         url: "{git_base_url}/{repos}"
+         url: '{obj:repos_url}'
          branches: '{obj:branches}'
          refspec:
          name:
