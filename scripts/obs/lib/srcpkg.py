@@ -42,11 +42,24 @@ def get_git_version(project):
     pattern = lib.git.get_latest_tag_pattern(project)
     pattern = pattern.replace("^", "", 1)
     pattern = pattern.replace("$", "", -1)
-    ret = lib.run_cmd(["git", "describe",
+    result = lib.run_cmd(["git", "describe",
                        "--abbrev=4",
                        "--tags",
                        f"--match={pattern}",
-                       "HEAD"], cwd=repo_path).output.rstrip()
+                       "HEAD"], cwd=repo_path, check=False)
+
+    if result.returncode == 128:
+        print(f"{project}: has no git tags, using 0.0.0 as version")
+        commit = lib.run_cmd(["git", "rev-parse", "HEAD"],
+                             cwd=repo_path).output[0:4]
+        count = lib.run_cmd(["git", "rev-list", "--count", "HEAD"],
+                             cwd=repo_path).output.rstrip()
+        return f"0.0.0.{count}-{commit}"
+
+    if result.returncode != 0:
+        lib.exit_error_cmd(result, "command failed unexpectedly")
+
+    ret = result.output.rstrip()
 
     # Like git-version-gen:
     # * Change the first '-' to '.'
