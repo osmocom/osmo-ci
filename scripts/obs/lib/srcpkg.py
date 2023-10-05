@@ -103,13 +103,6 @@ def get_epoch(project):
     return ""
 
 
-def prepare_project_osmo_dia2gsup():
-    """ Run erlang/osmo_dia2gsup's generate_build_dep.sh script to download
-        sources for dependencies. """
-    lib.run_cmd("contrib/generate_build_dep.sh",
-                cwd=lib.git.get_repo_path("erlang/osmo_dia2gsup"))
-
-
 def prepare_project_open5gs():
     """ Download the subproject sources here, so the package can be built in
         OBS without Internet access. """
@@ -122,6 +115,17 @@ def prepare_project_limesuite():
         https://github.com/myriadrf/LimeSuite/pull/381 """
     lib.run_cmd(["sed", "s/libwxgtk3.0-gtk3-dev,$/libwxgtk3.0-gtk3-dev | libwxgtk3.2-dev,/g",
                  "-i", "debian/control"], cwd=lib.git.get_repo_path("limesuite"))
+
+
+def run_generate_build_dep(project):
+    """ Run contrib/generate_build_dep.sh if it exists in the given project, to
+        to download sources for dependencies (see e.g. osmo_dia2gsup.git). """
+    repo_path = lib.git.get_repo_path(project)
+    script_path = "contrib/generate_build_dep.sh"
+
+    if os.path.exists(f"{repo_path}/{script_path}"):
+        print(f"{project}: running {script_path}")
+        lib.run_cmd(script_path, cwd=repo_path)
 
 
 def write_tarball_version(project, version):
@@ -181,6 +185,9 @@ def build(project, gerrit_id=0):
     if project_specific_func in globals():
         print(f"{project}: running {project_specific_func}")
         globals()[project_specific_func]()
+
+    if project in lib.config.projects_osmocom:
+        run_generate_build_dep(project)
 
     lib.debian.build_source_package(project)
     lib.debian.move_files_to_output(project)
