@@ -125,7 +125,12 @@
       - ttcn3-mme-test-ogs:
           timer: H 07 * * *
           description: |
-            Test open5gs-mme
+            Test open5gs-mmed
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+      - ttcn3-hss-test-ogs:
+          timer: H 07 * * *
+          description: |
+            Test open5gs-hssd
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-dia2gsup-test:
           timer: H 07 * * *
