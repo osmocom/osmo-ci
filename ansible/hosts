@@ -11,8 +11,6 @@ build2-deb10build-ansible ansible_host=2a01:4f8:10b:2ad9::1:10 osmocom_jenkins_s
 build2-deb11build-ansible ansible_host=2a01:4f8:10b:2ad9::1:13 osmocom_jenkins_slave_fstrim=True docker_max_image_space="80 GB"
 build3-deb11build-ansible ansible_host=2a01:4f8:212:3762::1:3 osmocom_jenkins_slave_fstrim=True docker_max_image_space="80 GB"
 host2-deb11build-ansible ansible_host=2a01:4f8:120:8470::1:4 osmocom_jenkins_slave_fstrim=True docker_max_image_space="80 GB"
-gtp0-deb10build ansible_host=10.34.2.101 osmocom_jenkins_slave_fstrim=True
-gtp0-deb11build ansible_host=10.34.2.106 osmocom_jenkins_slave_fstrim=True
 rpi4-raspbian11build-ansible-1 ansible_host=10.9.25.50 docker_max_image_space="20 GB"
 rpi4-raspbian11build-ansible-2 ansible_host=10.9.25.60 docker_max_image_space="20 GB"
 rpi4-raspbian11build-ansible-3 ansible_host=10.9.25.70 docker_max_image_space="20 GB"
