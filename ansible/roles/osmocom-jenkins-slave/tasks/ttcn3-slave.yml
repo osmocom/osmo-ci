@@ -1,4 +1,11 @@
 ---
+- name: install programs used in jenkins.sh
+  apt:
+    name:
+      - netcat-openbsd
+    cache_valid_time: 3600
+    update_cache: yes
+    install_recommends: no
 
 - name: ensure jenkins folder exists
   become: yes
