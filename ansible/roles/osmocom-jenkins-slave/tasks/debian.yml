@@ -5,7 +5,6 @@
     name:
       - htop
       - virt-manager
-      - qemu
       - qemu-user-static
       - qemu-system-arm
       - proot
