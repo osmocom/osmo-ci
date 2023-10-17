@@ -49,7 +49,7 @@
 - name: install java for buster and later
   apt:
     name:
-      - openjdk-11-jre-headless
+      - default-jre-headless
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
