@@ -3,10 +3,12 @@
 - name: install jenkins utilities
   apt:
     name:
+      - bc
       - debootstrap
       - fakeroot
       - htop
       - proot
+      - python3-setuptools
       - qemu-system-arm
       - qemu-user-static
       - virt-manager
