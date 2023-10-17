@@ -3,13 +3,13 @@
 - name: install jenkins utilities
   apt:
     name:
-      - htop
-      - virt-manager
-      - qemu-user-static
-      - qemu-system-arm
-      - proot
       - debootstrap
       - fakeroot
+      - htop
+      - proot
+      - qemu-system-arm
+      - qemu-user-static
+      - virt-manager
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
