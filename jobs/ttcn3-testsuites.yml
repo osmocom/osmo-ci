@@ -134,6 +134,8 @@
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-dia2gsup-test:
           timer: H 07 * * *
+      - ttcn3-epdg-test:
+          timer: H 07 * * *
 
       # debian latest stable
       - nplab-m3ua-test-latest:
