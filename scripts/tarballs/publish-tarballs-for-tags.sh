@@ -8,6 +8,7 @@ DOCKER_IMAGE="$USER/debian-bookworm-build"
 LOG_PREFIX="::"
 
 OSMO_RELEASE_REPOS="
+	gapk
 	libasn1c
 	libgtpnl
 	libosmo-abis
@@ -237,7 +238,7 @@ build_tarball() {
 
 			cd /src/$project_path
 
-			if [ -e configure.ac ]; then
+			if /tarballs/prefer-configure.sh \"$repo\" \"$tag\"; then
 				su build -c \"autoreconf -fi\"
 				case \"$repo\" in
 				osmo-trx)

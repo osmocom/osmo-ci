@@ -77,11 +77,20 @@ osmo_git_last_commits_tags() {
 	local project="$1"
 	local amount="$2"
 	local default_str="$3"
-	local url ret
+	local url ret pattern
+
+	case "$project" in
+	gapk)
+		pattern='refs/tags/v[0-9.]*$'
+		;;
+	*)
+		pattern='refs/tags/[0-9.]*$'
+		;;
+	esac
 
 	url="$(osmo_git_clone_url "$project")"
 	ret="$(git ls-remote --tags "$url")"
-	ret="$(echo "$ret" | grep 'refs/tags/[0-9.]*$' || true)"
+	ret="$(echo "$ret" | grep "$pattern" || true)"
 	ret="$(echo "$ret" | sort -V -t/ -k3)"
 	if [ "$amount" != "all" ]; then
 		ret="$(echo "$ret" | tail -n "$amount")"
