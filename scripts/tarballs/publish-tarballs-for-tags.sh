@@ -290,6 +290,7 @@ publish_tarball() {
 		return
 	fi
 
+	$SSH_COMMAND releases@ftp.osmocom.org -- mkdir -p "$WEB_PATH/$repo"
 	rsync -vz -e "$SSH_COMMAND" "$tarball_path" $tarball_path_remote
 }
 
