@@ -23,6 +23,7 @@ OSMO_RELEASE_REPOS="
 	osmo-cbc
 	osmo-e1-recorder
 	osmo-e1d
+	osmo-fl2k
 	osmo-gbproxy
 	osmo-ggsn
 	osmo-gsm-manuals
@@ -42,6 +43,7 @@ OSMO_RELEASE_REPOS="
 	osmo-trx
 	osmo-uecups
 	osmocom-bb
+	rtl-sdr
 	simtrace2
 "
 

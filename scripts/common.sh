@@ -80,7 +80,7 @@ osmo_git_last_commits_tags() {
 	local url ret pattern
 
 	case "$project" in
-	gapk)
+	gapk|osmo-fl2k)
 		pattern='refs/tags/v[0-9.]*$'
 		;;
 	*)
