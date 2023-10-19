@@ -74,19 +74,23 @@ osmo_git_last_commits_tags() {
 	# ee618ecbedec82dfd240334bc87d0d1c806477b0        refs/tags/debian/0.9.13-0_jrsantos.1
 	# a3fdd24af099b449c9856422eb099fb45a5595df        refs/tags/debian/0.9.13-0_jrsantos.1^{}
 	# ...
+	local project="$1"
+	local amount="$2"
+	local default_str="$3"
 	local url ret
-	url="$(osmo_git_clone_url "$1")"
+
+	url="$(osmo_git_clone_url "$project")"
 	ret="$(git ls-remote --tags "$url")"
 	ret="$(echo "$ret" | grep 'refs/tags/[0-9.]*$' || true)"
 	ret="$(echo "$ret" | sort -V -t/ -k3)"
-	if [ "$2" != "all" ]; then
-		ret="$(echo "$ret" | tail -n "$2")"
+	if [ "$amount" != "all" ]; then
+		ret="$(echo "$ret" | tail -n "$amount")"
 	fi
 
 	if [ -n "$ret" ]; then
 		echo "$ret"
 	else
-		echo "$3"
+		echo "$default_str"
 	fi
 }
 
