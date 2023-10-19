@@ -20,6 +20,7 @@ OSMO_RELEASE_REPOS="
 	osmo-bsc
 	osmo-bts
 	osmo-cbc
+	osmo-e1-recorder
 	osmo-e1d
 	osmo-gbproxy
 	osmo-ggsn
@@ -230,6 +231,8 @@ build_tarball() {
 			if [ -e debian/control ]; then
 				apt-get update
 				apt-get -y build-dep .
+			else
+				/tarballs/install-depends.sh \"$repo\" \"$tag\"
 			fi
 
 			cd /src/$project_path

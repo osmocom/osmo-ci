@@ -1,6 +1,7 @@
 cov-analysis-*
 source-*
 install-*
+!install-depends.sh
 tokens.txt
 .*.sw?
 jenkins_jobs.ini
