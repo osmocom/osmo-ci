@@ -153,6 +153,7 @@ qemu_run_test_script() {
 	EOF
 
 	qemu_ssh rm -rf /repo-install-test/
+	qemu_ssh mkdir /repo-install-test
 	qemu_scp -r "$TEST_DIR" "root@127.0.0.1:/repo-install-test"
 
 	TIMEOUT="1h" qemu_ssh sh -ex /repo-install-test/run-inside-env.sh
