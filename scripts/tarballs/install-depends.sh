@@ -14,6 +14,12 @@ osmo-e1-recorder)
 		libosmocore-dev
 	"
 	;;
+gapk)
+	DEPENDS="
+		libasound2-dev
+		libosmocore-dev
+	"
+	;;
 *)
 	DEPENDS=""
 	;;
