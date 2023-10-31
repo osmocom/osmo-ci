@@ -124,10 +124,12 @@ def prepare_project_open5gs():
 
 
 def prepare_project_limesuite():
-    """ Fix Debian 12 compat, until this is merged and in the next release:
-        https://github.com/myriadrf/LimeSuite/pull/381 """
-    lib.run_cmd(["sed", "s/libwxgtk3.0-gtk3-dev,$/libwxgtk3.0-gtk3-dev | libwxgtk3.2-dev,/g",
-                 "-i", "debian/control"], cwd=lib.git.get_repo_path("limesuite"))
+    """ Fix bug in 23.10: https://github.com/myriadrf/LimeSuite/pull/386 """
+    lib.run_cmd(["mv", "-v",
+                 "liblimesuite22.09-1.install",
+                 "liblimesuite23.10-1.install"],
+                cwd=f"{lib.git.get_repo_path('limesuite')}/debian",
+                check=False)
 
 
 def run_generate_build_dep(project):
