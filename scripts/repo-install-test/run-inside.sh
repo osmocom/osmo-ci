@@ -185,8 +185,10 @@ prepare_vm_debian() {
 
 	case "$DISTRO" in
 		debian10)
-			# Can't access https://osmocom.org otherwise
+			# libgnutls30: can't access https://osmocom.org otherwise
+			# ca-certificates-java: fails if installed after java
 			apt-get install -y --no-install-recommends \
+				ca-certificates-java \
 				libgnutls30
 		;;
 	esac
