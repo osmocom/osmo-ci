@@ -32,6 +32,8 @@ libulfius2.7
 libulfius2.7-dbgsym
 libyder2.0-dbgsym
 limesuite-dbgsym
+limesuite-images
+limesuite-images23.10
 soapysdr0.7-module-lms7
 soapysdr0.7-module-lms7-dbgsym
 soapysdr-module-lms7

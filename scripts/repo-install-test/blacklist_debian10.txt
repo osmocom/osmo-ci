@@ -19,6 +19,10 @@ osmocom-ipaccess-utils-dbg
 osmocom-nitb
 osmocom-nitb-dbg
 
+# Not relevant for the test
+limesuite-images
+limesuite-images23.10
+
 # SoapySDR is not used anymore (see OS#3542)
 soapysdr-module-lms7
 soapysdr0.6-module-lms7

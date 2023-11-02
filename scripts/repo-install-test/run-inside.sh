@@ -329,7 +329,7 @@ install_repo_packages_debian() {
 	cat osmocom_packages_all.txt
 
 	filter_packages_txt
-	apt install -y $(cat osmocom_packages.txt)
+	apt-get install -y --no-install-recommends $(cat osmocom_packages.txt)
 }
 
 install_repo_packages_centos() {

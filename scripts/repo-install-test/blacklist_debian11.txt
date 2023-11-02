@@ -31,6 +31,8 @@ libulfius2.7
 libulfius2.7-dbgsym
 libyder2.0-dbgsym
 limesuite-dbgsym
+limesuite-images
+limesuite-images23.10
 soapysdr0.7-module-lms7-dbgsym
 
 # Depends on specific verions 0.5.4.38.0847 of rtl-sdr, which we won't install
