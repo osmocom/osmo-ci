@@ -220,6 +220,7 @@ build_tarball() {
 	local project_path="$2"
 	local tag="$3"
 	local tarball_name="$(get_tarball_name "$project_path" "$tag")"
+	local prefix="$(echo "$tarball_name" | sed s/\.tar\.bz2//)"
 	local uid_user="$(id -u)"
 	echo "$LOG_PREFIX Building release tarball: $tarball_name"
 
@@ -259,12 +260,14 @@ build_tarball() {
 				esac
 				su build -c \"make dist-bzip2\"
 			else
-				su build -c \"git archive -o $tarball_name $tag\"
+				su build -c \"git archive --prefix=$prefix/ -o $tarball_name $tag\"
 			fi
 
 			# Erlang projects: add build depends to release tarball
 			if [ -e build_dep.tar.gz ]; then
-				su build -c \"tar -rf $tarball_name build_dep.tar.gz\"
+				su build -c \"mkdir $prefix\"
+				su build -c \"mv build_dep.tar.gz $prefix\"
+				su build -c \"tar -rf $tarball_name $prefix/build_dep.tar.gz\"
 			fi
 	"; then
 		echo "$LOG_PREFIX Building tarball failed!"
