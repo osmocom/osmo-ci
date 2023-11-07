@@ -260,14 +260,16 @@ build_tarball() {
 				esac
 				su build -c \"make dist-bzip2\"
 			else
-				su build -c \"git archive --prefix=$prefix/ -o $tarball_name $tag\"
-			fi
+				su build -c \"git archive --prefix=$prefix/ -o $prefix.tar $tag\"
 
-			# Erlang projects: add build depends to release tarball
-			if [ -e build_dep.tar.gz ]; then
-				su build -c \"mkdir $prefix\"
-				su build -c \"mv build_dep.tar.gz $prefix\"
-				su build -c \"tar -rf $tarball_name $prefix/build_dep.tar.gz\"
+				# Erlang projects: add build depends to release tarball
+				if [ -e build_dep.tar.gz ]; then
+					su build -c \"mkdir $prefix\"
+					su build -c \"mv build_dep.tar.gz $prefix\"
+					su build -c \"tar -rf $prefix.tar $prefix/build_dep.tar.gz\"
+				fi
+
+				su build -c \"bzip2 -9 $prefix.tar\"
 			fi
 	"; then
 		echo "$LOG_PREFIX Building tarball failed!"
