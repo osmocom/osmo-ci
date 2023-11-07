@@ -42,6 +42,7 @@ OSMO_RELEASE_REPOS="
 	osmo-sysmon
 	osmo-trx
 	osmo-uecups
+	osmo_dia2gsup
 	osmocom-bb
 	rtl-sdr
 	simtrace2
@@ -240,6 +241,11 @@ build_tarball() {
 
 			cd /src/$project_path
 
+			# Erlang projects: download build depends
+			if [ -e contrib/generate_build_dep.sh ]; then
+				su build -c \"HOME=/build contrib/generate_build_dep.sh\"
+			fi
+
 			if /tarballs/prefer-configure.sh \"$repo\" \"$tag\"; then
 				su build -c \"autoreconf -fi\"
 				case \"$repo\" in
@@ -254,6 +260,11 @@ build_tarball() {
 				su build -c \"make dist-bzip2\"
 			else
 				su build -c \"git archive -o $tarball_name $tag\"
+			fi
+
+			# Erlang projects: add build depends to release tarball
+			if [ -e build_dep.tar.gz ]; then
+				su build -c \"tar -rf $tarball_name build_dep.tar.gz\"
 			fi
 	"; then
 		echo "$LOG_PREFIX Building tarball failed!"

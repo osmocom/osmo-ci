@@ -142,6 +142,9 @@ osmo_git_clone_url() {
 		osmo-isdntap)
 			echo "$OSMO_GIT_URL_GITEA"/retronetworking/"$1"
 			;;
+		osmo_dia2gsup)
+			echo "$OSMO_GIT_URL_GERRIT"/erlang/"$1"
+			;;
 		*)
 			echo "$OSMO_GIT_URL_GERRIT"/"$1"
 			;;
