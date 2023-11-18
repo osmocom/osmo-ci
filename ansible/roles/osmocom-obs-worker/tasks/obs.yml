@@ -1,6 +1,6 @@
 - name: add OBS rpm repository
   zypper_repository:
-    repo: https://download.opensuse.org/repositories/OBS:/Server:/2.10/15.3/OBS:Server:2.10.repo
+    repo: https://download.opensuse.org/repositories/OBS:/Server:/2.10/{{ ansible_distribution_version }}/OBS:Server:2.10.repo
     autorefresh: yes
     auto_import_keys: yes
 
