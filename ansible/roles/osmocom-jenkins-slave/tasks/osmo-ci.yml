@@ -4,6 +4,14 @@
 # we need to initially install osmo-ci and the docker images *before*
 # that jenkins job can execute subsequent updates
 
+- name: install osmo-ci build dependencies
+  apt:
+    name:
+      - make
+    cache_valid_time: 3600
+    update_cache: yes
+    install_recommends: no
+
 - name: deploy osmo-ci to home directory
   become: yes
   become_user: "{{ jenkins_user }}"
