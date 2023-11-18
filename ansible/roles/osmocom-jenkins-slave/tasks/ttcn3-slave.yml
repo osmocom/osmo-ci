@@ -3,6 +3,7 @@
   apt:
     name:
       - netcat-openbsd
+      - sudo
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
