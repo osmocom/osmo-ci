@@ -41,3 +41,6 @@ docker container prune --filter "until=24h" -f
 
 # remove unused networks older than 24 hours
 docker network prune --filter "until=24h" -f
+
+# remove docker buildkit cache
+docker builder prune --all --filter "until=24h" -f
