@@ -306,48 +306,77 @@ test_conflict() {
 	esac
 }
 
-# Filter $PWD/osmocom_packages_all.txt through a blacklist_$DISTRO.txt and store the result in
-# $PWD/osmocom_packages.txt.
-filter_packages_txt() {
-	# Copy distro specific blacklist file, remove comments and sort it
-	grep -v "^#" /repo-install-test/blacklist_$DISTRO.txt | sort -u > blacklist.txt
+filter_packages() {
+	for i in "$@"; do
+		case "$i" in
+		# OpenBSC
+		# This is legacy, we aren't really interested in testing
+		# openbsc.git derived packages. Packages are found in
+		# openbsc/debian/control.
+		osmo-bsc-dev) ;;
+		osmo-bsc-mgcp*) ;;
+		osmocom-bs11-utils*) ;;
+		osmocom-bsc-nat*) ;;
+		osmocom-bsc-sccplite*) ;;
+		osmocom-ipaccess-utils*) ;;
+		osmocom-nitb*) ;;
 
-	# Generate list of pkgs to be installed from available pkgs minus the ones blacklisted
-	comm -23 osmocom_packages_all.txt \
-		blacklist.txt > osmocom_packages.txt
+		# Causing conflicts, not relevant for the test
+		liblimesuite*) ;;
+		liborcania*) ;;
+		libulfius*) ;;
+		libhyder*) ;;
+		limesuite*) ;;
+		soapysdr*-module-lms7*) ;;
+
+		# Depends on specific verions 0.5.4.38.0847 of rtl-sdr, which
+		# we won't install
+		librtlsdr0-dbgsym) ;;
+		rtl-sdr-dbgsym) ;;
+
+		# Depends on mongodb, which was droppend from debian 10 onwards
+		open5gs*) ;;
+
+		# Dependencies that have a different name in centos8/almalinux8
+		# but are pulled in by linking to opensuse packages. In OBS we
+		# work around this in the project config.
+		ulfius-devel) ;;
+		nftables-devel) ;;
+		python3-nftables) ;;
+
+		# All other packages are not filtered
+		*) echo "$i" ;;
+		esac
+	done
 }
 
 install_repo_packages_debian() {
+	local packages
 	echo "Installing all repository packages"
 
 	# Get a list of all packages from the repository. Reference:
 	# https://www.debian.org/doc/manuals/aptitude/ch02s04s05.en.html
-	aptitude search -F%p \
-		"?origin(.*$PROJ.*) ?architecture(native)" | sort \
-		> osmocom_packages_all.txt
+	packages="$(aptitude search -F%p \
+		    "?origin(.*$PROJ.*) ?architecture(native)" | sort)"
+	packages="$(filter_packages $packages)"
 
-	cat osmocom_packages_all.txt
-
-	filter_packages_txt
-	apt-get install -y --no-install-recommends $(cat osmocom_packages.txt)
+	apt-get install -y --no-install-recommends -- $packages
 }
 
 install_repo_packages_centos() {
+	local packages
 	echo "Installing all repository packages"
 
 	# Get a list of all packages from the repository
-	LANG=C.UTF-8 repoquery \
+	packages=$(LANG=C.UTF-8 repoquery \
 		--quiet \
 		--repoid="$(proj_with_underscore "$PROJ")" \
 		--archlist="x86_64,noarch" \
 		--qf="%{name}" \
-		| sort \
-		> osmocom_packages_all.txt
+		| sort)
 
-	cat osmocom_packages_all.txt
-
-	filter_packages_txt
-	dnf install -y $(cat osmocom_packages.txt)
+	packages="$(filter_packages $packages)"
+	dnf install -y -- $packages
 }
 
 install_repo_packages() {
