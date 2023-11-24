@@ -63,6 +63,9 @@ def add_shared_arguments(parser):
     parser.add_argument("-p", "--conflict-pkgname", nargs="?",
                         help="name of the meta-package to depend on (default:"
                              " osmocom-$feed)")
+    parser.add_argument("-M", "--no-meta", action="store_true",
+                        help="Don't depend on the meta package (helpful when"
+                             " building one-off packages for development)")
     parser.add_argument("-v", "--verbose", action="store_true",
                         help="always print shell commands and their output,"
                              " instead of only printing them on error")
