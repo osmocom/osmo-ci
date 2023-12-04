@@ -23,38 +23,7 @@
       Related issue: <a href="https://osmocom.org/issues/5087">OS#5087</a>
 
     parameters:
-      - string:
-          name: BRANCH_CI
-          description: |
-                osmo-ci.git branch
-          default: 'master'
-      - string:
-          name: GERRIT_PROJECT
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_CHANGE_NUMBER
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_PATCHSET_NUMBER
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_BRANCH
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_HOST
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_PATCHSET_REVISION
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_PORT
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_REFSPEC
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_REPO_URL
-          description: set by gerrit verification pipeline job
+      !include: gerrit-verifications-parameters.yaml.inc
 
     scm:
       - git:

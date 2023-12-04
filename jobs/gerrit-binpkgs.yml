@@ -24,26 +24,7 @@
       Related issue: <a href="https://osmocom.org/issues/2385">OS#2385</a>
 
     parameters:
-      - string:
-          name: BRANCH_CI
-          description: |
-                osmo-ci.git branch
-          default: 'master'
-      - string:
-          name: GERRIT_REPO_URL
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_BRANCH
-          description: set by gerrit verification pipeline job
-      - string:
-          name: GERRIT_REFSPEC
-          description: set by gerrit verification pipeline job
-      - string:
-          name: PROJECT_NAME
-          description: project to test, e.g. 'libosmocore' (set by pipeline)
-      - string:
-          name: DISTRO
-          description: distribution to build for, e.g. 'debian:12' (set by pipeline)
+      !include: gerrit-verifications-parameters.yaml.inc
 
     scm:
       - git:

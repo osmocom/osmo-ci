@@ -473,6 +473,9 @@
         try {{
           echo "pipeline_${{display_name}}: running job ${{job_name}}"
 
+          // IMPORTANT: Keep gerrit-verifications-parameters.yaml.inc in sync
+          // with the list of parameters here, and make sure all jobs passed
+          // to run_job() include the .yaml.inc file. (OS#6261)
           build job: job_name, parameters: [
             string(name: "COMMENT_TYPE", value: comment_type),
             string(name: "DISTRO", value: distro),
@@ -691,12 +694,7 @@
            recursive: true
 
     parameters:
-      - string:
-          name: GERRIT_BRANCH
-          description: set by gerrit-{repos} job
-      - string:
-          name: GERRIT_REFSPEC
-          description: set by gerrit-{repos} job
+      !include: gerrit-verifications-parameters.yaml.inc
 
     builders:
       - shell: '{obj:cmd}'
