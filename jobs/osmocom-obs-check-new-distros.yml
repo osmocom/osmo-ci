@@ -1,0 +1,39 @@
+---
+- job:
+    name: 'Osmocom_OBS_check_new_distros'
+    project-type: freestyle
+    concurrent: false
+    defaults: global
+    description: |
+      Check whether new distributions (Debian, Raspyberry Pi OS, Ubuntu) are
+      available in openSUSE's OBS that we need to add to the Osmocom OBS.
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    node: obs
+    parameters:
+      - string:
+          name: CI_BRANCH
+          description: osmo-ci.git branch
+          default: 'master'
+    scm:
+      - git:
+          branches:
+            - '$CI_BRANCH'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    builders:
+      - shell: |
+          export PYTHONUNBUFFERED=1
+          ./scripts/obs/check_new_distros.py --docker
+    triggers:
+      - timed: "H 19 * * *"
+    wrappers:
+    - ansicolor:
+        colormap: xterm
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'

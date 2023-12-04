@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import os
+import re
 
 # Lists are ordered alphabetically.
 
@@ -136,3 +137,14 @@ sync_remove_paths = [
 sync_set_maintainers = [
     "osmocom-jenkins",
 ]
+
+# Distributions for which we want to make sure we add the latest release as
+# soon as it is available in openSUSE's OBS
+# https://osmocom.org/projects/cellular-infrastructure/wiki/Linux_Distributions
+check_new_distros = [
+    "Debian",
+    "Raspbian",
+    "Ubuntu",
+]
+
+check_new_distros_version_regex = re.compile(r'[0-9.]+$')
