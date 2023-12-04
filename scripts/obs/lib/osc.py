@@ -178,5 +178,5 @@ def update_meta(meta_file, commit_msg):
                      proj])
 
 def get_projects():
-    print(f"OBS: getting list of projects")
+    print(f"OBS: getting list of projects ({apiurl})")
     return lib.osc.run_osc(["ls"]).output.rstrip().split("\n")
