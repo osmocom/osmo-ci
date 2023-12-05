@@ -393,7 +393,8 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
-      - osmo-upf
+      - osmo-upf:
+          pipeline_binpkgs: "almalinux:8 debian:11 debian:12"
 
       - pysim:
           concurrent: false
