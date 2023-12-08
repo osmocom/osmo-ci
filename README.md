@@ -8,11 +8,26 @@ See `ansible/README.md`.
 Scripts and files that did not fit into other directories.
 
 ## coverity
-Scripts used to submit the osmocom sources for coverity scan.
-This depends on these, which are not included in osmo-ci:
-- a tokens.txt file in coverity/ -- see coverity/get_token.sh
-- a cov-analysis-linux64-8.5.0 in coverity/
-  (or the like, may need to adjust some scripts to match)
+Scripts used to submit the osmocom sources for coverity scan. This depends on a
+`tokens.txt`, see `coverity/get_token.sh`.
+
+### how to upgrade
+* Download the latest version from [here](https://scan.coverity.com/download)
+* Find the "upgrade considerations" [here](https://sig-product-docs.synopsys.com/bundle/coverity-docs/page/upgrade-guide/topics/important_upgrade_considerations.html)
+* Place the resulting `cov-analysis-linux64-$VERSION.tar.gz` in `ansible/files`
+* Adjust `coverity_version` in `ansible/roles/install-coverity/defaults/main.yml`
+* Deploy the ansible playbook:
+```
+$ cd ansible
+$ ansible-playbook -v -i hosts setup-jenkins-slave.yml -l coverity_slaves -t coverity
+```
+* On success, only one task should be skipped (the "Please download..." task):
+```
+PLAY RECAP ********************************************************************************************************************
+build2-deb11build-ansible  : ok=8    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+build3-deb11build-ansible  : ok=9    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+build4-deb12build-ansible  : ok=9    changed=4    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+```
 
 ## jobs
 Jenkins Job Builder YAML files defining jenkins jobs. Read `jobs/README.adoc`
