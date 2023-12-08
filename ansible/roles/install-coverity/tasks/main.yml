@@ -37,7 +37,7 @@
       when: coverity_copy.failed == False
 
     - name: create link /opt/coverity/current
-      shell: ln -sf /opt/coverity/{{ coverity_version }}/* /opt/coverity/current
+      shell: rm -vf /opt/coverity/current && ln -svf /opt/coverity/{{ coverity_version }}/* /opt/coverity/current
       args:
         warn: false
       when: coverity_copy.failed == False
