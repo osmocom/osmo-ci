@@ -3,6 +3,8 @@
 
 set -e -x
 
+readlink /opt/coverity/current
+
 export PATH=$PATH:/opt/coverity/current/bin
 
 base_dir="$HOME/osmo-ci/coverity"
