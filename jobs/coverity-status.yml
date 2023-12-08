@@ -1,0 +1,46 @@
+# Check if the coverity badge says "failed". This can happen for example if we
+# use a coverity version that is no longer supported, and it doesn't fail in
+# any other obvious way. (SYS#6685)
+- project:
+    name: osmocom-coverity-status
+    jobs:
+      - osmocom-coverity-status
+
+- job:
+    name: 'osmocom-coverity-status'
+    project-type: freestyle
+    defaults: global
+    description: |
+        Verify that the coverity badge says "passed" and not "failed" (SYS#6685).
+        <br>
+        <br>
+        <img src="https://scan.coverity.com/projects/7523/badge.svg">
+    builders:
+      - shell: |
+          coverity/badge_status.sh
+    publishers:
+      - email:
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+          notify-every-unstable-build: true
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    parameters:
+      - string:
+          name: BRANCH
+          description: osmo-ci.git branch
+          default: 'origin/master'
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          branches:
+            - '$BRANCH'
+    triggers:
+      - timed: "H 06 * * *"
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
