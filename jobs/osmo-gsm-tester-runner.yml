@@ -226,14 +226,15 @@
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmocom-bb
       - shell: |
-            # Set a trap to fix workspace permissions on exit
-            fix_permissions() {
+            # Set a trap to fix workspace permissions / kill the docker container on exit
+            clean_up() {
+              docker kill "osmo-gsm-tester-virtual" || true
               docker run --rm \
                 -v "$WORKSPACE":/workspace \
                 debian:bullseye \
                   chmod -R a+rwX /workspace/
             }
-            fix_permissions_trap() {
+            clean_up_trap() {
               set +x
               echo
               echo "### Clean up ###"
@@ -241,12 +242,12 @@
               set -x
 
               trap - EXIT INT TERM 0
-              fix_permissions
+              clean_up
             }
-            trap fix_permissions_trap EXIT INT TERM 0
+            trap clean_up_trap EXIT INT TERM 0
 
             # Make sure no test results from a previous run remain
-            fix_permissions
+            clean_up
             rm -rf trial-*
 
             # Build the docker image
@@ -277,6 +278,7 @@
               -w /build -i \
               -v "$PWD:/build" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
+              --name=osmo-gsm-tester-virtual \
               --cap-add=sys_nice \
               $USER/osmo-gsm-tester \
               /bin/bash -c 'LANG="en_US.utf8" LC_ALL="en_US.UTF-8" LC_LANG="en_US.UTF-8" PATH="$PWD/osmo-gsm-tester/src:${PATH}" ./osmo-gsm-tester/contrib/jenkins-run.sh'

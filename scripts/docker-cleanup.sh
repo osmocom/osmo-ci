@@ -18,7 +18,7 @@ kill_docker_containers_running_longer_than_24h() {
 		fi
 
 		case "$name" in
-		jenkins-*|*ttcn3*) ;;
+		jenkins-*|*ttcn3*|osmo-gsm-tester*) ;;
 		*)
 			echo "$name: does not match name pattern"
 			continue
