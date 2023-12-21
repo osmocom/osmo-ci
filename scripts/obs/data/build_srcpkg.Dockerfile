@@ -16,10 +16,12 @@ RUN	apt-get update && \
 		git-review \
 		gnupg2 \
 		libxml2-utils \
+		lsb-release \
 		meson \
 		osc \
 		python3-packaging \
 		python3-setuptools \
+		quilt \
 		rebar3 \
 		sed \
 		&& \
