@@ -272,22 +272,6 @@
       - TTCN3-centos-cbc-test-latest:
           timer: H 13 * * *
 
-      # centos8 2023q1 (SYS#6283)
-      - TTCN3-centos-pcu-test-2023q1:
-          timer: H 13 * * *
-      - TTCN3-centos-pcu-test-sns-2023q1:
-          timer: H 13 * * *
-      - TTCN3-centos-bsc-test-2023q1:
-          timer: H 14 * * *
-      - TTCN3-centos-mgw-test-2023q1:
-          timer: H 14 * * *
-      - TTCN3-centos-bts-test-2023q1:
-          timer: H 14 * * *
-      - TTCN3-centos-smlc-test-2023q1:
-          timer: H 14 * * *
-      - TTCN3-centos-gbproxy-test-2023q1:
-          timer: H 14 * * *
-
 - job-template:
     name: '{job-name}'
     project-type: freestyle
