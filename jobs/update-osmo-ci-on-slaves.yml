@@ -8,7 +8,6 @@
           values:
             - build2-deb10build-ansible
             - build2-deb11build-ansible
-            - build3-deb11build-ansible
             - build4-deb12build-ansible
             - gtp0-deb10fr
             - host2-deb11build-ansible
