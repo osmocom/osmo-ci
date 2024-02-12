@@ -33,13 +33,11 @@
             Debian:11
             Debian:12
             Debian:Next
-            Debian:Testing
             Raspbian:10
             Raspbian:11
             Raspbian:12
             Ubuntu:20.04
             Ubuntu:22.04
-            Ubuntu:23.04
             Ubuntu:23.10
           "
           ./scripts/obs/sync_obs_projects.py \
