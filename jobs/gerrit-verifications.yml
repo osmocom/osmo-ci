@@ -92,7 +92,7 @@
     # Which jobs to run in the pipeline
     pipeline_build: true
     pipeline_lint: true
-    pipeline_binpkgs: "almalinux:8 debian:10 debian:12"
+    pipeline_binpkgs: "debian:10 debian:12"
 
     # in alphabetical order
     repos:
@@ -126,9 +126,7 @@
       - libtelnet:
           pipeline_binpkgs: ""
 
-      - libusrp:
-          # centos8/almalinux doesn't have SDCC (OS#5898)
-          pipeline_binpkgs: "debian:10 debian:12"
+      - libusrp
 
       - openbsc:
           a1_name: SMPP
@@ -394,7 +392,7 @@
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-upf:
-          pipeline_binpkgs: "almalinux:8 debian:11 debian:12"
+          pipeline_binpkgs: "debian:11 debian:12"
 
       - pysim:
           concurrent: false
