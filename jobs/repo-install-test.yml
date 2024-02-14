@@ -4,8 +4,6 @@
     jobs:
       - Osmocom-repo-install-{distro}
     distro:
-      - centos8:
-          feeds: !!python/tuple [nightly, latest]  # next: disabled (OS#5322)
       - debian10:
           feeds: !!python/tuple [nightly, latest]
       - debian11:
