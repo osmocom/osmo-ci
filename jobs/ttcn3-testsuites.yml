@@ -202,76 +202,6 @@
       - TTCN3-centos7-pcap-client-test-latest:
           timer: H 10 * * *
 
-      # centos8 nightly
-      - TTCN3-centos-ggsn-test:
-          timer: H 10 * * *
-      - TTCN3-centos-msc-test:
-          timer: H 10 * * *
-      - TTCN3-centos-pcu-test:
-          timer: H 10 * * *
-      - TTCN3-centos-pcu-test-sns:
-          timer: H 10 * * *
-      - TTCN3-centos-sgsn-test:
-          timer: H 11 * * *
-      - TTCN3-centos-bsc-test:
-          timer: H 11 * * *
-      - TTCN3-centos-mgw-test:
-          timer: H 11 * * *
-      - TTCN3-centos-hlr-test:
-          timer: H 11 * * *
-      - TTCN3-centos-bts-test:
-          timer: H 11 * * *
-      - TTCN3-centos-sip-test:
-          timer: H 11 * * *
-      - TTCN3-centos-bsc-test-sccplite:
-          timer: H 11 * * *
-      - TTCN3-centos-remsim-test:
-          timer: H 11 * * *
-          disabled: true
-      - TTCN3-centos-stp-test:
-          timer: H 11 * * *
-      - TTCN3-centos-gbproxy-test:
-          timer: H 11 * * *
-      - TTCN3-centos-cbc-test:
-          timer: H 12 * * *
-
-      # centos8 latest stable
-      - TTCN3-centos-ggsn-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-msc-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-pcu-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-pcu-test-sns-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-sgsn-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-bsc-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-mgw-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-hlr-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-bts-test-latest:
-          timer: H 12 * * *
-      - TTCN3-centos-sip-test-latest:
-          timer: H 13 * * *
-      - TTCN3-centos-bsc-test-sccplite-latest:
-          timer: H 13 * * *
-      - TTCN3-centos-remsim-test-latest:
-          timer: H 13 * * *
-          disabled: true
-      - TTCN3-centos-stp-test-latest:
-          timer: H 13 * * *
-      - TTCN3-centos-smlc-test-latest:
-          timer: H 13 * * *
-      - TTCN3-centos-sccp-test-latest:
-          timer: H 13 * * *
-      - TTCN3-centos-gbproxy-test-latest:
-          timer: H 13 * * *
-      - TTCN3-centos-cbc-test-latest:
-          timer: H 13 * * *
-
 - job-template:
     name: '{job-name}'
     project-type: freestyle
@@ -322,23 +252,9 @@
                   export KERNEL_REMOTE_NAME="torvalds"
                   export KERNEL_BRANCH="master"
                   ;;
-              TTCN3-centos-*-latest)
-                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-latest$//)"
-                  export IMAGE_SUFFIX="latest-centos8"
-                  ;;
               TTCN3-centos7-*-latest)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos7\-/ttcn3-/ | sed s/\-latest$//)"
                   export IMAGE_SUFFIX="latest-centos7"
-                  ;;
-              TTCN3-centos-*-20*q*)
-                  export OSMOCOM_REPO_PATH="osmo-maintained"
-                  export OSMOCOM_REPO_VERSION="$(echo "{job-name}" | grep -o -P -- "20\d\dq.*$")"  # e.g. "2021q1"
-                  export IMAGE_SUFFIX="$OSMOCOM_REPO_VERSION-centos8"
-                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/ | sed s/\-$OSMOCOM_REPO_VERSION$//)"
-                  ;;
-              TTCN3-centos-*)
-                  DIR="$(echo "{job-name}" | sed s/^TTCN3-centos\-/ttcn3-/)"
-                  export IMAGE_SUFFIX="master-centos8"
                   ;;
               TTCN3-centos7-*)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos7\-/ttcn3-/)"
