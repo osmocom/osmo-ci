@@ -27,7 +27,6 @@
             debian:sid
 
             centos:centos7
-            almalinux:8
           "
           for i in $IMAGES; do
             src=$i
