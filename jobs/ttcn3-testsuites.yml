@@ -136,6 +136,8 @@
           timer: H 07 * * *
       - ttcn3-epdg-test:
           timer: H 07 * * *
+          # osmo-epdg requires OTP and kernel >= debian12:
+          node: build4-deb12build-ansible
 
       # debian latest stable
       - nplab-m3ua-test-latest:
