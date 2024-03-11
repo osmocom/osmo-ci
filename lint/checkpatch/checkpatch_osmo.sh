@@ -10,6 +10,8 @@ exclude_paths_common() {
 	echo '--exclude ^debian/changelog$'
 	# Patch files
 	echo '--exclude \.patch$'
+	# License files (OS#6397)
+	echo '--exclude ^(LICENSE|COPYING)'
 	# Symlinks (no newline at end of file)
 	find -type l -printf '--exclude ^%P$\n'
 }
