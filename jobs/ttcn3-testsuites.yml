@@ -207,16 +207,22 @@
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
       - ttcn3-bsc-test-io_uring:
           timer: H 11 * * *
+          node: ttcn3-io_uring
       - ttcn3-msc-test-io_uring:
           timer: H 11 * * *
+          node: ttcn3-io_uring
       - ttcn3-hnbgw-test-io_uring:
           timer: H 11 * * *
+          node: ttcn3-io_uring
       - ttcn3-gbproxy-test-io_uring:
           timer: H 11 * * *
+          node: ttcn3-io_uring
       - ttcn3-sgsn-test-io_uring:
           timer: H 11 * * *
+          node: ttcn3-io_uring
       - ttcn3-stp-test-io_uring:
           timer: H 11 * * *
+          node: ttcn3-io_uring
 
 - job-template:
     name: '{job-name}'
