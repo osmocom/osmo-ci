@@ -338,7 +338,7 @@
               "$DOCKER_IMG" {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmocom-bb:
-          pipeline_binpkgs: ""
+          pipeline_binpkgs: "debian:12"
 
       - osmo-tetra:
           pipeline_binpkgs: ""
@@ -366,7 +366,7 @@
           pipeline_binpkgs: ""
 
       - gapk:
-          pipeline_binpkgs: ""
+          pipeline_binpkgs: "debian:12"
 
       - osmo-uecups
 
