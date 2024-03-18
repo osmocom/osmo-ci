@@ -47,6 +47,7 @@ feeds = [
 projects_osmocom = [
     "erlang/osmo_dia2gsup",
     "erlang/osmo-epdg",
+    "gapk",
     "libasn1c",
     "libgtpnl",
     "libosmo-abis",
@@ -83,6 +84,7 @@ projects_osmocom = [
     "osmo-trx",
     "osmo-uecups",
     "osmo-upf",
+    "osmocom-bb",
     "python/osmo-python-tests",
     "rtl-sdr",
     "simtrace2",
