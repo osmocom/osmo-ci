@@ -166,6 +166,7 @@
             master-osmo-sgsn
 
       - libosmocore:
+          slave_axis: !!python/tuple [io_uring]  # OS#6405
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
