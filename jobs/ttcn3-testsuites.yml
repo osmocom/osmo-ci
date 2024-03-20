@@ -223,6 +223,9 @@
       - ttcn3-stp-test-io_uring:
           timer: H 11 * * *
           node: io_uring  # OS#6405
+      - ttcn3-mgw-test-io_uring:
+          timer: H 11 * * *
+          node: io_uring  # OS#6405
 
 - job-template:
     name: '{job-name}'
