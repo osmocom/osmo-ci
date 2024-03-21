@@ -399,9 +399,10 @@
           concurrent: false
           slave_axis: !!python/tuple [simtester,osmocom-gerrit]
           a2_name: JOB_TYPE
-          a2: !!python/tuple ["test", "pylint", "docs"]
+          a2: !!python/tuple ["test", "distcheck", "pylint", "docs"]
           combination_filter: >
             (JOB_TYPE == "test" && label == "simtester") ||
+            (JOB_TYPE == "distcheck" && label == "osmocom-gerrit") ||
             (JOB_TYPE == "pylint" && label == "osmocom-gerrit") ||
             (JOB_TYPE == "docs" && label == "osmocom-gerrit")
           cmd: |
