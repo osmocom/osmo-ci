@@ -1,0 +1,72 @@
+---
+- project:
+    name: Osmocom_OBS_ewild
+    jobs:
+      - Osmocom_OBS_ewild_{branch_suffix}
+    branch_suffix:
+      - mssdr
+
+- job-template:
+    name: 'Osmocom_OBS_ewild_{branch_suffix}'
+    project-type: freestyle
+    concurrent: false
+    defaults: global
+    description: |
+      Iterate over Osmocom projects, and update projects from the
+      "Hoernchen/{branch_suffix}" branch in OBS. If a package exists in OBS
+      for a project, but it doesn't have the git branch anymore then delete the
+      package from OBS.
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    node: obs
+    parameters:
+      - string:
+          name: CI_BRANCH
+          description: osmo-ci.git branch
+          default: 'master'
+    builders:
+      - shell: |
+          export PYTHONUNBUFFERED=1
+          BRANCH="Hoernchen/{branch_suffix}"
+          PROJ="home:ewild:{branch_suffix}"
+          VERSION_APPEND="~ewild.{branch_suffix}"
+          PACKAGE="$GERRIT_PROJECT"
+
+          # When manually triggered, run on all Osmocom packages
+          if [ -z "$PACKAGE" ]; then
+            PACKAGE="ALL_OSMOCOM_PACKAGES"
+          fi
+
+          ./scripts/obs/update_obs_project.py \
+            --apiurl https://obs.osmocom.org \
+            --conflict-pkgname "osmocom-nightly" \
+            --delete \
+            --docker \
+            --feed "master" \
+            --git-branch "$BRANCH" \
+            --version-append "$VERSION_APPEND" \
+            "$PROJ" \
+            "$PACKAGE"
+    scm:
+      - git:
+          branches:
+            - '$CI_BRANCH'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    triggers:
+      - gerrit:
+          trigger-on:
+            - ref-updated-event
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '**'
+              branches:
+                - branch-pattern: 'Hoernchen/{branch_suffix}'
+          server-name: gerrit.osmocom.org
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'ewild@sysmocom.de'
