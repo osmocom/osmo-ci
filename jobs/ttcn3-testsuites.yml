@@ -30,6 +30,14 @@
           timer: H 04 * * *
           description: |
             Test osmo-ggsn master with the Debian kernel.
+      - ttcn3-ggsn-test-kernel-pablo-gtp:
+          timer: H 04 * * *
+          description: |
+            Test osmo-ggsn master with the Linux kernel built from main of
+            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git/">pablo/gtp.git</a>.
+            <br>
+            This is a temporary job, to be removed once the IPv6 related GTP
+            patches are upstreamed (OS#1952).
       - ttcn3-ggsn-test-kernel-latest:
           timer: H 04 * * *
           description: |
@@ -253,6 +261,15 @@
                   export IMAGE_SUFFIX="master"
                   # Run against debian's kernel
                   export KERNEL_TEST=1
+                  ;;
+              ttcn3-ggsn-test-kernel-pablo-gtp)
+                  DIR="ttcn3-ggsn-test"
+                  export IMAGE_SUFFIX="master"
+                  export KERNEL_TEST=1
+                  export KERNEL_BUILD=1
+                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git"
+                  export KERNEL_REMOTE_NAME="pablo-gtp"
+                  export KERNEL_BRANCH="main"
                   ;;
               ttcn3-ggsn-test-kernel-latest)
                   DIR="ttcn3-ggsn-test"
