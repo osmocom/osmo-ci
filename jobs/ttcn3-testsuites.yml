@@ -32,6 +32,8 @@
             Test osmo-ggsn master with the Debian kernel.
       - ttcn3-ggsn-test-kernel-pablo-gtp:
           timer: H 04 * * *
+          # Cache the linux source tree in the workspace of one node
+          wipe_workspace: false
           description: |
             Test osmo-ggsn master with the Linux kernel built from main of
             <a href="https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git/">pablo/gtp.git</a>.
