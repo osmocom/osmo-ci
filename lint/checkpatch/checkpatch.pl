@@ -4888,6 +4888,7 @@ sub process {
 			# Ignore those directives where spaces _are_ permitted.
 			if ($name =~ /^(?:
 				if|for|while|switch|return|case|
+				[a-z_]*for[_]?each[a-z_]*|
 				volatile|__volatile__|
 				__attribute__|format|__extension__|
 				asm|__asm__)$/x)
@@ -5513,7 +5514,7 @@ sub process {
 		}
 
 # Need a space before open parenthesis after if, while etc
-		if ($line =~ /\b(if|while|for|switch)\(/) {
+		if ($line =~ /\b(if|while|for|switch|[a-z_]*for[_]?each[a-z_]*)\(/) {
 			if (ERROR("SPACING",
 				  "space required before the open parenthesis '('\n" . $herecurr) &&
 			    $fix) {
