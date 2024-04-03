@@ -287,7 +287,7 @@
                   export KERNEL_BUILD=1
                   export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git"
                   export KERNEL_REMOTE_NAME="net-next"
-                  export KERNEL_BRANCH="master"
+                  export KERNEL_BRANCH="main"
                   ;;
               ttcn3-ggsn-test-kernel-latest-torvalds)
                   DIR="ttcn3-ggsn-test"
