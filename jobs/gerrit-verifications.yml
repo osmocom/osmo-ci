@@ -383,13 +383,16 @@
           a1: !!python/tuple ["1", "0"]
           a2_name: WITH_MANUALS
           a2: !!python/tuple ["1", "0"]
+          a3_name: NFTABLES
+          a3: !!python/tuple ["1", "0"]
           combination_filter: >
-            (PFCP == "1" && WITH_MANUALS == "1") ||
-            (PFCP == "0" && WITH_MANUALS == "0")
+            (PFCP == "1" && WITH_MANUALS == "1" && NFTABLES == "1") ||
+            (PFCP == "0" && WITH_MANUALS == "0" && NFTABLES == "0")
           cmd: |
             {docker_run_ccache} \
               -e PFCP="$PFCP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
+              -e NFTABLES="$NFTABLES" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-upf:
