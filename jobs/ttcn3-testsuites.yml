@@ -219,25 +219,18 @@
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
       - ttcn3-bsc-test-io_uring:
           timer: H 11 * * *
-          node: io_uring  # OS#6405
       - ttcn3-msc-test-io_uring:
           timer: H 11 * * *
-          node: io_uring  # OS#6405
       - ttcn3-hnbgw-test-io_uring:
           timer: H 11 * * *
-          node: io_uring  # OS#6405
       - ttcn3-gbproxy-test-io_uring:
           timer: H 11 * * *
-          node: io_uring  # OS#6405
       - ttcn3-sgsn-test-io_uring:
           timer: H 11 * * *
-          node: io_uring  # OS#6405
       - ttcn3-stp-test-io_uring:
           timer: H 11 * * *
-          node: io_uring  # OS#6405
       - ttcn3-mgw-test-io_uring:
           timer: H 11 * * *
-          node: io_uring  # OS#6405
 
 - job-template:
     name: '{job-name}'
@@ -308,7 +301,8 @@
                   ;;
               *-io_uring)
                   DIR="$(echo "{job-name}" | sed s/\-io_uring$//)"
-                  export DOCKER_ARGS="-e LIBOSMO_IO_BACKEND=IO_URING"
+                  # OS#6405: set memlock to 1 GB for older kernels
+                  export DOCKER_ARGS="-e LIBOSMO_IO_BACKEND=IO_URING --ulimit memlock=1000000"
                   ;;
               *-latest)
                   DIR="$(echo "{job-name}" | sed s/\-latest$//)"
