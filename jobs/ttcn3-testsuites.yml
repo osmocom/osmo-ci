@@ -75,6 +75,8 @@
           timer: H 05 * * *
       - ttcn3-sgsn-test:
           timer: H 05 * * *
+      - ttcn3-sgsn-test-sns:
+          timer: H 05 * * *
       - ttcn3-bsc-test:
           timer: H 05 * * *
       - ttcn3-mgw-test:
@@ -165,6 +167,8 @@
       - ttcn3-pcu-test-sns-latest:
           timer: H 08 * * *
       - ttcn3-sgsn-test-latest:
+          timer: H 08 * * *
+      - ttcn3-sgsn-test-sns-latest:
           timer: H 08 * * *
       - ttcn3-bsc-test-latest:
           timer: H 08 * * *
