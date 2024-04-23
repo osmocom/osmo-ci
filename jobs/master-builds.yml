@@ -252,7 +252,6 @@
           a3: !!python/tuple ["1", "0"]
           combination_filter: >
             (FIRMWARE_VERSION == "master" && WITH_MANUALS == "1" && label == "osmocom-master") ||
-            (FIRMWARE_VERSION == "master" && BTS_MODEL == "trx" && WITH_MANUALS == "0" && label == "rpi4-raspbian11") ||
             (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master") ||
             (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master") ||
             (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-master") ||
@@ -398,8 +397,7 @@
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "osmocom-master") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="v2017.01" && WITH_MANUALS == "0" && label == "osmocom-master") ||
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="origin/nrw/litecell15" && WITH_MANUALS == "0" && label == "osmocom-master") ||
-            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1" && label == "osmocom-master") ||
-            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "rpi4-raspbian11")
+            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1" && label == "osmocom-master")
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
@@ -443,9 +441,7 @@
           a2: !!python/tuple ["1", "0"]
           combination_filter: >
             (INSTR == "--without-sse" && WITH_MANUALS == "1" && label == "osmocom-master") ||
-            (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-master") ||
-            (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-raspbian11") ||
-            (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-raspbian11")
+            (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-master")
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
