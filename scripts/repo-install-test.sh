@@ -137,6 +137,15 @@ qemu_scp() {
 			"$@"
 }
 
+qemu_prepare_vm() {
+	case "$DISTRO" in
+	centos8)
+		# https://almalinux.org/blog/2023-12-20-almalinux-8-key-update/
+		qemu_ssh dnf upgrade -y almalinux-release
+		;;
+	esac
+}
+
 qemu_run_test_script() {
 	cat <<- EOF > "$TEST_DIR/run-inside-env.sh"
 	#!/bin/sh -ex
@@ -268,4 +277,5 @@ echo "VM is running!"
 echo
 set -x
 
+qemu_prepare_vm
 qemu_run_test_script
