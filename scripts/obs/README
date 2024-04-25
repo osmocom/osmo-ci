@@ -4,6 +4,7 @@ This directory contains the following scripts, related to building Osmocom
 projects in OBS (Open Build Service) and building binary packages. Here is an
 overview of the scripts, run them with -h to get a more detailed description.
 
+* gerrit_binpkgs.sh: build source + binary packages like CI for gerrit
 * build_srcpkg.py: build one source package for an Osmocom project
 * update_obs_project.py: generate source packages and upload them to OBS
 * build_binpkg.py: build rpm/deb packages for one Osmocom project

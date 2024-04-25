@@ -28,7 +28,7 @@
 
     scm:
       - git:
-         basedir: 'code-from-gerrit'
+         basedir: '$PROJECT_NAME'
          url: '$GERRIT_REPO_URL'
          credentials-id: d5eda5e9-b59d-44ba-88d2-43473cb6e42d
          branches:
@@ -60,27 +60,9 @@
             osmo-ci
           git -C osmo-ci log --oneline
 
-          # Move code from gerrit to build_srcpkg.py's git cache
-          cache_dir=osmo-ci/scripts/obs/_cache
-          mkdir -p $cache_dir
-          mv code-from-gerrit "$cache_dir/$PROJECT_NAME"
+          cd "$PROJECT_NAME"
+          ../osmo-ci/scripts/obs/gerrit_binpkgs.sh "$DISTRO"
 
-          # Set a known branch name
-          git -C "$cache_dir/$PROJECT_NAME" checkout -B "origin/gerrit"
-
-          # Build source package
-          cd osmo-ci/scripts/obs/
-          ./build_srcpkg.py \
-            --docker \
-            --feed master \
-            --git-branch gerrit \
-            --git-skip-fetch \
-            "$PROJECT_NAME"
-
-          # Build binary package
-          ./build_binpkg.py \
-            --docker "$DISTRO" \
-            "$PROJECT_NAME"
     wrappers:
     - ansicolor:
         colormap: xterm
