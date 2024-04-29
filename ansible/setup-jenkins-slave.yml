@@ -12,6 +12,7 @@
           - tmux
           - screen
           - ca-certificates
+          - rsync
         cache_valid_time: 3600
         update_cache: yes
   roles:
