@@ -51,6 +51,24 @@ RUN	case "$DISTRO" in \
 		yum config-manager --set-enabled powertools && \
 		su user -c rpmdev-setuptree \
 		;; \
+	centos:7) \
+		yum -y install \
+			autoconf \
+			automake \
+			binutils \
+			dnf-utils \
+			gcc \
+			gcc-c++ \
+			glibc-devel \
+			iproute \
+			libtool \
+			make \
+			redhat-rpm-config \
+			rpm-build \
+			rpmdevtools \
+			wget && \
+		su user -c rpmdev-setuptree \
+		;; \
 	esac
 
 # Add master repository, where packages immediately get updated after merging
@@ -71,7 +89,7 @@ RUN	set -x; \
 		echo "deb https://downloads.osmocom.org/packages/osmocom:/$FEED/xUbuntu_$VERSION/ ./" \
 			> /etc/apt/sources.list.d/osmocom-$FEED.list \
 		;; \
-	almalinux:*) \
+	almalinux:*|centos:*) \
 		{ echo "[network_osmocom_$FEED]"; \
 		  echo "name=osmocom:$FEED"; \
 		  echo "type=rpm-md"; \

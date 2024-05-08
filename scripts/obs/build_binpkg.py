@@ -69,6 +69,7 @@ def main():
     env = {"JOBS": str(args.jobs),
            "PACKAGE": args.package,
            "BUILDUSER": os.environ["USER"],
+           "DISTRO": args.docker,
            "PACKAGEFORMAT": "deb"}
 
     docker_args = []

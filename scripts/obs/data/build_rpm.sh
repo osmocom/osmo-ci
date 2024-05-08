@@ -22,7 +22,23 @@ su "$BUILDUSER" -c "cp _temp/srcpkgs/$PACKAGE/rpmlintrc ~/rpmbuild/SOURCES"
 su "$BUILDUSER" -c "cp /obs/data/rpmmacros ~/.rpmmacros"
 
 # Force refresh of package index data (OS#6038)
-dnf makecache --refresh
+if command -v dnf; then
+	dnf makecache --refresh
+else
+	yum clean expire-cache
+fi
+
+case "$DISTRO" in
+	centos:7)
+		# HACK: remove pkg-config as centos7 has pkgconfig instead
+		# (which will get pulled in automatically). This could be
+		# solved more elegantly, but we only build very few centos7
+		# packages, so let's not spend too much time on this. In OBS
+		# this is handled in the centos7 prjconf:
+		# https://build.opensuse.org/projects/CentOS:CentOS-7/prjconf
+		sed -i '/^BuildRequires:.*pkg-config/d' "/home/$BUILDUSER/rpmbuild/SPECS/$spec"
+		;;
+esac
 
 $yum_builddep "/home/$BUILDUSER/rpmbuild/SPECS/$spec"
 
