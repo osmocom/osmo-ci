@@ -39,3 +39,5 @@ echo ":: Building the binary packages"
 "$SCRIPTS_OBS_DIR"/build_binpkg.py \
 	--docker "$DISTRO" \
 	"$PROJECT_NAME"
+
+echo ":: Find binary packages in: $SCRIPTS_OBS_DIR/_temp/binpkgs"
