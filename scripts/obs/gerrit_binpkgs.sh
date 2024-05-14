@@ -32,6 +32,7 @@ echo ":: Building the source package"
 	--feed master \
 	--git-skip-fetch \
 	--git-skip-checkout \
+	--no-meta \
 	"$PROJECT_NAME"
 
 echo ":: Building the binary packages"
