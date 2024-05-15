@@ -20,6 +20,8 @@
     # timer: 10 per hour from 04:00 - 18:00, see jobs/README.adoc
     job-name:
       # debian nightly - order by time
+      - ttcn3-msc-test:
+          timer: H 03 * * *
       - nplab-m3ua-test:
           timer: H 04 * * *
       - nplab-sua-test:
@@ -67,8 +69,6 @@
           description: |
             Test open5gs-smfd + open5gs-upfd main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
-      - ttcn3-msc-test:
-          timer: H 04 * * *
       - ttcn3-pcu-test:
           timer: H 04 * * *
       - ttcn3-pcu-test-sns:
