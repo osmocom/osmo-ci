@@ -32,16 +32,24 @@
           timer: H 04 * * *
           description: |
             Test osmo-ggsn master with the Debian kernel.
-      - ttcn3-ggsn-test-kernel-pablo-gtp:
+      - ttcn3-ggsn-test-kernel-net-next:
           timer: H 04 * * *
           # Cache the linux source tree in the workspace of one node
           wipe_workspace: false
+          node: ttcn3-ggsn-test-kernel-git
           description: |
-            Test osmo-ggsn master with the Linux kernel built from main of
-            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git/">pablo/gtp.git</a>.
-            <br>
-            This is a temporary job, to be removed once the IPv6 related GTP
-            patches are upstreamed (OS#1952).
+            Test osmo-ggsn master with the Linux kernel built from master of
+            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/">
+              net-next.git</a>.
+      - ttcn3-ggsn-test-kernel-torvalds:
+          timer: H 04 * * *
+          # Cache the linux source tree in the workspace of one node
+          wipe_workspace: false
+          node: ttcn3-ggsn-test-kernel-git
+          description: |
+            Test osmo-ggsn master with the Linux kernel built from master of
+            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/">
+              torvalds/linux.git</a>.
       - ttcn3-ggsn-test-kernel-latest:
           timer: H 04 * * *
           description: |
@@ -266,14 +274,23 @@
                   # Run against debian's kernel
                   export KERNEL_TEST=1
                   ;;
-              ttcn3-ggsn-test-kernel-pablo-gtp)
+              ttcn3-ggsn-test-kernel-net-next)
                   DIR="ttcn3-ggsn-test"
                   export IMAGE_SUFFIX="master"
                   export KERNEL_TEST=1
                   export KERNEL_BUILD=1
-                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/pablo/gtp.git"
-                  export KERNEL_REMOTE_NAME="pablo-gtp"
+                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git"
+                  export KERNEL_REMOTE_NAME="net-next"
                   export KERNEL_BRANCH="main"
+                  ;;
+              ttcn3-ggsn-test-kernel-torvalds)
+                  DIR="ttcn3-ggsn-test"
+                  export IMAGE_SUFFIX="master"
+                  export KERNEL_TEST=1
+                  export KERNEL_BUILD=1
+                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+                  export KERNEL_REMOTE_NAME="torvalds"
+                  export KERNEL_BRANCH="master"
                   ;;
               ttcn3-ggsn-test-kernel-latest)
                   DIR="ttcn3-ggsn-test"
