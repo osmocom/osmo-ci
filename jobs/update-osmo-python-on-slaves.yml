@@ -10,6 +10,7 @@
             - build2-deb11build-ansible
             - build4-deb12build-ansible
             - host2-deb11build-ansible
+            - lx2-raspbian11build-ansible
             - rpi4-raspbian11build-ansible-1
             - rpi4-raspbian11build-ansible-2
             - rpi4-raspbian11build-ansible-3
