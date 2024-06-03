@@ -130,10 +130,7 @@ osmo_git_last_tags() {
 # $1: Osmocom project (e.g. "osmo-hlr")
 osmo_git_clone_url() {
 	case "$1" in
-		libgtpnl|libasn1c|libsmpp34)
-			echo "$OSMO_GIT_URL_GITEA"/cellular-infrastructure/"$1"
-			;;
-		rtl-sdr|osmo-fl2k|libosmo-dsp|libusrp)
+		rtl-sdr|osmo-fl2k|libosmo-dsp)
 			echo "$OSMO_GIT_URL_GITEA"/sdr/"$1"
 			;;
 		osmo-gmr)
