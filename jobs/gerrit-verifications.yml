@@ -194,8 +194,18 @@
       - osmo-epdg:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
           pipeline_binpkgs: "debian:12"
+          a2_name: JOB_TYPE
+          a2: !!python/tuple ["build", "manuals"]
+          cmd: |
+            case "$JOB_TYPE" in
+            build)
+              {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
+              ;;
+            manuals)
+              {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_manuals.sh
+              ;;
+            esac
 
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
