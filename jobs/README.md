@@ -11,21 +11,18 @@ Install jenkins-job-builder:
 # apt-get install jenkins-job-builder
 ```
 
-Have a jenkins-job-builder.ini file. One of
+Create the following file:
 
 ```
-~/.config/jenkins_jobs/jenkins_jobs.ini
-/etc/jenkins_jobs/jenkins_jobs.ini
+~/.config/jenkins_jobs/jenkins_jobs_osmo-ci.ini
 ```
-
-or place one in here and pass it to jenkins-jobs using the --conf file.
 
 Make sure the file not world readable to minimally safeguard your jenkins password.
 Instead of using your jenkins password, use an *API Token*. To retrieve your token go
 to Jenkins via a Webbrowser, click on your Username in the right corner, click on configure,
 click on *Show API Toke...*.
 
-`jenkins_jobs.ini`:
+`jenkins_jobs_osmo-ci.ini`:
 
 ```
 [jenkins]
@@ -37,13 +34,14 @@ url=https://jenkins.osmocom.org/jenkins
 and
 
 ```
-$ chmod go-rwx jenkins_jobs.ini
+$ chmod go-rwx jenkins_jobs_osmo-ci.ini
 ```
 
 ## Update a single job on jenkins.osmocom.org
 
 ```
-$ jenkins-jobs --conf jenkins_jobs.ini update gerrit-verifications.yml gerrit-osmo-msc
+$ cd ..
+$ ./jenkins-jobs-osmo.sh update jobs/gerrit-verifications.yml gerrit-osmo-msc
 ```
 
 NOTE: when you supply a name not defined in that yml file, you will not get an
@@ -52,13 +50,15 @@ error message, just nothing will happen.
 ## Update all jobs of one file
 
 ```
-$ jenkins-jobs --conf jenkins_jobs.ini update gerrit-verifications.yml
+$ cd ..
+$ ./jenkins-jobs-osmo.sh update jobs/gerrit-verifications.yml
 ```
 
 ## Update all jobs in all files
 
 ```
-$ jenkins-jobs --conf jenkins_jobs.ini update ./
+$ cd ..
+$ ./jenkins-jobs-osmo.sh update jobs/
 ```
 
 ## Troubleshooting
