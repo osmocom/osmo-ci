@@ -30,7 +30,7 @@ build4-deb12build-ansible  : ok=9    changed=4    unreachable=0    failed=0    s
 ```
 
 ## jobs
-Jenkins Job Builder YAML files defining jenkins jobs. Read `jobs/README.adoc`
+Jenkins Job Builder YAML files defining jenkins jobs. Read `jobs/README.md`
 for more information about deployment.
 
 ## lint
