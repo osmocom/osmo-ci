@@ -8,11 +8,11 @@
     - name: install common utilities
       apt:
         name:
-          - vim
-          - tmux
-          - screen
           - ca-certificates
           - rsync
+          - screen
+          - tmux
+          - vim
         cache_valid_time: 3600
         update_cache: yes
   roles:
