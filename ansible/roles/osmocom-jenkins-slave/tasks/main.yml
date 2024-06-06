@@ -58,3 +58,23 @@
     minute: 0
     job: "fstrim / >/dev/null 2>/dev/null || true"
   when: osmocom_jenkins_slave_fstrim
+
+- name: add tmpfs for /home/osmocom-build/jenkins
+  when: jenkins_tmpfs
+  ansible.posix.mount:
+    boot: true
+    path: /home/osmocom-build/jenkins
+    src: tmpfs
+    fstype: tmpfs
+    state: mounted
+    opts: "uid=1000,gid=1000"
+
+- name: add tmpfs for /home/osmocom-build/ccache
+  when: jenkins_tmpfs
+  ansible.posix.mount:
+    boot: true
+    path: /home/osmocom-build/ccache
+    src: tmpfs
+    fstype: tmpfs
+    state: mounted
+    opts: "uid=1000,gid=1000"

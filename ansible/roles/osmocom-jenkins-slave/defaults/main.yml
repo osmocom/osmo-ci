@@ -15,3 +15,6 @@ ttcn3_slave: true
 
 # call fstrim peridically
 osmocom_jenkins_slave_fstrim: false
+
+# put jenkins workspaces and ccache dirs into tmpfs
+jenkins_tmpfs: false
