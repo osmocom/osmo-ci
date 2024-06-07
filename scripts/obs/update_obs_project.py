@@ -21,7 +21,7 @@ srcpkgs_failed_upload = []  # list of pkgnames
 srcpkgs_updated = []  # list of pkgnames
 
 
-def parse_packages(packages_arg):
+def parse_packages(packages_arg, excludes_arg):
     ret = []
     if packages_arg:
         for package in packages_arg:
@@ -29,11 +29,15 @@ def parse_packages(packages_arg):
                 ret += lib.config.projects_osmocom
             else:
                 ret += [lib.set_proper_package_name(package)]
-        return ret
+    else:  # Default to all
+        ret += lib.config.projects_osmocom
+        ret += lib.config.projects_other
 
-    # Default to all
-    ret += lib.config.projects_osmocom
-    ret += lib.config.projects_other
+    # Apply --exclude-package
+    for package in excludes_arg:
+        if package in ret:
+            ret.remove(package)
+
     return ret
 
 
@@ -209,7 +213,11 @@ def validate_args(args):
 def main():
     parser = argparse.ArgumentParser(
         description="Generate source packages and upload them to OBS.")
-    lib.add_shared_arguments(parser)
+    groups = lib.add_shared_arguments(parser)
+
+    groups["pkg"].add_argument("-E", "--exclude-package", nargs="*",
+                               default=[],
+                               help="do not build and update this package")
 
     group_obs = parser.add_argument_group("OBS options")
     group_obs.add_argument("-A", "--apiurl", help="OBS API URL or .oscrc alias"
@@ -230,7 +238,7 @@ def main():
     args = parser.parse_args()
     validate_args(args)
     lib.set_args(args)
-    packages = parse_packages(args.package)
+    packages = parse_packages(args.package, args.exclude_package)
 
     if args.docker:
         lib.docker.run_in_docker_and_exit("update_obs_project.py", True)
