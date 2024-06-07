@@ -18,9 +18,9 @@ def main():
                     " code that runs to generate source packages which we"
                     " upload to https://obs.osmocom.org."
                     f" Output dir: {lib.config.path_temp}/srcpkgs")
-    lib.add_shared_arguments(parser)
-    parser.add_argument("-g", "--gerrit-id", type=int, default=0,
-                        help="clone particular revision from gerrit using given ID")
+    groups = lib.add_shared_arguments(parser)
+    groups["git"].add_argument("-g", "--gerrit-id", type=int, default=0,
+        help="clone particular revision from gerrit using given ID")
     parser.add_argument("package", nargs="?",
                         help="package name, e.g. libosmocore or open5gs")
     args = parser.parse_args()

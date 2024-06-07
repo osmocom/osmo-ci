@@ -19,60 +19,74 @@ cmds_verbose = False
 
 def add_shared_arguments(parser):
     """ Arguments shared between build_srcpkg.py and update_obs_project.py. """
-    parser.add_argument("-f", "--feed",
-			help="package feed (default: nightly). The feed"
-			" determines the git revision to be built:"
-			" 'nightly' and 'master' build 'origin/master',"
-			" 'latest' builds the last signed tag,"
-			" other feeds build their respective branch.",
-                        metavar="FEED", default="nightly",
-                        choices=lib.config.feeds)
-    parser.add_argument("-a", "--allow-unknown-package", action="store_true",
-                        help="don't complain if the name of the package is not"
-                             " stored in lib/config.py")
-    parser.add_argument("-b", "--git-branch", help="instead of using a branch"
-                              " based on the feed, checkout this git branch",
-                        metavar="BRANCH", default=None)
-    parser.add_argument("-d", "--docker",
-                        help="run in docker to avoid installing required pkgs",
-                        action="store_true")
-    parser.add_argument("-s", "--git-skip-fetch",
-                        help="do not fetch already cloned git repositories",
-                        action="store_false", dest="git_fetch")
-    parser.add_argument("-S", "--git-skip-checkout",
-                        help="do not checkout and reset to a branch/tag",
-                        action="store_false", dest="git_checkout")
-    parser.add_argument("-m", "--meta", action="store_true",
-                        help="build a meta package (e.g. osmocom-nightly)")
-    parser.add_argument("-i", "--ignore-req", action="store_true",
-                        help="skip required programs check")
-    parser.add_argument("-c", "--conflict-version", nargs="?",
-                        help="Of the generated source packages, all Osmocom"
-                             " packages (not e.g. open5gs, see lib/config.py"
-                             " for full list) depend on a meta-package such as"
-                             " osmocom-nightly, osmocom-latest, osmocom-2021q1"
-                             " etc. These meta-packages conflict with each"
-                             " other to ensure that one does not mix e.g."
-                             " latest and nightly packages by accident."
-                             " With this -c argument, it is possible to let"
-                             " these packages depend on a meta-package of a"
-                             " specific version. This is used for nightly and"
-                             " 20YYqX packages to ensure they are not mixed"
-                             " from different build dates (ABI compatibility"
-                             " is only on latest).")
-    parser.add_argument("-p", "--conflict-pkgname", nargs="?",
-                        help="name of the meta-package to depend on (default:"
-                             " osmocom-$feed)")
-    parser.add_argument("-M", "--no-meta", action="store_true",
-                        help="Don't depend on the meta package (helpful when"
-                             " building one-off packages for development)")
-    parser.add_argument("-v", "--verbose", action="store_true",
+
+    group_reqprog = parser.add_argument_group("required program options")
+    group_reqprog.add_argument("-d", "--docker", help="run in docker to avoid"
+                               " installing required pkgs",
+                               action="store_true")
+    group_reqprog.add_argument("-i", "--ignore-req", action="store_true",
+                               help="skip required programs check")
+
+    group_feed = parser.add_argument_group("feed options",
+        "The feed option implies the source revision (nightly/master: build"
+        " the master branch; latest: build the last tag) and when a package"
+        " is considered outdated (latest/master: when the commit changes on"
+        " the latest tag or on master; nightly: always).")
+    group_feed.add_argument("-f", "--feed", help="package feed (default:"
+                            " nightly, can also be master or latest)",
+                            metavar="FEED", default="nightly",
+                            choices=lib.config.feeds)
+
+    group_pkg = parser.add_argument_group("package options")
+    group_pkg.add_argument("-a", "--allow-unknown-package",
+                           action="store_true",
+                           help="don't complain if the name of the package is"
+                                " not stored in lib/config.py")
+    group_pkg.add_argument("-e", "--version-append",
+                           help="add a string at the end of the version, e.g."
+                                " '~osmocom' for the wireshark package")
+
+    group_git = parser.add_argument_group("git options")
+    group_git.add_argument("-b", "--git-branch", help="instead of using a"
+                           " branch based on the feed, checkout this git"
+                           " branch", metavar="BRANCH", default=None)
+    group_git.add_argument("-s", "--git-skip-fetch",
+                           help="do not fetch already cloned git repositories",
+                           action="store_false", dest="git_fetch")
+    group_git.add_argument("-S", "--git-skip-checkout",
+                           help="do not checkout and reset to a branch/tag",
+                           action="store_false", dest="git_checkout")
+
+    group_meta = parser.add_argument_group("meta package options",
+        "Osmocom packages depend on a meta-package such as osmocom-nightly."
+        " These meta-packages conflict with each other to ensure e.g."
+        " incompatible nightly and latest packages are not mixed by accident."
+        " For nightly we don't have API compatibility and so we let these"
+        " depend on a meta package of a specific build date (-c).")
+    group_meta.add_argument("-m", "--meta", action="store_true",
+                            help="build a meta package (e.g. osmocom-nightly)")
+    group_meta.add_argument("-c", "--conflict-version", nargs="?",
+                            help="depend on meta-package of specific version")
+    group_meta.add_argument("-p", "--conflict-pkgname", nargs="?",
+                            help="name of the meta-package to depend on"
+                                " (default: osmocom-$feed)")
+    group_meta.add_argument("-M", "--no-meta", action="store_true",
+                            help="Don't depend on the meta package (use when"
+                                 " building one-off packages for development)")
+
+    group_devel = parser.add_argument_group("development options")
+    group_devel.add_argument("-v", "--verbose", action="store_true",
                         help="always print shell commands and their output,"
                              " instead of only printing them on error")
-    parser.add_argument("-e", "--version-append",
-                        help="add a string at the end of the version, e.g."
-                             " '~osmocom' for the wireshark package to"
-                             " indicate that it is the version from our repo")
+
+    return {
+        "devel": group_devel,
+        "feed": group_feed,
+        "git": group_git,
+        "meta": group_meta,
+        "pkg": group_pkg,
+        "reqprog": group_reqprog,
+    }
 
 
 def set_cmds_verbose(new_val):

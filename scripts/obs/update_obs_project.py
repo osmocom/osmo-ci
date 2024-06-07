@@ -210,15 +210,18 @@ def main():
     parser = argparse.ArgumentParser(
         description="Generate source packages and upload them to OBS.")
     lib.add_shared_arguments(parser)
-    parser.add_argument("-A", "--apiurl", help="OBS API URL or .oscrc alias"
-                        " (e.g. https://obs.osmocom.org)")
-    parser.add_argument("-n", "--no-skip-up-to-date",
-                        dest="skip_up_to_date", action="store_false",
-                        help="for latest feed, build and upload packages even"
-                             " if the version did not change")
-    parser.add_argument("--delete", action="store_true",
-                        help="remove packages from OBS if the git branch (-b)"
-                             " does not exist anymore")
+
+    group_obs = parser.add_argument_group("OBS options")
+    group_obs.add_argument("-A", "--apiurl", help="OBS API URL or .oscrc alias"
+                           " (e.g. https://obs.osmocom.org)")
+    group_obs.add_argument("-n", "--no-skip-up-to-date",
+                           dest="skip_up_to_date", action="store_false",
+                           help="for latest feed, build and upload packages"
+                                " even if the version did not change")
+    group_obs.add_argument("--delete", action="store_true",
+                           help="remove packages from OBS if the git branch"
+                                " (-b) does not exist anymore")
+
     parser.add_argument("obs_project",
                         help="OBS project, e.g. home:osmith:nightly")
     parser.add_argument("package", nargs="*",
