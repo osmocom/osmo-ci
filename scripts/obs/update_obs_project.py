@@ -142,7 +142,8 @@ def build_srcpkgs(pkgs_remote, packages):
 
     if lib.args.meta:
         feed = lib.args.feed
-        build_srcpkg_if_needed(pkgs_remote, f"osmocom-{feed}", True)
+        metapkg = lib.args.conflict_pkgname or f"osmocom-{feed}"
+        build_srcpkg_if_needed(pkgs_remote, metapkg, True)
 
     for package in packages:
         build_srcpkg_if_needed(pkgs_remote, package, False)

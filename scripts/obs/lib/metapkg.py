@@ -7,17 +7,17 @@ import lib.debian
 import lib.rpm_spec
 
 
-def get_conflicts():
+def get_conflicts(pkgname):
     ret = []
     for f in lib.config.feeds:
-        if f == lib.args.feed:
+        if "osmocom-{f}" == pkgname:
             continue
         ret += [f"osmocom-{f}"]
     return ret
 
 
-def prepare_source_dir():
-    path = f"{lib.config.path_cache}/osmocom-{lib.args.feed}"
+def prepare_source_dir(pkgname):
+    path = f"{lib.config.path_cache}/{pkgname}"
 
     if os.path.exists(path):
         lib.run_cmd(["rm", "-rf", path])
@@ -26,27 +26,27 @@ def prepare_source_dir():
     os.makedirs(f"{path}/contrib")
 
 
-def generate_debian_pkg(version):
+def generate_debian_pkg(pkgname, version):
     feed = lib.args.feed
-    path = f"{lib.config.path_cache}/osmocom-{feed}"
-    conflicts = get_conflicts()
+    path = f"{lib.config.path_cache}/{pkgname}"
+    conflicts = get_conflicts(pkgname)
 
     with open(f"{path}/debian/control", "w") as f:
-        f.write(f"Source: osmocom-{feed}\n")
+        f.write(f"Source: {pkgname}\n")
         f.write("Section: unknown\n")
         f.write("Priority: optional\n")
         f.write("Maintainer: Osmocom OBS scripts <info@osmocom.org>\n")
         f.write("Build-Depends: debhelper (>= 10)\n")
         f.write("Standards-Version: 3.9.8\n")
         f.write("\n")
-        f.write(f"Package: osmocom-{feed}\n")
+        f.write(f"Package: {pkgname}\n")
         f.write("Depends: ${misc:Depends}\n")
         f.write("Architecture: any\n")
         f.write(f"Conflicts: {', '.join(conflicts)}\n")
         f.write(f"Description: Dummy package, conflicts with {conflicts}\n")
 
     with open(f"{path}/debian/changelog", "w") as f:
-        f.write(f"osmocom-{feed} ({version}) unstable; urgency=medium\n")
+        f.write(f"{pkgname} ({version}) unstable; urgency=medium\n")
         f.write("\n")
         f.write(f"  * Dummy package, which conflicts with: {conflicts}\n")
         f.write("\n")
@@ -64,15 +64,14 @@ def generate_debian_pkg(version):
         f.write("10\n")
 
 
-def generate_rpm_spec(version):
+def generate_rpm_spec(pkgname, version):
     feed = lib.args.feed
-    print(f"osmocom-{feed}: generating rpm spec file")
-    path = (f"{lib.config.path_cache}/osmocom-{feed}/contrib/osmocom-{feed}"
-            ".spec.in")
-    conflicts = get_conflicts()
+    print(f"{pkgname}: generating rpm spec file")
+    path = f"{lib.config.path_cache}/{pkgname}/contrib/{pkgname}.spec.in"
+    conflicts = get_conflicts(pkgname)
 
     with open(path, "w") as f:
-        f.write(f"Name:    osmocom-{feed}\n")
+        f.write(f"Name:    {pkgname}\n")
         f.write(f"Version: {version}\n")
         f.write(f"Summary: Dummy package, conflicts with: {conflicts}\n")
         f.write("Release: 0\n")
@@ -92,8 +91,8 @@ def build():
     version = conflict_version if conflict_version else "1.0.0"
     print(f"{pkgname}: generating meta package {version}")
 
-    prepare_source_dir()
-    generate_debian_pkg(version)
+    prepare_source_dir(pkgname)
+    generate_debian_pkg(pkgname, version)
 
     os.makedirs(lib.get_output_path(pkgname))
     lib.remove_cache_extra_files()
@@ -101,7 +100,7 @@ def build():
     lib.debian.build_source_package(pkgname)
     lib.debian.move_files_to_output(pkgname)
 
-    generate_rpm_spec(version)
+    generate_rpm_spec(pkgname, version)
     lib.rpm_spec.copy_to_output(pkgname)
 
     lib.remove_cache_extra_files()
