@@ -204,6 +204,9 @@ def build(project, gerrit_id=0):
     if project in lib.config.projects_osmocom:
         run_generate_build_dep(project)
 
+    if lib.args.configure_append:
+        lib.debian.configure_append(project, lib.args.configure_append)
+
     lib.debian.build_source_package(project)
     lib.debian.move_files_to_output(project)
 

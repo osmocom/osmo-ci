@@ -120,6 +120,39 @@ def changelog_add_entry_if_needed(project, version):
     changelog_add_entry(project, version)
 
 
+def configure_append(project, parameters):
+    """ Add one or more configure parameters like --enable-sanitize to the
+        dh_auto_configure line, also add the override_dh_auto_configure block
+        if missing. """
+    print(f"{project}: adding configure parameters: {parameters}")
+    rules = f"{lib.git.get_repo_path(project)}/debian/rules"
+    override_found = False
+    replaced = False
+    with open(rules, "r") as f:
+        lines = f.readlines()
+    for i in range(len(lines)):
+        line = lines[i]
+        if line.startswith("override_dh_auto_configure:"):
+            override_found = True
+            continue
+        if "dh_auto_configure" not in line:
+            continue
+        assert override_found
+        if " -- " in line.replace("\t", " "):
+            lines[i] = line.replace(" --", f" -- {parameters}", 1)
+        else:
+            lines[i] = line.replace("dh_auto_configure",
+                                    f"dh_auto_configure -- {parameters}", 1)
+        replaced = True
+        break
+    if not override_found:
+        lines += ["\n",
+                  "override_dh_auto_configure:\n",
+                  f"\tdh_auto_configure -- {parameters}\n"]
+    with open(rules, "w") as f:
+        f.writelines(lines)
+
+
 def build_source_package(project):
     fix_source_format(project)
     print(f"{project}: building debian source package")

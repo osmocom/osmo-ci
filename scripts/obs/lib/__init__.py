@@ -45,6 +45,9 @@ def add_shared_arguments(parser):
     group_pkg.add_argument("-e", "--version-append",
                            help="add a string at the end of the version, e.g."
                                 " '~osmocom' for the wireshark package")
+    group_pkg.add_argument("-C", "--configure-append",
+                           help="add these parameters to the ./configure line"
+                           " (e.g. ' --enable-sanitize')")
 
     group_git = parser.add_argument_group("git options")
     group_git.add_argument("-b", "--git-branch", help="instead of using a"
