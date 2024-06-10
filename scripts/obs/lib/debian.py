@@ -153,6 +153,21 @@ def configure_append(project, parameters):
         f.writelines(lines)
 
 
+def disable_manuals(project):
+    """ Disabling manuals speeds up the build time significantly, we don't
+        need them for e.g. the asan repository. """
+    print(f"{project}: disabling manuals")
+    debian = f"{lib.git.get_repo_path(project)}/debian"
+    # Remove dependencies
+    lib.run_cmd(["sed", "-i", "/osmo-gsm-manuals-dev/d", f"{debian}/control"])
+    lib.run_cmd(["sed", "-i", "/doxygen/d", f"{debian}/control"])
+    # Remove debian/*-doc.install
+    lib.run_cmd(f"rm -rf {shlex.quote(debian)}/*-doc.install", shell=True)
+    # debian/rules: remove --enable-manuals/doxygen, add --disable-doxygen
+    lib.run_cmd(["sed", "-i", "s/--enable-manuals//g", f"{debian}/rules"])
+    lib.run_cmd(["sed", "-i", "s/--enable-doxygen//g", f"{debian}/rules"])
+
+
 def build_source_package(project):
     fix_source_format(project)
     print(f"{project}: building debian source package")

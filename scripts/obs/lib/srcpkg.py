@@ -207,6 +207,9 @@ def build(project, gerrit_id=0):
     if lib.args.configure_append:
         lib.debian.configure_append(project, lib.args.configure_append)
 
+    if lib.args.disable_manuals:
+        lib.debian.disable_manuals(project)
+
     lib.debian.build_source_package(project)
     lib.debian.move_files_to_output(project)
 

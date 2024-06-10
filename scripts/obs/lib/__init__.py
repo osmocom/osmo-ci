@@ -48,6 +48,10 @@ def add_shared_arguments(parser):
     group_pkg.add_argument("-C", "--configure-append",
                            help="add these parameters to the ./configure line"
                            " (e.g. ' --enable-sanitize')")
+    group_pkg.add_argument("-D", "--disable-manuals", action="store_true",
+                           help="speed up build by removing the"
+                           " osmo-gsm-manuals dependency and not building"
+                           " asciidoc and doxygen manuals")
 
     group_git = parser.add_argument_group("git options")
     group_git.add_argument("-b", "--git-branch", help="instead of using a"
