@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
-import importlib
+import importlib.util
 import os
 import shutil
 import subprocess
@@ -95,7 +95,7 @@ def check_required_programs():
             ok = False
 
     for module in lib.config.required_python_modules:
-        if not importlib.find_loader(module):
+        if not importlib.util.find_spec(module):
             print(f"ERROR: missing python3 module: {module}")
             ok = False
 
