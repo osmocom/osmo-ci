@@ -49,12 +49,18 @@ def get_git_version(project):
                        "HEAD"], cwd=repo_path, check=False)
 
     if result.returncode == 128:
-        print(f"{project}: has no git tags, using 0.0.0 as version")
+        print(f"{project}: has no git tags")
         commit = lib.run_cmd(["git", "rev-parse", "HEAD"],
                              cwd=repo_path).output[0:4]
         count = lib.run_cmd(["git", "rev-list", "--count", "HEAD"],
                              cwd=repo_path).output.rstrip()
-        return f"0.0.0.{count}-{commit}"
+        try:
+            print(f"{project}: getting version from debian/changelog")
+            version = lib.debian.get_last_version_from_changelog(project)
+            return f"{version}.{count}-{commit}"
+        except:
+            print(f"{project}: using 0.0.0 as version")
+            return f"0.0.0.{count}-{commit}"
 
     if result.returncode != 0:
         lib.exit_error_cmd(result, "command failed unexpectedly")
