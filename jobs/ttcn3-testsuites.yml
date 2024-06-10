@@ -247,6 +247,45 @@
       - ttcn3-bts-test-io_uring:
           timer: H 11 * * *
 
+      # With sanitizer (OS#5301)
+      - ttcn3-bsc-test-asan:
+          timer: H 12 * * *
+      - ttcn3-bts-test-asan:
+          timer: H 12 * * *
+      - ttcn3-cbc-test-asan:
+          timer: H 12 * * *
+      - ttcn3-gbproxy-test-asan:
+          timer: H 12 * * *
+      - ttcn3-ggsn-test-asan:
+          timer: H 12 * * *
+      - ttcn3-hlr-test-asan:
+          timer: H 12 * * *
+      - ttcn3-hnbgw-test-asan:
+          timer: H 12 * * *
+      - ttcn3-hnodeb-test-asan:
+          timer: H 12 * * *
+      - ttcn3-mgw-test-asan:
+          timer: H 12 * * *
+      - ttcn3-msc-test-asan:
+          timer: H 13 * * *
+      - ttcn3-pcap-client-test-asan:
+          timer: H 13 * * *
+      - ttcn3-pcu-test-asan:
+          timer: H 13 * * *
+      - ttcn3-remsim-test-asan:
+          timer: H 13 * * *
+      - ttcn3-sccp-test-asan:
+          timer: H 13 * * *
+      - ttcn3-sgsn-test-asan:
+          timer: H 13 * * *
+      - ttcn3-sip-test-asan:
+          timer: H 13 * * *
+      - ttcn3-smlc-test-asan:
+          timer: H 13 * * *
+      - ttcn3-stp-test-asan:
+          timer: H 13 * * *
+
+
 - job-template:
     name: '{job-name}'
     project-type: freestyle
@@ -322,6 +361,11 @@
               TTCN3-centos7-*)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos7\-/ttcn3-/)"
                   export IMAGE_SUFFIX="master-centos7"
+                  ;;
+              *-asan)
+                  DIR="$(echo "{job-name}" | sed s/\-asan$//)"
+                  export IMAGE_SUFFIX="asan"
+                  export OSMOCOM_REPO_VERSION="asan"
                   ;;
               *-io_uring)
                   DIR="$(echo "{job-name}" | sed s/\-io_uring$//)"
