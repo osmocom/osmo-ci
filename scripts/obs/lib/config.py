@@ -44,6 +44,8 @@ feeds = [
 # prevents that packages from different feeds are mixed by accident.
 # NOTE: Before adding new projects, add them to jobs/gerrit-verifications.yml
 #       and ensure the rpm and deb packages build successfully in jenkins.
+# NOTE: Consider whether new packages should be added to EXCLUDE_PACKAGES in
+#       osmocom-obs-nightly-asan.yml.
 projects_osmocom = [
     "erlang/osmo_dia2gsup",
     "erlang/osmo-epdg",

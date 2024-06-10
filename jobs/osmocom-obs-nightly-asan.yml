@@ -1,0 +1,61 @@
+- job:
+    name: 'Osmocom_OBS_nightly_asan'
+    project-type: freestyle
+    concurrent: false
+    defaults: global
+    description: |
+      Binary repository with address sanitizer enabled
+      (<a href="https://osmocom.org/issues/5301">OS#5301</a>)
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    node: obs
+    parameters:
+      - string:
+          name: BRANCH
+          description: osmo-ci.git branch
+          default: 'refs/remotes/origin/master'
+    builders:
+      - shell: |
+          export PYTHONUNBUFFERED=1
+
+          # We only care about Osmocom packages that run in the TTCN-3 testsuites
+          # for the asan repository.
+          EXCLUDE_PACKAGES="
+            erlang/osmo-epdg
+            erlang/osmo_dia2gsup
+            osmo-bsc-nat
+            osmo-fl2k
+            osmo-gsm-manuals
+            python/osmo-python-tests
+            rtl-sdr
+          "
+
+          ./scripts/obs/update_obs_project.py \
+            --apiurl https://obs.osmocom.org \
+            --configure-append " --enable-sanitize" \
+            --conflict-pkgname "osmocom-nightly-asan" \
+            --conflict-version "$(date +%Y%m%d%H%M)" \
+            --disable-manuals \
+            --docker \
+            --feed "nightly" \
+            --meta \
+            --version-append "~asan" \
+            osmocom:nightly:asan \
+            ALL_OSMOCOM_PACKAGES \
+            --exclude-package $EXCLUDE_PACKAGES
+    scm:
+      - git:
+          branches:
+            - '$BRANCH'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    triggers:
+      - timed: "H 20 * * *"
+
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
