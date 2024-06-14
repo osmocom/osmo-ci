@@ -7,7 +7,7 @@ readlink /opt/coverity/current
 
 export PATH=$PATH:/opt/coverity/current/bin
 
-base_dir="$HOME/osmo-ci/coverity"
+base_dir="/opt/osmo-ci/coverity"
 src_dir="$PWD/source-Osmocom"
 cov_dir="$src_dir/cov-int"
 

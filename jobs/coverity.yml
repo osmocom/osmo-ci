@@ -17,7 +17,7 @@
             -e PARALLEL_MAKE="$PARALLEL_MAKE" \
             -u build \
             -v "$PWD:/build" \
-            -v "$HOME/osmo-ci/coverity:/build/osmo-ci/coverity:ro" \
+            -v "$HOME/osmo-ci/coverity:/opt/osmo-ci/coverity:ro" \
             -v "/opt/coverity:/opt/coverity:ro" \
             -w /build/coverity \
             "$USER/debian-bookworm-build" \
