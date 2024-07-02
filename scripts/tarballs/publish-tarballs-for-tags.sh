@@ -23,6 +23,7 @@ OSMO_RELEASE_REPOS="
 	osmo-cbc
 	osmo-e1-recorder
 	osmo-e1d
+	osmo-epdg
 	osmo-fl2k
 	osmo-gbproxy
 	osmo-ggsn
@@ -46,6 +47,7 @@ OSMO_RELEASE_REPOS="
 	osmocom-bb
 	rtl-sdr
 	simtrace2
+	strongswan-epdg
 "
 
 # Old release tags that are duplicates or where generating the tarball fails

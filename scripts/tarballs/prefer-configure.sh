@@ -28,6 +28,12 @@ gapk)
 		;;
 	esac
 	;;
+strongswan-epdg)
+	# Use a simple git archive instead of running configure and "make dist-bzip2"
+	# The configure script requires tags to be in a specific format and clashs
+	# with our custom tags.
+	exit 1
+	;;
 *)
 	exit 0
 	;;

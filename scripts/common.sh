@@ -80,6 +80,9 @@ osmo_git_last_commits_tags() {
 	local url ret pattern
 
 	case "$project" in
+	strongswan-epdg)
+		pattern='refs/tags/osmo-epdg-[0-9.]*$'
+		;;
 	gapk|osmo-fl2k|rtl-sdr)
 		pattern='refs/tags/v[0-9.]*$'
 		;;
@@ -138,6 +141,9 @@ osmo_git_clone_url() {
 			;;
 		osmo-isdntap)
 			echo "$OSMO_GIT_URL_GITEA"/retronetworking/"$1"
+			;;
+		strongswan-epdg)
+			echo "$OSMO_GIT_URL_GITEA"/ims-volte-vowifi/strongswan
 			;;
 		osmo_dia2gsup|osmo-epdg)
 			echo "$OSMO_GIT_URL_GERRIT"/erlang/"$1"
