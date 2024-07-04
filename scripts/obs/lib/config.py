@@ -90,6 +90,7 @@ projects_osmocom = [
     "python/osmo-python-tests",
     "rtl-sdr",
     "simtrace2",
+    "strongswan-epdg",
 ]
 projects_other = [
     "limesuite",
@@ -105,6 +106,7 @@ git_url_other = {
     "open5gs": "https://github.com/open5gs/open5gs",
     "osmo-fl2k": "https://gitea.osmocom.org/sdr/osmo-fl2k",
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
+    "strongswan-epdg": "https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg",
 }
 
 git_branch_default = "master"
@@ -118,6 +120,7 @@ git_latest_tag_pattern_other = {
         "open5gs": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
         "osmo-fl2k": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
         "rtl-sdr": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
+        "strongswan-epdg": "^osmo-epdg-[0-9]*\\.[0-9]*\\.[0-9a-z]*$",
         "wireshark": "^v[0-9]*\\.[0-9]*\\.[0-9a-z]*$",
 }
 
