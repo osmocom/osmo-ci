@@ -379,6 +379,9 @@ build_publish_manuals() {
 					su build -c \"make -C \$dir\"
 				done
 				;;
+			osmo-epdg)
+				su build -c \"make -C docs/manuals\"
+				;;
 			*)
 				su build -c \"autoreconf -fi\"
 				su build -c \"./configure $configure_opts\"
@@ -393,6 +396,9 @@ build_publish_manuals() {
 				for dir in manuals/*/; do
 					su build -c \"make -C \$dir publish\"
 				done
+				;;
+			osmo-epdg)
+				su build -c \"make -C docs/manuals publish\"
 				;;
 			*)
 				su build -c \"make -C doc/manuals publish\"
