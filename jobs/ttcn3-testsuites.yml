@@ -221,6 +221,10 @@
           disabled: true
       - ttcn3-hnbgw-test-latest:
           timer: H 10 * * *
+      - ttcn3-epdg-test-latest:
+          timer: H 07 * * *
+          # osmo-epdg requires OTP and kernel >= debian12:
+          node: build4-deb12build-ansible
 
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian) jobs
 
