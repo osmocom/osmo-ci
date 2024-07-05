@@ -3,6 +3,7 @@
     jobs:
       - registry-rebuild-upload-titan
       - registry-rebuild-upload-ttcn3-bts-tests
+      - registry-rebuild-upload-testenv
 
 - scm:
     name: osmocom-docker-playground
@@ -66,6 +67,37 @@
           docker push "$REGISTRY/$USER/ttcn3-bts-test"
     publishers:
       - email:
+          notify-every-unstable-build: true
+          recipients: 'jenkins-notifications@lists.osmocom.org'
+
+- job:
+    name: registry-rebuild-upload-testenv
+    description: Rebuild + publish podman images for testenv (OS#6494)
+    parameters:
+      - string:
+          name: BRANCH
+          description: osmo-ttcn3-hacks.git branch
+          default: 'master'
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/osmo-ttcn3-hacks
+          branches:
+            - '$BRANCH'
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+          DISTRO="debian:bookworm"
+          IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
+
+          podman build \
+            --build-arg DISTRO="$DISTRO" \
+            --build-arg REGISTRY="$REGISTRY" \
+            -t "$IMAGE" \
+            _testenv/data/podman
+
+          podman push "$IMAGE"
+    publishers:
+       - email:
           notify-every-unstable-build: true
           recipients: 'jenkins-notifications@lists.osmocom.org'
 
