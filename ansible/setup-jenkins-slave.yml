@@ -26,6 +26,12 @@
       tags:
         - docker
 
+    - name: podman
+      when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 11
+      jenkins_user: osmocom-build
+      tags:
+        - podman
+
     - name: install-poky-sdk
       when: ansible_architecture == "x86_64"
       jenkins_user: osmocom-build
