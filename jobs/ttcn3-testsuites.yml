@@ -377,8 +377,13 @@
                   ;;
               *-io_uring)
                   DIR="$(echo "{job-name}" | sed s/\-io_uring$//)"
-                  # OS#6405: set memlock to unlimited for older kernels
-                  export DOCKER_ARGS="-e LIBOSMO_IO_BACKEND=IO_URING --ulimit memlock=-1"
+                  # OS#6405: set memlock to unlimited for older kernels and
+                  # enable io_uring syscalls in the seccomp profile
+                  export DOCKER_ARGS="
+                    -e LIBOSMO_IO_BACKEND=IO_URING
+                    --ulimit memlock=-1
+                    --security-opt seccomp=../seccomp_profile.json
+                  "
                   ;;
               *-latest)
                   DIR="$(echo "{job-name}" | sed s/\-latest$//)"
