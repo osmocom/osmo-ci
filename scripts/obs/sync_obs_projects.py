@@ -182,15 +182,16 @@ def rewrite_meta(project):
         # (e.g. <pubkey>debian-archive-12</pubkey>):
         # https://github.com/openSUSE/open-build-service/pull/14528
         # Also we don't have such a pubkeydir set up on our OBS server. Assume
-        # ftp.de.debian.org is a trusted mirror, switch to HTTPS and skip the
-        # PGP verification by removing the pubkey blocks.
+        # https://debian.inf.tu-dresden.de/ is a trusted mirror, switch to
+        # HTTPS and skip the PGP verification by removing the pubkey blocks.
         if project.startswith("Debian:"):
             for download in repository.findall(".download"):
                 url = download.get("url")
                 print(f"    changing url to https: {url}")
                 assert url.startswith("http://ftp.de.debian.org/debian"), \
                         f"unexpected mirror URL"
-                download.set("url", url.replace("http://", "https://"))
+                download.set("url", url.replace("http://ftp.de.debian.org/debian",
+                                                "https://debian.inf.tu-dresden.de/debian"))
                 for pubkey in download.findall("pubkey"):
                     download.remove(pubkey)
 
