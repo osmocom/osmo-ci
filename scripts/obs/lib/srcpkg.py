@@ -31,7 +31,7 @@ def get_git_version(project):
     # Run git-version-gen if it is in the repository
     script_path = f"{repo_path}/git-version-gen"
     if os.path.exists(script_path):
-        ret = lib.run_cmd([script_path, "."], cwd=repo_path).output
+        ret = lib.run_cmd([script_path, "."], cwd=repo_path).output.rstrip()
         if not ret:
             lib.exit_error_cmd(ret, "empty output from git-version-gen")
         return ret
