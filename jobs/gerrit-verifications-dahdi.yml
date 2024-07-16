@@ -23,7 +23,12 @@
     name: 'gerrit-dahdi-linux-{type}-{linux-ver}'
     project-type: freestyle
     node: osmocom-gerrit
-    concurrent: true
+    # These jobs need an entire linux tree. We try to avoid cloning it more
+    # often than necessary, therefore we keep the workspace directory between
+    # job runs. Jenkins creates a new workspace for each concurrent job, which
+    # ends up consuming a lot of disk space so we disable it here. Besides disk
+    # space considerations, this job would run fine concurrently.
+    concurrent: false
     retry-count: 0 # scm checkout
     properties:
       - build-discarder:
