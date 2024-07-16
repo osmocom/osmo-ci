@@ -34,7 +34,6 @@
            - $GERRIT_BRANCH
          refspec: $GERRIT_REFSPEC
          choosing-strategy: gerrit
-         wipe-workspace: false
          skip-tag: true
          submodule:
            recursive: false
