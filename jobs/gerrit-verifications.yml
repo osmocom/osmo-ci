@@ -720,6 +720,8 @@
 
     builders:
       - shell: '{obj:cmd}'
+      # Remove workspace on success to free up space
+      - shell: 'rm -rf "$WORKSPACE"'
 
     publishers:
        - warnings:

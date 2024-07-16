@@ -45,6 +45,9 @@
             osmocom:nightly:asan \
             ALL_OSMOCOM_PACKAGES \
             --exclude-package $EXCLUDE_PACKAGES
+
+          # Remove workspace on success to free up space
+          rm -rf "$WORKSPACE"
     scm:
       - git:
           branches:

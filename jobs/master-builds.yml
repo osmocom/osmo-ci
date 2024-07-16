@@ -634,6 +634,11 @@
 
     builders:
       - shell: '{obj:cmd}'
+      - shell: |
+          # Remove workspace on success to free up space. Create an empty dir
+          # so the job does not abort when attempting to collect artifacts.
+          rm -rf "$WORKSPACE"
+          mkdir -p "$WORKSPACE"
 
     publishers:
        - archive:

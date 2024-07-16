@@ -42,6 +42,10 @@
             --feed {type} \
             --meta \
             osmocom:{type}
+
+          # Remove workspace on success to free up space
+          rm -rf "$WORKSPACE"
+
     scm:
       - git:
           branches:
