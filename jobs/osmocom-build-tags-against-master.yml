@@ -33,8 +33,10 @@
             "$USER/debian-bookworm-build" \
             scripts/osmocom-build-old-tags-against-master.sh
 
-          # Remove workspace on success to free up space
-          rm -rf "$WORKSPACE"
+          # Remove git repos and build results on success to free up space
+          # Logs are kept
+          rm -rf "$WORKSPACE"/_deps
+          rm -rf "$WORKSPACE"/_temp/_inst*
     scm:
       - git:
           branches:
