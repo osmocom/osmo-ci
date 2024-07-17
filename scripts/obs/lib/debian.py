@@ -112,6 +112,10 @@ def changelog_add_entry_if_needed(project, version):
         # from wireshark. Don't abort here if that is the case.
         pass
 
+    # Debian versions must start with a digit
+    if version.startswith("osmo-epdg-"):
+        version = f"{version.replace('osmo-epdg-', '', 1)}-osmo-epdg"
+
     if version_changelog == version:
         return
 
