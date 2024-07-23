@@ -1,0 +1,25 @@
+- job:
+    name: update-containers-osmo-python-tests
+    description: |
+      Trigger rebuild of containers after osmo-python-tests.git has changed.
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 120
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/python/osmo-python-tests
+          branches:
+            - 'origin/master'
+          skip-tag: true
+          wipe-workspace: true
+    triggers:
+      - pollscm:
+          cron: "H/5 * * * *"
+          ignore-post-commit-hooks: false
+    publishers:
+       - trigger:
+           project: update-osmo-ci-on-slaves
+           threshold: FAILURE
+       - email:
+           recipients: jenkins-notifications@lists.osmocom.org
