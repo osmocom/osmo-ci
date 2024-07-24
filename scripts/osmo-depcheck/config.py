@@ -43,4 +43,6 @@ repos = {"libosmocore": ("libosmocodec",
          "osmo-hlr": ("libosmo-gsup-client"),
          "osmo-iuh": ("libosmo-ranap"),
          "osmo-mgw": ("libosmo-mgcp-client",
-                      "libosmo-legacy-mgcp")}
+                      "libosmo-legacy-mgcp"),
+         "osmo-e1d": ("libosmo-e1d",
+                      "libosmo-octoi")}
