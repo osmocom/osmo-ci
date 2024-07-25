@@ -86,8 +86,9 @@ def get_package_version(package):
             if line.endswith(".dsc"):
                 return line.split("_")[-1][:-4]
 
-    lib.exit_error_cmd(ret, "failed to find package version on OBS by"
-                       " extracting the version from the file list")
+    print(f"{package}: WARNING: failed to find package version on OBS!")
+    print(f"{package}: assuming the package is outdated")
+    return "0"
 
 
 def create_package(package):
