@@ -7,6 +7,7 @@ import sys
 import traceback
 import lib
 import lib.config
+import lib.debian
 import lib.docker
 import lib.git
 import lib.metapkg
@@ -97,6 +98,7 @@ def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg):
                     branch_missing_ok=delete)
             else:
                 latest_version = lib.git.get_latest_tag_remote(package)
+                latest_version = lib.debian.transform_version(latest_version)
 
         if latest_version is None:
             if delete and os.path.basename(package) in pkgs_remote:

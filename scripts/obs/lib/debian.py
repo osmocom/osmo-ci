@@ -92,6 +92,14 @@ def get_last_version_from_changelog(project):
     return ret
 
 
+def transform_version(version):
+    if "osmo-epdg-" in version:
+        version = f"{version.replace('osmo-epdg-', '', 1)}-osmo-epdg"
+
+    version = version.replace("-", ".")
+    return version
+
+
 def changelog_add_entry_if_needed(project, version):
     """ Adjust the changelog if the version in the changelog is different from
         the given version. """
@@ -113,10 +121,7 @@ def changelog_add_entry_if_needed(project, version):
         pass
 
     # Debian versions must start with a digit
-    if "osmo-epdg-" in version:
-        version = f"{version.replace('osmo-epdg-', '', 1)}-osmo-epdg"
-
-    version = version.replace("-", ".")
+    version = transform_version(latest_version)
 
     if version_changelog == version:
         return
