@@ -113,7 +113,7 @@ def changelog_add_entry_if_needed(project, version):
         pass
 
     # Debian versions must start with a digit
-    if version.startswith("osmo-epdg-"):
+    if "osmo-epdg-" in version:
         version = f"{version.replace('osmo-epdg-', '', 1)}-osmo-epdg"
 
     version = version.replace("-", ".")
