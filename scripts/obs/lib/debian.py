@@ -116,6 +116,8 @@ def changelog_add_entry_if_needed(project, version):
     if version.startswith("osmo-epdg-"):
         version = f"{version.replace('osmo-epdg-', '', 1)}-osmo-epdg"
 
+    version = version.replace("-", ".")
+
     if version_changelog == version:
         return
 
