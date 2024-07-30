@@ -121,7 +121,7 @@ def changelog_add_entry_if_needed(project, version):
         pass
 
     # Debian versions must start with a digit
-    version = transform_version(latest_version)
+    version = transform_version(version)
 
     if version_changelog == version:
         return
