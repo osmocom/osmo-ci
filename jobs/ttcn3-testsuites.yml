@@ -81,19 +81,9 @@
           timer: H 04 * * *
       - ttcn3-pcu-test-sns:
           timer: H 05 * * *
-      - ttcn3-sgsn-test:
-          timer: H 05 * * *
-      - ttcn3-sgsn-test-sns:
-          timer: H 05 * * *
       - ttcn3-bsc-test:
           timer: H 05 * * *
-      - ttcn3-mgw-test:
-          timer: H 05 * * *
-      - ttcn3-hlr-test:
-          timer: H 05 * * *
       - ttcn3-bts-test:
-          timer: H 05 * * *
-      - ttcn3-sip-test:
           timer: H 05 * * *
       - ttcn3-bscnat-test:
           timer: H 05 * * *
@@ -106,15 +96,11 @@
           timer: H 06 * * *
       - ttcn3-sccp-test:
           timer: H 06 * * *
-      - ttcn3-smlc-test:
-          timer: H 06 * * *
       - ttcn3-gbproxy-test:
           timer: H 06 * * *
       - ttcn3-gbproxy-test-fr:
           timer: H 06 * * *
           node: hdlc
-      - ttcn3-cbc-test:
-          timer: H 06 * * *
       - ttcn3-ns-test:
           timer: H 06 * * *
       - ttcn3-ns-test-sns:
@@ -128,10 +114,6 @@
           timer: H 07 * * *
       - ttcn3-bsc-test-vamos:
           timer: H 07 * * *
-      - ttcn3-hnodeb-test:
-          timer: H 07 * * *
-      - ttcn3-upf-test:
-          timer: H 07 * * *
       - ttcn3-hnbgw-test:
           timer: H 07 * * *
       - ttcn3-fr-test:
@@ -142,18 +124,6 @@
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
-      - ttcn3-mme-test-ogs:
-          timer: H 07 * * *
-          description: |
-            Test open5gs-mmed
-          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
-      - ttcn3-hss-test-ogs:
-          timer: H 07 * * *
-          description: |
-            Test open5gs-hssd
-          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
-      - ttcn3-dia2gsup-test:
-          timer: H 07 * * *
       - ttcn3-epdg-test:
           timer: H 07 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
@@ -178,20 +148,10 @@
           timer: H 08 * * *
       - ttcn3-pcu-test-sns-latest:
           timer: H 08 * * *
-      - ttcn3-sgsn-test-latest:
-          timer: H 08 * * *
-      - ttcn3-sgsn-test-sns-latest:
-          timer: H 08 * * *
       - ttcn3-bsc-test-latest:
-          timer: H 08 * * *
-      - ttcn3-mgw-test-latest:
-          timer: H 08 * * *
-      - ttcn3-hlr-test-latest:
           timer: H 08 * * *
       - ttcn3-bts-test-latest:
           timer: H 08 * * *
-      - ttcn3-sip-test-latest:
-          timer: H 09 * * *
       - ttcn3-bscnat-test-latest:
           timer: H 09 * * *
           disabled: true
@@ -203,22 +163,13 @@
           timer: H 09 * * *
       - ttcn3-sccp-test-latest:
           timer: H 09 * * *
-      - ttcn3-smlc-test-latest:
-          timer: H 09 * * *
       - ttcn3-gbproxy-test-latest:
           timer: H 09 * * *
       - ttcn3-gbproxy-test-fr-latest:
           timer: H 09 * * *
           node: hdlc
-      - ttcn3-cbc-test-latest:
-          timer: H 09 * * *
       - ttcn3-pcap-client-test-latest:
           timer: H 10 * * *
-      - ttcn3-hnodeb-test-latest:
-          timer: H 10 * * *
-      - ttcn3-upf-test-latest:
-          timer: H 10 * * *
-          disabled: true
       - ttcn3-hnbgw-test-latest:
           timer: H 10 * * *
       - ttcn3-epdg-test-latest:
@@ -246,11 +197,7 @@
           timer: H 11 * * *
       - ttcn3-gbproxy-test-io_uring:
           timer: H 11 * * *
-      - ttcn3-sgsn-test-io_uring:
-          timer: H 11 * * *
       - ttcn3-stp-test-io_uring:
-          timer: H 11 * * *
-      - ttcn3-mgw-test-io_uring:
           timer: H 11 * * *
       - ttcn3-bts-test-io_uring:
           timer: H 11 * * *
@@ -260,19 +207,11 @@
           timer: H 12 * * *
       - ttcn3-bts-test-asan:
           timer: H 12 * * *
-      - ttcn3-cbc-test-asan:
-          timer: H 12 * * *
       - ttcn3-gbproxy-test-asan:
           timer: H 12 * * *
       - ttcn3-ggsn-test-asan:
           timer: H 12 * * *
-      - ttcn3-hlr-test-asan:
-          timer: H 12 * * *
       - ttcn3-hnbgw-test-asan:
-          timer: H 12 * * *
-      - ttcn3-hnodeb-test-asan:
-          timer: H 12 * * *
-      - ttcn3-mgw-test-asan:
           timer: H 12 * * *
       - ttcn3-msc-test-asan:
           timer: H 13 * * *
@@ -283,12 +222,6 @@
       - ttcn3-remsim-test-asan:
           timer: H 13 * * *
       - ttcn3-sccp-test-asan:
-          timer: H 13 * * *
-      - ttcn3-sgsn-test-asan:
-          timer: H 13 * * *
-      - ttcn3-sip-test-asan:
-          timer: H 13 * * *
-      - ttcn3-smlc-test-asan:
           timer: H 13 * * *
       - ttcn3-stp-test-asan:
           timer: H 13 * * *

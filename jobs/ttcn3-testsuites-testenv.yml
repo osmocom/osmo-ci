@@ -1,0 +1,262 @@
+---
+- project:
+    name: 'ttcn3-testsuites'
+    concurrent: false
+    disabled: false
+    description: |
+        Run the <code>{testsuite}</code> testsuite from
+        <a href="https://gitea.osmocom.org/ttcn3/osmo-ttcn3-hacks">
+          osmo-ttcn3-hacks.git</a> with testenv.py.<br>
+        See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
+            TTCN3 Testsuite</a> for more information.<br>
+        <br>
+        Arguments: <code>{args}</code>
+    timer: "@midnight"
+    node: ttcn3
+    jobs:
+      - "{job-name}"
+    # timers: see jobs/README.adoc
+    job-name:
+      # ---------------------------------------------
+      # Debian nightly
+      # ---------------------------------------------
+      - ttcn3-hlr-test:
+          testsuite: hlr
+          args: -b osmocom:nightly
+          timer: H 05 * * *
+
+      - ttcn3-mgw-test:
+          testsuite: mgw
+          args: -b osmocom:nightly
+          timer: H 05 * * *
+
+      - ttcn3-sip-test:
+          testsuite: sip
+          args: -b osmocom:nightly
+          timer: H 05 * * *
+
+      - ttcn3-sgsn-test:
+          testsuite: sgsn
+          args: -b osmocom:nightly -c generic
+          timer: H 05 * * *
+
+      - ttcn3-sgsn-test-sns:
+          testsuite: sgsn
+          args: -b osmocom:nightly -c sns
+          timer: H 05 * * *
+
+      - ttcn3-smlc-test:
+          testsuite: smlc
+          args: -b osmocom:nightly
+          timer: H 06 * * *
+
+      - ttcn3-cbc-test:
+          testsuite: cbc
+          args: -b osmocom:nightly
+          timer: H 06 * * *
+
+      - ttcn3-hnodeb-test:
+          testsuite: hnodeb
+          args: -b osmocom:nightly
+          timer: H 07 * * *
+
+      - ttcn3-dia2gsup-test:
+          testsuite: dia2gsup
+          args: -b osmocom:nightly
+          timer: H 07 * * *
+
+      - ttcn3-upf-test:
+          testsuite: upf
+          args: -b osmocom:nightly
+          timer: H 07 * * *
+
+      - ttcn3-hss-test-ogs:
+          testsuite: hss
+          args: -b osmocom:nightly
+          timer: H 07 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
+      - ttcn3-mme-test-ogs:
+          testsuite: mme
+          args: -b osmocom:nightly
+          timer: H 07 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
+      # ---------------------------------------------
+      # Debian latest
+      # ---------------------------------------------
+      - ttcn3-hlr-test-latest:
+          testsuite: hlr
+          args: -b osmocom:latest
+          timer: H 08 * * *
+
+      - ttcn3-mgw-test-latest:
+          testsuite: mgw
+          args: -b osmocom:latest
+          timer: H 08 * * *
+
+      - ttcn3-sip-test-latest:
+          testsuite: sip
+          args: -b osmocom:latest
+          timer: H 08 * * *
+
+      - ttcn3-sgsn-test-latest:
+          testsuite: sgsn
+          args: -b osmocom:latest -c generic
+          timer: H 08 * * *
+
+      - ttcn3-sgsn-test-sns-latest:
+          testsuite: sgsn
+          args: -b osmocom:latest -c sns
+          timer: H 08 * * *
+
+      - ttcn3-smlc-test-latest:
+          testsuite: smlc
+          args: -b osmocom:latest
+          timer: H 09 * * *
+
+      - ttcn3-cbc-test-latest:
+          testsuite: cbc
+          args: -b osmocom:latest
+          timer: H 09 * * *
+
+      - ttcn3-hnodeb-test-latest:
+          testsuite: hnodeb
+          args: -b osmocom:latest
+          timer: H 10 * * *
+
+      - ttcn3-upf-test-latest:
+          testsuite: upf
+          args: -b osmocom:latest
+          timer: H 10 * * *
+          disabled: true
+
+      # ---------------------------------------------
+      # Debian nightly + io_uring (OS#6357)
+      # ---------------------------------------------
+      - ttcn3-mgw-test-io_uring:
+          testsuite: mgw
+          args: -b osmocom:nightly --io-uring
+          timer: H 11 * * *
+
+      - ttcn3-sgsn-test-io_uring:
+          testsuite: sgsn
+          args: -b osmocom:nightly --io-uring -c generic
+          timer: H 11 * * *
+
+      # ---------------------------------------------
+      # Debian nightly + asan (OS#5301)
+      # ---------------------------------------------
+      - ttcn3-mgw-test-asan:
+          testsuite: mgw
+          args: -b osmocom:nightly:asan
+          timer: H 12 * * *
+
+      - ttcn3-hlr-test-asan:
+          testsuite: hlr
+          args: -b osmocom:nightly:asan
+          timer: H 12 * * *
+
+      - ttcn3-sip-test-asan:
+          testsuite: sip
+          args: -b osmocom:nightly:asan
+          timer: H 12 * * *
+
+      - ttcn3-hnodeb-test-asan:
+          testsuite: hnodeb
+          args: -b osmocom:nightly:asan
+          timer: H 12 * * *
+
+      - ttcn3-smlc-test-asan:
+          testsuite: smlc
+          args: -b osmocom:nightly:asan
+          timer: H 12 * * *
+
+      - ttcn3-cbc-test-asan:
+          testsuite: cbc
+          args: -b osmocom:nightly:asan
+          timer: H 12 * * *
+
+      - ttcn3-sgsn-test-asan:
+          testsuite: sgsn
+          args: -b osmocom:nightly:asan -c generic
+          timer: H 12 * * *
+
+- job-template:
+    name: '{job-name}'
+    project-type: freestyle
+    disabled: '{obj:disabled}'
+    defaults: global
+    description: '{obj:description}'
+    node: '{obj:node}'
+    parameters:
+      - string:
+          name: BRANCH
+          description: |
+                Branch of <code>osmo-ttcn3-hacks.git</code>
+          # default: 'master'
+          default: 'osmith/wip-testenv'  # FIXME
+    builders:
+      - shell: |-
+          DISTRO="debian:bookworm"
+          IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
+
+          podman pull "$IMAGE"
+
+          rm -rf logs _cache
+
+          set +x  # Don't output the color codes we set here
+          export TESTENV_COLOR_DEBUG="$(printf '\e[0;94m')"  # light blue
+          export TESTENV_COLOR_INFO="$(printf '\e[1;34m')"  # bold, blue
+          export TESTENV_COLOR_WARNING="$(printf '\e[1;35m')"  # bold, purple
+          export TESTENV_COLOR_ERROR="$(printf '\e[1;91m')"  # bold, red
+          export TESTENV_COLOR_CRITICAL="$(printf '\e[1;91m')"  # bold, red
+          export TESTENV_SOURCE_HIGHLIGHT_COLORS="esc"
+          export TESTENV_NO_IMAGE_UP_TO_DATE_CHECK=1
+          set -x
+
+          ./testenv.py run \
+            {testsuite} \
+            --podman \
+            --cache "$PWD"/_cache \
+            --ccache ~/ccache/testenv \
+            --log-dir "$PWD"/logs \
+            {args}
+
+          # Free up space from downloaded apt packages, build artifacts etc.
+          # The osmo-ttcn3-hacks deps dir and ccache are persistent.
+          rm -rf _cache
+
+    scm:
+      - git:
+          branches:
+            - '$BRANCH'
+          url: https://gerrit.osmocom.org/osmo-ttcn3-hacks
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          wipe-workspace: false
+    triggers:
+      - timed: "{obj:timer}"
+    publishers:
+      - junit:
+          results: '**/junit-xml-*.log'
+          allow-empty-results: false
+      - email:
+          notify-every-unstable-build: false
+          recipients: '{obj:email}'
+          send-to-individuals: false
+      - archive:
+          allow-empty: false
+          artifacts: logs/**/*
+          case-sensitive: true
+          default-excludes: true
+          fingerprint: false
+          only-if-success: false
+    properties:
+    - build-discarder:
+        days-to-keep: 30
+        num-to-keep: 120
+    wrappers:
+    - ansicolor:
+        colormap: xterm
+    email: jenkins-notifications@lists.osmocom.org
