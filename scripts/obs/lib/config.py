@@ -122,6 +122,7 @@ def tag_pattern(prefix: str = '',
 
 git_latest_tag_pattern_default = tag_pattern()
 git_latest_tag_pattern_other = {
+        "gapk": tag_pattern('v', c=r'(\.\d+)?'),
         "limesuite": tag_pattern('v'),
         "open5gs": tag_pattern('v'),
         "osmo-fl2k": tag_pattern('v'),
