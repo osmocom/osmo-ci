@@ -114,14 +114,20 @@ git_branch_other = {
     "open5gs": "main",
 }
 
-git_latest_tag_pattern_default = r'^[0-9]*\.[0-9]*\.[0-9]*$'
+def tag_pattern(prefix: str = '',
+                a: str = r'\d+',
+                b: str = r'\.\d+',
+                c: str = r'\.\d+') -> str:
+    return rf'^{prefix}{a}{b}{c}$'
+
+git_latest_tag_pattern_default = tag_pattern()
 git_latest_tag_pattern_other = {
-        "limesuite": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
-        "open5gs": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
-        "osmo-fl2k": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
-        "rtl-sdr": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
-        "strongswan-epdg": r'^osmo-epdg-[0-9]*\.[0-9]*\.[0-9a-z]*$',
-        "wireshark": r'^v[0-9]*\.[0-9]*\.[0-9a-z]*$',
+        "limesuite": tag_pattern('v'),
+        "open5gs": tag_pattern('v'),
+        "osmo-fl2k": tag_pattern('v'),
+        "rtl-sdr": tag_pattern('v'),
+        "strongswan-epdg": tag_pattern('osmo-epdg-', c=r'\.[0-9a-z]+'),
+        "wireshark": tag_pattern('v', c=r'\.[0-9a-z]+'),
 }
 
 docker_distro_default = "debian:12"
