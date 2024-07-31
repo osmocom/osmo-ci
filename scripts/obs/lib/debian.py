@@ -93,6 +93,9 @@ def get_last_version_from_changelog(project):
 
 
 def transform_version(version):
+    if version is None:
+        return None
+
     if "osmo-epdg-" in version:
         version = f"{version.replace('osmo-epdg-', '', 1)}-osmo-epdg"
 
