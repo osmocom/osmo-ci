@@ -114,14 +114,14 @@ git_branch_other = {
     "open5gs": "main",
 }
 
-git_latest_tag_pattern_default = "^[0-9]*\\.[0-9]*\\.[0-9]*$"
+git_latest_tag_pattern_default = r'^[0-9]*\.[0-9]*\.[0-9]*$'
 git_latest_tag_pattern_other = {
-        "limesuite": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
-        "open5gs": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
-        "osmo-fl2k": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
-        "rtl-sdr": "^v[0-9]*\\.[0-9]*\\.[0-9]*$",
-        "strongswan-epdg": "^osmo-epdg-[0-9]*\\.[0-9]*\\.[0-9a-z]*$",
-        "wireshark": "^v[0-9]*\\.[0-9]*\\.[0-9a-z]*$",
+        "limesuite": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
+        "open5gs": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
+        "osmo-fl2k": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
+        "rtl-sdr": r'^v[0-9]*\.[0-9]*\.[0-9]*$',
+        "strongswan-epdg": r'^osmo-epdg-[0-9]*\.[0-9]*\.[0-9a-z]*$',
+        "wireshark": r'^v[0-9]*\.[0-9]*\.[0-9a-z]*$',
 }
 
 docker_distro_default = "debian:12"
