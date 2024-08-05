@@ -25,7 +25,7 @@
               empty to default to all projects (!),
               default revision is "master".
               Examples: "osmo-hlr", "osmo-hlr:0.2.1 osmo-bts:0.8.1"
-          default: 'osmo-hlr:0.2.1'
+          default: 'osmo-hlr:master'
       - string:
           name: GIT_URL_PREFIX
           description: |
