@@ -145,7 +145,7 @@ osmo_git_clone_url() {
 		strongswan-epdg)
 			echo "$OSMO_GIT_URL_GITEA"/ims-volte-vowifi/strongswan
 			;;
-		osmo_dia2gsup|osmo-epdg)
+		osmo_dia2gsup|osmo-epdg|osmo-s1gw)
 			echo "$OSMO_GIT_URL_GERRIT"/erlang/"$1"
 			;;
 		*)

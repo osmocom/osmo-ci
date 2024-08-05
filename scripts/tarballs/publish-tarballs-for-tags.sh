@@ -37,6 +37,7 @@ OSMO_RELEASE_REPOS="
 	osmo-pcap
 	osmo-pcu
 	osmo-remsim
+	osmo-s1gw
 	osmo-sgsn
 	osmo-sip-connector
 	osmo-smlc

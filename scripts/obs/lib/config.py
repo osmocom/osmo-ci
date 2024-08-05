@@ -49,6 +49,7 @@ feeds = [
 projects_osmocom = [
     "erlang/osmo_dia2gsup",
     "erlang/osmo-epdg",
+    "erlang/osmo-s1gw",
     "gapk",
     "libasn1c",
     "libgtpnl",

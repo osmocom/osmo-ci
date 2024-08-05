@@ -210,7 +210,7 @@
       - osmo-s1gw:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          pipeline_binpkgs: ""
+          pipeline_binpkgs: "debian:12"
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - osmo-e1-hardware:
