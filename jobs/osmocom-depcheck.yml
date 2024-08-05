@@ -73,9 +73,4 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
 
-    publishers:
-      - email:
-          notify-every-unstable-build: true
-          recipients: 'jenkins-notifications@lists.osmocom.org'
-
 # vim: expandtab tabstop=2 shiftwidth=2
