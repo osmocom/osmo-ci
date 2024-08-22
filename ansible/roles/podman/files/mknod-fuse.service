@@ -1,0 +1,9 @@
+[Unit]
+Description=Create /dev/fuse (OS#6524)
+
+[Service]
+ExecStart=sh -c 'test -e /dev/fuse || mknod -m 666 /dev/fuse c 10 229'
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target

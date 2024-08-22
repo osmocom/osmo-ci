@@ -5,5 +5,26 @@
     pkg:
       - podman
       - buildah
+      - fuse-overlayfs
     # Has reasonable recommends needed for dns resolving etc.
     install_recommends: yes
+
+- name: install mknod-fuse.service
+  copy:
+    src: mknod-fuse.service
+    dest: /etc/systemd/system/
+    mode: 0644
+
+- name: enable mknod-fuse.service
+  systemd_service:
+    daemon_reload: true
+    name: mknod-fuse
+    enabled: true
+    state: started
+
+- name: install storage.conf
+  copy:
+    src: storage.conf
+    dest: "/home/{{ jenkins_user }}/.config/containers/"
+    mode: 0644
+    owner: "{{ jenkins_user }}"
