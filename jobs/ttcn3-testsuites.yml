@@ -128,10 +128,6 @@
           timer: H 07 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
           node: build4-deb12build-ansible
-      - ttcn3-s1gw-test:
-          timer: H 07 * * *
-          # osmo-s1gw requires OTP and kernel >= debian12:
-          node: build4-deb12build-ansible
       - ttcn3-asterisk-ims-ue-test:
           timer: H 07 * * *
 

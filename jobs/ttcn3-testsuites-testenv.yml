@@ -82,6 +82,11 @@
           timer: H 07 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-s1gw-test:
+          testsuite: s1gw
+          args: -b osmocom:nightly
+          timer: H 07 * * *
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -130,6 +135,11 @@
           args: -b osmocom:latest
           timer: H 10 * * *
           disabled: true
+
+      - ttcn3-s1gw-test-latest:
+          testsuite: s1gw
+          args: -b osmocom:latest
+          timer: H 10 * * *
 
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
