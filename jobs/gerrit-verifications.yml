@@ -155,7 +155,7 @@
       - osmo-bsc-nat
 
       - osmo-bts:
-          slave_axis: !!python/tuple [osmocom-gerrit, rpi4-raspbian11]
+          slave_axis: !!python/tuple [osmocom-gerrit, raspbian]
           a1_name: FIRMWARE_VERSION
           a1: !!python/tuple [master, femtobts_v2.7, superfemto_v2.4, superfemto_v3.0.1pre, superfemto_v3.1, superfemto_v5.1, v2017.01, litecell15, oc2g, oc2g-next]
           a2_name: BTS_MODEL
@@ -164,7 +164,7 @@
           a3: !!python/tuple ["1", "0"]
           combination_filter: >
             (FIRMWARE_VERSION == "master" && WITH_MANUALS == "0" && label == "osmocom-gerrit") ||
-            (FIRMWARE_VERSION == "master" && BTS_MODEL == "trx" && WITH_MANUALS == "0" && label == "rpi4-raspbian11") ||
+            (FIRMWARE_VERSION == "master" && BTS_MODEL == "trx" && WITH_MANUALS == "0" && label == "raspbian") ||
             (FIRMWARE_VERSION == "femtobts_v2.7" && BTS_MODEL == "sysmo" && WITH_MANUALS == "1" && label == "osmocom-gerrit") ||
             (FIRMWARE_VERSION == "superfemto_v2.4" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-gerrit") ||
             (FIRMWARE_VERSION == "superfemto_v3.0.1pre" && BTS_MODEL == "sysmo" && WITH_MANUALS == "0" && label == "osmocom-gerrit") ||
@@ -279,7 +279,7 @@
           pipeline_binpkgs: "centos:7 debian:10 debian:12"  # centos7: SYS#6760
 
       - osmo-pcu:
-          slave_axis: !!python/tuple [osmocom-gerrit, rpi4-raspbian11]
+          slave_axis: !!python/tuple [osmocom-gerrit, raspbian]
           a1_name: FIRMWARE_VERSION
           a1: !!python/tuple [master, v2017.01, litecell15, oc2g]
           a2_name: with_vty
@@ -295,7 +295,7 @@
             (with_vty == "True" && with_dsp == "lc15" && FIRMWARE_VERSION=="litecell15" && WITH_MANUALS == "0" && label == "osmocom-gerrit") ||
             (with_vty == "True" && with_dsp == "oc2g" && FIRMWARE_VERSION=="oc2g" && WITH_MANUALS == "0" && label == "osmocom-gerrit") ||
             (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "1" && label == "osmocom-gerrit") ||
-            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "rpi4-raspbian11")
+            (with_vty == "False" && with_dsp == "none" && FIRMWARE_VERSION=="master" && WITH_MANUALS == "0" && label == "raspbian")
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
@@ -336,7 +336,7 @@
       - osmo-sip-connector
 
       - osmo-trx:
-          slave_axis: !!python/tuple [osmocom-gerrit,rpi4-raspbian11]
+          slave_axis: !!python/tuple [osmocom-gerrit,raspbian]
           a1_name: INSTR
           a1: !!python/tuple [--with-sse, --without-sse, --with-neon, --with-neon-vfpv4]
           a2_name: WITH_MANUALS
@@ -344,8 +344,8 @@
           combination_filter: >
             (INSTR == "--without-sse" && WITH_MANUALS == "1" && label == "osmocom-gerrit") ||
             (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-gerrit") ||
-            (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "rpi4-raspbian11") ||
-            (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "rpi4-raspbian11")
+            (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "raspbian") ||
+            (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "raspbian")
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
