@@ -265,7 +265,7 @@
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
-            arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
+            arm*|aarch64) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
             {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
@@ -417,7 +417,7 @@
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
-            arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
+            arm*|aarch64) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
             {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
@@ -463,7 +463,7 @@
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
-            arm*) DOCKER_IMG="$DOCKER_IMG-arm" ;;
+            arm*|aarch64) DOCKER_IMG="$DOCKER_IMG-arm" ;;
             esac
             {docker_run_ccache} \
               -e INSTR="$INSTR" \

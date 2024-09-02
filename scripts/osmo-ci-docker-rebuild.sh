@@ -9,7 +9,7 @@ x86_64)
 		"debian-bookworm-build" \
 		"debian-bookworm-erlang"
 	;;
-arm*)
+arm*|aarch64)
 	docker_images_require \
 		"debian-bookworm-build-arm"
 	;;
