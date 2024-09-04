@@ -419,6 +419,13 @@
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
 
+      - pyosmocom:
+          repos_url: '{gerrit_url}/python/{repos}'
+          a1_name: JOB_TYPE
+          a1: !!python/tuple ["test", "pylint", "docs"]
+          cmd: |
+            {docker_run} -e JOB_TYPE="$JOB_TYPE" {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+
       - osmo-sgsn:
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]

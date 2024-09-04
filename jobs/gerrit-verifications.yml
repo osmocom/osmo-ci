@@ -304,6 +304,15 @@
           gerrit_project: 'python/{repos}'
           pipeline_binpkgs: "debian:10 debian:12"
 
+      - pyosmocom:
+          repos_url: '{gerrit_url}/python/{repos}'
+          gerrit_project: 'python/{repos}'
+          pipeline_binpkgs: ""
+          a1_name: JOB_TYPE
+          a1: !!python/tuple ["test", "pylint", "docs"]
+          cmd: |
+            {docker_run} -e JOB_TYPE="$JOB_TYPE" {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+
       - osmo-sgsn:
           a1_name: IU
           a1: !!python/tuple [--enable-iu, --disable-iu]
