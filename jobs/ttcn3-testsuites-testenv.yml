@@ -82,6 +82,12 @@
           timer: H 07 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-pcrf-test-ogs:
+          testsuite: pcrf
+          args: -b osmocom:nightly
+          timer: H 07 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       - ttcn3-s1gw-test:
           testsuite: s1gw
           args: -b osmocom:nightly
