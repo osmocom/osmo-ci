@@ -130,21 +130,6 @@
 
       - libusrp
 
-      - openbsc:
-          a1_name: SMPP
-          a1: !!python/tuple [--enable-smpp]
-          a2_name: MGCP
-          a2: !!python/tuple [--enable-mgcp-transcoding, --disable-mgcp-transcoding]
-          a3_name: IU
-          a3: !!python/tuple [--disable-iu]
-          cmd: |
-            {docker_run_ccache} \
-              -e IU="$IU" \
-              -e SMPP="$SMPP" \
-              -e MGCP="$MGCP" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
-          pipeline_binpkgs: ""
-
       - openggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]

@@ -30,7 +30,6 @@ REPOS_TAGS="
 	libosmocore
 	libosmo-netif
 	libosmo-sccp
-	openbsc
 	osmo-bsc
 	osmo-bts
 	osmo-ggsn

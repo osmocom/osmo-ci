@@ -17,8 +17,6 @@
       - osmo-sgsn
       - osmo-trx
       - osmocom-bb
-      - osmo-nitb:
-          triggered-by: master-openbsc
       - osmo-stp:
           triggered-by: master-libosmo-sccp
       - osmo-bts-sysmo:
