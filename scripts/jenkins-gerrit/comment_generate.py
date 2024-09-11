@@ -6,6 +6,7 @@ import io
 import json
 import re
 import urllib.request
+import sys
 
 jenkins_url = "https://jenkins.osmocom.org"
 re_start_build = re.compile("Starting building: gerrit-[a-zA-Z-_0-9]* #[0-9]*")
@@ -94,11 +95,17 @@ def parse_pipeline(build_url):
                 if stage.startswith("comment_"):
                     # Jobs that run this script, not relevant for summary
                     continue
-                assert stage in ret, f"found result for stage {stage}, but" \
-                        " didn't find where it was started. The" \
-                        " re_start_build regex probably needs to be adjusted" \
-                        " to match the related gerrit-*-build job.\n\n" \
-                        f"ret: {ret}"
+                if stage not in ret:
+                    print(f"URL: {url}")
+                    print()
+                    print(f"ERROR: found result for stage {stage}, but didn't"
+                          " find where it was started. Possible reasons:")
+                    print("* The re_stat_build regex needs to be adjusted"
+                          " to match the related gerrit-*-build job")
+                    print("* The gerrit-*-build job has not been deployed,"
+                          " and therefore could not be started by the"
+                          " gerrit-* job.")
+                    sys.exit(1)
                 ret[stage]["passed"] = (match.group(2) == "SUCCESS")
 
     return ret
