@@ -106,17 +106,10 @@
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_srslte
     scm:
-      - osmo-gsm-tester-repo
-
-# The repo must be used seperate to workaround the bug "Can not expand OSMO_GSM_TESTER_BRANCH".
-# The safe-guard check to not use un-defined variables seems to be broken.
-- scm:
-    name: osmo-gsm-tester-repo
-    scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-gsm-tester
           branches:
-            - ${OSMO_GSM_TESTER_BRANCH}
+            - '$OSMO_GSM_TESTER_BRANCH'
           wipe-workspace: false
           skip-tag: true
           basedir: osmo-gsm-tester
