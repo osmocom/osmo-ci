@@ -200,6 +200,9 @@ TAGS_IGNORE="
 	osmo-trx:0.4.0,
 
 	pysim:1.0,
+
+	pyosmocom:0.0.1,
+	pyosmocom:0.0.2,
 "
 
 mkdir -p \
