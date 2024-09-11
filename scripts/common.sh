@@ -145,7 +145,7 @@ osmo_git_clone_url() {
 		strongswan-epdg)
 			echo "$OSMO_GIT_URL_GITEA"/ims-volte-vowifi/strongswan
 			;;
-		pyosmocom)
+		pyosmocom|libosmo-sccp-legacy)
 			echo "$OSMO_GIT_URL_GITEA"/osmocom/"$1"
 			;;
 		osmo_dia2gsup|osmo-epdg|osmo-s1gw)

@@ -17,6 +17,7 @@ REPOS_MASTER="
 	libosmo-abis
 	libosmo-netif
 	libosmo-sccp
+	libosmo-sccp-legacy
 	libsmpp34
 	libasn1c
 	osmo-ggsn
