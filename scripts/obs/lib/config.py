@@ -109,6 +109,7 @@ git_url_other = {
     "osmo-fl2k": "https://gitea.osmocom.org/sdr/osmo-fl2k",
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
     "strongswan-epdg": "https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg",
+    "libosmo-sccp-legacy": "https://gitea.osmocom.org/osmocom/libosmo-sccp-legacy",
 }
 
 git_branch_default = "master"
