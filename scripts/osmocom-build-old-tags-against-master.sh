@@ -16,7 +16,7 @@ REPOS_MASTER="
 	libosmocore
 	libosmo-abis
 	libosmo-netif
-	libosmo-sccp
+	libosmo-sigtran
 	libosmo-sccp-legacy
 	libsmpp34
 	libasn1c
@@ -31,6 +31,7 @@ REPOS_TAGS="
 	libosmocore
 	libosmo-netif
 	libosmo-sccp
+	libosmo-sigtran
 	osmo-bsc
 	osmo-bts
 	osmo-ggsn

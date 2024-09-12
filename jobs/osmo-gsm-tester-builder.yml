@@ -18,7 +18,7 @@
       - osmo-trx
       - osmocom-bb
       - osmo-stp:
-          triggered-by: master-libosmo-sccp
+          triggered-by: master-libosmo-sigtran
       - osmo-bts-sysmo:
           triggered-by: master-osmo-bts
       - osmo-pcu-sysmo:

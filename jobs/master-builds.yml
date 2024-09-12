@@ -129,13 +129,13 @@
       - libosmo-netif:
           # Full triggers would be:
           # trigger: >
-          #   master-libosmo-sccp, mastere-osmo-hlr, master-osmo-iuh,
+          #   master-libosmo-sigtran, mastere-osmo-hlr, master-osmo-iuh,
           #   master-osmo-mgw, master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb,
           #   master-osmo-hnbgw
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
-            master-libosmo-sccp,
+            master-libosmo-sigtran,
             master-osmo-hlr,
             master-osmo-mgw,
             master-osmo-sgsn
@@ -150,7 +150,7 @@
             master-osmo-upf,
             master-osmo-hnbgw
 
-      - libosmo-sccp:
+      - libosmo-sigtran:
           # Full triggers would be:
           # trigger: >
           #   master-osmo-bsc, master-osmo-iuh, master-osmo-msc,
@@ -172,7 +172,7 @@
           cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
           # Full triggers would be:
           # trigger: >
-          #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sccp,
+          #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sigtran,
           #   master-osmo-bsc, master-osmo-bts, master-osmo-ggsn, master-osmo-gmr, master-osmo-hlr,
           #   master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-pcap, master-osmo-pcu,
           #   master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra, master-osmo-hnodeb
@@ -181,7 +181,7 @@
           # libosmocore
           # -> master-libosmo-abis
           #    -> master-libosmo-netif
-          #       -> master-libosmo-sccp
+          #       -> master-libosmo-sigtran
           #          -> master-osmo-bsc
           #          -> master-osmo-bsc-nat
           #          -> master-osmo-iuh

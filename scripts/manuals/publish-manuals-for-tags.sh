@@ -233,7 +233,7 @@ get_configure_opts_from_repo_name() {
 get_repo_name_from_docs_dir() {
 	case "$1" in
 	osmo-stp)
-		echo "libosmo-sccp"
+		echo "libosmo-sigtran"
 		;;
 	*)
 		echo "$1"
@@ -244,7 +244,7 @@ get_repo_name_from_docs_dir() {
 # $1: repo name
 get_docs_dir_from_repo_name() {
 	case "$1" in
-	libosmo-sccp)
+	libosmo-sigtran)
 		echo "osmo-stp"
 		;;
 	*)

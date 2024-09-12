@@ -14,7 +14,8 @@ OSMO_RELEASE_REPOS="
 	libosmo-abis
 	libosmo-netif
 	libosmo-pfcp
-	libosmo-sccp
+	libosmo-sccp-legacy
+	libosmo-sigtran
 	libosmocore
 	libsmpp34
 	libusrp

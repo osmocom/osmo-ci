@@ -113,7 +113,7 @@
       - libosmo-gprs
       - libosmo-netif
       - libosmo-pfcp
-      - libosmo-sccp
+      - libosmo-sigtran
 
       - libosmocore:
           slave_axis: !!python/tuple [io_uring]  # OS#6405

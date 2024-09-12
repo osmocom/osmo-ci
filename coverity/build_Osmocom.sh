@@ -77,7 +77,7 @@ build_default libosmo-abis
 build_default libosmo-gprs
 build_default libosmo-netif
 build_default libosmo-pfcp
-build_default libosmo-sccp
+build_default libosmo-sigtran
 build_default libsmpp34
 build_default libgtpnl
 build_default osmo-ggsn \

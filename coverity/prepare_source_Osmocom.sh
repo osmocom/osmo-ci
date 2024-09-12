@@ -18,7 +18,7 @@ PROJECTS="
   libosmo-gprs
   libosmo-netif
   libosmo-pfcp
-  libosmo-sccp
+  libosmo-sigtran
   libsmpp34
   libusrp
   osmo-bsc

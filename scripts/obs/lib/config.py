@@ -58,7 +58,8 @@ projects_osmocom = [
     "libosmo-gprs",
     "libosmo-netif",
     "libosmo-pfcp",
-    "libosmo-sccp",
+    "libosmo-sccp-legacy",  # can be dropped after osmo-msc >= 1.12.x release
+    "libosmo-sigtran",
     "libosmocore",
     "libsmpp34",
     "libusrp",

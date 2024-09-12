@@ -8,7 +8,7 @@ repos_api="
 	libosmo-abis
 	libosmo-dsp
 	libosmo-netif
-	libosmo-sccp
+	libosmo-sigtran
 	osmo-gmr
 "
 
