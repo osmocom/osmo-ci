@@ -13,8 +13,8 @@
             - host2-deb11build-ansible
             - lx2-raspbian11build-ansible
             - rpi4-raspbian12build-ansible-1
-            - rpi4-raspbian11build-ansible-2
-            - rpi4-raspbian11build-ansible-3
+            - rpi4-raspbian12build-ansible-2
+            - rpi4-raspbian12build-ansible-3
             - simtester
     properties:
       - build-discarder:
