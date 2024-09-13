@@ -111,6 +111,10 @@ TAGS_IGNORE="
 	osmo-trx:0.2.0,
 	osmo-trx:0.3.0,
 	osmo-trx:1.3.0,
+
+	libosmo-sccp-legacy:2.0.0,
+	libosmo-sccp-legacy:2.0.1,
+	libosmo-sccp-legacy:2.0.2,
 "
 
 mkdir -p \
