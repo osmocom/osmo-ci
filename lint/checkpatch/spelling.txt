@@ -1439,7 +1439,6 @@ tansmit||transmit
 targetted||targeted
 targetting||targeting
 taskelt||tasklet
-teh||the
 temorary||temporary
 temproarily||temporarily
 temperture||temperature
