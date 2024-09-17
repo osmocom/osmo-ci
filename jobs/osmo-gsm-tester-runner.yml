@@ -137,7 +137,7 @@
                 - osmo-gsm-tester_build-srslte
     builders:
       - copy_artifact_all
-      - shell: !include-raw: osmo-gsm-tester_run-{stage}.sh
+      - shell: !include-raw-expand: osmo-gsm-tester_run-{stage}.sh
     publishers:
       - archive:
           artifacts: '*-run.tgz, *-bin.tgz'
@@ -175,7 +175,7 @@
           # make sure no test results/bin artifacts from a previous run remain
           rm -rf trial-* *.tgz *.md5
       - copy_artifact_all
-      - shell: !include-raw: osmo-gsm-tester_run-gerrit.sh
+      - shell: !include-raw-expand: osmo-gsm-tester_run-gerrit.sh
     publishers:
       - archive:
           artifacts: '*-run.tgz, *-bin.tgz'
@@ -200,7 +200,7 @@
       - copy_artifact_all
       - copy_artifact:
          repo: osmo-gsm-tester_build-osmocom-bb
-      - shell: !include-raw: osmo-gsm-tester_ttcn3.sh
+      - shell: !include-raw-expand: osmo-gsm-tester_ttcn3.sh
     publishers:
       - archive:
           artifacts: '*-run.tgz, *-bin.tgz'
