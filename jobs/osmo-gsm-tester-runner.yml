@@ -154,6 +154,7 @@
 # gerrit job
 - job:
     name: 'osmo-gsm-tester_gerrit'
+    disabled: true  # osmo-gsm-tester nodes are currently offline
     defaults: runner
     scm:
       - 'osmo-gsm-tester-gerrit'
