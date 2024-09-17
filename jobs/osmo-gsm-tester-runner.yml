@@ -34,7 +34,7 @@
       - git:
           url: https://gerrit.osmocom.org/osmo-gsm-tester
           branches:
-            - ${OSMO_GSM_TESTER_BRANCH}
+            - '$OSMO_GSM_TESTER_BRANCH'
           wipe-workspace: false
           skip-tag: true
           basedir: osmo-gsm-tester
@@ -227,14 +227,14 @@
          repo: osmo-gsm-tester_build-osmocom-bb
       - shell: |
             # Set a trap to fix workspace permissions / kill the docker container on exit
-            clean_up() {
+            clean_up() {{
               docker kill "osmo-gsm-tester-virtual" || true
               docker run --rm \
                 -v "$WORKSPACE":/workspace \
                 debian:bullseye \
                   chmod -R a+rwX /workspace/
-            }
-            clean_up_trap() {
+            }}
+            clean_up_trap() {{
               set +x
               echo
               echo "### Clean up ###"
@@ -243,7 +243,7 @@
 
               trap - EXIT INT TERM 0
               clean_up
-            }
+            }}
             trap clean_up_trap EXIT INT TERM 0
 
             # Make sure no test results from a previous run remain
@@ -281,7 +281,7 @@
               --name=osmo-gsm-tester-virtual \
               --cap-add=sys_nice \
               $USER/osmo-gsm-tester \
-              /bin/bash -c 'LANG="en_US.utf8" LC_ALL="en_US.UTF-8" LC_LANG="en_US.UTF-8" PATH="$PWD/osmo-gsm-tester/src:${PATH}" ./osmo-gsm-tester/contrib/jenkins-run.sh'
+              /bin/bash -c 'LANG="en_US.utf8" LC_ALL="en_US.UTF-8" LC_LANG="en_US.UTF-8" PATH="$PWD/osmo-gsm-tester/src:${{PATH}}" ./osmo-gsm-tester/contrib/jenkins-run.sh'
     publishers:
       - archive:
           artifacts: '*-run.tgz, *-bin.tgz'
