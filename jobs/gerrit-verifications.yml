@@ -442,13 +442,10 @@
               -v "$PWD:/build" \
               "registry.osmocom.org/osmocom-build/debian-bookworm-titan" \
               {timeout_cmd} \
-              sh -e -x -c "
-                useradd --uid=1000 build;
-                cd /build;
-                su build -c 'make deps';
-                su build -c 'make clean';
-                su build -c 'make compile';
-                "
+              sh -e -x -c '
+                useradd --uid=1000 build
+                su build -c "make -C /build compile"
+                '
           pipeline_binpkgs: ""
 
       - dahdi-tools:
