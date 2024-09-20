@@ -444,6 +444,12 @@
               {timeout_cmd} \
               sh -e -x -c '
                 useradd --uid=1000 build
+                chown -R build:build /osmo-ttcn3-hacks/deps
+                for i in /osmo-ttcn3-hacks/deps/*/; do
+                  if ! [ -e /build/deps/"$(basename "$i")" ]; then
+                    ln -s "$i" /build/deps/
+                  fi
+                done
                 su build -c "make -C /build compile"
                 '
           pipeline_binpkgs: ""
