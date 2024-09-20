@@ -203,6 +203,7 @@ TAGS_IGNORE="
 
 	pyosmocom:0.0.1,
 	pyosmocom:0.0.2,
+	pyosmocom:0.0.3,
 "
 
 mkdir -p \
