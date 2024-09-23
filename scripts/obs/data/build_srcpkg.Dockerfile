@@ -24,6 +24,7 @@ RUN	apt-get update && \
 		quilt \
 		rebar3 \
 		sed \
+		sphinx-common \
 		&& \
 	apt-get clean
 
