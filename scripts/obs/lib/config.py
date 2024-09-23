@@ -90,6 +90,7 @@ projects_osmocom = [
     "osmo-upf",
     "osmocom-bb",
     "python/osmo-python-tests",
+    "python/pyosmocom",
     "rtl-sdr",
     "simtrace2",
     "strongswan-epdg",
