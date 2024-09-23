@@ -203,7 +203,6 @@ TAGS_IGNORE="
 
 	pyosmocom:0.0.1,
 	pyosmocom:0.0.2,
-	pyosmocom:0.0.3,
 "
 
 mkdir -p \
@@ -331,8 +330,10 @@ clone_repo() {
 	git clean -dxf
 
 	# Fix depends on packages that don't exist anymore
-	sed -i 's/dh-systemd \(.*\),//g' debian/control
-	sed -i 's/python-minimal,//g' debian/control
+	if [ -e debian/control ]; then
+		sed -i 's/dh-systemd \(.*\),//g' debian/control
+		sed -i 's/python-minimal,//g' debian/control
+	fi
 }
 
 # $1: repository
@@ -367,7 +368,9 @@ build_publish_manuals() {
 			# Install dependencies
 			case $repo in
 			*)
-				apt-get -y build-dep /build
+				if [ -e debian/control ]; then
+					apt-get -y build-dep /build
+				fi
 				;;
 			esac
 
@@ -386,6 +389,9 @@ build_publish_manuals() {
 			osmo-epdg)
 				su build -c \"make -C docs/manuals\"
 				;;
+			pyosmocom)
+				su build -c \"make -C docs html latexpdf\"
+				;;
 			*)
 				su build -c \"autoreconf -fi\"
 				su build -c \"./configure $configure_opts\"
@@ -403,6 +409,9 @@ build_publish_manuals() {
 				;;
 			osmo-epdg)
 				su build -c \"make -C docs/manuals publish\"
+				;;
+			pyosmocom)
+				su build -c \"make -C docs publish publish-html\"
 				;;
 			*)
 				su build -c \"make -C doc/manuals publish\"
