@@ -307,7 +307,7 @@
       - pyosmocom:
           repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
-          pipeline_binpkgs: ""
+          pipeline_binpkgs: "debian:12"
           a1_name: JOB_TYPE
           a1: !!python/tuple ["test", "pylint", "docs"]
           cmd: |
