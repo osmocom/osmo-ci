@@ -421,10 +421,27 @@
 
       - pyosmocom:
           repos_url: '{gerrit_url}/python/{repos}'
-          a1_name: JOB_TYPE
-          a1: !!python/tuple ["test", "pylint", "docs"]
+          concurrent: false
+          slave_axis: !!python/tuple [simtester,osmocom-gerrit]
+          a2_name: JOB_TYPE
+          a2: !!python/tuple ["test", "pylint", "docs", "pysim"]
+          combination_filter: >
+            (JOB_TYPE == "test" && label == "osmocom-gerrit") ||
+            (JOB_TYPE == "pylint" && label == "osmocom-gerrit") ||
+            (JOB_TYPE == "docs" && label == "osmocom-gerrit") ||
+            (JOB_TYPE == "pysim" && label == "simtester")
           cmd: |
-            {docker_run} -e JOB_TYPE="$JOB_TYPE" {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+            case "$JOB_TYPE" in
+            "pysim")
+              {timeout_cmd} ./contrib/jenkins.sh
+              ;;
+            *)
+              {docker_run} \
+                -e JOB_TYPE="$JOB_TYPE" \
+                {docker_img} \
+                  {timeout_cmd} /build/contrib/jenkins.sh
+              ;;
+            esac
 
       - osmo-sgsn:
           a1_name: IU
