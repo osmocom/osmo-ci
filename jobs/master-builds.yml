@@ -635,6 +635,10 @@
           name: BRANCH
           description: git branch
           default: '{obj:branch}'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: '{obj:email}'
 
     scm:
       - git:
@@ -675,7 +679,7 @@
        - trigger:
            project: 'Osmocom_OBS_master'
        - email:
-           recipients: '{obj:email}'
+           recipients: '$EMAIL_NOTIFICATIONS'
            send-to-individuals: true
     wrappers:
        - ssh-agent-credentials:
