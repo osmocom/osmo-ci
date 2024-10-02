@@ -23,13 +23,14 @@
           # We only care about Osmocom packages that run in the TTCN-3 testsuites
           # for the asan repository.
           EXCLUDE_PACKAGES="
-            erlang/osmo_dia2gsup
             erlang/osmo-epdg
             erlang/osmo-s1gw
+            erlang/osmo_dia2gsup
             osmo-bsc-nat
             osmo-fl2k
             osmo-gsm-manuals
             python/osmo-python-tests
+            python/pyosmocom
             rtl-sdr
           "
 
