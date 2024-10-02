@@ -74,16 +74,14 @@
     gerrit_url: 'https://gerrit.osmocom.org'
     gitea_url: 'https://gitea.osmocom.org'
     repos_url: '{gerrit_url}/{repos}'
-    branches:
-      - master
+    branch: master
     ssh:
       - docs_ftp.osmocom.org
 
     # in alphabetical order
     repos:
       - asn1c:
-          branches:
-            - osmo-iuh/master
+          branch: osmo-iuh/master
 
       - libasn1c:
           # Full triggers would be:
@@ -632,10 +630,17 @@
           name: '{obj:a4_name}'
           values: '{obj:a4}'
 
+    parameters:
+      - string:
+          name: BRANCH
+          description: git branch
+          default: '{obj:branch}'
+
     scm:
       - git:
          url: '{obj:repos_url}'
-         branches: '{obj:branches}'
+         branches:
+           - '$BRANCH'
          refspec:
          name:
          wipe-workspace: false
