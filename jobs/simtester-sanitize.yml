@@ -1,0 +1,40 @@
+- job:
+    name: "simtester-sanitize"
+    project-type: freestyle
+    defaults: global
+    node: simtester
+    description: |
+        Reset the SIM cards in simtester to a defined state.
+    builders:
+      - shell: |
+          virtualenv -p python3 venv --system-site-packages
+          . venv/bin/activate
+          pip install -r requirements.txt
+          pip install pyshark
+          tests/card_sanitizer/card_sanitizer.py
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    parameters:
+      - string:
+          name: BRANCH
+          description: pysim.git branch
+          default: 'origin/master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/pysim
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          branches:
+            - '$BRANCH'
+    triggers:
+      - timed: "H 01 * * *"
+    publishers:
+      - email:
+          recipients: '$EMAIL_NOTIFICATIONS'
+          notify-every-unstable-build: true

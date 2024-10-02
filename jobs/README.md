@@ -167,6 +167,7 @@ packages before they have been built (leading to failing jobs).
   00:XX registry-update-base-images
   01:XX osmocom-build-tags-against-master
   01:XX osmocom-list-commits
+  01:XX simtester-sanitize
   02:XX registry-triggers
   02:XX registry-rebuild-upload-fpga-build (weekly)
 
