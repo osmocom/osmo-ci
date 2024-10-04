@@ -483,6 +483,9 @@
           pipeline_lint: false
           pipeline_binpkgs: ""
 
+      - upf-benchmark:
+          pipeline_binpkgs: ""
+
     jobs:
       - 'gerrit-{repos}'
       - 'gerrit-{repos}-build'
