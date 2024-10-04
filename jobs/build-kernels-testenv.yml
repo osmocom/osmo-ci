@@ -1,0 +1,83 @@
+---
+- project:
+    name: 'build-kernels'
+    concurrent: false
+    description: |
+        Build kernels to be used with osmo-ttcn3-hacks to run SUT in QEMU.<br>
+        <br>
+        Git repository:<br>
+        <code>{url}</code><br>
+        <br>
+        Branch:<br>
+        <code>{branch}</code><br>
+    jobs:
+      - "{job-name}"
+    branch: master
+    job-name:
+      - build-kernel-net-next:
+          url: "https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git"
+          branch: main
+      - build-kernel-torvalds:
+          url: "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
+
+- job-template:
+    name: '{job-name}'
+    project-type: freestyle
+    defaults: global
+    description: '{obj:description}'
+    # Limit to 1 node to save space on others
+    node: "build4-deb12build-ansible"
+    concurrent: false
+    parameters:
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
+      - string:
+          name: BRANCH_KERNEL
+          description: Branch of the kernel repository
+          default: '{branch}'
+      - string:
+          name: BRANCH_CI
+          description: Branch of osmo-ci.git (has scripts/kernel/build.sh)
+          default: 'master'
+    builders:
+      - shell: |-
+          IMAGE="osmocom-build/debian-bookworm-osmo-ttcn3-testenv"
+          podman pull "registry.osmocom.org/$IMAGE"
+
+          rm -rf output osmo-ci
+          git clone --depth=1 https://gerrit.osmocom.org/osmo-ci -b "$BRANCH_CI"
+          osmo-ci/scripts/kernel/build.sh
+    scm:
+      - git:
+          branches:
+            - '$BRANCH_KERNEL'
+          url: "{obj:url}"
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          refspec: '$BRANCH_KERNEL'
+          shallow-clone: true
+          wipe-workspace: false
+          clean:
+            before: true
+    triggers:
+      - timed: "H 23 * * *"
+    publishers:
+      - email:
+          notify-every-unstable-build: false
+          recipients: '$EMAIL_NOTIFICATIONS'
+          send-to-individuals: false
+      - archive:
+          allow-empty: false
+          artifacts: output/**/*
+          case-sensitive: true
+          default-excludes: true
+          fingerprint: false
+          only-if-success: false
+    properties:
+    - build-discarder:
+        num-to-keep: 10
+    wrappers:
+    - ansicolor:
+        colormap: xterm
