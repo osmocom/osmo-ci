@@ -26,57 +26,6 @@
           timer: H 04 * * *
       - nplab-sua-test:
           timer: H 04 * * *
-      - ttcn3-ggsn-test:
-          timer: H 04 * * *
-      - ttcn3-ggsn-test-kernel:
-          timer: H 04 * * *
-          description: |
-            Test osmo-ggsn master with the Debian kernel.
-      - ttcn3-ggsn-test-kernel-net-next:
-          timer: H 04 * * *
-          # Cache the linux source tree in the workspace of one node
-          wipe_workspace: false
-          node: ttcn3-ggsn-test-kernel-git
-          description: |
-            Test osmo-ggsn master with the Linux kernel built from master of
-            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/">
-              net-next.git</a>.
-      - ttcn3-ggsn-test-kernel-torvalds:
-          timer: H 04 * * *
-          # Cache the linux source tree in the workspace of one node
-          wipe_workspace: false
-          node: ttcn3-ggsn-test-kernel-git
-          description: |
-            Test osmo-ggsn master with the Linux kernel built from master of
-            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/">
-              torvalds/linux.git</a>.
-      - ttcn3-ggsn-test-kernel-latest:
-          timer: H 04 * * *
-          description: |
-            Test osmo-ggsn latest with the Debian kernel.
-      - ttcn3-ggsn-test-kernel-latest-net-next:
-          timer: H 04 * * *
-          # Cache the linux source tree in the workspace of one node
-          wipe_workspace: false
-          node: ttcn3-ggsn-test-kernel-git
-          description: |
-            Test osmo-ggsn latest with the Linux kernel built from master of
-            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/">
-              net-next.git</a>.
-      - ttcn3-ggsn-test-kernel-latest-torvalds:
-          timer: H 04 * * *
-          # Cache the linux source tree in the workspace of one node
-          wipe_workspace: false
-          node: ttcn3-ggsn-test-kernel-git
-          description: |
-            Test osmo-ggsn latest with the Linux kernel built from master of
-            <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/">
-              torvalds/linux.git</a>.
-      - ttcn3-ggsn-test-ogs:
-          timer: H 04 * * *
-          description: |
-            Test open5gs-smfd + open5gs-upfd main.
-          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-pcu-test:
           timer: H 04 * * *
       - ttcn3-pcu-test-sns:
@@ -135,8 +84,6 @@
       - nplab-m3ua-test-latest:
           timer: H 07 * * *
       - nplab-sua-test-latest:
-          timer: H 08 * * *
-      - ttcn3-ggsn-test-latest:
           timer: H 08 * * *
       - ttcn3-msc-test-latest:
           timer: H 08 * * *
@@ -205,8 +152,6 @@
           timer: H 12 * * *
       - ttcn3-gbproxy-test-asan:
           timer: H 12 * * *
-      - ttcn3-ggsn-test-asan:
-          timer: H 12 * * *
       - ttcn3-hnbgw-test-asan:
           timer: H 12 * * *
       - ttcn3-msc-test-asan:
@@ -244,53 +189,6 @@
           # Translate job name to docker-playground dir and relevant
           # environment variables
           case "{job-name}" in
-              ttcn3-ggsn-test-kernel)
-                  DIR="ttcn3-ggsn-test"
-                  export IMAGE_SUFFIX="master"
-                  # Run against debian's kernel
-                  export KERNEL_TEST=1
-                  ;;
-              ttcn3-ggsn-test-kernel-net-next)
-                  DIR="ttcn3-ggsn-test"
-                  export IMAGE_SUFFIX="master"
-                  export KERNEL_TEST=1
-                  export KERNEL_BUILD=1
-                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git"
-                  export KERNEL_REMOTE_NAME="net-next"
-                  export KERNEL_BRANCH="main"
-                  ;;
-              ttcn3-ggsn-test-kernel-torvalds)
-                  DIR="ttcn3-ggsn-test"
-                  export IMAGE_SUFFIX="master"
-                  export KERNEL_TEST=1
-                  export KERNEL_BUILD=1
-                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
-                  export KERNEL_REMOTE_NAME="torvalds"
-                  export KERNEL_BRANCH="master"
-                  ;;
-              ttcn3-ggsn-test-kernel-latest)
-                  DIR="ttcn3-ggsn-test"
-                  export IMAGE_SUFFIX="latest"
-                  export KERNEL_TEST=1
-                  ;;
-              ttcn3-ggsn-test-kernel-latest-net-next)
-                  DIR="ttcn3-ggsn-test"
-                  export IMAGE_SUFFIX="latest"
-                  export KERNEL_TEST=1
-                  export KERNEL_BUILD=1
-                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git"
-                  export KERNEL_REMOTE_NAME="net-next"
-                  export KERNEL_BRANCH="main"
-                  ;;
-              ttcn3-ggsn-test-kernel-latest-torvalds)
-                  DIR="ttcn3-ggsn-test"
-                  export IMAGE_SUFFIX="latest"
-                  export KERNEL_TEST=1
-                  export KERNEL_BUILD=1
-                  export KERNEL_URL="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git"
-                  export KERNEL_REMOTE_NAME="torvalds"
-                  export KERNEL_BRANCH="master"
-                  ;;
               TTCN3-centos7-*-latest)
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos7\-/ttcn3-/ | sed s/\-latest$//)"
                   export IMAGE_SUFFIX="latest-centos7"
