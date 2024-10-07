@@ -10,8 +10,13 @@
         See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
             TTCN3 Testsuite</a> for more information.<br>
         <br>
-        Arguments: <code>{args}</code>
+        Arguments:<br>
+        <code>{args}</code><br>
+        <br>
+        Kernel:<br>
+        <code>{kernel}</code><br>
     timer: "@midnight"
+    kernel: "none"
     node: ttcn3
     jobs:
       - "{job-name}"
@@ -93,6 +98,34 @@
           args: -b osmocom:nightly
           timer: H 07 * * *
 
+      - ttcn3-ggsn-test:
+          testsuite: ggsn
+          args: -b osmocom:nightly -c 'osmo_ggsn_*'
+          timer: H 07 * * *
+
+      - ttcn3-ggsn-test-kernel:
+          testsuite: ggsn
+          args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --debian-kernel
+          timer: H 07 * * *
+
+      - ttcn3-ggsn-test-kernel-net-next:
+          testsuite: ggsn
+          args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --custom-kernel
+          kernel: net-next
+          timer: H 07 * * *
+
+      - ttcn3-ggsn-test-kernel-torvalds:
+          testsuite: ggsn
+          args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --custom-kernel
+          kernel: torvalds
+          timer: H 07 * * *
+
+      - ttcn3-ggsn-test-ogs:
+          testsuite: ggsn
+          args: -b osmocom:nightly -c open5gs
+          timer: H 07 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -148,6 +181,28 @@
           timer: H 10 * * *
           disabled: true  # disable until > 0.1.x release
 
+      - ttcn3-ggsn-test-latest:
+          testsuite: ggsn
+          args: -b osmocom:latest -c 'osmo_ggsn_*'
+          timer: H 10 * * *
+
+      - ttcn3-ggsn-test-kernel-latest:
+          testsuite: ggsn
+          args: -b osmocom:latest -c 'osmo_ggsn_*' --kernel-debian
+          timer: H 10 * * *
+
+      - ttcn3-ggsn-test-kernel-latest-net-next:
+          testsuite: ggsn
+          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --kernel-custom
+          kernel: net-next
+          timer: H 10 * * *
+
+      - ttcn3-ggsn-test-kernel-latest-torvalds:
+          testsuite: ggsn
+          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --kernel-custom
+          kernel: torvalds
+          timer: H 10 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
@@ -199,6 +254,11 @@
           args: -b osmocom:nightly:asan -c generic
           timer: H 12 * * *
 
+      - ttcn3-ggsn-test-asan:
+          testsuite: ggsn
+          args: -b osmocom:nightly:asan -c 'osmo_ggsn_*'
+          timer: H 12 * * *
+
 - job-template:
     name: '{job-name}'
     project-type: freestyle
@@ -213,13 +273,24 @@
                 Branch of <code>osmo-ttcn3-hacks.git</code>
           default: 'master'
     builders:
+      - copyartifact:
+          project: "build-kernel-{kernel}"
+          filter: "output/linux"
+          flatten: true
+          which-build: last-successful
+          stable: true
       - shell: |-
           DISTRO="debian:bookworm"
           IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
+          KERNEL="{kernel}"
 
           podman pull "$IMAGE"
 
-          rm -rf logs _cache
+          rm -rf logs _cache .linux
+
+          if [ "$KERNEL" != "none" ]; then
+            mv linux .linux
+          fi
 
           set +x  # Don't output the color codes we set here
           export TESTENV_COLOR_DEBUG="$(printf '\e[0;94m')"  # light blue
@@ -229,6 +300,7 @@
           export TESTENV_COLOR_CRITICAL="$(printf '\e[1;91m')"  # bold, red
           export TESTENV_SOURCE_HIGHLIGHT_COLORS="esc"
           export TESTENV_NO_IMAGE_UP_TO_DATE_CHECK=1
+          export TESTENV_NO_KVM=1
           set -x
 
           ./testenv.py run \
@@ -241,7 +313,7 @@
 
           # Free up space from downloaded apt packages, build artifacts etc.
           # The osmo-ttcn3-hacks deps dir and ccache are persistent.
-          rm -rf _cache
+          rm -rf _cache .linux
 
     scm:
       - git:
