@@ -65,7 +65,7 @@
       - timed: "H 23 * * *"
     publishers:
       - email:
-          notify-every-unstable-build: false
+          notify-every-unstable-build: true
           recipients: '$EMAIL_NOTIFICATIONS'
           send-to-individuals: false
       - archive:
