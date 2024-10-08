@@ -81,3 +81,27 @@
     wrappers:
     - ansicolor:
         colormap: xterm
+
+- job:
+    name: 'build-kernel-none'
+    project-type: freestyle
+    defaults: global
+    description: |
+      Dummy job to allow specifying "none" as kernel in
+      <a href="https://gitea.osmocom.org/osmocom/osmo-ci/src/branch/master/jobs/ttcn3-testsuites-testenv.yml">ttcn3-testsuites-testenv.yml</a>.
+    node: "osmocom-master"
+    builders:
+      - shell: |-
+          mkdir output
+          echo "dummy from build-kernel-none jenkins job" > output/linux
+    publishers:
+      - archive:
+          allow-empty: false
+          artifacts: output/**/*
+          case-sensitive: true
+          default-excludes: true
+          fingerprint: false
+          only-if-success: false
+    properties:
+    - build-discarder:
+        num-to-keep: 10
