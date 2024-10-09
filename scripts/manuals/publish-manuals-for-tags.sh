@@ -368,7 +368,7 @@ build_publish_manuals() {
 			# Install dependencies
 			case $repo in
 			*)
-				if [ -e debian/control ]; then
+				if [ -e /build/debian/control ]; then
 					apt-get -y build-dep /build
 				fi
 				;;
