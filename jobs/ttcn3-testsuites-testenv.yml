@@ -188,18 +188,18 @@
 
       - ttcn3-ggsn-test-kernel-latest:
           testsuite: ggsn
-          args: -b osmocom:latest -c 'osmo_ggsn_*' --kernel-debian
+          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --debian-kernel
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel-latest-net-next:
           testsuite: ggsn
-          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --kernel-custom
+          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --custom-kernel
           kernel: net-next
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel-latest-torvalds:
           testsuite: ggsn
-          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --kernel-custom
+          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --custom-kernel
           kernel: torvalds
           timer: H 10 * * *
 
