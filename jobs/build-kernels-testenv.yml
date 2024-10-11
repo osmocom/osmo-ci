@@ -56,7 +56,7 @@
           url: "{obj:url}"
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
-          refspec: '$BRANCH_KERNEL'
+          refspec: '+refs/heads/$BRANCH_KERNEL:refs/remotes/origin/$BRANCH_KERNEL'
           shallow-clone: true
           wipe-workspace: false
           clean:
