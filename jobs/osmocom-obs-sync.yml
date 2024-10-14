@@ -37,6 +37,7 @@
             Raspbian:12
             Ubuntu:22.04
             Ubuntu:24.04
+            Ubuntu:24.10
           "
           ./scripts/obs/sync_obs_projects.py \
             --docker \
