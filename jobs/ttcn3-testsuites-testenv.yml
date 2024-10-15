@@ -60,6 +60,11 @@
           args: -b osmocom:nightly
           timer: H 06 * * *
 
+      - ttcn3-stp-test:
+          testsuite: stp
+          args: -b osmocom:nightly
+          timer: H 06 * * *
+
       - ttcn3-hnodeb-test:
           testsuite: hnodeb
           args: -b osmocom:nightly
@@ -164,6 +169,11 @@
           args: -b osmocom:latest
           timer: H 09 * * *
 
+      - ttcn3-stp-test-latest:
+          testsuite: stp
+          args: -b osmocom:latest
+          timer: H 09 * * *
+
       - ttcn3-hnodeb-test-latest:
           testsuite: hnodeb
           args: -b osmocom:latest
@@ -216,6 +226,11 @@
           args: -b osmocom:nightly --io-uring -c generic
           timer: H 11 * * *
 
+      - ttcn3-stp-test-io_uring:
+          testsuite: stp
+          args: -b osmocom:nightly --io-uring
+          timer: H 11 * * *
+
       # ---------------------------------------------
       # Debian nightly + asan (OS#5301)
       # ---------------------------------------------
@@ -258,6 +273,11 @@
           testsuite: ggsn
           args: -b osmocom:nightly:asan -c 'osmo_ggsn_*'
           timer: H 12 * * *
+
+      - ttcn3-stp-test-asan:
+          testsuite: stp
+          args: -b osmocom:nightly:asan
+          timer: H 13 * * *
 
 - job-template:
     name: '{job-name}'

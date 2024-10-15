@@ -41,8 +41,6 @@
           timer: H 05 * * *
       - ttcn3-remsim-test:
           timer: H 05 * * *
-      - ttcn3-stp-test:
-          timer: H 06 * * *
       - ttcn3-sccp-test:
           timer: H 06 * * *
       - ttcn3-gbproxy-test:
@@ -102,8 +100,6 @@
           timer: H 09 * * *
       - ttcn3-remsim-test-latest:
           timer: H 09 * * *
-      - ttcn3-stp-test-latest:
-          timer: H 09 * * *
       - ttcn3-sccp-test-latest:
           timer: H 09 * * *
       - ttcn3-gbproxy-test-latest:
@@ -140,8 +136,6 @@
           timer: H 11 * * *
       - ttcn3-gbproxy-test-io_uring:
           timer: H 11 * * *
-      - ttcn3-stp-test-io_uring:
-          timer: H 11 * * *
       - ttcn3-bts-test-io_uring:
           timer: H 11 * * *
 
@@ -163,8 +157,6 @@
       - ttcn3-remsim-test-asan:
           timer: H 13 * * *
       - ttcn3-sccp-test-asan:
-          timer: H 13 * * *
-      - ttcn3-stp-test-asan:
           timer: H 13 * * *
 
 
