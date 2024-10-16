@@ -232,7 +232,7 @@
               docker kill "osmo-gsm-tester-virtual" || true
               docker run --rm \
                 -v "$WORKSPACE":/workspace \
-                debian:bullseye \
+                debian:bookworm \
                   chmod -R a+rwX /workspace/
             }}
             clean_up_trap() {{
@@ -259,7 +259,6 @@
               https://gerrit.osmocom.org/docker-playground \
               docker-playground
             git -C docker-playground log --oneline
-            make -C docker-playground/debian-buster-jenkins  # OS#6126
             make -C docker-playground/osmo-gsm-tester
 
             unlink osmo-gsm-tester/sysmocom/resources.conf || true
