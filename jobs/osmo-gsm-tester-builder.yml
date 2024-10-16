@@ -48,8 +48,26 @@
     node: osmo-gsm-tester-build
     builders:
       - shell: |
-          set -e -x
-          ./osmo-gsm-tester/contrib/jenkins-build-{repo}.sh
+          rm -rf docker-playground
+          git clone \
+            --depth=1 \
+            --branch="$DOCKER_PLAYGROUND_BRANCH" \
+            https://gerrit.osmocom.org/docker-playground \
+            docker-playground
+          git -C docker-playground log --oneline
+          make -C docker-playground/osmo-gsm-tester
+
+          docker run  \
+            --rm \
+            -v "$PWD:/build" \
+            -v "/opt/poky-sdk:/opt/poky-sdk" \
+            -v "/opt/poky-oc2g:/opt/poky-oc2g" \
+            --user build \
+            "$USER"/osmo-gsm-tester \
+            sh -e -x -c "
+              cd /build
+              ./osmo-gsm-tester/contrib/jenkins-build-{repo}.sh
+            "
     triggers:
       - reverse:
             jobs: '{triggered-by}'
@@ -67,8 +85,12 @@
     parameters:
       - string:
           name: "OSMO_GSM_TESTER_BRANCH"
-          default: "origin/master"
+          default: "master"
           description: "Which branch/sha should be used for testing"
+      - string:
+          name: "DOCKER_PLAYGROUND_BRANCH"
+          default: "master"
+          description: "Which branch/sha should be used for building the osmo-gsm-tester docker container"
       - add_param_build_branch:
          name: OSMO_GSM_TESTER_BUILD_libosmo-abis
       - add_param_build_branch:
