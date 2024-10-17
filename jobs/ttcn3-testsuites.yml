@@ -26,10 +26,6 @@
           timer: H 04 * * *
       - nplab-sua-test:
           timer: H 04 * * *
-      - ttcn3-pcu-test:
-          timer: H 04 * * *
-      - ttcn3-pcu-test-sns:
-          timer: H 05 * * *
       - ttcn3-bsc-test:
           timer: H 05 * * *
       - ttcn3-bts-test:
@@ -84,10 +80,6 @@
       - nplab-sua-test-latest:
           timer: H 08 * * *
       - ttcn3-msc-test-latest:
-          timer: H 08 * * *
-      - ttcn3-pcu-test-latest:
-          timer: H 08 * * *
-      - ttcn3-pcu-test-sns-latest:
           timer: H 08 * * *
       - ttcn3-bsc-test-latest:
           timer: H 08 * * *
@@ -151,8 +143,6 @@
       - ttcn3-msc-test-asan:
           timer: H 13 * * *
       - ttcn3-pcap-client-test-asan:
-          timer: H 13 * * *
-      - ttcn3-pcu-test-asan:
           timer: H 13 * * *
       - ttcn3-remsim-test-asan:
           timer: H 13 * * *

@@ -25,6 +25,16 @@
       # ---------------------------------------------
       # Debian nightly
       # ---------------------------------------------
+      - ttcn3-pcu-test:
+          testsuite: pcu
+          args: -b osmocom:nightly -c generic
+          timer: H 04 * * *
+
+      - ttcn3-pcu-test-sns:
+          testsuite: pcu
+          args: -b osmocom:nightly -c sns
+          timer: H 05 * * *
+
       - ttcn3-hlr-test:
           testsuite: hlr
           args: -b osmocom:nightly
@@ -134,6 +144,16 @@
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
+      - ttcn3-pcu-test-latest:
+          testsuite: pcu
+          args: -b osmocom:latest -c generic
+          timer: H 08 * * *
+
+      - ttcn3-pcu-test-sns-latest:
+          testsuite: pcu
+          args: -b osmocom:latest -c sns
+          timer: H 08 * * *
+
       - ttcn3-hlr-test-latest:
           testsuite: hlr
           args: -b osmocom:latest
@@ -277,6 +297,16 @@
       - ttcn3-stp-test-asan:
           testsuite: stp
           args: -b osmocom:nightly:asan
+          timer: H 13 * * *
+
+      - ttcn3-pcu-test-asan:
+          testsuite: pcu
+          args: -b osmocom:nightly:asan -c generic
+          timer: H 13 * * *
+
+      - ttcn3-pcu-test-sns-asan:
+          testsuite: pcu
+          args: -b osmocom:nightly:asan -c sns
           timer: H 13 * * *
 
 - job-template:
