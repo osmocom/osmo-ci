@@ -25,6 +25,21 @@
       # ---------------------------------------------
       # Debian nightly
       # ---------------------------------------------
+      - ttcn3-bsc-test:
+          testsuite: bsc
+          args: -b osmocom:nightly -c generic
+          timer: H 04 * * *
+
+      - ttcn3-bsc-test-sccplite:
+          testsuite: bsc
+          args: -b osmocom:nightly -c sccplite
+          timer: H 04 * * *
+
+      - ttcn3-bsc-test-vamos:
+          testsuite: bsc
+          args: -b osmocom:nightly -c vamos
+          timer: H 04 * * *
+
       - ttcn3-pcu-test:
           testsuite: pcu
           args: -b osmocom:nightly -c generic
@@ -233,6 +248,21 @@
           kernel: torvalds
           timer: H 10 * * *
 
+      - ttcn3-bsc-test-latest:
+          testsuite: bsc
+          args: -b osmocom:latest -c generic
+          timer: H 11 * * *
+
+      - ttcn3-bsc-test-sccplite-latest:
+          testsuite: bsc
+          args: -b osmocom:latest -c sccplite
+          timer: H 11 * * *
+
+      - ttcn3-bsc-test-vamos-latest:
+          testsuite: bsc
+          args: -b osmocom:latest -c vamos
+          timer: H 11 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
@@ -250,6 +280,11 @@
           testsuite: stp
           args: -b osmocom:nightly --io-uring
           timer: H 11 * * *
+
+      - ttcn3-bsc-test-io_uring:
+          testsuite: bsc
+          args: -b osmocom:nightly --io-uring -c generic
+          timer: H 12 * * *
 
       # ---------------------------------------------
       # Debian nightly + asan (OS#5301)
@@ -308,6 +343,11 @@
           testsuite: pcu
           args: -b osmocom:nightly:asan -c sns
           timer: H 13 * * *
+
+      - ttcn3-bsc-test-asan:
+          testsuite: bsc
+          args: -b osmocom:nightly:asan -c generic
+          timer: H 14 * * *
 
 - job-template:
     name: '{job-name}'

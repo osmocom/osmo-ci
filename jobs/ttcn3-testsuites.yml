@@ -26,15 +26,11 @@
           timer: H 04 * * *
       - nplab-sua-test:
           timer: H 04 * * *
-      - ttcn3-bsc-test:
-          timer: H 05 * * *
       - ttcn3-bts-test:
           timer: H 05 * * *
       - ttcn3-bscnat-test:
           timer: H 05 * * *
           disabled: true
-      - ttcn3-bsc-test-sccplite:
-          timer: H 05 * * *
       - ttcn3-remsim-test:
           timer: H 05 * * *
       - ttcn3-sccp-test:
@@ -54,8 +50,6 @@
       - ttcn3-ns-test-sgsn-sns:
           timer: H 06 * * *
       - ttcn3-pcap-client-test:
-          timer: H 07 * * *
-      - ttcn3-bsc-test-vamos:
           timer: H 07 * * *
       - ttcn3-hnbgw-test:
           timer: H 07 * * *
@@ -81,15 +75,11 @@
           timer: H 08 * * *
       - ttcn3-msc-test-latest:
           timer: H 08 * * *
-      - ttcn3-bsc-test-latest:
-          timer: H 08 * * *
       - ttcn3-bts-test-latest:
           timer: H 08 * * *
       - ttcn3-bscnat-test-latest:
           timer: H 09 * * *
           disabled: true
-      - ttcn3-bsc-test-sccplite-latest:
-          timer: H 09 * * *
       - ttcn3-remsim-test-latest:
           timer: H 09 * * *
       - ttcn3-sccp-test-latest:
@@ -119,9 +109,6 @@
           timer: H 10 * * *
 
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
-      - ttcn3-bsc-test-io_uring:
-          timer: H 11 * * *
-          node: ttcn3_with_linux_6.1_or_higher  # Runs out of memory on others (OS#6405)
       - ttcn3-msc-test-io_uring:
           timer: H 11 * * *
       - ttcn3-hnbgw-test-io_uring:
@@ -132,8 +119,6 @@
           timer: H 11 * * *
 
       # With sanitizer (OS#5301)
-      - ttcn3-bsc-test-asan:
-          timer: H 12 * * *
       - ttcn3-bts-test-asan:
           timer: H 12 * * *
       - ttcn3-gbproxy-test-asan:
