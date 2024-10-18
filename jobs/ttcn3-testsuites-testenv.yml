@@ -4,17 +4,17 @@
     concurrent: false
     disabled: false
     description: |
-        Run the <code>{testsuite}</code> testsuite from
-        <a href="https://gitea.osmocom.org/ttcn3/osmo-ttcn3-hacks">
-          osmo-ttcn3-hacks.git</a> with testenv.py.<br>
-        See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
-            TTCN3 Testsuite</a> for more information.<br>
+        Run the
+        <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
+          Osmocom TTCN3 Testsuite</a> for <code>{testsuite}</code>.<br>
         <br>
-        Arguments:<br>
-        <code>{args}</code><br>
+        Command:<br>
+        <code>./testenv.py run {testsuite} --podman {args}</code><br>
         <br>
         Kernel:<br>
-        <code>{kernel}</code><br>
+        <a href="https://jenkins.osmocom.org/jenkins/job/build-kernel-{kernel}/">
+          <code>{kernel}</code>
+        </a><br>
     timer: "@midnight"
     kernel: "none"
     node: ttcn3
