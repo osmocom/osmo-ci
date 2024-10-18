@@ -156,6 +156,11 @@
           timer: H 07 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-pcap-client-test:
+          testsuite: pcap-client
+          args: -b osmocom:nightly
+          timer: H 08 * * *
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -263,6 +268,11 @@
           args: -b osmocom:latest -c vamos
           timer: H 11 * * *
 
+      - ttcn3-pcap-client-test-latest:
+          testsuite: pcap-client
+          args: -b osmocom:latest
+          timer: H 11 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
@@ -347,6 +357,11 @@
       - ttcn3-bsc-test-asan:
           testsuite: bsc
           args: -b osmocom:nightly:asan -c generic
+          timer: H 14 * * *
+
+      - ttcn3-pcap-client-test-asan:
+          testsuite: pcap-client
+          args: -b osmocom:nightly:asan
           timer: H 14 * * *
 
 - job-template:

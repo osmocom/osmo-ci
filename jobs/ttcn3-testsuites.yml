@@ -49,8 +49,6 @@
           node: hdlc
       - ttcn3-ns-test-sgsn-sns:
           timer: H 06 * * *
-      - ttcn3-pcap-client-test:
-          timer: H 07 * * *
       - ttcn3-hnbgw-test:
           timer: H 07 * * *
       - ttcn3-fr-test:
@@ -89,8 +87,6 @@
       - ttcn3-gbproxy-test-fr-latest:
           timer: H 09 * * *
           node: hdlc
-      - ttcn3-pcap-client-test-latest:
-          timer: H 10 * * *
       - ttcn3-hnbgw-test-latest:
           timer: H 10 * * *
       - ttcn3-epdg-test-latest:
@@ -126,8 +122,6 @@
       - ttcn3-hnbgw-test-asan:
           timer: H 12 * * *
       - ttcn3-msc-test-asan:
-          timer: H 13 * * *
-      - ttcn3-pcap-client-test-asan:
           timer: H 13 * * *
       - ttcn3-remsim-test-asan:
           timer: H 13 * * *
