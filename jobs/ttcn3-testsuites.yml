@@ -49,8 +49,6 @@
           node: hdlc
       - ttcn3-ns-test-sgsn-sns:
           timer: H 06 * * *
-      - ttcn3-hnbgw-test:
-          timer: H 07 * * *
       - ttcn3-fr-test:
           timer: H 07 * * *
           node: hdlc
@@ -87,8 +85,6 @@
       - ttcn3-gbproxy-test-fr-latest:
           timer: H 09 * * *
           node: hdlc
-      - ttcn3-hnbgw-test-latest:
-          timer: H 10 * * *
       - ttcn3-epdg-test-latest:
           timer: H 07 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
@@ -107,8 +103,6 @@
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
       - ttcn3-msc-test-io_uring:
           timer: H 11 * * *
-      - ttcn3-hnbgw-test-io_uring:
-          timer: H 11 * * *
       - ttcn3-gbproxy-test-io_uring:
           timer: H 11 * * *
       - ttcn3-bts-test-io_uring:
@@ -118,8 +112,6 @@
       - ttcn3-bts-test-asan:
           timer: H 12 * * *
       - ttcn3-gbproxy-test-asan:
-          timer: H 12 * * *
-      - ttcn3-hnbgw-test-asan:
           timer: H 12 * * *
       - ttcn3-msc-test-asan:
           timer: H 13 * * *

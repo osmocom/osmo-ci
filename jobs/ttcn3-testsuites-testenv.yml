@@ -25,6 +25,11 @@
       # ---------------------------------------------
       # Debian nightly
       # ---------------------------------------------
+      - ttcn3-hnbgw-test:
+          testsuite: hnbgw
+          args: -b osmocom:nightly -c all
+          timer: H 03 * * *
+
       - ttcn3-bsc-test:
           testsuite: bsc
           args: -b osmocom:nightly -c generic
@@ -214,6 +219,11 @@
           args: -b osmocom:latest
           timer: H 09 * * *
 
+      - ttcn3-hnbgw-test-latest:
+          testsuite: hnbgw
+          args: -b osmocom:latest -c all
+          timer: H 09 * * *
+
       - ttcn3-hnodeb-test-latest:
           testsuite: hnodeb
           args: -b osmocom:latest
@@ -296,6 +306,11 @@
           args: -b osmocom:nightly --io-uring -c generic
           timer: H 12 * * *
 
+      - ttcn3-hnbgw-test-io_uring:
+          testsuite: hnbgw
+          args: -b osmocom:nightly --io-uring -c all
+          timer: H 12 * * *
+
       # ---------------------------------------------
       # Debian nightly + asan (OS#5301)
       # ---------------------------------------------
@@ -363,6 +378,11 @@
           testsuite: pcap-client
           args: -b osmocom:nightly:asan
           timer: H 14 * * *
+
+      - ttcn3-hnbgw-test-asan:
+          testsuite: hnbgw
+          args: -b osmocom:nightly:asan -c all
+          timer: H 12 * * *
 
 - job-template:
     name: '{job-name}'
