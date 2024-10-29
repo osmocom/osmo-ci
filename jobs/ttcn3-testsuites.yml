@@ -23,64 +23,64 @@
       - ttcn3-msc-test:  # ~35 min
           timer: H 03 * * *
       - nplab-m3ua-test:  # ~1 min
-          timer: H 04 * * *
+          timer: H 03 * * *
       - nplab-sua-test:  # ~1 min
-          timer: H 04 * * *
+          timer: H 03 * * *
       - ttcn3-bts-test:  # ~135 min
-          timer: H 05 * * *
+          timer: H 03 * * *
       - ttcn3-remsim-test:  # ~6 min
-          timer: H 05 * * *
+          timer: H 03 * * *
       - ttcn3-sccp-test:  # ~2 min
-          timer: H 06 * * *
+          timer: H 03 * * *
       - ttcn3-gbproxy-test:  # ~15 min
-          timer: H 06 * * *
+          timer: H 03 * * *
       - ttcn3-gbproxy-test-fr:  # ~26 min
-          timer: H 06 * * *
+          timer: H 03 * * *
           node: hdlc
       - ttcn3-ns-test:  # ~7 min
-          timer: H 06 * * *
+          timer: H 03 * * *
       - ttcn3-ns-test-sns:  # ~3 min
-          timer: H 06 * * *
+          timer: H 03 * * *
       - ttcn3-ns-test-fr:  # ~10 min
-          timer: H 06 * * *
+          timer: H 04 * * *
           node: hdlc
       - ttcn3-ns-test-sgsn-sns: # ~ 1 min
-          timer: H 06 * * *
+          timer: H 04 * * *
       - ttcn3-fr-test:  # ~ 10 min
-          timer: H 07 * * *
+          timer: H 04 * * *
           node: hdlc
       - ttcn3-pgw-test:  # ~7 min
-          timer: H 07 * * *
+          timer: H 04 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-epdg-test:  # ~4 min
-          timer: H 07 * * *
+          timer: H 04 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
           node: build4-deb12build-ansible
       - ttcn3-asterisk-ims-ue-test:  # ~19 min
-          timer: H 07 * * *
+          timer: H 04 * * *
 
       # debian latest stable
       - nplab-m3ua-test-latest:  # ~1 min
-          timer: H 07 * * *
+          timer: H 04 * * *
       - nplab-sua-test-latest:  # ~1 min
-          timer: H 08 * * *
+          timer: H 04 * * *
       - ttcn3-msc-test-latest:  # ~35 min
-          timer: H 08 * * *
+          timer: H 04 * * *
       - ttcn3-bts-test-latest:  # ~135 min
-          timer: H 08 * * *
+          timer: H 05 * * *
       - ttcn3-remsim-test-latest:  # ~6 min
-          timer: H 09 * * *
+          timer: H 05 * * *
       - ttcn3-sccp-test-latest:  # ~2 min
-          timer: H 09 * * *
+          timer: H 05 * * *
       - ttcn3-gbproxy-test-latest:  # ~15 min
-          timer: H 09 * * *
+          timer: H 05 * * *
       - ttcn3-gbproxy-test-fr-latest:  # ~23 min
-          timer: H 09 * * *
+          timer: H 05 * * *
           node: hdlc
       - ttcn3-epdg-test-latest:  # ~5 min
-          timer: H 07 * * *
+          timer: H 05 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
           node: build4-deb12build-ansible
 
@@ -88,31 +88,31 @@
 
       # centos7 nightly
       - TTCN3-centos7-pcap-client-test:  # ~1 min
-          timer: H 10 * * *
+          timer: H 05 * * *
 
       # centos7 latest
       - TTCN3-centos7-pcap-client-test-latest:  # ~1 min
-          timer: H 10 * * *
+          timer: H 05 * * *
 
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
       - ttcn3-msc-test-io_uring:  # ~35 min
-          timer: H 11 * * *
+          timer: H 06 * * *
       - ttcn3-gbproxy-test-io_uring:  # ~15 min
-          timer: H 11 * * *
+          timer: H 06 * * *
       - ttcn3-bts-test-io_uring:  # ~135 min
-          timer: H 11 * * *
+          timer: H 06 * * *
 
       # With sanitizer (OS#5301)
       - ttcn3-bts-test-asan:  # ~135 min
-          timer: H 12 * * *
+          timer: H 07 * * *
       - ttcn3-gbproxy-test-asan:  # ~15 min
-          timer: H 12 * * *
+          timer: H 07 * * *
       - ttcn3-msc-test-asan:  # ~35 min
-          timer: H 13 * * *
+          timer: H 07 * * *
       - ttcn3-remsim-test-asan:  # ~6 min
-          timer: H 13 * * *
+          timer: H 07 * * *
       - ttcn3-sccp-test-asan:  # ~2 min
-          timer: H 13 * * *
+          timer: H 07 * * *
 
 
 - job-template:

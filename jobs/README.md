@@ -173,7 +173,8 @@ packages before they have been built (leading to failing jobs).
   02:XX registry-rebuild-upload-fpga-build (weekly)
 
 03:00 - 18:00 Jobs that need binary packages
-  ttcn3-testsuites
+  03:00 - 08:00 ttcn3-testsuites
+  08:00 - 18:00 ttcn3-testsuites-testenv
   04:XX osmocom-release-manuals
   05:XX osmocom-release-tarballs
   06:XX repo-install-test
