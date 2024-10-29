@@ -25,143 +25,143 @@
       # ---------------------------------------------
       # Debian nightly
       # ---------------------------------------------
-      - ttcn3-hnbgw-test:
+      - ttcn3-hnbgw-test:  # ~13 min
           testsuite: hnbgw
           args: -b osmocom:nightly -c all
           timer: H 03 * * *
 
-      - ttcn3-bsc-test:
+      - ttcn3-bsc-test:  # ~96 min
           testsuite: bsc
           args: -b osmocom:nightly -c generic
           timer: H 04 * * *
 
-      - ttcn3-bsc-test-sccplite:
+      - ttcn3-bsc-test-sccplite:  # ~76 min
           testsuite: bsc
           args: -b osmocom:nightly -c sccplite
           timer: H 04 * * *
 
-      - ttcn3-bsc-test-vamos:
+      - ttcn3-bsc-test-vamos:  # ~4 min
           testsuite: bsc
           args: -b osmocom:nightly -c vamos
           timer: H 04 * * *
 
-      - ttcn3-pcu-test:
+      - ttcn3-pcu-test:  # ~14 min
           testsuite: pcu
           args: -b osmocom:nightly -c generic
           timer: H 04 * * *
 
-      - ttcn3-pcu-test-sns:
+      - ttcn3-pcu-test-sns:  # ~7 min
           testsuite: pcu
           args: -b osmocom:nightly -c sns
           timer: H 05 * * *
 
-      - ttcn3-hlr-test:
+      - ttcn3-hlr-test:  # ~3 min
           testsuite: hlr
           args: -b osmocom:nightly
           timer: H 05 * * *
 
-      - ttcn3-mgw-test:
+      - ttcn3-mgw-test:  # ~8 min
           testsuite: mgw
           args: -b osmocom:nightly
           timer: H 05 * * *
 
-      - ttcn3-sip-test:
+      - ttcn3-sip-test:  # ~2 min
           testsuite: sip
           args: -b osmocom:nightly
           timer: H 05 * * *
 
-      - ttcn3-sgsn-test:
+      - ttcn3-sgsn-test:  # ~15 min
           testsuite: sgsn
           args: -b osmocom:nightly -c generic
           timer: H 05 * * *
 
-      - ttcn3-sgsn-test-sns:
+      - ttcn3-sgsn-test-sns:  # ~1 min
           testsuite: sgsn
           args: -b osmocom:nightly -c sns
           timer: H 05 * * *
 
-      - ttcn3-smlc-test:
+      - ttcn3-smlc-test:  # ~2 min
           testsuite: smlc
           args: -b osmocom:nightly
           timer: H 06 * * *
 
-      - ttcn3-cbc-test:
+      - ttcn3-cbc-test:  # ~6 min
           testsuite: cbc
           args: -b osmocom:nightly
           timer: H 06 * * *
 
-      - ttcn3-stp-test:
+      - ttcn3-stp-test:  # ~10 min
           testsuite: stp
           args: -b osmocom:nightly
           timer: H 06 * * *
 
-      - ttcn3-hnodeb-test:
+      - ttcn3-hnodeb-test:  # ~1 min
           testsuite: hnodeb
           args: -b osmocom:nightly
           timer: H 07 * * *
 
-      - ttcn3-dia2gsup-test:
+      - ttcn3-dia2gsup-test:  # ~2 min
           testsuite: dia2gsup
           args: -b osmocom:nightly
           timer: H 07 * * *
 
-      - ttcn3-upf-test:
+      - ttcn3-upf-test:  # ~1 min
           testsuite: upf
           args: -b osmocom:nightly
           timer: H 07 * * *
 
-      - ttcn3-hss-test-ogs:
+      - ttcn3-hss-test-ogs:  # ~1 min
           testsuite: hss
           args: -b osmocom:nightly
           timer: H 07 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
-      - ttcn3-mme-test-ogs:
+      - ttcn3-mme-test-ogs:  # ~2 min
           testsuite: mme
           args: -b osmocom:nightly
           timer: H 07 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
-      - ttcn3-pcrf-test-ogs:
+      - ttcn3-pcrf-test-ogs:  # ~1 min
           testsuite: pcrf
           args: -b osmocom:nightly
           timer: H 07 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
-      - ttcn3-s1gw-test:
+      - ttcn3-s1gw-test:  # ~2 min
           testsuite: s1gw
           args: -b osmocom:nightly
           timer: H 07 * * *
 
-      - ttcn3-ggsn-test:
+      - ttcn3-ggsn-test:  # ~15 min
           testsuite: ggsn
           args: -b osmocom:nightly -c 'osmo_ggsn_*'
           timer: H 07 * * *
 
-      - ttcn3-ggsn-test-kernel:
+      - ttcn3-ggsn-test-kernel:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --debian-kernel
           timer: H 07 * * *
 
-      - ttcn3-ggsn-test-kernel-net-next:
+      - ttcn3-ggsn-test-kernel-net-next:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --custom-kernel
           kernel: net-next
           timer: H 07 * * *
 
-      - ttcn3-ggsn-test-kernel-torvalds:
+      - ttcn3-ggsn-test-kernel-torvalds:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --custom-kernel
           kernel: torvalds
           timer: H 07 * * *
 
-      - ttcn3-ggsn-test-ogs:
+      - ttcn3-ggsn-test-ogs:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:nightly -c open5gs
           timer: H 07 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
-      - ttcn3-pcap-client-test:
+      - ttcn3-pcap-client-test:  # ~1 min
           testsuite: pcap-client
           args: -b osmocom:nightly
           timer: H 08 * * *
@@ -169,116 +169,116 @@
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
-      - ttcn3-pcu-test-latest:
+      - ttcn3-pcu-test-latest:  # ~14 min
           testsuite: pcu
           args: -b osmocom:latest -c generic
           timer: H 08 * * *
 
-      - ttcn3-pcu-test-sns-latest:
+      - ttcn3-pcu-test-sns-latest:  # ~8 min
           testsuite: pcu
           args: -b osmocom:latest -c sns
           timer: H 08 * * *
 
-      - ttcn3-hlr-test-latest:
+      - ttcn3-hlr-test-latest:  # ~3 min
           testsuite: hlr
           args: -b osmocom:latest
           timer: H 08 * * *
 
-      - ttcn3-mgw-test-latest:
+      - ttcn3-mgw-test-latest:  # ~8 min
           testsuite: mgw
           args: -b osmocom:latest
           timer: H 08 * * *
 
-      - ttcn3-sip-test-latest:
+      - ttcn3-sip-test-latest:  # ~2 min
           testsuite: sip
           args: -b osmocom:latest
           timer: H 08 * * *
 
-      - ttcn3-sgsn-test-latest:
+      - ttcn3-sgsn-test-latest:  # ~15 min
           testsuite: sgsn
           args: -b osmocom:latest -c generic
           timer: H 08 * * *
 
-      - ttcn3-sgsn-test-sns-latest:
+      - ttcn3-sgsn-test-sns-latest:  # ~1 min
           testsuite: sgsn
           args: -b osmocom:latest -c sns
           timer: H 08 * * *
 
-      - ttcn3-smlc-test-latest:
+      - ttcn3-smlc-test-latest:  # ~2 min
           testsuite: smlc
           args: -b osmocom:latest
           timer: H 09 * * *
 
-      - ttcn3-cbc-test-latest:
+      - ttcn3-cbc-test-latest:  # ~6 min
           testsuite: cbc
           args: -b osmocom:latest
           timer: H 09 * * *
 
-      - ttcn3-stp-test-latest:
+      - ttcn3-stp-test-latest:  # ~10 min
           testsuite: stp
           args: -b osmocom:latest
           timer: H 09 * * *
 
-      - ttcn3-hnbgw-test-latest:
+      - ttcn3-hnbgw-test-latest:  # ~13 min
           testsuite: hnbgw
           args: -b osmocom:latest -c all
           timer: H 09 * * *
 
-      - ttcn3-hnodeb-test-latest:
+      - ttcn3-hnodeb-test-latest:  # ~1 min
           testsuite: hnodeb
           args: -b osmocom:latest
           timer: H 10 * * *
 
-      - ttcn3-upf-test-latest:
+      - ttcn3-upf-test-latest:  # ~1 min
           testsuite: upf
           args: -b osmocom:latest
           timer: H 10 * * *
           disabled: true
 
-      - ttcn3-s1gw-test-latest:
+      - ttcn3-s1gw-test-latest:  # ~2 min
           testsuite: s1gw
           args: -b osmocom:latest
           timer: H 10 * * *
           disabled: true  # disable until > 0.1.x release
 
-      - ttcn3-ggsn-test-latest:
+      - ttcn3-ggsn-test-latest:  # ~15 min
           testsuite: ggsn
           args: -b osmocom:latest -c 'osmo_ggsn_*'
           timer: H 10 * * *
 
-      - ttcn3-ggsn-test-kernel-latest:
+      - ttcn3-ggsn-test-kernel-latest:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --debian-kernel
           timer: H 10 * * *
 
-      - ttcn3-ggsn-test-kernel-latest-net-next:
+      - ttcn3-ggsn-test-kernel-latest-net-next:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --custom-kernel
           kernel: net-next
           timer: H 10 * * *
 
-      - ttcn3-ggsn-test-kernel-latest-torvalds:
+      - ttcn3-ggsn-test-kernel-latest-torvalds:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --custom-kernel
           kernel: torvalds
           timer: H 10 * * *
 
-      - ttcn3-bsc-test-latest:
+      - ttcn3-bsc-test-latest:  # ~96 min
           testsuite: bsc
           args: -b osmocom:latest -c generic
           timer: H 11 * * *
 
-      - ttcn3-bsc-test-sccplite-latest:
+      - ttcn3-bsc-test-sccplite-latest:  # ~76 min
           testsuite: bsc
           args: -b osmocom:latest -c sccplite
           timer: H 11 * * *
 
-      - ttcn3-bsc-test-vamos-latest:
+      - ttcn3-bsc-test-vamos-latest:  # ~3 min
           testsuite: bsc
           args: -b osmocom:latest -c vamos
           timer: H 11 * * *
 
-      - ttcn3-pcap-client-test-latest:
+      - ttcn3-pcap-client-test-latest:  # ~1 min
           testsuite: pcap-client
           args: -b osmocom:latest
           timer: H 11 * * *
@@ -286,27 +286,27 @@
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
-      - ttcn3-mgw-test-io_uring:
+      - ttcn3-mgw-test-io_uring:  # ~8 min
           testsuite: mgw
           args: -b osmocom:nightly --io-uring
           timer: H 11 * * *
 
-      - ttcn3-sgsn-test-io_uring:
+      - ttcn3-sgsn-test-io_uring:  # ~15 min
           testsuite: sgsn
           args: -b osmocom:nightly --io-uring -c generic
           timer: H 11 * * *
 
-      - ttcn3-stp-test-io_uring:
+      - ttcn3-stp-test-io_uring:  # ~10 min
           testsuite: stp
           args: -b osmocom:nightly --io-uring
           timer: H 11 * * *
 
-      - ttcn3-bsc-test-io_uring:
+      - ttcn3-bsc-test-io_uring:  # ~96 min
           testsuite: bsc
           args: -b osmocom:nightly --io-uring -c generic
           timer: H 12 * * *
 
-      - ttcn3-hnbgw-test-io_uring:
+      - ttcn3-hnbgw-test-io_uring:  # ~13 min
           testsuite: hnbgw
           args: -b osmocom:nightly --io-uring -c all
           timer: H 12 * * *
@@ -314,72 +314,72 @@
       # ---------------------------------------------
       # Debian nightly + asan (OS#5301)
       # ---------------------------------------------
-      - ttcn3-mgw-test-asan:
+      - ttcn3-mgw-test-asan:  # ~8 min
           testsuite: mgw
           args: -b osmocom:nightly:asan
           timer: H 12 * * *
 
-      - ttcn3-hlr-test-asan:
+      - ttcn3-hlr-test-asan:  # ~3 min
           testsuite: hlr
           args: -b osmocom:nightly:asan
           timer: H 12 * * *
 
-      - ttcn3-sip-test-asan:
+      - ttcn3-sip-test-asan:  # ~2 min
           testsuite: sip
           args: -b osmocom:nightly:asan
           timer: H 12 * * *
 
-      - ttcn3-hnodeb-test-asan:
+      - ttcn3-hnodeb-test-asan:  # ~1 min
           testsuite: hnodeb
           args: -b osmocom:nightly:asan
           timer: H 12 * * *
 
-      - ttcn3-smlc-test-asan:
+      - ttcn3-smlc-test-asan:  # ~2 min
           testsuite: smlc
           args: -b osmocom:nightly:asan
           timer: H 12 * * *
 
-      - ttcn3-cbc-test-asan:
+      - ttcn3-cbc-test-asan:  # ~6 min
           testsuite: cbc
           args: -b osmocom:nightly:asan
           timer: H 12 * * *
 
-      - ttcn3-sgsn-test-asan:
+      - ttcn3-sgsn-test-asan:  # ~15 min
           testsuite: sgsn
           args: -b osmocom:nightly:asan -c generic
           timer: H 12 * * *
 
-      - ttcn3-ggsn-test-asan:
+      - ttcn3-ggsn-test-asan:  # ~15 min
           testsuite: ggsn
           args: -b osmocom:nightly:asan -c 'osmo_ggsn_*'
           timer: H 12 * * *
 
-      - ttcn3-stp-test-asan:
+      - ttcn3-stp-test-asan:  # ~10 min
           testsuite: stp
           args: -b osmocom:nightly:asan
           timer: H 13 * * *
 
-      - ttcn3-pcu-test-asan:
+      - ttcn3-pcu-test-asan:  # ~14 min
           testsuite: pcu
           args: -b osmocom:nightly:asan -c generic
           timer: H 13 * * *
 
-      - ttcn3-pcu-test-sns-asan:
+      - ttcn3-pcu-test-sns-asan:  # ~8 min
           testsuite: pcu
           args: -b osmocom:nightly:asan -c sns
           timer: H 13 * * *
 
-      - ttcn3-bsc-test-asan:
+      - ttcn3-bsc-test-asan:  # ~96 min
           testsuite: bsc
           args: -b osmocom:nightly:asan -c generic
           timer: H 14 * * *
 
-      - ttcn3-pcap-client-test-asan:
+      - ttcn3-pcap-client-test-asan:  # ~1 min
           testsuite: pcap-client
           args: -b osmocom:nightly:asan
           timer: H 14 * * *
 
-      - ttcn3-hnbgw-test-asan:
+      - ttcn3-hnbgw-test-asan:  # ~13 min
           testsuite: hnbgw
           args: -b osmocom:nightly:asan -c all
           timer: H 12 * * *

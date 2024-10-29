@@ -20,66 +20,66 @@
     # timer: 10 per hour from 04:00 - 18:00, see jobs/README.adoc
     job-name:
       # debian nightly - order by time
-      - ttcn3-msc-test:
+      - ttcn3-msc-test:  # ~35 min
           timer: H 03 * * *
-      - nplab-m3ua-test:
+      - nplab-m3ua-test:  # ~1 min
           timer: H 04 * * *
-      - nplab-sua-test:
+      - nplab-sua-test:  # ~1 min
           timer: H 04 * * *
-      - ttcn3-bts-test:
+      - ttcn3-bts-test:  # ~135 min
           timer: H 05 * * *
-      - ttcn3-remsim-test:
+      - ttcn3-remsim-test:  # ~6 min
           timer: H 05 * * *
-      - ttcn3-sccp-test:
+      - ttcn3-sccp-test:  # ~2 min
           timer: H 06 * * *
-      - ttcn3-gbproxy-test:
+      - ttcn3-gbproxy-test:  # ~15 min
           timer: H 06 * * *
-      - ttcn3-gbproxy-test-fr:
+      - ttcn3-gbproxy-test-fr:  # ~26 min
           timer: H 06 * * *
           node: hdlc
-      - ttcn3-ns-test:
+      - ttcn3-ns-test:  # ~7 min
           timer: H 06 * * *
-      - ttcn3-ns-test-sns:
+      - ttcn3-ns-test-sns:  # ~3 min
           timer: H 06 * * *
-      - ttcn3-ns-test-fr:
+      - ttcn3-ns-test-fr:  # ~10 min
           timer: H 06 * * *
           node: hdlc
-      - ttcn3-ns-test-sgsn-sns:
+      - ttcn3-ns-test-sgsn-sns: # ~ 1 min
           timer: H 06 * * *
-      - ttcn3-fr-test:
+      - ttcn3-fr-test:  # ~ 10 min
           timer: H 07 * * *
           node: hdlc
-      - ttcn3-pgw-test:
+      - ttcn3-pgw-test:  # ~7 min
           timer: H 07 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
-      - ttcn3-epdg-test:
+      - ttcn3-epdg-test:  # ~4 min
           timer: H 07 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
           node: build4-deb12build-ansible
-      - ttcn3-asterisk-ims-ue-test:
+      - ttcn3-asterisk-ims-ue-test:  # ~19 min
           timer: H 07 * * *
 
       # debian latest stable
-      - nplab-m3ua-test-latest:
+      - nplab-m3ua-test-latest:  # ~1 min
           timer: H 07 * * *
-      - nplab-sua-test-latest:
+      - nplab-sua-test-latest:  # ~1 min
           timer: H 08 * * *
-      - ttcn3-msc-test-latest:
+      - ttcn3-msc-test-latest:  # ~35 min
           timer: H 08 * * *
-      - ttcn3-bts-test-latest:
+      - ttcn3-bts-test-latest:  # ~135 min
           timer: H 08 * * *
-      - ttcn3-remsim-test-latest:
+      - ttcn3-remsim-test-latest:  # ~6 min
           timer: H 09 * * *
-      - ttcn3-sccp-test-latest:
+      - ttcn3-sccp-test-latest:  # ~2 min
           timer: H 09 * * *
-      - ttcn3-gbproxy-test-latest:
+      - ttcn3-gbproxy-test-latest:  # ~15 min
           timer: H 09 * * *
-      - ttcn3-gbproxy-test-fr-latest:
+      - ttcn3-gbproxy-test-fr-latest:  # ~23 min
           timer: H 09 * * *
           node: hdlc
-      - ttcn3-epdg-test-latest:
+      - ttcn3-epdg-test-latest:  # ~5 min
           timer: H 07 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
           node: build4-deb12build-ansible
@@ -87,31 +87,31 @@
       # Jobs below use uppercase TTCN3-$DISTRO, so they get listed separately from the ttcn3-* (debian) jobs
 
       # centos7 nightly
-      - TTCN3-centos7-pcap-client-test:
+      - TTCN3-centos7-pcap-client-test:  # ~1 min
           timer: H 10 * * *
 
       # centos7 latest
-      - TTCN3-centos7-pcap-client-test-latest:
+      - TTCN3-centos7-pcap-client-test-latest:  # ~1 min
           timer: H 10 * * *
 
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
-      - ttcn3-msc-test-io_uring:
+      - ttcn3-msc-test-io_uring:  # ~35 min
           timer: H 11 * * *
-      - ttcn3-gbproxy-test-io_uring:
+      - ttcn3-gbproxy-test-io_uring:  # ~15 min
           timer: H 11 * * *
-      - ttcn3-bts-test-io_uring:
+      - ttcn3-bts-test-io_uring:  # ~135 min
           timer: H 11 * * *
 
       # With sanitizer (OS#5301)
-      - ttcn3-bts-test-asan:
+      - ttcn3-bts-test-asan:  # ~135 min
           timer: H 12 * * *
-      - ttcn3-gbproxy-test-asan:
+      - ttcn3-gbproxy-test-asan:  # ~15 min
           timer: H 12 * * *
-      - ttcn3-msc-test-asan:
+      - ttcn3-msc-test-asan:  # ~35 min
           timer: H 13 * * *
-      - ttcn3-remsim-test-asan:
+      - ttcn3-remsim-test-asan:  # ~6 min
           timer: H 13 * * *
-      - ttcn3-sccp-test-asan:
+      - ttcn3-sccp-test-asan:  # ~2 min
           timer: H 13 * * *
 
 
