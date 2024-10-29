@@ -28,9 +28,6 @@
           timer: H 04 * * *
       - ttcn3-bts-test:
           timer: H 05 * * *
-      - ttcn3-bscnat-test:
-          timer: H 05 * * *
-          disabled: true
       - ttcn3-remsim-test:
           timer: H 05 * * *
       - ttcn3-sccp-test:
@@ -73,9 +70,6 @@
           timer: H 08 * * *
       - ttcn3-bts-test-latest:
           timer: H 08 * * *
-      - ttcn3-bscnat-test-latest:
-          timer: H 09 * * *
-          disabled: true
       - ttcn3-remsim-test-latest:
           timer: H 09 * * *
       - ttcn3-sccp-test-latest:
