@@ -1,7 +1,16 @@
 #!/bin/sh -e
 SCRIPTS_OBS_DIR="$(realpath "$(dirname "$0")")"
-
 DISTRO="$1"
+
+error_exit() {
+	echo "---"
+	echo "NOTE: if the build failed because dependencies are outdated, see the status here:"
+	echo "https://obs.osmocom.org/project/show/osmocom:master"
+	echo "---"
+	exit 1
+}
+
+
 if [ -z "$DISTRO" ]; then
 	echo "usage: gerrit-binpkgs.sh DISTRO"
 	echo "examples:"
@@ -33,11 +42,11 @@ echo ":: Building the source package"
 	--git-skip-fetch \
 	--git-skip-checkout \
 	--no-meta \
-	"$PROJECT_NAME"
+	"$PROJECT_NAME" || error_exit
 
 echo ":: Building the binary packages"
 "$SCRIPTS_OBS_DIR"/build_binpkg.py \
 	--docker "$DISTRO" \
-	"$PROJECT_NAME"
+	"$PROJECT_NAME" || error_exit
 
 echo ":: Find binary packages in: $SCRIPTS_OBS_DIR/_temp/binpkgs"
