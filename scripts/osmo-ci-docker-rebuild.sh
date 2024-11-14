@@ -10,6 +10,10 @@ x86_64)
 		"debian-bookworm-erlang"
 	;;
 arm*|aarch64)
+	# OS#6627: need to run a separate "docker pull" command with platform
+	docker pull docker.io/arm32v7/debian:bookworm --platform="linux/arm/v7"
+
+	export NO_DOCKER_IMAGE_PULL=1
 	docker_images_require \
 		"debian-bookworm-build-arm"
 	;;
