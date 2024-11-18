@@ -1,0 +1,39 @@
+- project:
+    name: registry-rebuild-upload
+    jobs:
+      - "{job-name}"
+    job-name:
+      - registry-rebuild-upload-android:
+          image: "debian-bookworm-android"
+
+- job-template:
+    name: '{job-name}'
+    description: |
+        Build the <code>{image}</code> image from
+        <a href="https://gitea.osmocom.org/osmocom/docker-playground/">
+          docker-playground
+        </a> and push it to the Osmocom registry.
+    concurrent: false
+    parameters:
+      - string:
+          name: BRANCH
+          description: |
+                Branch of <code>docker-playground.git</code>
+          default: 'master'
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/docker-playground
+          skip-tag: true
+          branches:
+            - '$BRANCH'
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+          make -C "{image}" REGISTRY_HOST=$REGISTRY
+          docker push "$REGISTRY/$USER/{image}"
+    properties:
+      - build-discarder:
+          num-to-keep: 120
+    wrappers:
+      - ansicolor:
+          colormap: xterm
