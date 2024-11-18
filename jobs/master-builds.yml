@@ -78,6 +78,7 @@
     branch: master
     ssh:
       - docs_ftp.osmocom.org
+    archive_artifacts_on_success: false
 
     # in alphabetical order
     repos:
@@ -93,6 +94,7 @@
               -v "$ANDROID_CACHE":/build/.android \
               -v "$GRADLE_CACHE":/build/.gradle \
               {docker_img_android} {timeout_cmd} contrib/jenkins.sh
+          archive_artifacts_on_success: true
 
       - asn1c:
           branch: osmo-iuh/master
@@ -677,13 +679,15 @@
       - shell: |
           # Remove workspace on success to free up space. Create an empty dir
           # so the job does not abort when attempting to collect artifacts.
-          rm -rf "$WORKSPACE"
-          mkdir -p "$WORKSPACE"
+          if [ "{archive_artifacts_on_success}" != "True" ]; then
+            rm -rf "$WORKSPACE"
+            mkdir -p "$WORKSPACE"
+          fi
 
     publishers:
        - archive:
            allow-empty: true
-           artifacts: '**/core, **/testsuite.log, **/workspace.tar.xz'
+           artifacts: '**/core, **/testsuite.log, **/workspace.tar.xz, **/app-release.apk'
        - warnings:
            console-log-parsers:
              - 'GNU C Compiler 4 (gcc)'
