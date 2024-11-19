@@ -83,7 +83,6 @@
     # in alphabetical order
     repos:
       - android-apdu-proxy:
-          repos_url: '{gitea_url}/sim-card/android-apdu-proxy'
           branch: master
           cmd: |
             ANDROID_CACHE="$HOME/android-cache/master-builds/android"
