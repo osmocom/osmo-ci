@@ -84,6 +84,7 @@
               -v "$CCACHE_DIR:/ccache" \
     docker_img: '$USER/debian-bookworm-build'
     docker_img_erlang: '$USER/debian-bookworm-erlang'
+    docker_img_android: 'registry.osmocom.org/osmocom-build/debian-bookworm-android'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
@@ -96,6 +97,19 @@
 
     # in alphabetical order
     repos:
+      - android-apdu-proxy:
+          pipeline_binpkgs: ""
+          concurrent: false  # might cause problems with shared cache
+          cmd: |
+            ANDROID_CACHE="$HOME/android-cache/gerrit-verifications/android"
+            GRADLE_CACHE="$HOME/android-cache/gerrit-verifications/gradle"
+            mkdir -p "$ANDROID_CACHE" "$GRADLE_CACHE"
+            docker pull {docker_img_android}
+            {docker_run} \
+              -v "$ANDROID_CACHE":/build/.android \
+              -v "$GRADLE_CACHE":/build/.gradle \
+              {docker_img_android} {timeout_cmd} contrib/jenkins.sh
+
       - asn1c:
           pipeline_binpkgs: ""
           pipeline_lint: false
