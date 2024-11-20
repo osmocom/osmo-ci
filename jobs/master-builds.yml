@@ -111,12 +111,15 @@
       - libosmo-abis:
           # Full triggers would be:
           # trigger: >
-          #   master-libosmo-netif, master-osmo-bsc, master-osmo-bts, master-osmo-hlr,
-          #   master-osmo-msc, master-osmo-sgsn
+          #   master-osmo-bsc, master-osmo-bts, master-osmo-hlr,
+          #   master-osmo-mgw, master-osmo-sgsn
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
-            master-libosmo-netif, master-osmo-bts
+            master-osmo-bts,
+            master-osmo-hlr,
+            master-osmo-mgw,
+            master-osmo-sgsn
 
       - libosmo-dsp:
           repos_url: '{gitea_url}/sdr/{repos}'
@@ -142,16 +145,14 @@
       - libosmo-netif:
           # Full triggers would be:
           # trigger: >
-          #   master-libosmo-sigtran, mastere-osmo-hlr, master-osmo-iuh,
-          #   master-osmo-mgw, master-osmo-msc, master-osmo-sgsn, master-osmo-hnodeb,
-          #   master-osmo-hnbgw
+          # master-libosmo-abis, master-libosmo-sigtran, mastere-osmo-hlr,
+          # master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-sgsn,
+          # master-osmo-hnodeb, master-osmo-hnbgw
           # Optimized:
           # (see comment at libosmocore)
           trigger: >
-            master-libosmo-sigtran,
-            master-osmo-hlr,
-            master-osmo-mgw,
-            master-osmo-sgsn
+            master-libosmo-abis
+            master-libosmo-sigtran
 
       - libosmo-pfcp:
           # Full triggers would be:
@@ -185,27 +186,27 @@
           cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
           # Full triggers would be:
           # trigger: >
-          #   master-libosmo-abis, master-libosmo-netif, master-libosmo-sigtran,
+          #   master-libosmo-netif, master-libosmo-abis, master-libosmo-sigtran,
           #   master-osmo-bsc, master-osmo-bts, master-osmo-ggsn, master-osmo-gmr, master-osmo-hlr,
           #   master-osmo-iuh, master-osmo-mgw, master-osmo-msc, master-osmo-pcap, master-osmo-pcu,
           #   master-osmo-sgsn, master-osmo-sip-connector, master-osmo-tetra, master-osmo-hnodeb
           #   master-osmocom-bb, master-simtrace, master-xgoldmon
           # Optimized:
           # libosmocore
-          # -> master-libosmo-abis
-          #    -> master-libosmo-netif
-          #       -> master-libosmo-sigtran
-          #          -> master-osmo-bsc
-          #          -> master-osmo-bsc-nat
-          #          -> master-osmo-iuh
-          #             -> master-osmo-msc
-          #             -> master-osmo-sgsn
-          #             -> master-osmo-hnodeb
+          # -> master-libosmo-netif
+          #    -> master-libosmo-abis
+          #    -> master-libosmo-sigtran
+          #       -> master-osmo-bsc
+          #       -> master-osmo-bsc-nat
+          #       -> master-osmo-iuh
           #          -> master-osmo-msc
           #          -> master-osmo-sgsn
-          #       -> master-osmo-hlr
-          #       -> master-osmo-mgw
+          #          -> master-osmo-hnodeb
+          #       -> master-osmo-msc
           #       -> master-osmo-sgsn
+          #    -> master-osmo-hlr
+          #    -> master-osmo-mgw
+          #    -> master-osmo-sgsn
           #    -> master-osmo-bts
           # -> master-libosmo-gprs
           #    -> master-osmo-pcu
@@ -216,7 +217,7 @@
           #    -> master-osmo-sgsn
           # [...]
           trigger: >
-            master-libosmo-abis,
+            master-libosmo-netif,
             master-libosmo-pfcp,
             master-osmo-gbproxy,
             master-osmo-ggsn,
