@@ -5,9 +5,9 @@ SSH_CMD="ssh -o UserKnownHostsFile=/build/contrib/known_hosts -p 48"
 # uploaded, also dependencies which need to be built
 repos_api="
 	libosmocore
-	libosmo-abis
 	libosmo-dsp
 	libosmo-netif
+	libosmo-abis
 	libosmo-sigtran
 	osmo-gmr
 "
