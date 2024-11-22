@@ -14,8 +14,8 @@ PARALLEL_MAKE="${PARALLEL_MAKE:--j5}"
 
 REPOS_MASTER="
 	libosmocore
-	libosmo-abis
 	libosmo-netif
+	libosmo-abis
 	libosmo-sigtran
 	libosmo-sccp-legacy
 	libsmpp34
