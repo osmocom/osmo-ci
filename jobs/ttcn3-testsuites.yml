@@ -38,9 +38,9 @@
           timer: H 03 * * *
           node: hdlc
       - ttcn3-ns-test:  # ~7 min
-          timer: H 03 * * *
+          timer: H 04 * * *
       - ttcn3-ns-test-sns:  # ~3 min
-          timer: H 03 * * *
+          timer: H 04 * * *
       - ttcn3-ns-test-fr:  # ~10 min
           timer: H 04 * * *
           node: hdlc
