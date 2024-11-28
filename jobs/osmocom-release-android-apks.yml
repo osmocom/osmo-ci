@@ -1,0 +1,44 @@
+---
+- job:
+    name: 'Osmocom-release-android-apks'
+    node: osmocom-master
+    project-type: freestyle
+    defaults: global
+    description: |
+        Build and upload Android apks signed with a test key, to be later
+        re-signed with a proper key (SYS#7197).
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    parameters:
+      - string:
+          name: BRANCH_OSMO_CI
+          description: |
+                osmo-ci.git branch with scripts/android/publish-apks-for-tags.sh
+          default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
+    builders:
+      - shell: |
+          JENKINS=1 scripts/android/publish-apks-for-tags.sh
+    scm:
+      - git:
+          branches:
+            - '$BRANCH_OSMO_CI'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          wipe-workspace: true
+    triggers:
+      - timed: "H 05 * * *"
+    publishers:
+       - email:
+          notify-every-unstable-build: true
+          recipients: '$EMAIL_NOTIFICATIONS'
+    wrappers:
+      - ssh-agent-credentials:
+          users:
+          - binaries_ftp.osmocom.org
