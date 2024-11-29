@@ -594,6 +594,12 @@
 
       - dahdi-tools
 
+      - osmocom-android-binaries:
+          ssh:
+            - binaries_ftp.osmocom.org
+          concurrent: false
+          repos_url: 'https://gitea.osmocom.org/osmocom/osmocom-android-binaries'
+
       - xgoldmon:
           repos_url: 'https://github.com/2b-as/{repos}'
           cmd: |
