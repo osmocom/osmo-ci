@@ -10,9 +10,11 @@ latest/xUbuntu_20.04
 latest/xUbuntu_21.04
 latest/xUbuntu_22.04
 latest/xUbuntu_23.04
+latest/xUbuntu_24.04
 
 nightly/CentOS_8
 nightly/Debian_11
 nightly/Debian_12
 nightly/Raspbian_11
 nightly/xUbuntu_23.04
+nightly/xUbuntu_24.04
