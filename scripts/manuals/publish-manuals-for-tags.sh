@@ -389,6 +389,9 @@ build_publish_manuals() {
 			osmo-epdg)
 				su build -c \"make -C docs/manuals\"
 				;;
+			osmocom-bb)
+				su build -c \"make -C doc/manuals\"
+				;;
 			pyosmocom)
 				su build -c \"make -C docs html latexpdf\"
 				;;
