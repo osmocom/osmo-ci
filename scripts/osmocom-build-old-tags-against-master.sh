@@ -65,6 +65,7 @@ tags_to_ignore() {
 			echo "1.4.0" # testsuite
 			echo "1.12.0" # OS#6617
 			echo "1.12.1" # OS#6617
+			echo "1.12.2" # Not forward-compatible to libosmo-abis changes, fixed in 1.12.3
 			;;
 		osmo-bts)
 			echo "1.0.0" # missing gsm0808.h include, fixed in 1.0.1
