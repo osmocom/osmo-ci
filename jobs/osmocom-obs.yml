@@ -1,17 +1,30 @@
 ---
 - project:
     name: Osmocom_OBS
+    description_extra: ""
     jobs:
       - Osmocom_OBS_{type}
     type:
       - master:
           conflict_version: ""
+          description_extra: |
+            This job gets triggered by jenkins whenever something gets merged
+            to master.
       - nightly:
           # For nightly we don't provide ABI compatibility, make sure packages
           # from different build dates are not mixed by accident
           conflict_version: "$(date +%Y%m%d%H%M)"
+          description_extra: |
+            This job gets triggered every night.<br><br>
+            <b>Do not trigger manually! This causes a rebuild of ALL packages
+            for ALL supported Linux distributions and architectures, and should
+            only run once every night!</b>
       - latest:
           conflict_version: ""
+          description_extra: |
+            This job gets triggered every night.<br><br>
+            Triggering this manually after making a release is fine, because
+            only the packages that have a new version will be built.
 
 - job-template:
     name: 'Osmocom_OBS_{type}'
@@ -20,7 +33,7 @@
     defaults: global
     description: |
       See <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Binary_Packages">Wiki: binary packages</a>
-      for more information.
+      for more information. {description_extra}
     properties:
       - build-discarder:
           days-to-keep: 30
