@@ -3,12 +3,9 @@ osmo-gsm-tester-rnd ansible_host=10.9.25.101
 osmo-gsm-tester-prod ansible_host=10.9.25.107
 
 [coverity_slaves]
-build2-deb11build-ansible ansible_host=2a01:4f8:10b:2ad9::1:13
 build4-deb12build-ansible ansible_host=2a01:4f8:121:200a::1:3
 
 [jenkins_slaves]
-build2-deb10build-ansible ansible_host=2a01:4f8:10b:2ad9::1:10 osmocom_jenkins_slave_fstrim=True docker_max_image_space="80 GB"
-build2-deb11build-ansible ansible_host=2a01:4f8:10b:2ad9::1:13 osmocom_jenkins_slave_fstrim=True docker_max_image_space="80 GB"
 build4-deb12build-ansible ansible_host=2a01:4f8:121:200a::1:3 osmocom_jenkins_slave_fstrim=True docker_max_image_space="80 GB"
 build5-deb12build-ansible ansible_host=2a01:4f8:140:926a::1:3 osmocom_jenkins_slave_fstrim=True docker_max_image_space="80 GB"
 rpi4-raspbian12build-ansible-1 ansible_host=10.9.25.50 docker_max_image_space="20 GB"
