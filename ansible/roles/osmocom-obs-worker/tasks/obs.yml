@@ -32,7 +32,9 @@
   when: obs_vm_type == "lxc"
   zypper:
     name:
-      - lxc
+      # obs-build requires lxc <= 4.x (OS#6186#note-50)
+      - lxc<5.0.0
+      - liblxc1<5.0.0
 
 - name: install qemu
   when: obs_vm_type != "lxc"
