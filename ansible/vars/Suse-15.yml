@@ -1,2 +1,3 @@
 ---
 obs_distro: fixme
+obs_vm_type: lxc
