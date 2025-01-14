@@ -8,12 +8,12 @@
     - name: install common utilities
       zypper:
         name:
-          - vim
-          - tmux
-          - screen
-          - tcpdump
-          - strace
           - ltrace
+          - screen
+          - strace
+          - tcpdump
+          - tmux
+          - vim
 
   roles:
     - name: osmocom-obs-worker
