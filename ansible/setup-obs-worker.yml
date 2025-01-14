@@ -8,12 +8,25 @@
     - name: install common utilities
       zypper:
         name:
+          - etckeeper
+          - git
           - ltrace
+          - man
           - screen
           - strace
           - tcpdump
           - tmux
           - vim
+
+  # We need to initialize etckeeper after installing it (in Debian and other
+  # distros this is done automatically)
+    - name: Check if etckeeper is initialized
+      stat:
+        path: "/etc/.git"
+      register: etckeeper_result
+    - name: Initialize etckeeper
+      ansible.builtin.shell: "etckeeper init; etckeeper commit initial"
+      when: not etckeeper_result.stat.exists
 
   roles:
     - name: osmocom-obs-worker
