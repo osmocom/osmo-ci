@@ -23,24 +23,21 @@
       register: coverity_copy
       ignore_errors: yes
 
+    - name: coverity download hint
+      ansible.builtin.fail:
+        msg: "Login and download {{ coverity_installer_file }} from https://scan.coverity.com/download (Linux64) and put it into osmo-ci/ansible/files."
+      when: coverity_copy.failed == True
+
     - name: create /opt/coverity/{{ coverity_version }}/
       file:
         path: /opt/coverity/{{ coverity_version }}/
         state: directory
-      when: coverity_copy.failed == False
 
     - name: unpack coverity
       unarchive:
         src: "/tmp/{{ coverity_installer_file }}"
         dest: /opt/coverity/{{ coverity_version }}
         remote_src: yes
-      when: coverity_copy.failed == False
 
     - name: create link /opt/coverity/current
       shell: rm -vf /opt/coverity/current && ln -svf /opt/coverity/{{ coverity_version }}/* /opt/coverity/current
-      when: coverity_copy.failed == False
-
-    - name: "Please download {{ coverity_installer_file }} to your ansible directory to allow ansible to install coverity"
-      debug:
-        msg: "Ansible can not find {{ coverity_installer_file }}"
-      when: coverity_copy.failed
