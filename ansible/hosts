@@ -4,6 +4,7 @@ osmo-gsm-tester-prod ansible_host=10.9.25.107
 
 [coverity_slaves]
 build4-deb12build-ansible ansible_host=2a01:4f8:121:200a::1:3
+build5-deb12build-ansible ansible_host=2a01:4f8:140:926a::1:3
 
 [jenkins_slaves]
 build4-deb12build-ansible ansible_host=2a01:4f8:121:200a::1:3 osmocom_jenkins_slave_fstrim=True docker_max_image_space="50 GB"
