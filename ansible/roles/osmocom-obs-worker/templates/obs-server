@@ -186,7 +186,7 @@ OBS_CACHE_DIR="/srv/obs/cache"
 #
 # Set the size to 50% of the maximum usable size of this partition
 #
-OBS_CACHE_SIZE="100000"
+OBS_CACHE_SIZE="50000"
 
 ## Path:        Applications/OBS
 ## Description: Defines the nice level of running workers
