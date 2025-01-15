@@ -1,4 +1,4 @@
 ---
 
-coverity_version: 2023.6.2
+coverity_version: 2024.6.1
 coverity_installer_file: "cov-analysis-linux64-{{ coverity_version }}.tar.gz"
