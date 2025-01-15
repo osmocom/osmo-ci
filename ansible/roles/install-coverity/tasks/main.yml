@@ -38,8 +38,6 @@
 
     - name: create link /opt/coverity/current
       shell: rm -vf /opt/coverity/current && ln -svf /opt/coverity/{{ coverity_version }}/* /opt/coverity/current
-      args:
-        warn: false
       when: coverity_copy.failed == False
 
     - name: "Please download {{ coverity_installer_file }} to your ansible directory to allow ansible to install coverity"
