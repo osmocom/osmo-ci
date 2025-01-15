@@ -433,6 +433,10 @@
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
 
+      - ot290-gsmtap:
+          repos_url: '{gitea_url}/phone-side/{repos}'
+          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} make -C /build/src'
+
       - pyosmocom:
           repos_url: '{gerrit_url}/python/{repos}'
           concurrent: false
