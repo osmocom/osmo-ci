@@ -173,6 +173,14 @@ qemu_print_log() {
 	echo "Contents of $LOG_FILE:"
 	echo
 	cat "$LOG_FILE"
+	echo
+	echo "---"
+	echo "NOTE: If you have just set up a new jenkins node, and get the"
+	echo "error 'Could not access KVM kernel module: Permission denied',"
+	echo "then you probably need to disconnect jenkins, connect it again"
+	echo "and retry."
+	echo "---"
+	echo
 }
 
 qemu_ssh_wait() {
