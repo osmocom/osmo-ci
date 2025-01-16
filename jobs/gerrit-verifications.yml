@@ -59,7 +59,9 @@
               -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e WITH_MANUALS="1" \
-              -w /build -i -u build \
+              -w /build \
+              -i \
+              -u build \
               -v "$PWD:/build" \
     docker_run_ccache: |
             CCACHE_DIR="$HOME/ccache/gerrit-verifications"
@@ -76,7 +78,9 @@
               -e OSMO_GSM_MANUALS_DIR="/opt/osmo-gsm-manuals" \
               -e PARALLEL_MAKE="$PARALLEL_MAKE" \
               -e WITH_MANUALS="1" \
-              -w /build -i -u build \
+              -w /build \
+              -i \
+              -u build \
               -v "$PWD:/build" \
               \
               -e CCACHE_DIR="/ccache" \
