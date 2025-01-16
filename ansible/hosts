@@ -6,6 +6,7 @@ osmo-gsm-tester-prod ansible_host=10.9.25.107
 build4-deb12build-ansible ansible_host=2a01:4f8:121:200a::1:3
 build5-deb12build-ansible ansible_host=2a01:4f8:140:926a::1:3
 
+# Add new x86_64 entries to [coverity_slaves] and [qemu] too!
 [jenkins_slaves]
 build4-deb12build-ansible ansible_host=2a01:4f8:121:200a::1:3 osmocom_jenkins_slave_fstrim=True docker_max_image_space="50 GB"
 build5-deb12build-ansible ansible_host=2a01:4f8:140:926a::1:3 osmocom_jenkins_slave_fstrim=True docker_max_image_space="50 GB"
@@ -22,7 +23,9 @@ build4-obsworker ansible_host=2a01:4f8:121:200a::1:2 obs_worker_instances=8 obs_
 build5-obsworker ansible_host=2a01:4f8:140:926a::1:2 obs_worker_instances=8 obs_worker_jobs=8
 lx2-1-obs-aarch64-1 ansible_host=2a02:8106:13:1e34:4e9:e7ff:fe97:fe92 obs_worker_instances=1 obs_worker_jobs=4
 
-# Need to have kvm inside lxc, see OS#5365
+# Need to have kvm inside lxc, see OS#5365. Make sure to disconnect and
+# reconnect the jenkins agent after running this playbook, so its login session
+# gets the kvm group!
 [qemu]
 build4-deb12build-ansible ansible_host=2a01:4f8:121:200a::1:3
 build5-deb12build-ansible ansible_host=2a01:4f8:140:926a::1:3
