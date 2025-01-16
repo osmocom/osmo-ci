@@ -46,11 +46,13 @@
     sequential: false
     # most common build invocation
     # SYS_PTRACE is needed for ASAN (https://github.com/google/sanitizers/issues/764)
+    # seccomp profile is needed for io_uring (OS#6405)
     # Documentation for variables (keep in sync!):
     # https://osmocom.org/projects/osmocom-servers/wiki/Jenkins_build_verification_jobs
     docker_run: |
             docker run --rm=true \
               --cap-add SYS_PTRACE \
+              --security-opt seccomp=$HOME/osmo-ci/_docker_playground/seccomp_profile.json \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
@@ -70,6 +72,7 @@
 
             docker run --rm=true \
               --cap-add SYS_PTRACE \
+              --security-opt seccomp=$HOME/osmo-ci/_docker_playground/seccomp_profile.json \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
