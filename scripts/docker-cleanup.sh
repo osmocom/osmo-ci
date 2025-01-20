@@ -44,3 +44,6 @@ docker network prune --filter "until=24h" -f
 
 # remove docker buildkit cache
 docker builder prune --all --filter "until=24h" -f
+
+# remove dangling images
+docker system prune -f
