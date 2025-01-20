@@ -43,6 +43,9 @@
           default: 'master'
     builders:
       - shell: |-
+          git config gc.autoDetach false
+          git gc --auto
+
           IMAGE="osmocom-build/debian-bookworm-osmo-ttcn3-testenv"
           podman pull "registry.osmocom.org/$IMAGE"
 

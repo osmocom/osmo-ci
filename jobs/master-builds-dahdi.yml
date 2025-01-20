@@ -56,6 +56,9 @@
 
     builders:
       - shell: |
+          git -C linux config gc.autoDetach false
+          git -C linux gc --auto
+
           rm -rf dahdi-linux
           git clone \
             --depth=1 \
