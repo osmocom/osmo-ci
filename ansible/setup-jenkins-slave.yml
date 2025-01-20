@@ -11,11 +11,14 @@
           - ca-certificates
           - etckeeper
           - ncdu
+          - osc  # OS#6706
+          - rpm2cpio  # OS#6706
           - rsync
           - screen
           - tmux
           - tree
           - vim
+          - zip  # OS#6706
         cache_valid_time: 3600
         update_cache: yes
   roles:
