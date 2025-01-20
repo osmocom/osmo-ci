@@ -26,6 +26,7 @@
             docker run --rm=true \
               --cap-add SYS_PTRACE \
               --security-opt seccomp=$HOME/osmo-ci/_docker_playground/seccomp_profile.json \
+              --ulimit fsize=1000000000 \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
               -e IS_MASTER_BUILD=1 \
@@ -51,6 +52,7 @@
             docker run --rm=true \
               --cap-add SYS_PTRACE \
               --security-opt seccomp=$HOME/osmo-ci/_docker_playground/seccomp_profile.json \
+              --ulimit fsize=1000000000 \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
               -e HOME=/build \
               -e IS_MASTER_BUILD=1 \
