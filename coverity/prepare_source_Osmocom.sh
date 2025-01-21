@@ -60,15 +60,27 @@ mkdir -p $BASEDIR
 cd $BASEDIR
 
 for proj in $PROJECTS $PROJECTS_DONT_BUILD_TEST; do
+	case "$proj" in
+	asn1c)
+		# For asn1c, we use the osmo-iuh/master branch:
+		# https://osmocom.org/projects/osmohnbgw/wiki/Generate_sources_from_ASN1_files
+		branch="osmo-iuh/master"
+		;;
+	*)
+		branch="master"
+		;;
+	esac
+
 	if [ -d $proj ]; then
 		if [ -z "$SRC_SKIP_FETCH" ]; then
-			(cd $proj && git fetch && git checkout -f -B master origin/master && git submodule update --recursive --remote)
+			(cd $proj && git fetch && git checkout -f -B "$branch" origin/"$branch" && git submodule update --recursive --remote)
 		fi
 		if [ -n "$SRC_CLEAN" ]; then
 			git -C "$proj" clean -ffxd
 		fi
 	else
 		git clone --recursive "$(osmo_git_clone_url "$proj")"
+		git -C "$proj" checkout origin/"$branch"
 	fi
 done
 
