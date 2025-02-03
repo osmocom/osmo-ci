@@ -97,14 +97,16 @@ projects_osmocom = [
 ]
 projects_other = [
     "limesuite",
+    "nftables",
     "neocon",
-    "open5gs",
+    "open5gs"
 ]
 
 git_url_default = "https://gerrit.osmocom.org"  # /project gets appended
 git_url_other = {
     "libosmo-dsp": "https://gitea.osmocom.org/sdr/libosmo-dsp",
     "limesuite": "https://github.com/myriadrf/LimeSuite",
+    "nftables": "https://git.netfilter.org/nftables/",
     "neocon": "https://github.com/laf0rge/neocon",
     "open5gs": "https://github.com/open5gs/open5gs",
     "osmo-fl2k": "https://gitea.osmocom.org/sdr/osmo-fl2k",
@@ -128,6 +130,7 @@ git_latest_tag_pattern_default = tag_pattern()
 git_latest_tag_pattern_other = {
         "gapk": tag_pattern('v', c=r'(\.\d+)?'),
         "limesuite": tag_pattern('v'),
+        "nftables": tag_pattern('v'),
         "open5gs": tag_pattern('v'),
         "osmo-fl2k": tag_pattern('v'),
         "rtl-sdr": tag_pattern('v'),
