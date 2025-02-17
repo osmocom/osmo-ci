@@ -33,6 +33,7 @@
   zypper:
     name:
       # obs-build requires lxc <= 4.x (OS#6186#note-50)
+      # https://github.com/openSUSE/obs-build/issues/1060
       - lxc<5.0.0
       - liblxc1<5.0.0
 
