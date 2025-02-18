@@ -45,6 +45,7 @@ OSMO_RELEASE_REPOS="
 	osmo-sysmon
 	osmo-trx
 	osmo-uecups
+	osmo-upf
 	osmo_dia2gsup
 	osmocom-bb
 	rtl-sdr
