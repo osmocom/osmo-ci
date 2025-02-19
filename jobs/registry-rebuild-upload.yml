@@ -5,6 +5,8 @@
     job-name:
       - registry-rebuild-upload-android:
           image: "debian-bookworm-android"
+      - registry-rebuild-upload-aram-applet:
+          image: "debian-bookworm-aram-applet"
 
 - job-template:
     name: '{job-name}'
