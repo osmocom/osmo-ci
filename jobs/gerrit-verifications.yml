@@ -94,6 +94,7 @@
     docker_img: '$USER/debian-bookworm-build'
     docker_img_erlang: '$USER/debian-bookworm-erlang'
     docker_img_android: 'registry.osmocom.org/osmocom-build/debian-bookworm-android'
+    docker_img_aram_applet: 'registry.osmocom.org/osmocom-build/debian-bookworm-aram-applet'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
@@ -118,6 +119,16 @@
               -v "$ANDROID_CACHE":/build/.android \
               -v "$GRADLE_CACHE":/build/.gradle \
               {docker_img_android} {timeout_cmd} contrib/jenkins.sh
+
+      - aram-applet:
+          pipeline_binpkgs: ""
+          cmd: |
+            docker pull {docker_img_aram_applet}
+            {docker_run} \
+              {docker_img_aram_applet} {timeout_cmd} sh -exc "
+                ln -sf /cache/aram-applet/.gradle .
+                contrib/jenkins.sh
+              "
 
       - asn1c:
           pipeline_binpkgs: ""
