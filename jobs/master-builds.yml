@@ -92,7 +92,6 @@
     # in alphabetical order
     repos:
       - android-apdu-proxy:
-          branch: master
           cmd: |
             ANDROID_CACHE="$HOME/android-cache/master-builds/android"
             GRADLE_CACHE="$HOME/android-cache/master-builds/gradle"
