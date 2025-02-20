@@ -36,6 +36,16 @@
       <br/><br/>
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
 
+    parameters:
+      - string:
+          name: BRANCH
+          description: dahdi-linux.git branch
+          default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org laforge@gnumonks.org'
+
     scm:
       # Let jenkins clone the big linux repository and keep it between builds
       # (wipe-workspace is false). Clone dahdi-linux with code from gerrit in
@@ -62,7 +72,8 @@
           rm -rf dahdi-linux
           git clone \
             --depth=1 \
-            https://gerrit.osmocom.org/dahdi-linux
+            https://gerrit.osmocom.org/dahdi-linux \
+            -b "$BRANCH"
           git -C dahdi-linux log --oneline
 
           docker run \
@@ -79,7 +90,7 @@
              - 'GNU C Compiler 4 (gcc)'
            resolve-relative-paths: true
        - email:
-           recipients: 'jenkins-notifications@lists.osmocom.org laforge@gnumonks.org'
+           recipients: '$EMAIL_NOTIFICATIONS'
            send-to-individuals: true
 
 # vim: expandtab tabstop=2 shiftwidth=2
