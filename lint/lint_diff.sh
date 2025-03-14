@@ -5,6 +5,11 @@ GIT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 ERROR=0
 
+if [ "$OSMO_LINT" = 0 ]; then
+	echo "Skipping lint_diff.sh (OSMO_LINT=0)"
+	exit 0
+fi
+
 check_git_dir() {
 	if [ -z "$GIT_DIR" ]; then
 		echo "ERROR: path is not a git repository: $PWD"
