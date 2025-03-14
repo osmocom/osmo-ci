@@ -48,8 +48,22 @@
             osmo-ci
           git -C osmo-ci log --oneline
 
-          cd code-from-gerrit
-          ../osmo-ci/lint/lint_diff.sh HEAD~1
+          docker run \
+            --rm \
+            -e GERRIT_HOST=$GERRIT_HOST \
+            -e GERRIT_PORT=$GERRIT_PORT \
+            -e GERRIT_PROJECT=$GERRIT_PROJECT \
+            -e GERRIT_CHANGE_NUMBER=$GERRIT_CHANGE_NUMBER \
+            -e GERRIT_PATCHSET_NUMBER=$GERRIT_PATCHSET_NUMBER \
+            -e JENKINS_HOME=1 \
+            -e SSH_AUTH_SOCK=/ssh-agent \
+            -u build \
+            -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
+            -v ./code-from-gerrit:/build/code-from-gerrit \
+            -v ./osmo-ci:/build/osmo-ci \
+            -w /build/code-from-gerrit \
+            "$USER/debian-bookworm-build" \
+            /build/osmo-ci/lint/lint_diff.sh HEAD~1
 
     wrappers:
     - ansicolor:

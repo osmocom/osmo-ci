@@ -63,6 +63,7 @@ if [ "$ERROR" = 1 ]; then
 			"$BUILD_URL"
 		# Apply as review in gerrit
 		ssh \
+			-o UserKnownHostsFile=$SCRIPT_DIR/../contrib/known_hosts \
 			-p "$GERRIT_PORT" \
 			-l jenkins \
 			"$GERRIT_HOST" \
