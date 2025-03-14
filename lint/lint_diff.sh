@@ -46,6 +46,25 @@ test_checkpatch() {
 	fi
 }
 
+test_clang_format() {
+	if ! [ -e ".clang-format" ] || ! command -v clang-format >/dev/null; then
+		return
+	fi
+
+	echo "Running clang-format on 'git diff $COMMIT'..."
+	echo
+
+	# Run clang-format-diff and colorize its output
+	local diff="$(git diff -U0 --relative "$COMMIT" \
+		| clang-format-diff -p1 \
+		| sed 's/^-/\x1b[41m-/;s/^+/\x1b[42m+/;s/^@/\x1b[34m@/;s/$/\x1b[0m/')"
+
+	if ! [ -z "$diff" ]; then
+		ERROR=1
+		echo "$diff"
+	fi
+}
+
 show_error() {
 	echo
 	echo "Please fix the linting errors above. More information:"
@@ -86,6 +105,7 @@ check_git_dir
 set_commit
 test_docker_run_rm
 test_checkpatch
+test_clang_format
 
 if [ "$ERROR" = 1 ]; then
 	show_error
