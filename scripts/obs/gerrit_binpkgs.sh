@@ -37,6 +37,7 @@ rsync -a --delete "$GIT_REPO_DIR" "$CACHE_DIR"
 
 echo ":: Building the source package"
 "$SCRIPTS_OBS_DIR"/build_srcpkg.py \
+	--allow-unknown-package \
 	--docker \
 	--feed master \
 	--git-skip-fetch \
