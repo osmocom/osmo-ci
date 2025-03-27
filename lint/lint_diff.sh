@@ -4,11 +4,20 @@ COMMIT="$1"
 GIT_DIR="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 ERROR=0
+PROJECT="${GERRIT_PROJECT}"
 
 if [ "$OSMO_LINT" = 0 ]; then
 	echo "Skipping lint_diff.sh (OSMO_LINT=0)"
 	exit 0
 fi
+
+get_project() {
+	if [ -n "$PROJECT" ] || ! [ -e .gitreview ]; then
+		return
+	fi
+
+	PROJECT="$(grep project= .gitreview | cut -d = -f2)"
+}
 
 check_git_dir() {
 	if [ -z "$GIT_DIR" ]; then
@@ -70,6 +79,40 @@ test_clang_format() {
 	fi
 }
 
+test_ruff() {
+	local i
+	local check_projects="
+		osmo-ci
+		osmo-dev
+		osmo-ttcn3-hacks
+	"
+	local format_projects="
+		osmo-ttcn3-hacks
+	"
+
+	if ! command -v ruff >/dev/null; then
+		return
+	fi
+
+	for i in $check_projects; do
+		if [ "$i" = "$PROJECT" ]; then
+			echo "Running 'ruff check'..."
+			echo
+			ruff check
+			break
+		fi
+	done
+
+	for i in $format_projects; do
+		if [ "$i" = "$PROJECT" ]; then
+			echo "Running 'ruff format --diff'..."
+			echo
+			ruff format --diff
+			break
+		fi
+	done
+}
+
 show_error() {
 	echo
 	echo "Please fix the linting errors above. More information:"
@@ -106,8 +149,10 @@ send_review_comments() {
 				< gerrit_report.json
 }
 
+get_project
 check_git_dir
 set_commit
+test_ruff
 test_docker_run_rm
 test_checkpatch
 test_clang_format
