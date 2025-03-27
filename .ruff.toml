@@ -1,0 +1,30 @@
+line-length = 120
+
+[format]
+exclude = [
+	"lint/checkpatch/checkpatch_json.py",
+	"scripts/jenkins-gerrit/comment_generate.py",
+	"scripts/obs/build_binpkg.py",
+	"scripts/obs/build_srcpkg.py",
+	"scripts/obs/check_new_distros.py",
+	"scripts/obs/lib/__init__.py",
+	"scripts/obs/lib/binpkg_deb.py",
+	"scripts/obs/lib/binpkg_rpm.py",
+	"scripts/obs/lib/config.py",
+	"scripts/obs/lib/debian.py",
+	"scripts/obs/lib/docker.py",
+	"scripts/obs/lib/git.py",
+	"scripts/obs/lib/metapkg.py",
+	"scripts/obs/lib/osc.py",
+	"scripts/obs/lib/rpm_spec.py",
+	"scripts/obs/lib/srcpkg.py",
+	"scripts/obs/sync_obs_projects.py",
+	"scripts/obs/update_obs_project.py",
+	"scripts/osmo-depcheck/buildstack.py",
+	"scripts/osmo-depcheck/config.py",
+	"scripts/osmo-depcheck/dependencies.py",
+	"scripts/osmo-depcheck/osmo-depcheck.py",
+	"scripts/osmo-depcheck/parse.py",
+	"scripts/verify_log_statements.py",
+	"scripts/verify_value_string_arrays_are_terminated.py",
+]

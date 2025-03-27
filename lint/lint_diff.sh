@@ -88,6 +88,7 @@ test_ruff() {
 	"
 	local format_projects="
 		osmo-ttcn3-hacks
+		osmo-ci
 	"
 
 	if ! command -v ruff >/dev/null; then
