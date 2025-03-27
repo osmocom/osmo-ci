@@ -57,7 +57,7 @@ def get_git_version(project):
             print(f"{project}: getting version from debian/changelog")
             version = lib.debian.get_last_version_from_changelog(project)
             return f"{version}.{count}-{commit}"
-        except:
+        except:  # noqa: E722
             print(f"{project}: using 0.0.0 as version")
             return f"0.0.0.{count}-{commit}"
 

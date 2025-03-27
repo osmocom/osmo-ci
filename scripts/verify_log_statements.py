@@ -86,7 +86,7 @@ def check_file(f):
       # that are not in quotes, between separate string constants.
       try:
         quoted = eval('(' + quoted + '\n)' )
-      except:
+      except:  # noqa: E722
         # hopefully eval broke because of some '## args' macro def
         if debug:
           ignored.append(error_found(f, log.start(), 'Ignoring', log.group(0)))
@@ -115,7 +115,7 @@ def check_file(f):
       r.line = line
 
     return errors_found
-  except:
+  except:  # noqa: E722
     print("ERROR WHILE PROCESSING %r" % f, file=sys.stderr)
     raise
 
