@@ -89,7 +89,7 @@ def check_file(f):
       except:  # noqa: E722
         # hopefully eval broke because of some '## args' macro def
         if debug:
-          ignored.append(error_found(f, log.start(), 'Ignoring', log.group(0)))
+          errors_found.append(error_found(f, log.start(), 'Ignoring', log.group(0)))
         continue
 
       # check for errors...
