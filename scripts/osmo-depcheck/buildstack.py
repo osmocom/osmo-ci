@@ -1,13 +1,10 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2018 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 
-import atexit
 import collections
 import sys
 import os
-import shutil
 import subprocess
-import tempfile
 
 
 def next_buildable(depends, done):

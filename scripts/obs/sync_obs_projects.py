@@ -2,7 +2,6 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2023 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import argparse
-import glob
 import hashlib
 import html
 import os

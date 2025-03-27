@@ -7,7 +7,6 @@ This utilty generate json output to post comment in gerrit.
 INPUT: output of checkpatch.pl.
 OUTPUT: json format output that can be used to post comment in gerrit
 """
-import os
 import sys
 import json
 

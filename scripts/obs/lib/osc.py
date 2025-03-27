@@ -5,7 +5,6 @@
 import glob
 import os
 import shlex
-import shutil
 import sys
 import lib
 import lib.config

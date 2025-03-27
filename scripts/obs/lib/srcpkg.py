@@ -4,7 +4,6 @@
 import glob
 import os
 import pathlib
-import sys
 import lib.config
 import lib.debian
 import lib.rpm_spec
