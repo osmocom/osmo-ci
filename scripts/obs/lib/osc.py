@@ -8,6 +8,7 @@ import shlex
 import sys
 import lib
 import lib.config
+import xml.etree.ElementTree
 
 apiurl = None
 proj = None
@@ -88,6 +89,34 @@ def get_package_version(package):
     print(f"{package}: WARNING: failed to find package version on OBS!")
     print(f"{package}: assuming the package is outdated")
     return "0"
+
+
+def get_package_sources(package, rev=None):
+    # Use the API directly, because "osc list" throws an exception when trying
+    # to list a directory with deleted files.
+    url = f"/source/{proj}/{os.path.basename(package)}"
+    if rev:
+        url = f"{url}?rev={rev}"
+
+    osc_ret = run_osc(["api", url])
+    root = xml.etree.ElementTree.fromstring(osc_ret.output)
+
+    # === Output ===
+    # <directory name="open5gs" rev="1012" vrev="1" srcmd5="d98c9f8faeada3e291aa2197ca7fda03">
+    #   <entry name="open5gs_2.7.5.4648.7dfd.202503302026.dsc" md5="7101346f69282beda8c1e2c191fadd4e" size="2040" mtime="1743367015"/>
+    #   <entry name="open5gs_2.7.5.4648.7dfd.202503302026.tar.xz" md5="71fc5f9a885204d38f712236684822ac" size="14531220" mtime="1743367016"/>
+    # </directory
+
+    # === Output with already deleted files ===
+    # <directory name="open5gs" rev="1" vrev="1" srcmd5="bcd19a5960921d5e30e99d988fffbd15">
+    #   <entry name="open5gs_2.4.8.202206260026.dsc" md5="bf154599a1493d23f2f7f8669c5adb7c" error="No such file or directory"/>
+    #   <entry name="open5gs_2.4.8.202206260026.tar.xz" md5="3f26b59b342a35d80d5ac790ff0a8ff2" error="No such file or directory"/>
+    # </directory>
+
+    ret = []
+    for entry in root.findall("entry"):
+        ret += [f"{entry.get('md5')}-{entry.get('name')}"]
+    return ret
 
 
 def create_package(package):
@@ -180,3 +209,15 @@ def update_meta(meta_file, commit_msg):
 def get_projects():
     print(f"OBS: getting list of projects ({apiurl})")
     return lib.osc.run_osc(["ls"]).output.rstrip().split("\n")
+
+
+def get_last_rev(package):
+    print(f"OBS: getting latest revision of {proj}:{package}")
+
+    url = f"/source/{proj}/{os.path.basename(package)}"
+    osc_ret = run_osc(["api", url])
+    root = xml.etree.ElementTree.fromstring(osc_ret.output)
+    rev = root.get("rev")
+    if rev:
+        return int(rev)
+    return 0
