@@ -92,7 +92,7 @@ def generate_prjconf_header(project):
     ret += "### \n"
     ret += "### Do not modify manually. See OS#6165.\n"
     ret += "### \n"
-    ret += f"### Sync information:\n"
+    ret += "### Sync information:\n"
     ret += f"### - source meta: {hashlib.md5(source_meta).hexdigest()}\n"
     ret += f"### - source prjconf: {hashlib.md5(source_prjconf).hexdigest()}\n"
     ret += "\n"
@@ -188,7 +188,7 @@ def rewrite_meta(project):
                 url = download.get("url")
                 print(f"    changing url to https: {url}")
                 assert url.startswith("http://ftp.de.debian.org/debian"), \
-                        f"unexpected mirror URL"
+                        "unexpected mirror URL"
                 download.set("url", url.replace("http://ftp.de.debian.org/debian",
                                                 "https://debian.inf.tu-dresden.de/debian"))
                 for pubkey in download.findall("pubkey"):
@@ -229,7 +229,7 @@ def rewrite_prjconf(project, header):
         # Extend the AlmaLinux prjconf to also set CentOS variables, as some of
         # our prjconfigs and spec files rely on them
         if project == "AlmaLinux:8":
-            print(f"  appending CentOS 8 variables")
+            print("  appending CentOS 8 variables")
             prjconf += "\n"
             prjconf += "# CentOS 8 compat added by sync script\n"
             prjconf += "%define centos_version 800\n"
