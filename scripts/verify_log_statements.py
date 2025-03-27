@@ -52,7 +52,6 @@ def make_line_idx(file_content):
 def char_pos_2_line(line_idx, sorted_char_positions):
   r = []
   line_i = 0
-  next_line_i = 1
   for char_pos in sorted_char_positions:
     while (line_i+1) < len(line_idx) and char_pos > line_idx[line_i+1][0]:
       line_i += 1

@@ -141,7 +141,6 @@ def configure_append(project, parameters):
     print(f"{project}: adding configure parameters: {parameters}")
     rules = f"{lib.git.get_repo_path(project)}/debian/rules"
     override_found = False
-    replaced = False
     with open(rules, "r") as f:
         lines = f.readlines()
     for i in range(len(lines)):
@@ -157,7 +156,6 @@ def configure_append(project, parameters):
         else:
             lines[i] = line.replace("dh_auto_configure",
                                     f"dh_auto_configure -- {parameters}", 1)
-        replaced = True
         break
     if not override_found:
         lines += ["\n",

@@ -27,7 +27,6 @@ def prepare_source_dir(pkgname):
 
 
 def generate_debian_pkg(pkgname, version):
-    feed = lib.args.feed
     path = f"{lib.config.path_cache}/{pkgname}"
     conflicts = get_conflicts(pkgname)
 
@@ -65,7 +64,6 @@ def generate_debian_pkg(pkgname, version):
 
 
 def generate_rpm_spec(pkgname, version):
-    feed = lib.args.feed
     print(f"{pkgname}: generating rpm spec file")
     path = f"{lib.config.path_cache}/{pkgname}/contrib/{pkgname}.spec.in"
     conflicts = get_conflicts(pkgname)
