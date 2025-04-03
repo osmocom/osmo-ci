@@ -26,6 +26,7 @@
       - shell: |
           docker run \
             --rm=true \
+            --security-opt seccomp=$HOME/osmo-ci/_docker_playground/seccomp_profile.json \
             -e PARALLEL_MAKE="-j8" \
             -u build \
             -v "$PWD:/build" \
