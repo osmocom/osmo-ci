@@ -166,6 +166,11 @@
           args: -b osmocom:nightly
           timer: H 10 * * *
 
+      - ttcn3-remsim-test:  # ~6 min
+          testsuite: remsim
+          args: -b osmocom:nightly -c all
+          timer: H 10 * * *
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -282,6 +287,11 @@
           args: -b osmocom:latest
           timer: H 13 * * *
 
+      - ttcn3-remsim-test-latest:  # ~6 min
+          testsuite: remsim
+          args: -b osmocom:latest -c all
+          timer: H 13 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
@@ -380,6 +390,11 @@
 
       - ttcn3-hnbgw-test-asan:  # ~13 min
           testsuite: hnbgw
+          args: -b osmocom:nightly:asan -c all
+          timer: H 17 * * *
+
+      - ttcn3-remsim-test-asan:  # ~6 min
+          testsuite: remsim
           args: -b osmocom:nightly:asan -c all
           timer: H 17 * * *
 

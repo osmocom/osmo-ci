@@ -26,8 +26,6 @@
           timer: H 03 * * *
       - nplab-sua-test:  # ~1 min
           timer: H 03 * * *
-      - ttcn3-remsim-test:  # ~6 min
-          timer: H 03 * * *
       - ttcn3-sccp-test:  # ~2 min
           timer: H 03 * * *
       - ttcn3-gbproxy-test:  # ~15 min
@@ -66,8 +64,6 @@
           timer: H 04 * * *
       - ttcn3-msc-test-latest:  # ~35 min
           timer: H 04 * * *
-      - ttcn3-remsim-test-latest:  # ~6 min
-          timer: H 05 * * *
       - ttcn3-sccp-test-latest:  # ~2 min
           timer: H 05 * * *
       - ttcn3-gbproxy-test-latest:  # ~15 min
@@ -114,8 +110,6 @@
       - ttcn3-gbproxy-test-asan:  # ~15 min
           timer: H 07 * * *
       - ttcn3-msc-test-asan:  # ~35 min
-          timer: H 07 * * *
-      - ttcn3-remsim-test-asan:  # ~6 min
           timer: H 07 * * *
       - ttcn3-sccp-test-asan:  # ~2 min
           timer: H 07 * * *
