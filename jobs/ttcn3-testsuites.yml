@@ -20,8 +20,6 @@
     # timer: 10 per hour from 04:00 - 18:00, see jobs/README.adoc
     job-name:
       # debian nightly - order by time
-      - ttcn3-msc-test:  # ~35 min
-          timer: H 03 * * *
       - nplab-m3ua-test:  # ~1 min
           timer: H 03 * * *
       - nplab-sua-test:  # ~1 min
@@ -60,8 +58,6 @@
           timer: H 04 * * *
       - nplab-sua-test-latest:  # ~1 min
           timer: H 04 * * *
-      - ttcn3-msc-test-latest:  # ~35 min
-          timer: H 04 * * *
       - ttcn3-gbproxy-test-latest:  # ~15 min
           timer: H 05 * * *
       - ttcn3-gbproxy-test-fr-latest:  # ~23 min
@@ -83,8 +79,6 @@
           timer: H 05 * * *
 
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
-      - ttcn3-msc-test-io_uring:  # ~35 min
-          timer: H 05 * * *
       - ttcn3-gbproxy-test-io_uring:  # ~15 min
           timer: H 05 * * *
 
@@ -105,9 +99,6 @@
       # With sanitizer (OS#5301)
       - ttcn3-gbproxy-test-asan:  # ~15 min
           timer: H 07 * * *
-      - ttcn3-msc-test-asan:  # ~35 min
-          timer: H 07 * * *
-
 
 - job-template:
     name: '{job-name}'
