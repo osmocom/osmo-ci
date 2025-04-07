@@ -345,6 +345,11 @@
           args: -b osmocom:nightly --io-uring
           timer: H 14 * * *
 
+      - ttcn3-pcap-client-test-io_uring:  # ~1 min
+          testsuite: pcap-client
+          args: -b osmocom:nightly --io-uring
+          timer: H 14 * * *
+
       # ---------------------------------------------
       # Debian nightly + asan (OS#5301)
       # ---------------------------------------------
