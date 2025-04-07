@@ -344,6 +344,11 @@ filter_packages() {
 		nftables-devel) ;;
 		python3-nftables) ;;
 
+		# Bladerf is only relevant for building osmo-trx on debian 10
+		# (OS#6409). Don't install the bladerf packages directly in
+		# this test as downloading FPGA bitstream fails.
+		*bladerf*) ;;
+
 		# All other packages are not filtered
 		*) echo "$i" ;;
 		esac
