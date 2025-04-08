@@ -9,7 +9,7 @@
             - build4-deb12build-ansible
             - build5-deb12build-ansible
             - gtp0-deb10fr
-            - lx2-raspbian11build-ansible
+            - lx2-raspbian12build-ansible
             - rpi4-raspbian12build-ansible-1
             - rpi4-raspbian12build-ansible-2
             - rpi4-raspbian12build-ansible-3
