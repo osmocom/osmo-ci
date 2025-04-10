@@ -12,6 +12,7 @@
           - etckeeper
           - ncdu
           - osc  # OS#6706
+          - python3-packaging  # testenv
           - rpm2cpio  # OS#6706
           - rsync
           - screen
