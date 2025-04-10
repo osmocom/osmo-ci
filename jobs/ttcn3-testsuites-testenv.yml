@@ -181,6 +181,21 @@
           args: -b osmocom:nightly
           timer: H 10 * * *
 
+      - ttcn3-ns-test:  # ~7 min
+          testsuite: ns
+          args: -b osmocom:nightly -c udp
+          timer: H 10 * * *
+
+      - ttcn3-ns-test-sns:  # ~3 min
+          testsuite: ns
+          args: -b osmocom:nightly -c sns
+          timer: H 10 * * *
+
+      - ttcn3-ns-test-sgsn-sns: # ~ 1 min
+          testsuite: ns
+          args: -b osmocom:nightly -c sgsn_sns
+          timer: H 10 * * *
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -312,6 +327,21 @@
           args: -b osmocom:latest
           timer: H 13 * * *
 
+      - ttcn3-ns-test-latest:  # ~7 min
+          testsuite: ns
+          args: -b osmocom:latest -c udp
+          timer: H 13 * * *
+
+      - ttcn3-ns-test-sns-latest:  # ~3 min
+          testsuite: ns
+          args: -b osmocom:latest -c sns
+          timer: H 13 * * *
+
+      - ttcn3-ns-test-sgsn-sns-latest: # ~ 1 min
+          testsuite: ns
+          args: -b osmocom:latest -c sgsn_sns
+          timer: H 13 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
@@ -436,6 +466,21 @@
       - ttcn3-msc-test-asan:  # ~35 min
           testsuite: msc
           args: -b osmocom:nightly:asan
+          timer: H 17 * * *
+
+      - ttcn3-ns-test-asan:  # ~7 min
+          testsuite: ns
+          args: -b osmocom:nightly:asan -c udp
+          timer: H 17 * * *
+
+      - ttcn3-ns-test-sns-asan:  # ~3 min
+          testsuite: ns
+          args: -b osmocom:nightly:asan -c sns
+          timer: H 17 * * *
+
+      - ttcn3-ns-test-sgsn-sns-asan: # ~ 1 min
+          testsuite: ns
+          args: -b osmocom:nightly:asan -c sgsn_sns
           timer: H 17 * * *
 
 - job-template:
