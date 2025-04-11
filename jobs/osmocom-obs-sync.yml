@@ -38,6 +38,7 @@
             Ubuntu:22.04
             Ubuntu:24.04
             Ubuntu:24.10
+            Ubuntu:25.04
           "
           ./scripts/obs/sync_obs_projects.py \
             --docker \
