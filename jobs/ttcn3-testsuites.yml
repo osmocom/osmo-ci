@@ -123,6 +123,17 @@
                   DIR="$(echo "{job-name}" | sed s/^TTCN3-centos7\-/ttcn3-/)"
                   export IMAGE_SUFFIX="master-centos7"
                   ;;
+              ttcn3-*-test-fr|ttcn3-fr-test)
+                  # FR tests must run in debian 10 (OS#6494#note-19)
+                  DIR="{job-name}"
+                  export IMAGE_SUFFIX="master-debian10"
+                  ;;
+              ttcn3-gbproxy-test-fr-latest)
+                  # FR tests must run in debian 10 (OS#6494#note-19)
+                  DIR="$(echo "{job-name}" | sed s/\-latest$//)"
+                  export IMAGE_SUFFIX="latest-debian10"
+                  ;;
+
               *-asan)
                   DIR="$(echo "{job-name}" | sed s/\-asan$//)"
                   export IMAGE_SUFFIX="asan"
