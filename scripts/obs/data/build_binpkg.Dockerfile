@@ -4,7 +4,7 @@ ARG	DISTRO
 ARG	FEED
 ARG	UID
 
-COPY	Release.key /tmp/Release.key
+COPY	Release.key /usr/share/keyrings/osmocom.asc
 
 RUN	useradd --uid=${UID} -m user
 
@@ -83,15 +83,11 @@ RUN	set -x; \
 	VERSION="$(echo "$DISTRO" | cut -d : -f 2 | sed 's/./\u&/')"; \
 	case "$DISTRO" in \
 	debian:*) \
-		apt-key add /tmp/Release.key && \
-		rm /tmp/Release.key && \
-		echo "deb https://downloads.osmocom.org/packages/osmocom:/$FEED/Debian_$VERSION/ ./" \
+		echo "deb [signed-by=/usr/share/keyrings/osmocom.asc] https://downloads.osmocom.org/packages/osmocom:/$FEED/Debian_$VERSION/ ./" \
 			> /etc/apt/sources.list.d/osmocom-$FEED.list \
 		;; \
 	ubuntu:*) \
-		apt-key add /tmp/Release.key && \
-		rm /tmp/Release.key && \
-		echo "deb https://downloads.osmocom.org/packages/osmocom:/$FEED/xUbuntu_$VERSION/ ./" \
+		echo "deb [signed-by=/usr/share/keyrings/osmocom.asc] https://downloads.osmocom.org/packages/osmocom:/$FEED/xUbuntu_$VERSION/ ./" \
 			> /etc/apt/sources.list.d/osmocom-$FEED.list \
 		;; \
 	almalinux:*|centos:*) \
