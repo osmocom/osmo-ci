@@ -259,6 +259,11 @@
           args: -b osmocom:latest
           timer: H 12 * * *
 
+      - ttcn3-dia2gsup-test-latest:  # ~2 min
+          testsuite: dia2gsup
+          args: -b osmocom:latest
+          timer: H 12 * * *
+
       - ttcn3-upf-test-latest:  # ~1 min
           testsuite: upf
           args: -b osmocom:latest
