@@ -1,3 +1,7 @@
+[build_hosts]
+build4.osmocom.org
+build5.osmocom.org
+
 [gsm_tester]
 osmo-gsm-tester-rnd ansible_host=10.9.25.101
 osmo-gsm-tester-prod ansible_host=10.9.25.107
