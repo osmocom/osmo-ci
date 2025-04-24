@@ -530,6 +530,7 @@
           export TESTENV_SOURCE_HIGHLIGHT_COLORS="esc"
           export TESTENV_NO_IMAGE_UP_TO_DATE_CHECK=1
           export TESTENV_NO_KVM=1
+          export TESTENV_COREDUMP_FROM_LXC_HOST=1
           set -x
 
           ./testenv.py run \
