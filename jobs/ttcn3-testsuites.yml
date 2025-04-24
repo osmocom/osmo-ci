@@ -21,44 +21,44 @@
     job-name:
       # debian nightly - order by time
       - nplab-m3ua-test:  # ~1 min
-          timer: H 03 * * *
+          timer: H 06 * * *
       - nplab-sua-test:  # ~1 min
-          timer: H 03 * * *
+          timer: H 06 * * *
       - ttcn3-gbproxy-test:  # ~15 min
-          timer: H 03 * * *
+          timer: H 06 * * *
       - ttcn3-gbproxy-test-fr:  # ~26 min
-          timer: H 03 * * *
+          timer: H 06 * * *
           node: hdlc
       - ttcn3-ns-test-fr:  # ~10 min
-          timer: H 04 * * *
+          timer: H 06 * * *
           node: hdlc
       - ttcn3-fr-test:  # ~ 10 min
-          timer: H 04 * * *
+          timer: H 06 * * *
           node: hdlc
       - ttcn3-pgw-test:  # ~7 min
-          timer: H 04 * * *
+          timer: H 06 * * *
           description: |
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-epdg-test:  # ~4 min
-          timer: H 04 * * *
+          timer: H 06 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
           node: build4-deb12build-ansible
       - ttcn3-asterisk-ims-ue-test:  # ~19 min
-          timer: H 04 * * *
+          timer: H 06 * * *
 
       # debian latest stable
       - nplab-m3ua-test-latest:  # ~1 min
-          timer: H 04 * * *
+          timer: H 07 * * *
       - nplab-sua-test-latest:  # ~1 min
-          timer: H 04 * * *
+          timer: H 07 * * *
       - ttcn3-gbproxy-test-latest:  # ~15 min
-          timer: H 05 * * *
+          timer: H 07 * * *
       - ttcn3-gbproxy-test-fr-latest:  # ~23 min
-          timer: H 05 * * *
+          timer: H 07 * * *
           node: hdlc
       - ttcn3-epdg-test-latest:  # ~5 min
-          timer: H 05 * * *
+          timer: H 07 * * *
           # osmo-epdg requires OTP and kernel >= debian12:
           node: build4-deb12build-ansible
 
@@ -66,29 +66,34 @@
 
       # centos7 nightly
       - TTCN3-centos7-pcap-client-test:  # ~1 min
-          timer: H 05 * * *
+          timer: H 07 * * *
 
       # centos7 latest
       - TTCN3-centos7-pcap-client-test-latest:  # ~1 min
-          timer: H 05 * * *
+          timer: H 07 * * *
 
       # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
       - ttcn3-gbproxy-test-io_uring:  # ~15 min
-          timer: H 05 * * *
+          timer: H 07 * * *
 
       # BTS testsuites tend to fail with timeouts on heavy loads. Group them
-      # here in a timeslot where jenkins nodes are otherwise not busy according
+      # here in timeslots where jenkins nodes are otherwise not busy according
       # to stats in grafana to hopefully make the test results more stable.
+      # See also jobs/README.md.
       # Once we can replace faketrx with a rewrite (OS#6672), this should not
       # be necessary anymore.
       - ttcn3-bts-test-io_uring:  # ~135 min
-          timer: 0 06 * * *
+          timer: 30 01 * * *
+          node: build4-deb12build-ansible
       - ttcn3-bts-test:  # ~135 min
-          timer: 0 06 * * *
+          timer: 30 01 * * *
+          node: build5-deb12build-ansible
       - ttcn3-bts-test-latest:  # ~135 min
-          timer: 0 06 * * *
+          timer: 30 03 * * *
+          node: build4-deb12build-ansible
       - ttcn3-bts-test-asan:  # ~135 min
-          timer: 0 06 * * *
+          timer: 30 03 * * *
+          node: build5-deb12build-ansible
 
       # With sanitizer (OS#5301)
       - ttcn3-gbproxy-test-asan:  # ~15 min

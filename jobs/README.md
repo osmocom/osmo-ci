@@ -172,8 +172,12 @@ packages before they have been built (leading to failing jobs).
   00:XX registry-update-base-images
   00:XX simtester-sanitize
 
-03:00 - 18:00 Jobs that need binary packages
-  03:00 - 08:00 ttcn3-testsuites
+01:00 - 06:00 ttcn3-bts-test (fail if the builders are under too much load!)
+  01:30 ttcn3-bts-test, ttcn3-bts-test-io_uring
+  03:30 ttcn3-bts-test-latest, ttcn3-bts-test-asan
+
+06:00 - 18:00 Other jobs that need binary packages
+  06:00 - 08:00 ttcn3-testsuites (misc without testenv)
   08:00 - 18:00 ttcn3-testsuites-testenv
   04:XX osmocom-release-manuals
   05:XX osmocom-release-tarballs
