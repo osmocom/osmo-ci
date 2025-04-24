@@ -158,19 +158,19 @@ packages before they have been built (leading to failing jobs).
   19:XX osmocom-obs-wireshark
   20:XX osmocom-obs (new binary packages start building on OBS!)
 
-22:00 - 03:00 Jobs that don't need binary packages
+22:00 - 01:00 Jobs that don't need binary packages
   22:XX coverity
   22:XX octsim_osmo-ccid-firmware
   22:XX osmo-gsm-tester-runner (virtual)
   23:XX build-kernels-testenv
   23:XX master-builds-dahdi
   00:XX osmocom-api
+  00:XX osmocom-build-tags-against-master
+  00:XX osmocom-list-commits
+  00:XX registry-rebuild-upload-fpga-build (weekly)
+  00:XX registry-triggers
   00:XX registry-update-base-images
-  01:XX osmocom-build-tags-against-master
-  01:XX osmocom-list-commits
-  01:XX simtester-sanitize
-  02:XX registry-triggers
-  02:XX registry-rebuild-upload-fpga-build (weekly)
+  00:XX simtester-sanitize
 
 03:00 - 18:00 Jobs that need binary packages
   03:00 - 08:00 ttcn3-testsuites

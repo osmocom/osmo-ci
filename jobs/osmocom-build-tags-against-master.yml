@@ -46,7 +46,7 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
     triggers:
-      - timed: "H 01 * * *"
+      - timed: "H 00 * * *"
     publishers:
        - archive:
           allow-empty: false

@@ -33,7 +33,7 @@
           branches:
             - '$BRANCH'
     triggers:
-      - timed: "H 01 * * *"
+      - timed: "H 00 * * *"
     publishers:
       - email:
           recipients: '$EMAIL_NOTIFICATIONS'

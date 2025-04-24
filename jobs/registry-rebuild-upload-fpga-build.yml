@@ -29,7 +29,7 @@
           docker push $REGISTRY/$USER/fpga-build
           cd ..
     triggers:
-      - timed: "H 02 * * H"
+      - timed: "H 00 * * H"
 
     publishers:
       - email:
