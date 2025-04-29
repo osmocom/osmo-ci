@@ -12,6 +12,7 @@ OSMO_RELEASE_REPOS="
 	libasn1c
 	libgtpnl
 	libosmo-abis
+	libosmo-dsp
 	libosmo-netif
 	libosmo-pfcp
 	libosmo-sccp-legacy
