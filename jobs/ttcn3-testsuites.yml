@@ -165,7 +165,16 @@
           esac
 
           cd "$DIR"
-          ./jenkins.sh
+
+          uptime | grep --color=always -o "load.*"
+
+          RC=0
+          if ! ./jenkins.sh; then
+            RC=1
+          fi
+
+          uptime | grep --color=always -o "load.*"
+          exit $RC
     scm:
       - git:
           branches:

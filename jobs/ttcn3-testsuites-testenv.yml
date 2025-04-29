@@ -533,17 +533,25 @@
           export TESTENV_COREDUMP_FROM_LXC_HOST=1
           set -x
 
-          ./testenv.py run \
+          uptime | grep --color=always -o "load.*"
+
+          RC=0
+          if ! ./testenv.py run \
             {testsuite} \
             --podman \
             --cache "$PWD"/_cache \
             --ccache ~/ccache/testenv \
             --log-dir "$PWD"/logs \
-            {args}
+            {args}; then
+            RC=1
+          fi
 
           # Free up space from downloaded apt packages, build artifacts etc.
           # The osmo-ttcn3-hacks deps dir and ccache are persistent.
           rm -rf _cache .linux
+
+          uptime | grep --color=always -o "load.*"
+          exit $RC
 
     scm:
       - git:
