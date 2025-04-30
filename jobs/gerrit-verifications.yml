@@ -95,6 +95,7 @@
     docker_img_erlang: '$USER/debian-bookworm-erlang'
     docker_img_android: 'registry.osmocom.org/osmocom-build/debian-bookworm-android'
     docker_img_aram_applet: 'registry.osmocom.org/osmocom-build/debian-bookworm-aram-applet'
+    docker_img_rp2040: 'registry.osmocom.org/osmocom-build/debian-bookworm-rp2040'
     timeout_cmd: '/usr/bin/timeout 30m'
     cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
@@ -423,6 +424,14 @@
           pipeline_binpkgs: "debian:10 debian:12"
 
       - osmo-remsim
+
+      - osmo-rp2040-firmware:
+          pipeline_binpkgs: ""
+          cmd: |
+            docker pull {docker_img_rp2040}
+            {docker_run} \
+              {docker_img_rp2040} {timeout_cmd} contrib/jenkins.sh
+
       - simtrace2
 
       - osmo-opencm3-projects:
