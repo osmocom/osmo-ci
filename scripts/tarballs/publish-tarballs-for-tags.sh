@@ -13,6 +13,7 @@ OSMO_RELEASE_REPOS="
 	libgtpnl
 	libosmo-abis
 	libosmo-dsp
+	libosmo-gprs
 	libosmo-netif
 	libosmo-pfcp
 	libosmo-sccp-legacy
@@ -49,6 +50,7 @@ OSMO_RELEASE_REPOS="
 	osmo-upf
 	osmo_dia2gsup
 	osmocom-bb
+	pyosmocom
 	rtl-sdr
 	simtrace2
 	strongswan-epdg
