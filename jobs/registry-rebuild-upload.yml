@@ -7,6 +7,8 @@
           image: "debian-bookworm-android"
       - registry-rebuild-upload-aram-applet:
           image: "debian-bookworm-aram-applet"
+      - registry-rebuild-upload-rp2040:
+          image: "debian-bookworm-rp2040"
 
 - job-template:
     name: '{job-name}'
