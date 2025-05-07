@@ -24,8 +24,6 @@
           timer: H 06 * * *
       - nplab-sua-test:  # ~1 min
           timer: H 06 * * *
-      - ttcn3-gbproxy-test:  # ~15 min
-          timer: H 06 * * *
       - ttcn3-gbproxy-test-fr:  # ~26 min
           timer: H 06 * * *
           node: hdlc
@@ -52,8 +50,6 @@
           timer: H 07 * * *
       - nplab-sua-test-latest:  # ~1 min
           timer: H 07 * * *
-      - ttcn3-gbproxy-test-latest:  # ~15 min
-          timer: H 07 * * *
       - ttcn3-gbproxy-test-fr-latest:  # ~23 min
           timer: H 07 * * *
           node: hdlc
@@ -70,10 +66,6 @@
 
       # centos7 latest
       - TTCN3-centos7-pcap-client-test-latest:  # ~1 min
-          timer: H 07 * * *
-
-      # With LIBOSMO_IO_BACKEND=IO_URING (OS#6357)
-      - ttcn3-gbproxy-test-io_uring:  # ~15 min
           timer: H 07 * * *
 
       # BTS testsuites tend to fail with timeouts on heavy loads. Group them
@@ -94,10 +86,6 @@
       - ttcn3-bts-test-asan:  # ~135 min
           timer: 30 03 * * *
           node: build5-deb12build-ansible
-
-      # With sanitizer (OS#5301)
-      - ttcn3-gbproxy-test-asan:  # ~15 min
-          timer: H 07 * * *
 
 - job-template:
     name: '{job-name}'

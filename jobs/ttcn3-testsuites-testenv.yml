@@ -196,6 +196,11 @@
           args: -b osmocom:nightly -c sgsn_sns
           timer: H 10 * * *
 
+      - ttcn3-gbproxy-test:  # ~15 min
+          testsuite: gbproxy
+          args: -b osmocom:nightly
+          timer: H 10 * * *
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -347,6 +352,11 @@
           args: -b osmocom:latest -c sgsn_sns
           timer: H 13 * * *
 
+      - ttcn3-gbproxy-test-latest:  # ~15 min
+          testsuite: gbproxy
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
@@ -382,6 +392,11 @@
 
       - ttcn3-pcap-client-test-io_uring:  # ~1 min
           testsuite: pcap-client
+          args: -b osmocom:nightly --io-uring
+          timer: H 14 * * *
+
+      - ttcn3-gbproxy-test-io_uring:  # ~15 min
+          testsuite: gbproxy
           args: -b osmocom:nightly --io-uring
           timer: H 14 * * *
 
@@ -486,6 +501,11 @@
       - ttcn3-ns-test-sgsn-sns-asan: # ~ 1 min
           testsuite: ns
           args: -b osmocom:nightly:asan -c sgsn_sns
+          timer: H 17 * * *
+
+      - ttcn3-gbproxy-test-asan:  # ~15 min
+          testsuite: gbproxy
+          args: -b osmocom:nightly:asan
           timer: H 17 * * *
 
 - job-template:
