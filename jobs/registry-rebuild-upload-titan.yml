@@ -5,16 +5,6 @@
       - registry-rebuild-upload-ttcn3-bts-tests
       - registry-rebuild-upload-testenv
 
-- scm:
-    name: osmocom-docker-playground
-    scm:
-        - git:
-            url: https://gerrit.osmocom.org/docker-playground
-            skip-tag: true
-            branches:
-                - 'origin/master'
-
-
 - job:
     name: registry-rebuild-upload-titan
     description: |
@@ -30,8 +20,16 @@
           days-to-keep: 30
           num-to-keep: 30
     node: osmocom-master
+    parameters:
+      - string:
+          name: BRANCH
+          description: docker-playground.git branch
+          default: 'master'
     scm:
-      - 'osmocom-docker-playground'
+      - git:
+          url: https://gerrit.osmocom.org/docker-playground
+          branches:
+            - '$BRANCH'
     builders:
       - shell: |
           REGISTRY="registry.osmocom.org"
@@ -58,8 +56,16 @@
       - reverse:
             jobs:
                 - registry-rebuild-upload-titan
+    parameters:
+      - string:
+          name: BRANCH
+          description: docker-playground.git branch
+          default: 'master'
     scm:
-      - 'osmocom-docker-playground'
+      - git:
+          url: https://gerrit.osmocom.org/docker-playground
+          branches:
+            - '$BRANCH'
     builders:
       - shell: |
           REGISTRY="registry.osmocom.org"
