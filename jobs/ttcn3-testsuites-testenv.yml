@@ -508,6 +508,11 @@
           args: -b osmocom:nightly:asan
           timer: H 17 * * *
 
+      - ttcn3-upf-test-asan:  # ~1 min
+          testsuite: upf
+          args: -b osmocom:nightly:asan
+          timer: H 17 * * *
+
 - job-template:
     name: '{job-name}'
     project-type: freestyle
