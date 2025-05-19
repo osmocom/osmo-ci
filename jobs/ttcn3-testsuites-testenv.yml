@@ -201,6 +201,18 @@
           args: -b osmocom:nightly
           timer: H 10 * * *
 
+      - ttcn3-epdg-test:  # ~4 min
+          testsuite: epdg
+          args: -b osmocom:nightly --custom-kernel
+          timer: H 10 * * *
+          kernel: torvalds
+
+      - ttcn3-epdg-test-net-next:  # ~4 min
+          testsuite: epdg
+          args: -b osmocom:nightly --custom-kernel
+          timer: H 10 * * *
+          kernel: net-next
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -356,6 +368,18 @@
           testsuite: gbproxy
           args: -b osmocom:latest
           timer: H 13 * * *
+
+      - ttcn3-epdg-test-latest:  # ~4 min
+          testsuite: epdg
+          args: -b osmocom:latest --custom-kernel
+          timer: H 13 * * *
+          kernel: torvalds
+
+      - ttcn3-epdg-test-latest-net-next:  # ~4 min
+          testsuite: epdg
+          args: -b osmocom:latest --custom-kernel
+          timer: H 13 * * *
+          kernel: net-next
 
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
