@@ -25,6 +25,7 @@ RUN	case "$DISTRO" in \
 		echo "path-exclude=/usr/share/man/*" \
 			> /etc/dpkg/dpkg.cfg.d/exclude-man-pages && \
 		rm -rf /usr/share/man/ && \
+		mkdir -p /usr/share/man/man1/ && \
 		apt-get update && \
 		apt-get install -y --no-install-recommends \
 			build-essential \
