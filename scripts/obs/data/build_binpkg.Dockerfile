@@ -6,7 +6,11 @@ ARG	UID
 
 COPY	Release.key /usr/share/keyrings/osmocom.asc
 
-RUN	useradd --uid=${UID} -m user
+RUN	set -x && \
+	if id "${UID}" >/dev/null 2>&1; then \
+		userdel "$(getent passwd "${UID}" | cut -d: -f1)"; \
+	fi && \
+	useradd --uid=${UID} -m user
 
 # Only install build-essential here, and what's needed to add the Osmocom
 # repository. Everything else must be defined as dependency in the package
