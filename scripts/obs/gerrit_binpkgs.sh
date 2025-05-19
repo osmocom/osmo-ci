@@ -1,6 +1,7 @@
 #!/bin/sh -e
 SCRIPTS_OBS_DIR="$(realpath "$(dirname "$0")")"
 DISTRO="$1"
+FEED=${2:-master}
 
 error_exit() {
 	echo "---"
@@ -12,9 +13,13 @@ error_exit() {
 
 
 if [ -z "$DISTRO" ]; then
-	echo "usage: gerrit-binpkgs.sh DISTRO"
+	echo "usage: gerrit-binpkgs.sh DISTRO [FEED]"
+	echo
+	echo "FEED defaults to master."
+	echo
 	echo "examples:"
 	echo "  gerrit-binpkgs.sh debian:12"
+	echo "  gerrit-binpkgs.sh ubuntu:24.04 nightly"
 	echo "  gerrit-binpkgs.sh almalinux:8"
 	exit 1
 fi
@@ -35,6 +40,8 @@ echo ":: Copying the source to the cache dir"
 mkdir -p "$CACHE_DIR"
 rsync -a --delete "$GIT_REPO_DIR" "$CACHE_DIR"
 
+# --feed must be master here, as for build_srcpkg it means that we take the
+# currently checked out commit and add a commit_….txt file.
 echo ":: Building the source package"
 "$SCRIPTS_OBS_DIR"/build_srcpkg.py \
 	--allow-unknown-package \
@@ -48,6 +55,7 @@ echo ":: Building the source package"
 echo ":: Building the binary packages"
 "$SCRIPTS_OBS_DIR"/build_binpkg.py \
 	--docker "$DISTRO" \
+	--feed "$FEED" \
 	"$PROJECT_NAME" || error_exit
 
 echo ":: Find binary packages in: $SCRIPTS_OBS_DIR/_temp/binpkgs"
