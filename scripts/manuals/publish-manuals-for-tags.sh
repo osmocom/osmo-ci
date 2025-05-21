@@ -406,7 +406,7 @@ build_publish_manuals() {
 
 			# Remove DRAFT in osmo-gsm-manuals
 			cd /opt/osmo-gsm-manuals/
-			patch -p1 < /manuals/0001-build-custom-dblatex.sty-remove-DRAFT.patch
+			patch -p1 < /manuals/0001-build-set-ASCIIDOCSTYLE-to-remove-DRAFT.patch
 
 			# Build manuals
 			cd /build

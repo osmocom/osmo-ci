@@ -1,0 +1,30 @@
+From 3c3eb37a11e1cfae9a41d702d3ad0ee8c6517f01 Mon Sep 17 00:00:00 2001
+From: Oliver Smith <osmith@sysmocom.de>
+Date: Wed, 21 May 2025 12:59:01 +0200
+Subject: [PATCH] build: set ASCIIDOCSTYLE to remove DRAFT
+
+This patch will be used when generating manuals for the tagged
+releases, so they don't have the draft watermark.
+
+Related: OS#5902
+Change-Id: Id9a27b01412b0e615638f20fa5e36f5b114a15d8
+---
+ build/Makefile.asciidoc.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/build/Makefile.asciidoc.inc b/build/Makefile.asciidoc.inc
+index eb6df99..e2e8ad2 100644
+--- a/build/Makefile.asciidoc.inc
++++ b/build/Makefile.asciidoc.inc
+@@ -27,7 +27,7 @@ ASCIIDOC_NAME = $(patsubst %.adoc,%,$(ASCIIDOC))
+ ASCIIDOC_PDF = $(ASCIIDOC_NAME:%=%.pdf)
+ ASCIIDOC_CHECKS = $(ASCIIDOC_NAME:%=%.check)
+ 
+-ASCIIDOCSTYLE ?= $(BUILDDIR)/custom-dblatex-draft.sty
++ASCIIDOCSTYLE ?= $(BUILDDIR)/custom-dblatex.sty
+ 
+ CLEAN_FILES += $(ASCIIDOC_NAME:%=%__*.png) $(ASCIIDOC_NAME:%=%__*.svg) $(ASCIIDOC_CHECKS)
+ CLEAN_FILES += $(ASCIIDOC_PDF) $(ASCIIDOC_NAME:%=%.html)
+-- 
+2.43.0
+
