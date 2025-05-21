@@ -597,7 +597,9 @@
 
           # Free up space from downloaded apt packages, build artifacts etc.
           # The osmo-ttcn3-hacks deps dir and ccache are persistent.
-          rm -rf _cache .linux
+          if [ "$RC" = 0 ]; then
+            rm -rf _cache .linux
+          fi
 
           uptime | grep --color=always -o "load.*"
           exit $RC
