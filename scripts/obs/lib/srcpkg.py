@@ -167,6 +167,18 @@ def write_commit_txt(project):
     pathlib.Path(f"{output_path}/commit_{commit}.txt").touch()
 
 
+def set_asciidoc_style_without_draft_watermark(project):
+    repo_path = lib.git.get_repo_path(project)
+    doc_makefiles = lib.run_cmd(["grep", "-r", "-l", "include $(OSMO_GSM_MANUALS_DIR)/build/Makefile.asciidoc.inc"], cwd=repo_path)
+    doc_makefiles = doc_makefiles.output.rstrip().split("\n")
+
+    for doc_makefile in doc_makefiles:
+        print(f"{project}: setting asciidoc style to remove draft watermark in {doc_makefile}")
+        lib.run_cmd(["sed", "-i",
+                     '/\\/build\\/Makefile\\.asciidoc\\.inc/s/^/  ASCIIDOCSTYLE = $(BUILDDIR)\\/custom-dblatex.sty\\n/',
+                     doc_makefile], cwd=repo_path)
+
+
 def build(project, gerrit_id=0):
     conflict_version = lib.args.conflict_version
     feed = lib.args.feed
@@ -214,6 +226,8 @@ def build(project, gerrit_id=0):
 
     if lib.args.disable_manuals:
         lib.debian.disable_manuals(project)
+    elif feed == "latest":
+        set_asciidoc_style_without_draft_watermark(project)
 
     lib.debian.build_source_package(project)
     lib.debian.move_files_to_output(project)
