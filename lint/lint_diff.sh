@@ -88,6 +88,7 @@ test_ruff() {
 	"
 	local format_projects="
 		osmo-ttcn3-hacks
+		osmo-dev
 		osmo-ci
 	"
 
