@@ -260,6 +260,9 @@
           pipeline_build: false
           pipeline_binpkgs: ""
 
+      - osmo-dev:
+          pipeline_binpkgs: ""
+
       - osmo-ggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
