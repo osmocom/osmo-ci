@@ -128,6 +128,12 @@
           timer: H 09 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-5gc-test-ogs:  # ~1 min
+          testsuite: 5gc
+          args: -b osmocom:nightly
+          timer: H 09 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       - ttcn3-s1gw-test:  # ~2 min
           testsuite: s1gw
           args: -b osmocom:nightly
