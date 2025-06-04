@@ -86,7 +86,7 @@ def build():
     feed = lib.args.feed
     pkgname = lib.args.conflict_pkgname or f"osmocom-{feed}"
     conflict_version = lib.args.conflict_version
-    version = conflict_version if conflict_version else "1.0.0"
+    version = conflict_version if conflict_version else lib.config.meta_package_version
     print(f"{pkgname}: generating meta package {version}")
 
     prepare_source_dir(pkgname)
