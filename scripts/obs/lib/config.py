@@ -170,4 +170,4 @@ check_new_distros = [
 check_new_distros_version_regex = re.compile(r'[0-9.]+$')
 
 # Version of the osmocom-latest / osmocom-nightly etc. meta package
-meta_package_version = "1.0.0"
+meta_package_version = "1.1.0"
