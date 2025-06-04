@@ -39,7 +39,7 @@ def generate_debian_pkg(pkgname, version):
         f.write("Standards-Version: 3.9.8\n")
         f.write("\n")
         f.write(f"Package: {pkgname}\n")
-        f.write("Depends: ${misc:Depends}\n")
+        f.write("Depends: osmocom-keyring ${misc:Depends}\n")
         f.write("Architecture: any\n")
         f.write(f"Conflicts: {', '.join(conflicts)}\n")
         f.write(f"Description: Dummy package, conflicts with {conflicts}\n")
