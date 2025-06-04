@@ -169,10 +169,12 @@ def write_commit_txt(project):
 
 def set_asciidoc_style_without_draft_watermark(project):
     repo_path = lib.git.get_repo_path(project)
-    doc_makefiles = lib.run_cmd(["grep", "-r", "-l", "include $(OSMO_GSM_MANUALS_DIR)/build/Makefile.asciidoc.inc"], cwd=repo_path)
+    doc_makefiles = lib.run_cmd(["grep", "-r", "-l", "include $(OSMO_GSM_MANUALS_DIR)/build/Makefile.asciidoc.inc"], cwd=repo_path, check=False)
     doc_makefiles = doc_makefiles.output.rstrip().split("\n")
 
     for doc_makefile in doc_makefiles:
+        if doc_makefile == "":
+            continue
         print(f"{project}: setting asciidoc style to remove draft watermark in {doc_makefile}")
         lib.run_cmd(["sed", "-i",
                      '/\\/build\\/Makefile\\.asciidoc\\.inc/s/^/  ASCIIDOCSTYLE = $(BUILDDIR)\\/custom-dblatex.sty\\n/',
