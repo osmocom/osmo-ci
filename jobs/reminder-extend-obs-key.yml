@@ -1,0 +1,39 @@
+---
+- job:
+    name: 'reminder-extend-obs-key'
+    project-type: freestyle
+    concurrent: false
+    defaults: global
+    description: |
+      Reminder for extending the OBS key (OS#6567)
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    parameters:
+      - string:
+          name: BRANCH_OSMO_CI
+          description: |
+                osmo-ci.git branch with scripts/tarballs/publish-tarballs-for-tags.sh
+          default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
+    builders:
+      - shell: |
+          PUBLISH=1 scripts/reminder-extend-obs-key.sh
+    scm:
+      - git:
+          branches:
+            - '$BRANCH_OSMO_CI'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          wipe-workspace: true
+    triggers:
+      - timed: "@daily"
+    publishers:
+       - email:
+          notify-every-unstable-build: true
+          recipients: '$EMAIL_NOTIFICATIONS'
