@@ -47,6 +47,8 @@ feeds = [
 # NOTE: Consider whether new packages should be added to EXCLUDE_PACKAGES in
 #       osmocom-obs-nightly-asan.yml.
 projects_osmocom = [
+    "osmocom-keyring",
+
     "erlang/osmo_dia2gsup",
     "erlang/osmo-epdg",
     "erlang/osmo-s1gw",
