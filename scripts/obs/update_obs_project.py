@@ -91,7 +91,7 @@ def build_srcpkg_if_needed(pkgs_remote, package, is_meta_pkg):
             the git remote. """
         if is_meta_pkg:
             conflict_version = lib.args.conflict_version
-            latest_version = conflict_version if conflict_version else "1.0.0"
+            latest_version = conflict_version if conflict_version else lib.config.meta_package_version
         else:
             if feed == "master":
                 latest_version = lib.git.get_head_remote(package, branch,
