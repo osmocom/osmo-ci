@@ -73,7 +73,7 @@
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true
           branches:
-            - 'origin/master'
+            - 'master'
     triggers:
       - pollscm:
           cron: "H/5 * * * *"

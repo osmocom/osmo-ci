@@ -21,7 +21,7 @@
           name: BRANCH
           description: |
                 osmo-ci.git branch where the osmocom-list-commits.sh gets pulled from
-          default: '*/master'
+          default: 'master'
     builders:
       - shell: |
           scripts/osmocom-list-commits.sh > commits.txt

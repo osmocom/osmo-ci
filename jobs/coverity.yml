@@ -34,7 +34,7 @@
       - string:
           name: BRANCH
           description: osmo-ci.git branch
-          default: 'origin/master'
+          default: 'master'
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ci

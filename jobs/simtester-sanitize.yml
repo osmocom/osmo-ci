@@ -20,7 +20,7 @@
       - string:
           name: BRANCH
           description: pysim.git branch
-          default: 'origin/master'
+          default: 'master'
       - string:
           name: EMAIL_NOTIFICATIONS
           description: For failed build notifications, set to empty to disable

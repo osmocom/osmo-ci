@@ -43,7 +43,7 @@
       - string:
           name: BRANCH
           description: osmo-ci.git branch
-          default: 'refs/remotes/origin/master'
+          default: 'master'
       - string:
           name: EMAIL_NOTIFICATIONS
           description: For failed job notifications, set to empty to disable

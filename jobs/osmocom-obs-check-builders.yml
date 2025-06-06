@@ -21,7 +21,7 @@
     scm:
       - git:
           branches:
-            - 'origin/master'
+            - 'master'
           url: https://gerrit.osmocom.org/osmo-ci
     triggers:
       - timed: "@hourly"

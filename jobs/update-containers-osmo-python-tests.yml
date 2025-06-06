@@ -10,7 +10,7 @@
       - git:
           url: https://gerrit.osmocom.org/python/osmo-python-tests
           branches:
-            - 'origin/master'
+            - 'master'
           skip-tag: true
           wipe-workspace: true
     triggers:

@@ -50,7 +50,7 @@
           description: |
                 Branch where the osmo-depcheck.py script gets pulled from.
                 Only modify this if you are hacking on osmo-depcheck.py.
-          default: '*/master'
+          default: 'master'
     builders:
       - shell: |
           # Build the arguments

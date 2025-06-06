@@ -27,7 +27,7 @@
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true
           branches:
-            - 'origin/master'
+            - 'master'
     properties:
     - build-blocker:
         block-level: GLOBAL

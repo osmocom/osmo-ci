@@ -20,7 +20,7 @@
       - git:
          url: https://gerrit.osmocom.org/{repos}
          branches:
-           - 'origin/master'
+           - 'master'
     trigger:
     email: jenkins-notifications@lists.osmocom.org
     triggers:

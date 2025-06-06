@@ -18,7 +18,7 @@
           url: https://gerrit.osmocom.org/docker-playground
           skip-tag: true
           branches:
-            - 'origin/master'
+            - 'master'
 
     builders:
       - shell: |

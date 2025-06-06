@@ -21,7 +21,7 @@
           name: BRANCH
           description: |
                 osmo-ci.git branch where the osmocom-build-old-tags-against-master.sh gets pulled from
-          default: '*/master'
+          default: 'master'
     builders:
       - shell: |
           docker run \

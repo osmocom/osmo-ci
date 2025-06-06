@@ -67,7 +67,7 @@
                 Branch of <code>docker-playground.git</code>
                 (for development of the test infrastructure, don't change this
                 when testing kernel trees).
-          default: '*/master'
+          default: 'master'
 
     builders:
       - shell: |-
