@@ -328,6 +328,7 @@ filter_packages() {
 		libhyder*) ;;
 		limesuite*) ;;
 		soapysdr*-module-lms7*) ;;
+		eclipse-titan-optdir*) ;;
 
 		# Depends on specific verions 0.5.4.38.0847 of rtl-sdr, which
 		# we won't install
