@@ -565,6 +565,10 @@
           description: |
                 Branch of <code>osmo-ttcn3-hacks.git</code>
           default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: '{obj:email}'
     builders:
       - copyartifact:
           project: "build-kernel-{kernel}"
@@ -635,7 +639,7 @@
           allow-empty-results: false
       - email:
           notify-every-unstable-build: false
-          recipients: '{obj:email}'
+          recipients: '$EMAIL_NOTIFICATIONS'
           send-to-individuals: false
       - archive:
           allow-empty: false
