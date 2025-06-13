@@ -33,11 +33,6 @@
       - ttcn3-fr-test:  # ~ 10 min
           timer: H 06 * * *
           node: hdlc
-      - ttcn3-pgw-test:  # ~7 min
-          timer: H 06 * * *
-          description: |
-            Test open5gs-smfd + open5gs-upfd PGW main.
-          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
       - ttcn3-asterisk-ims-ue-test:  # ~19 min
           timer: H 06 * * *
 

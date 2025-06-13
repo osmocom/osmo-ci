@@ -3,10 +3,11 @@
     name: 'ttcn3-testsuites'
     concurrent: false
     disabled: false
+    description_extra: ""
     description: |
         Run the
         <a href="https://osmocom.org/projects/cellular-infrastructure/wiki/Titan_TTCN3_Testsuites">
-          Osmocom TTCN3 Testsuite</a> for <code>{testsuite}</code>.<br>
+          Osmocom TTCN3 Testsuite</a> for <code>{testsuite}</code>. {description_extra}<br>
         <br>
         Command:<br>
         <code>./testenv.py run {testsuite} --podman {args}</code><br>
@@ -218,6 +219,14 @@
           args: -b osmocom:nightly --custom-kernel
           timer: H 10 * * *
           kernel: net-next
+
+      - ttcn3-pgw-test:  # ~7 min
+          testsuite: pgw
+          args: -b osmocom:nightly
+          timer: H 11 * * *
+          description_extra: |
+            Test open5gs-smfd + open5gs-upfd PGW main.
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       # ---------------------------------------------
       # Debian latest
