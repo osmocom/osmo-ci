@@ -142,23 +142,23 @@
 
       - ttcn3-ggsn-test:  # ~15 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c 'osmo_ggsn_*'
+          args: -b osmocom:nightly -c osmo_ggsn_*
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --debian-kernel
+          args: -b osmocom:nightly -c osmo_ggsn_v*_only --debian-kernel
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel-net-next:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --custom-kernel
+          args: -b osmocom:nightly -c osmo_ggsn_v*_only --custom-kernel
           kernel: net-next
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel-torvalds:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c 'osmo_ggsn_v*_only' --custom-kernel
+          args: -b osmocom:nightly -c osmo_ggsn_v*_only --custom-kernel
           kernel: torvalds
           timer: H 10 * * *
 
@@ -309,23 +309,23 @@
 
       - ttcn3-ggsn-test-latest:  # ~15 min
           testsuite: ggsn
-          args: -b osmocom:latest -c 'osmo_ggsn_*'
+          args: -b osmocom:latest -c osmo_ggsn_*
           timer: H 12 * * *
 
       - ttcn3-ggsn-test-kernel-latest:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --debian-kernel
+          args: -b osmocom:latest -c osmo_ggsn_v*_only --debian-kernel
           timer: H 12 * * *
 
       - ttcn3-ggsn-test-kernel-latest-net-next:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --custom-kernel
+          args: -b osmocom:latest -c osmo_ggsn_v*_only --custom-kernel
           kernel: net-next
           timer: H 12 * * *
 
       - ttcn3-ggsn-test-kernel-latest-torvalds:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:latest -c 'osmo_ggsn_v*_only' --custom-kernel
+          args: -b osmocom:latest -c osmo_ggsn_v*_only --custom-kernel
           kernel: torvalds
           timer: H 12 * * *
 
@@ -479,7 +479,7 @@
 
       - ttcn3-ggsn-test-asan:  # ~15 min
           testsuite: ggsn
-          args: -b osmocom:nightly:asan -c 'osmo_ggsn_*'
+          args: -b osmocom:nightly:asan -c osmo_ggsn_*
           timer: H 16 * * *
 
       - ttcn3-stp-test-asan:  # ~10 min
@@ -566,6 +566,11 @@
                 Branch of <code>osmo-ttcn3-hacks.git</code>
           default: 'master'
       - string:
+          name: TESTENV_ARGS
+          description: |
+                Additional arguments to <code>./testenv.py --podman</code>
+          default: '{obj:args}'
+      - string:
           name: EMAIL_NOTIFICATIONS
           description: For failed build notifications, set to empty to disable
           default: '{obj:email}'
@@ -610,7 +615,7 @@
             --cache "$PWD"/_cache \
             --ccache ~/ccache/testenv \
             --log-dir "$PWD"/logs \
-            {args}; then
+            $TESTENV_ARGS; then
             RC=1
           fi
 
