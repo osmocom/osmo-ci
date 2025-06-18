@@ -88,6 +88,10 @@
                 Branch of <code>docker-playground.git</code>.
                 Only modify if you are hacking on the docker-playground scripts.
           default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: '{obj:email}'
     builders:
       - shell: |-
           export REGISTRY_HOST="registry.osmocom.org"
@@ -166,7 +170,7 @@
           allow-empty-results: false
       - email:
           notify-every-unstable-build: false
-          recipients: '{obj:email}'
+          recipients: '$EMAIL_NOTIFICATIONS'
           send-to-individuals: false
       - archive:
           allow-empty: false
