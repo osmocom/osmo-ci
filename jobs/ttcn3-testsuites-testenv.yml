@@ -502,6 +502,16 @@
           args: -b osmocom:nightly:asan -c generic
           timer: H 16 * * *
 
+      - ttcn3-bsc-test-sccplite-asan:  # ~76 min
+          testsuite: bsc
+          args: -b osmocom:nightly:asan -c sccplite
+          timer: H 16 * * *
+
+      - ttcn3-bsc-test-vamos-asan:  # ~4 min
+          testsuite: bsc
+          args: -b osmocom:nightly:asan -c vamos
+          timer: H 16 * * *
+
       - ttcn3-pcap-client-test-asan:  # ~1 min
           testsuite: pcap-client
           args: -b osmocom:nightly:asan
