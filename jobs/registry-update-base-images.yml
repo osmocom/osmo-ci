@@ -26,7 +26,7 @@
       - shell: |
           REGISTRY="registry.osmocom.org"
           IMAGES="
-            debian:buster
+            debian/eol:buster
             debian:bullseye
             debian:bookworm
             debian:sid
