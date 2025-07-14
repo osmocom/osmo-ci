@@ -19,6 +19,9 @@ def get_distro_from(distro, image_type):
     if image_type.endswith("_manuals"):
         return get_image_name(distro, image_type.replace("_manuals", ""))
 
+    if distro == "debian:10":
+        distro = "debian/eol:buster"
+
     return distro
 
 
