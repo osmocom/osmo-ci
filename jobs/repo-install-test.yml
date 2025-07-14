@@ -37,6 +37,10 @@
           description: |
                 osmo-ci.git branch
           default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
     axes:
       - axis:
           type: slave
@@ -63,6 +67,6 @@
     publishers:
       - email:
           notify-every-unstable-build: true
-          recipients: 'jenkins-notifications@lists.osmocom.org'
+          recipients: '$EMAIL_NOTIFICATIONS'
 
 # vim: expandtab tabstop=2 shiftwidth=2
