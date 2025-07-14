@@ -16,6 +16,11 @@
       - build-discarder:
           days-to-keep: 30
           num-to-keep: 30
+    parameters:
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
     node: osmocom-master
     builders:
       - shell: |
@@ -43,6 +48,6 @@
     publishers:
       - email:
           notify-every-unstable-build: true
-          recipients: 'jenkins-notifications@lists.osmocom.org'
+          recipients: '$EMAIL_NOTIFICATIONS'
 
 # vim: expandtab tabstop=2 shiftwidth=2
