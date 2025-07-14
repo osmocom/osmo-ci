@@ -143,6 +143,13 @@ qemu_prepare_vm() {
 		# https://almalinux.org/blog/2023-12-20-almalinux-8-key-update/
 		qemu_ssh dnf upgrade -y almalinux-release
 		;;
+	debian10)
+		qemu_ssh sed \
+			-i \
+			-e s/deb.debian.org/archive.debian.org/g \
+			-e s/security.debian.org/archive.debian.org/g \
+			/etc/apt/sources.list
+		;;
 	esac
 }
 
