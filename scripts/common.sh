@@ -149,7 +149,7 @@ osmo_git_clone_url() {
 		libosmo-sccp-legacy)
 			echo "$OSMO_GIT_URL_GITEA"/osmocom/"$1"
 			;;
-		osmo_dia2gsup|osmo-epdg|osmo-s1gw)
+		osmo_dia2gsup|osmo-epdg|osmo-s1gw|logger_gsmtap|enftables)
 			echo "$OSMO_GIT_URL_GERRIT"/erlang/"$1"
 			;;
 		pyosmocom)
