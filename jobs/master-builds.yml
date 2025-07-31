@@ -317,6 +317,14 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
+      - logger_gsmtap:
+          repos_url: '{gerrit_url}/erlang/{repos}'
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+
+      - enftables:
+          repos_url: '{gerrit_url}/erlang/{repos}'
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
           a2: !!python/tuple ["firmware", "gateware", "manuals", "software"]
