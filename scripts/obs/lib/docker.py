@@ -19,8 +19,16 @@ def get_distro_from(distro, image_type):
     if image_type.endswith("_manuals"):
         return get_image_name(distro, image_type.replace("_manuals", ""))
 
-    if distro == "debian:10":
-        distro = "debian/eol:buster"
+    # Ensure we can use short names like "debian:13" instead of "debian:trixie"
+    # even though upstream apparently doesn't push the number-tags anymore:
+    # https://hub.docker.com/_/debian
+    match distro:
+        case "debian:10":
+            distro = "debian/eol:buster"
+        # debian:11 points to debian:bullseye upstream
+        # debian:12 points to debian:bookworm upstream
+        case "debian:13":
+            distro = "debian:trixie"
 
     return distro
 
