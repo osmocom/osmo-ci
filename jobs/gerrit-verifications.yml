@@ -104,7 +104,7 @@
     # Which jobs to run in the pipeline
     pipeline_build: true
     pipeline_lint: true
-    pipeline_binpkgs: "debian:10 debian:12"
+    pipeline_binpkgs: "debian:11 debian:13"
 
     # in alphabetical order
     repos:
@@ -147,7 +147,7 @@
       - libosmo-gprs
 
       - libosmo-netif:
-          pipeline_binpkgs: "centos:7 debian:10 debian:12"  # centos7: SYS#6760 (osmo-pcap dep)
+          pipeline_binpkgs: "centos:7 debian:11 debian:13"  # centos7: SYS#6760 (osmo-pcap dep)
 
       - libosmo-pfcp
       - libosmo-sigtran
@@ -158,7 +158,7 @@
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
           cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
-          pipeline_binpkgs: "centos:7 debian:10 debian:12"  # centos7: SYS#6760
+          pipeline_binpkgs: "centos:7 debian:11 debian:13"  # centos7: SYS#6760
 
       - libsmpp34
 
@@ -214,12 +214,11 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
-          pipeline_binpkgs: "debian:11 debian:12"
 
       - osmo-epdg:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          pipeline_binpkgs: "debian:12"
+          pipeline_binpkgs: "debian:12 debian:13"
           a2_name: JOB_TYPE
           a2: !!python/tuple ["build", "manuals"]
           cmd: |
@@ -235,7 +234,7 @@
       - osmo-s1gw:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          pipeline_binpkgs: "debian:12"
+          pipeline_binpkgs: "debian:12 debian:13"
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
 
       - logger_gsmtap:
@@ -309,7 +308,7 @@
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-pcap:
-          pipeline_binpkgs: "centos:7 debian:10 debian:12"  # centos7: SYS#6760
+          pipeline_binpkgs: "centos:7 debian:11 debian:13"  # centos7: SYS#6760
 
       - osmo-pcu:
           slave_axis: !!python/tuple [osmocom-gerrit, raspbian]
@@ -351,7 +350,7 @@
       - pyosmocom:
           repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
-          pipeline_binpkgs: "debian:12"
+          pipeline_binpkgs: "debian:12 debian:13"
           concurrent: false
           slave_axis: !!python/tuple [simtester,osmocom-gerrit]
           a2_name: JOB_TYPE
@@ -421,13 +420,12 @@
               "$DOCKER_IMG" {timeout_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
 
       - osmocom-bb:
-          pipeline_binpkgs: "debian:12"
+          pipeline_binpkgs: "debian:12 debian:13"
 
       - osmo-tetra:
           pipeline_binpkgs: ""
 
-      - osmo-sysmon:
-          pipeline_binpkgs: "debian:10 debian:12"
+      - osmo-sysmon
 
       - osmo-remsim
 
@@ -457,7 +455,7 @@
           pipeline_binpkgs: ""
 
       - gapk:
-          pipeline_binpkgs: "debian:12"
+          pipeline_binpkgs: "debian:12 debian:13"
 
       - osmo-uecups
 
@@ -485,8 +483,7 @@
               -e NFTABLES="$NFTABLES" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
-      - osmo-upf:
-          pipeline_binpkgs: "debian:11 debian:12"
+      - osmo-upf
 
       - pysim:
           concurrent: false
