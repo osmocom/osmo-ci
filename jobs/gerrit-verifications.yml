@@ -135,8 +135,7 @@
           pipeline_binpkgs: ""
           pipeline_lint: false
 
-      - cellmgr-ng:
-          pipeline_binpkgs: "debian:10 debian:12"
+      - cellmgr-ng
 
       - docker-playground:
           pipeline_build: false
@@ -283,8 +282,7 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
-      - osmo-gsm-manuals:
-          pipeline_binpkgs: "debian:10 debian:12"
+      - osmo-gsm-manuals
 
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -349,7 +347,6 @@
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
           gerrit_project: 'python/{repos}'
-          pipeline_binpkgs: "debian:10 debian:12"
 
       - pyosmocom:
           repos_url: '{gerrit_url}/python/{repos}'
