@@ -29,6 +29,7 @@
             debian/eol:buster
             debian:bullseye
             debian:bookworm
+            debian:trixie
             debian:sid
 
             centos:centos7
