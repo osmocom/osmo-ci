@@ -187,10 +187,14 @@ def rewrite_meta(project):
             for download in repository.findall(".download"):
                 url = download.get("url")
                 print(f"    changing url to https: {url}")
-                assert url.startswith("http://ftp.de.debian.org/debian"), \
-                        "unexpected mirror URL"
-                download.set("url", url.replace("http://ftp.de.debian.org/debian",
-                                                "https://debian.inf.tu-dresden.de/debian"))
+                if url.startswith("http://ftp.de.debian.org/debian"):
+                    download.set("url", url.replace("http://ftp.de.debian.org/debian",
+                                                    "https://debian.inf.tu-dresden.de/debian"))
+                elif url.startswith("http://security.debian.org/debian-security"):
+                    download.set("url", url.replace("http://security.debian.org/debian-security",
+                                                    "https://debian.inf.tu-dresden.de/debian-security"))
+                else:
+                    raise RuntimeError(f"Unexpected mirror URL: {url}")
                 for pubkey in download.findall("pubkey"):
                     download.remove(pubkey)
 
