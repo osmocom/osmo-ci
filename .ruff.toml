@@ -18,7 +18,6 @@ exclude = [
 	"scripts/obs/lib/osc.py",
 	"scripts/obs/lib/rpm_spec.py",
 	"scripts/obs/lib/srcpkg.py",
-	"scripts/obs/sync_obs_projects.py",
 	"scripts/obs/update_obs_project.py",
 	"scripts/osmo-depcheck/buildstack.py",
 	"scripts/osmo-depcheck/config.py",
