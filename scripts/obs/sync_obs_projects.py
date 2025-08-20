@@ -23,34 +23,57 @@ temp_dest_new_prjconf = f"{lib.config.path_temp}/sync_dest_new_prjconf"
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Sync OBS projects (prjconf,"
-        " meta) from another instance (OS#6165)")
-    parser.add_argument("-d", "--docker",
-                        help="run in docker to avoid installing required pkgs",
-                        action="store_true")
-    parser.add_argument("-n", "--no-skip-up-to-date",
-                        dest="skip_up_to_date", action="store_false",
-                        help="always assume projects are outdated")
-    parser.add_argument("-v", "--verbose", action="store_true",
-                        help="always print shell commands and their output,"
-                             " instead of only printing them on error")
-    parser.add_argument("projects",
-                        help="source OBS project, e.g. Debian:12",
-                        nargs="+")
+    parser = argparse.ArgumentParser(description="Sync OBS projects (prjconf, meta) from another instance (OS#6165)")
+    parser.add_argument(
+        "-d",
+        "--docker",
+        help="run in docker to avoid installing required pkgs",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-n",
+        "--no-skip-up-to-date",
+        dest="skip_up_to_date",
+        action="store_false",
+        help="always assume projects are outdated",
+    )
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="always print shell commands and their output, instead of only printing them on error",
+    )
+    parser.add_argument(
+        "projects",
+        help="source OBS project, e.g. Debian:12",
+        nargs="+",
+    )
 
     advanced = parser.add_argument_group("advanced options")
-    advanced.add_argument("-A", "--apiurl", help="source OBS API URL"
-                          " (default: https://api.opensuse.org)",
-                          default="https://api.opensuse.org")
-    advanced.add_argument("-p", "--prefix", default="openSUSE.org-mirror",
-                          help="destination OBS prefix"
-                               " (default: openSUSE.org-mirror)")
-    advanced.add_argument("-t", "--to-apiurl", help="destination OBS API URL"
-                          " (default: https://obs.osmocom.org)",
-                          default="https://obs.osmocom.org")
-    advanced.add_argument("-w", "--weburl", default="https://build.opensuse.org",
-                          help="source OBS web URL (default:"
-                               " https://build.opensuse.org)")
+    advanced.add_argument(
+        "-A",
+        "--apiurl",
+        help="source OBS API URL (default: https://api.opensuse.org)",
+        default="https://api.opensuse.org",
+    )
+    advanced.add_argument(
+        "-p",
+        "--prefix",
+        default="openSUSE.org-mirror",
+        help="destination OBS prefix (default: openSUSE.org-mirror)",
+    )
+    advanced.add_argument(
+        "-t",
+        "--to-apiurl",
+        help="destination OBS API URL (default: https://obs.osmocom.org)",
+        default="https://obs.osmocom.org",
+    )
+    advanced.add_argument(
+        "-w",
+        "--weburl",
+        default="https://build.opensuse.org",
+        help="source OBS web URL (default: https://build.opensuse.org)",
+    )
 
     args = parser.parse_args()
     lib.set_args(args)
@@ -79,9 +102,9 @@ def check_required_programs():
 
 
 def generate_prjconf_header(project):
-    """ This header gets prepended to the prjconf, before it gets written to
-        the destination OBS. This script uses it to determine whether the
-        project needs to be updated next time it runs. """
+    """This header gets prepended to the prjconf, before it gets written to
+    the destination OBS. This script uses it to determine whether the
+    project needs to be updated next time it runs."""
     with open(temp_source_prjconf, "rb") as h:
         source_prjconf = h.read()
     with open(temp_source_meta, "rb") as h:
@@ -128,10 +151,12 @@ def get_relevant_arches(project):
     if project.startswith("Raspbian:"):
         return ["armv7l"]
 
-    return ["aarch64",
-            "armv7l",
-            "i586",
-            "x86_64"]
+    return [
+        "aarch64",
+        "armv7l",
+        "i586",
+        "x86_64",
+    ]
 
 
 def rewrite_meta(project):
@@ -147,9 +172,11 @@ def rewrite_meta(project):
 
     for description in root.findall("description"):
         href = f"{lib.args.weburl}/project/show/{project}"
-        description.text = ("This project gets synced from:"
-                            f" <a href='{html.escape(href)}'>{project}</a>\n"
-                            "Do not modify manually. See OS#6165.\n")
+        description.text = (
+            "This project gets synced from:"
+            f" <a href='{html.escape(href)}'>{project}</a>\n"
+            "Do not modify manually. See OS#6165.\n"
+        )
 
     for repository in root.findall(".repository"):
         repo_name = repository.get("name")
@@ -188,11 +215,21 @@ def rewrite_meta(project):
                 url = download.get("url")
                 print(f"    changing url to https: {url}")
                 if url.startswith("http://ftp.de.debian.org/debian"):
-                    download.set("url", url.replace("http://ftp.de.debian.org/debian",
-                                                    "https://debian.inf.tu-dresden.de/debian"))
+                    download.set(
+                        "url",
+                        url.replace(
+                            "http://ftp.de.debian.org/debian",
+                            "https://debian.inf.tu-dresden.de/debian",
+                        ),
+                    )
                 elif url.startswith("http://security.debian.org/debian-security"):
-                    download.set("url", url.replace("http://security.debian.org/debian-security",
-                                                    "https://debian.inf.tu-dresden.de/debian-security"))
+                    download.set(
+                        "url",
+                        url.replace(
+                            "http://security.debian.org/debian-security",
+                            "https://debian.inf.tu-dresden.de/debian-security",
+                        ),
+                    )
                 else:
                     raise RuntimeError(f"Unexpected mirror URL: {url}")
                 for pubkey in download.findall("pubkey"):
@@ -256,11 +293,15 @@ def show_diff(projects, project):
         return
 
     # Show prjconf diff (old prjconf was retrieved in is_up_to_date())
-    diff = lib.run_cmd(["colordiff",
-                        "-c3",
-                        temp_dest_old_prjconf,
-                        temp_dest_new_prjconf],
-                       check=False)
+    diff = lib.run_cmd(
+        [
+            "colordiff",
+            "-c3",
+            temp_dest_old_prjconf,
+            temp_dest_new_prjconf,
+        ],
+        check=False,
+    )
     if diff.returncode:
         print(f"{project_new}: prjconf changes:")
         print(diff.output, end="")
@@ -270,13 +311,16 @@ def show_diff(projects, project):
     # Show meta diff
     lib.osc.get_meta(temp_dest_old_meta)
     for file in [temp_dest_old_meta, temp_dest_new_meta]:
-        lib.run_cmd(f"xmllint --format {shlex.quote(file)} > {shlex.quote(file)}.pretty",
-                    shell=True)
-    diff = lib.run_cmd(["colordiff",
-                        "-c3",
-                        f"{temp_dest_old_meta}.pretty",
-                        f"{temp_dest_new_meta}.pretty"],
-                       check=False)
+        lib.run_cmd(f"xmllint --format {shlex.quote(file)} > {shlex.quote(file)}.pretty", shell=True)
+    diff = lib.run_cmd(
+        [
+            "colordiff",
+            "-c3",
+            f"{temp_dest_old_meta}.pretty",
+            f"{temp_dest_new_meta}.pretty",
+        ],
+        check=False,
+    )
     if diff.returncode:
         print(f"{project_new}: meta changes:")
         print(diff.output, end="")
