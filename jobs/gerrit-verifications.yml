@@ -524,7 +524,7 @@
                     ln -s "$i" /build/deps/
                   fi
                 done
-                su build -c "make -C /build compile"
+                su build -c "make -C /build clean compile"
                 '
           pipeline_binpkgs: ""
 
