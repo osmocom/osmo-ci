@@ -41,6 +41,7 @@ def stage_binpkgs_from_url(job_url):
     global re_distro
 
     url = f"{job_url}/consoleText"
+    print(f"Reading {url}")
     with urllib.request.urlopen(url) as response:
         content = response.read().decode("utf-8")
         match = re_distro.search(content)
@@ -77,6 +78,7 @@ def parse_pipeline(build_url):
     ret = {}
 
     url = f"{build_url}/consoleText"
+    print(f"Reading {url}")
     with urllib.request.urlopen(url) as response:
         for line in io.TextIOWrapper(response, encoding='utf-8'):
             # Parse start build lines
@@ -123,6 +125,7 @@ def parse_build_matrix(job):
 
     ret = []
     url = f"{job['url']}/consoleFull"
+    print(f"Reading {url}")
     with urllib.request.urlopen(url) as response:
         for line in io.TextIOWrapper(response, encoding='utf-8'):
             if " completed with result " in line:
