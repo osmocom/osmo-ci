@@ -43,7 +43,7 @@ def stage_binpkgs_from_url(job_url):
     url = f"{job_url}/consoleText"
     print(f"Reading {url}")
     with urllib.request.urlopen(url) as response:
-        content = response.read().decode("utf-8")
+        content = response.read().decode("utf-8", errors="ignore")
         match = re_distro.search(content)
         assert match, f"couldn't find distro name in log: {url}"
         return match.group(1)
