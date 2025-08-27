@@ -92,7 +92,7 @@
     builders:
       - shell: |
           REGISTRY="registry.osmocom.org"
-          DISTRO="debian:bookworm"
+          DISTRO="debian:trixie"
           IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
 
           podman build \
