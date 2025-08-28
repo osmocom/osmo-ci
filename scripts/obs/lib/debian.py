@@ -15,9 +15,10 @@ try:
 except ImportError:
     pass
 
+
 def control_add_depend(project, pkgname, version):
-    """ :param pkgname: of the meta-package to depend on (e.g. osmocom-nightly)
-        :param version: of the meta-pkgname to depend on or None """
+    """:param pkgname: of the meta-package to depend on (e.g. osmocom-nightly)
+    :param version: of the meta-pkgname to depend on or None"""
     repo_path = lib.git.get_repo_path(project)
 
     if version:
@@ -30,7 +31,7 @@ def control_add_depend(project, pkgname, version):
 
 
 def changelog_add_entry(project, version):
-    """ :param version: for the new changelog entry """
+    """:param version: for the new changelog entry"""
     feed = lib.args.feed
     repo_path = lib.git.get_repo_path(project)
     changelog_path = f"{repo_path}/debian/changelog"
@@ -52,8 +53,7 @@ def changelog_add_entry(project, version):
     with open(changelog_path, "w") as f:
         f.write(f"{pkgname} ({version}) unstable; urgency=medium\n")
         f.write("\n")
-        f.write("  * Automatically generated changelog entry for building the"
-                f" Osmocom {feed} feed\n")
+        f.write(f"  * Automatically generated changelog entry for building the Osmocom {feed} feed\n")
         f.write("\n")
         f.write(f" -- Osmocom OBS scripts <info@osmocom.org>  {date_str}\n")
         f.write("\n")
@@ -61,7 +61,7 @@ def changelog_add_entry(project, version):
 
 
 def fix_source_format(project):
-    """ Always use format "3.0 (native)" (e.g. limesuite has "3.0 (quilt)")."""
+    """Always use format "3.0 (native)" (e.g. limesuite has "3.0 (quilt)")."""
     repo_path = lib.git.get_repo_path(project)
     format_path = f"{repo_path}/debian/source/format"
     if not os.path.exists(format_path):
@@ -104,18 +104,19 @@ def transform_version(version):
 
 
 def changelog_add_entry_if_needed(project, version):
-    """ Adjust the changelog if the version in the changelog is different from
-        the given version. """
+    """Adjust the changelog if the version in the changelog is different from
+    the given version."""
     version_changelog = get_last_version_from_changelog(project)
 
     # Don't use a lower number (OS#6173)
     try:
-        if packaging.version.parse(version_changelog.split("-")[0]) > \
-                packaging.version.parse(version.split("-")[0]):
-            print(f"{project}: WARNING: version from changelog"
-                  f" ({version_changelog}) is higher than version based on git tag"
-                  f" ({version}), using version from changelog (git tag not pushed"
-                  " yet?)")
+        if packaging.version.parse(version_changelog.split("-")[0]) > packaging.version.parse(version.split("-")[0]):
+            print(
+                f"{project}: WARNING: version from changelog"
+                f" ({version_changelog}) is higher than version based on git tag"
+                f" ({version}), using version from changelog (git tag not pushed"
+                " yet?)"
+            )
             return
     except packaging.version.InvalidVersion:
         # packaging.version.parse can parse the version numbers used in Osmocom
@@ -129,15 +130,14 @@ def changelog_add_entry_if_needed(project, version):
     if version_changelog == version:
         return
 
-    print(f"{project}: adding debian/changelog entry ({version_changelog} =>"
-          f" {version})")
+    print(f"{project}: adding debian/changelog entry ({version_changelog} => {version})")
     changelog_add_entry(project, version)
 
 
 def configure_append(project, parameters):
-    """ Add one or more configure parameters like --enable-sanitize to the
-        dh_auto_configure line, also add the override_dh_auto_configure block
-        if missing. """
+    """Add one or more configure parameters like --enable-sanitize to the
+    dh_auto_configure line, also add the override_dh_auto_configure block
+    if missing."""
     print(f"{project}: adding configure parameters: {parameters}")
     rules = f"{lib.git.get_repo_path(project)}/debian/rules"
     override_found = False
@@ -154,20 +154,21 @@ def configure_append(project, parameters):
         if " -- " in line.replace("\t", " "):
             lines[i] = line.replace(" --", f" -- {parameters}", 1)
         else:
-            lines[i] = line.replace("dh_auto_configure",
-                                    f"dh_auto_configure -- {parameters}", 1)
+            lines[i] = line.replace("dh_auto_configure", f"dh_auto_configure -- {parameters}", 1)
         break
     if not override_found:
-        lines += ["\n",
-                  "override_dh_auto_configure:\n",
-                  f"\tdh_auto_configure -- {parameters}\n"]
+        lines += [
+            "\n",
+            "override_dh_auto_configure:\n",
+            f"\tdh_auto_configure -- {parameters}\n",
+        ]
     with open(rules, "w") as f:
         f.writelines(lines)
 
 
 def disable_manuals(project):
-    """ Disabling manuals speeds up the build time significantly, we don't
-        need them for e.g. the asan repository. """
+    """Disabling manuals speeds up the build time significantly, we don't
+    need them for e.g. the asan repository."""
     print(f"{project}: disabling manuals")
     debian = f"{lib.git.get_repo_path(project)}/debian"
     # Remove dependencies
@@ -183,11 +184,16 @@ def disable_manuals(project):
 def build_source_package(project):
     fix_source_format(project)
     print(f"{project}: building debian source package")
-    lib.run_cmd(["dpkg-buildpackage", "-S", "-uc", "-us", "-d"],
-                cwd=lib.git.get_repo_path(project))
+    lib.run_cmd(
+        ["dpkg-buildpackage", "-S", "-uc", "-us", "-d"],
+        cwd=lib.git.get_repo_path(project),
+    )
 
 
 def move_files_to_output(project):
     path_output = lib.get_output_path(project)
-    lib.run_cmd(f"mv *.tar* *.dsc {shlex.quote(path_output)}", shell=True,
-                cwd=lib.config.path_cache)
+    lib.run_cmd(
+        f"mv *.tar* *.dsc {shlex.quote(path_output)}",
+        shell=True,
+        cwd=lib.config.path_cache,
+    )
