@@ -112,12 +112,13 @@ def changelog_add_entry_if_needed(project, version):
     try:
         if packaging.version.parse(version_changelog.split("-")[0]) > packaging.version.parse(version.split("-")[0]):
             print(
-                f"{project}: WARNING: version from changelog"
-                f" ({version_changelog}) is higher than version based on git tag"
-                f" ({version}), using version from changelog (git tag not pushed"
-                " yet?)"
+                f"{project}: WARNING: version from changelog ({version_changelog}) is higher than version based on git tag ({version})"
             )
-            return
+            if lib.args.version_append:
+                print(f"{project}: WARNING: assuming commit from last git tag was amended, ignoring...")
+            else:
+                print(f"{project}: WARNING: using version from changelog (git tag not pushed yet?)")
+                return
     except packaging.version.InvalidVersion:
         # packaging.version.parse can parse the version numbers used in Osmocom
         # projects (where we need the above check), but not e.g. some versions
