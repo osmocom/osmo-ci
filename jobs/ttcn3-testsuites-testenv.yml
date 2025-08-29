@@ -300,7 +300,6 @@
           testsuite: upf
           args: -b osmocom:latest
           timer: H 12 * * *
-          disabled: true
 
       - ttcn3-s1gw-test-latest:  # ~2 min
           testsuite: s1gw
