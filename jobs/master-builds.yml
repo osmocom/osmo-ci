@@ -143,6 +143,8 @@
             master-osmo-mgw,
             master-osmo-sgsn
 
+      - libosmo-asn1-tcap
+
       - libosmo-dsp:
           repos_url: '{gitea_url}/sdr/{repos}'
           cmd: |
