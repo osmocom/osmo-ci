@@ -60,6 +60,7 @@ projects_osmocom = [
     "libosmo-gprs",
     "libosmo-netif",
     "libosmo-pfcp",
+    "libosmo-asn1-tcap",
     "libosmo-sigtran",
     "libosmocore",
     "libsmpp34",
