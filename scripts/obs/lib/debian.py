@@ -177,9 +177,10 @@ def disable_manuals(project):
     lib.run_cmd(["sed", "-i", "/doxygen/d", f"{debian}/control"])
     # Remove debian/*-doc.install
     lib.run_cmd(f"rm -rf {shlex.quote(debian)}/*-doc.install", shell=True)
-    # debian/rules: remove --enable-manuals/doxygen, add --disable-doxygen
+    # debian/rules: remove --enable-manuals etc.
     lib.run_cmd(["sed", "-i", "s/--enable-manuals//g", f"{debian}/rules"])
     lib.run_cmd(["sed", "-i", "s/--enable-doxygen//g", f"{debian}/rules"])
+    lib.run_cmd(["sed", "-i", "s/$(MAKE) -C doc\/manuals//g", f"{debian}/rules"])
 
 
 def build_source_package(project):
