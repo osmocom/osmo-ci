@@ -6,8 +6,8 @@ latest/Raspbian_11
 latest/Raspbian_12
 latest/xUbuntu_22.04
 latest/xUbuntu_24.04
-latest/xUbuntu_24.10
 latest/xUbuntu_25.04
+latest/xUbuntu_25.10
 
 nightly/CentOS_7
 nightly/Debian_11
@@ -17,5 +17,5 @@ nightly/Raspbian_11
 nightly/Raspbian_12
 nightly/xUbuntu_22.04
 nightly/xUbuntu_24.04
-nightly/xUbuntu_24.10
 nightly/xUbuntu_25.04
+nightly/xUbuntu_25.10
