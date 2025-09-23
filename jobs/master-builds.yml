@@ -69,7 +69,6 @@
               -i \
               -u build \
               -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
-              -v "$HOME/osmo-ci:/osmo-ci:ro" \
               -v "$PWD:/build" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
               \
@@ -254,6 +253,21 @@
             master-osmocom-bb,
             master-simtrace,
             master-xgoldmon
+
+      - libosmocore-osmith:
+          repos_url: '{gerrit_url}/libosmocore'
+          branch: osmith/wip
+          slave_axis: !!python/tuple [build4-deb12build-ansible]
+          a1_name: arch
+          a1: !!python/tuple [amd64]
+          combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
+          cmd: |
+            rm -rf osmo-ci
+            git clone --depth=1 https://gerrit.osmocom.org/osmo-ci -b osmith/wip
+            {docker_run_ccache} \
+              -v "$PWD/osmo-ci:/osmo-ci:ro" \
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins_arch.sh "$arch"
+          email: ""
 
       - libsmpp34:
           trigger: master-osmo-msc
