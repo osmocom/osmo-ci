@@ -65,6 +65,7 @@
               -w /build \
               -i \
               -u build \
+              -v "$HOME/osmo-ci:/osmo-ci:ro" \
               -v "$PWD:/build" \
     docker_run_ccache: |
             CCACHE_DIR="$HOME/ccache/gerrit-verifications"
@@ -86,6 +87,7 @@
               -w /build \
               -i \
               -u build \
+              -v "$HOME/osmo-ci:/osmo-ci:ro" \
               -v "$PWD:/build" \
               \
               -e CCACHE_DIR="/ccache" \
@@ -97,7 +99,8 @@
     docker_img_aram_applet: 'registry.osmocom.org/osmocom-build/debian-bookworm-aram-applet'
     docker_img_rp2040: 'registry.osmocom.org/osmocom-build/debian-bookworm-rp2040'
     timeout_cmd: '/usr/bin/timeout 30m'
-    cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
+    wrapper_cmd: '{timeout_cmd} /osmo-ci/scripts/wrapper_core_bt_on_error.sh'
+    cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
@@ -158,7 +161,7 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins_arch.sh "$arch"'
           pipeline_binpkgs: "centos:7 debian:11 debian:13"  # centos7: SYS#6760
 
       - libsmpp34
@@ -209,7 +212,7 @@
             {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              "$DOCKER_IMG" {timeout_cmd} $SETARCH_CMD /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
+              "$DOCKER_IMG" {wrapper_cmd} $SETARCH_CMD /build/contrib/jenkins_bts_model.sh "$BTS_MODEL"
 
       - osmo_dia2gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -280,7 +283,7 @@
             {docker_run_ccache} \
               -e GTP="$GTP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - osmo-gsm-manuals
 
@@ -306,7 +309,7 @@
             {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - osmo-pcap:
           pipeline_binpkgs: "centos:7 debian:11 debian:13"  # centos7: SYS#6760
@@ -342,7 +345,7 @@
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              "$DOCKER_IMG" {timeout_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
+              "$DOCKER_IMG" {wrapper_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
 
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
@@ -386,7 +389,7 @@
             {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - osmo_ss7:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -418,7 +421,7 @@
             {docker_run_ccache} \
               -e INSTR="$INSTR" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              "$DOCKER_IMG" {timeout_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
+              "$DOCKER_IMG" {wrapper_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
 
       - osmocom-bb:
           pipeline_binpkgs: "debian:12 debian:13"
@@ -482,7 +485,7 @@
               -e PFCP="$PFCP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               -e NFTABLES="$NFTABLES" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - osmo-upf
 

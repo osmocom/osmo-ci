@@ -82,7 +82,8 @@
     docker_img_aram_applet: 'registry.osmocom.org/osmocom-build/debian-bookworm-aram-applet'
     docker_img_rp2040: 'registry.osmocom.org/osmocom-build/debian-bookworm-rp2040'
     timeout_cmd: '/usr/bin/timeout 30m'
-    cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
+    wrapper_cmd: '{timeout_cmd} /osmo-ci/scripts/wrapper_core_bt_on_error.sh'
+    cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh'
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
     gerrit_url: 'https://gerrit.osmocom.org'
@@ -149,7 +150,7 @@
           repos_url: '{gitea_url}/sdr/{repos}'
           cmd: |
             {docker_run_ccache} \
-              {docker_img} {timeout_cmd} sh -ex -c \
+              {docker_img} {wrapper_cmd} sh -ex -c \
                 'autoreconf -fi; \
                  ./configure; \
                  $MAKE $PARALLEL_MAKE; \
@@ -207,7 +208,7 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins_arch.sh "$arch"'
+          cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins_arch.sh "$arch"'
           # Full triggers would be:
           # trigger: >
           #   master-libosmo-netif, master-libosmo-abis, master-libosmo-sigtran,
@@ -376,7 +377,7 @@
             {docker_run_ccache} \
               -e GTP="$GTP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
           trigger: master-osmo-sgsn
 
       - osmo-upf
@@ -426,7 +427,7 @@
             {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - osmo-pcap
 
@@ -460,14 +461,14 @@
               -e with_vty="$with_vty" \
               -e with_dsp="$with_dsp" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              "$DOCKER_IMG" {timeout_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
+              "$DOCKER_IMG" {wrapper_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
 
       - osmo-python-tests:
           repos_url: '{gerrit_url}/python/{repos}'
 
       - ot290-gsmtap:
           repos_url: '{gitea_url}/phone-side/{repos}'
-          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} make -C /build/src'
+          cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} make -C /build/src'
 
       - pyosmocom:
           repos_url: '{gerrit_url}/python/{repos}'
@@ -505,7 +506,7 @@
             {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - osmo-sip-connector:
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org holger@freyther.de
@@ -535,7 +536,7 @@
             {docker_run_ccache} \
               -e INSTR="$INSTR" \
               -e WITH_MANUALS="$WITH_MANUALS" \
-              "$DOCKER_IMG" {timeout_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
+              "$DOCKER_IMG" {wrapper_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
 
       - osmocom-bb
       - osmo-sysmon
@@ -564,14 +565,14 @@
           repos_url: '{gitea_url}/sim-card/{repos}'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
       - simtrace2:
-          cmd: '{docker_run_ccache} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
           ssh:
             - binaries_ftp.osmocom.org
             - docs_ftp.osmocom.org
       - osmo-opencm3-projects:
           repos_url: '{gitea_url}/electronics/{repos}'
-          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish'
+          cmd: '{docker_run} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh --publish'
           email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org kredon@sysmocom.de
           ssh:
             - binaries_ftp.osmocom.org
@@ -602,7 +603,7 @@
               -e PFCP="$PFCP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
               -e NFTABLES="$NFTABLES" \
-              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - rtl-sdr:
           repos_url: '{gitea_url}/sdr/{repos}'
@@ -649,7 +650,7 @@
           cmd: |
             rm -rf osmo-ci
             git clone --depth=1 https://gerrit.osmocom.org/osmo-ci -b master
-            {docker_run_ccache} {docker_img} {timeout_cmd} /build/osmo-ci/scripts/xgoldmon-jenkins.sh
+            {docker_run_ccache} {docker_img} {wrapper_cmd} /build/osmo-ci/scripts/xgoldmon-jenkins.sh
 
     jobs:
       - 'master-{repos}'
