@@ -128,15 +128,6 @@ def prepare_project_open5gs():
                 cwd=lib.git.get_repo_path("open5gs"))
 
 
-def prepare_project_limesuite():
-    """ Fix bug in 23.10: https://github.com/myriadrf/LimeSuite/pull/386 """
-    lib.run_cmd(["mv", "-v",
-                 "liblimesuite22.09-1.install",
-                 "liblimesuite23.10-1.install"],
-                cwd=f"{lib.git.get_repo_path('limesuite')}/debian",
-                check=False)
-
-
 def run_generate_build_dep(project):
     """ Run contrib/generate_build_dep.sh if it exists in the given project, to
         to download sources for dependencies (see e.g. osmo_dia2gsup.git). """
