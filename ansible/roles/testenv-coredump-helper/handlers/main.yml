@@ -1,5 +1,0 @@
----
-- name: restart testenv-coredump-helper
-  service:
-    name: testenv-coredump-helper
-    state: restarted

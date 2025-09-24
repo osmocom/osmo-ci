@@ -18,4 +18,3 @@
         update_cache: yes
   roles:
     - name: apt-allow-relinfo-change
-    - name: testenv-coredump-helper
