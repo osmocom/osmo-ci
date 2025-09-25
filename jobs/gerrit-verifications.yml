@@ -55,6 +55,7 @@
               --security-opt seccomp=$HOME/osmo-ci/_docker_playground/seccomp_profile.json \
               --ulimit fsize=1000000000 \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e CFLAGS="-g" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
@@ -77,6 +78,7 @@
               --security-opt seccomp=$HOME/osmo-ci/_docker_playground/seccomp_profile.json \
               --ulimit fsize=1000000000 \
               -e ASCIIDOC_WARNINGS_CHECK="1" \
+              -e CFLAGS="-g" \
               -e HOME=/build \
               -e JOB_NAME="$JOB_NAME" \
               -e MAKE=make \
