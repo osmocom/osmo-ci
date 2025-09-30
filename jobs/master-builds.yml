@@ -609,7 +609,7 @@
 
       - rtl-sdr:
           repos_url: '{gitea_url}/sdr/{repos}'
-          email: laforge@gnumonks.org steve@steve-m.de
+          email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org steve@steve-m.de
 
       - pysim:
           concurrent: false
