@@ -95,7 +95,7 @@
               -e CCACHE_DIR="/ccache" \
               -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -v "$CCACHE_DIR:/ccache" \
-    docker_img: '$USER/debian-bookworm-build'
+    docker_img: '$USER/debian-trixie-build'
     docker_img_erlang: '$USER/debian-bookworm-erlang'
     docker_img_android: 'registry.osmocom.org/osmocom-build/debian-bookworm-android'
     docker_img_aram_applet: 'registry.osmocom.org/osmocom-build/debian-bookworm-aram-applet'
@@ -338,7 +338,7 @@
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
             arm*|aarch64)
-              DOCKER_IMG="$DOCKER_IMG-arm"
+              DOCKER_IMG="$USER/debian-bookworm-build-arm"  # OS#6858
               SETARCH_CMD="setarch linux32"
               ;;
             esac
@@ -445,7 +445,8 @@
       - simtrace2
 
       - osmo-opencm3-projects:
-          cmd: '{docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh'
+          # bookworm: OS#6859
+          cmd: '{docker_run} $USER/debian-bookworm-build {wrapper_cmd} /build/contrib/jenkins.sh'
           pipeline_binpkgs: ""
 
       - osmo-asf4-dfu:
