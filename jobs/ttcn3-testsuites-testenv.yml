@@ -58,7 +58,7 @@
 
       - ttcn3-hlr-test:  # ~3 min
           testsuite: hlr
-          args: -b osmocom:nightly
+          args: -b osmocom:nightly -c osmo_hlr
           timer: H 08 * * *
 
       - ttcn3-mgw-test:  # ~8 min
@@ -243,7 +243,7 @@
 
       - ttcn3-hlr-test-latest:  # ~3 min
           testsuite: hlr
-          args: -b osmocom:latest
+          args: -b osmocom:latest -c osmo_hlr
           timer: H 12 * * *
 
       - ttcn3-mgw-test-latest:  # ~8 min
@@ -448,7 +448,7 @@
 
       - ttcn3-hlr-test-asan:  # ~3 min
           testsuite: hlr
-          args: -b osmocom:nightly:asan
+          args: -b osmocom:nightly:asan -c osmo_hlr
           timer: H 16 * * *
 
       - ttcn3-sip-test-asan:  # ~2 min
