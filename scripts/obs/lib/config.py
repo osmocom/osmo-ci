@@ -134,7 +134,7 @@ git_latest_tag_pattern_other = {
         "wireshark": tag_pattern('v', c=r'\.[0-9a-z]+'),
 }
 
-docker_distro_default = "debian:12"
+docker_distro_default = "debian:13"
 docker_distro_other = [
     "almalinux:*",  # instead of centos (SYS#5818)
     "centos:7",  # SYS#6760
