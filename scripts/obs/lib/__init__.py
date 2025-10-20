@@ -16,6 +16,8 @@ args = None
 # Print output of commands as they run, not only on error
 cmds_verbose = False
 
+ci_obs_dir = os.path.realpath(f"{__file__}/../..")
+
 
 def add_shared_arguments(parser):
     """ Arguments shared between build_srcpkg.py and update_obs_project.py. """

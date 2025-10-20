@@ -3,13 +3,19 @@ ARG	DISTRO_FROM
 FROM	${DISTRO_FROM}
 ARG	UID
 
+# default-libmysqlclient-dev: needed for fetching the source package
+# "mysqlclient" with pip that PyHSS depends on. Pip actually compiles the
+# package to figure out its dependency tree and aborts if libmysqlclient-dev is
+# missing (https://github.com/pypa/pip/issues/1884).
 RUN	apt-get update && \
 	apt-get upgrade -y && \
 	apt-get install -y --no-install-recommends \
 		ca-certificates \
 		colordiff \
 		debhelper \
+		default-libmysqlclient-dev \
 		dh-python \
+		dh-virtualenv \
 		dpkg-dev \
 		erlang-nox \
 		fakeroot \
@@ -20,7 +26,9 @@ RUN	apt-get update && \
 		lsb-release \
 		meson \
 		osc \
+		pkgconf \
 		python3-packaging \
+		python3-pip \
 		python3-setuptools \
 		quilt \
 		sed \
