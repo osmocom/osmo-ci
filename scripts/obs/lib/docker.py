@@ -107,11 +107,15 @@ def run_in_docker_and_exit(script_path, add_oscrc=False,
 
     build_image(distro, image_type)
 
+    pip_cache = os.path.join(os.environ['HOME'], ".cache/pip")
+    os.makedirs(pip_cache, exist_ok=True)
+
     cmd = ["docker", "run",
            "--rm",
            "-e", "INSIDE_DOCKER=1",
            "-e", "PYTHONUNBUFFERED=1",
-           "-v", f"{lib.config.path_top}:/obs"]
+           "-v", f"{lib.config.path_top}:/obs",
+           "-v", f"{pip_cache}:/home/user/.cache/pip"]
 
     for env_key, env_val in env.items():
         cmd += ["-e", f"{env_key}={env_val}"]

@@ -9,7 +9,9 @@ RUN	apt-get update && \
 		ca-certificates \
 		colordiff \
 		debhelper \
+		default-libmysqlclient-dev \
 		dh-python \
+		dh-virtualenv \
 		dpkg-dev \
 		erlang-nox \
 		fakeroot \
@@ -20,7 +22,9 @@ RUN	apt-get update && \
 		lsb-release \
 		meson \
 		osc \
+		pkgconf \
 		python3-packaging \
+		python3-pip \
 		python3-setuptools \
 		quilt \
 		sed \
