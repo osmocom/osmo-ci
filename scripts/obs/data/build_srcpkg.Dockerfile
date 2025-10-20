@@ -11,6 +11,7 @@ RUN	apt-get update && \
 		debhelper \
 		dh-python \
 		dpkg-dev \
+		erlang-nox \
 		fakeroot \
 		git \
 		git-review \
@@ -22,11 +23,19 @@ RUN	apt-get update && \
 		python3-packaging \
 		python3-setuptools \
 		quilt \
-		rebar3 \
 		sed \
 		sphinx-common \
+		wget \
 		&& \
 	apt-get clean
+
+# Install rebar3 as described in https://rebar3.org/docs/getting-started/
+# instead of using the Debian package, as the latter pulls in ~600 MB of GUI
+# dependencies that we don't need:
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1083096
+RUN	wget https://github.com/erlang/rebar3/releases/download/3.24.0/rebar3 -O /usr/bin/rebar3 && \
+	chmod +x /usr/bin/rebar3 && \
+	rebar3 --version
 
 RUN	useradd --uid=${UID} -m user
 USER	user
