@@ -10,7 +10,7 @@ import lib.rpm_spec
 
 
 def checkout_for_feed(project):
-    """ checkout a commit, either latest tag or master or 20YY branch """
+    """checkout a commit, either latest tag or master or 20YY branch"""
     feed = lib.args.feed
     branch = lib.args.git_branch
     if branch:
@@ -24,7 +24,7 @@ def checkout_for_feed(project):
 
 
 def get_git_version(project):
-    """ :returns: the string from git-version-gen, e.g. '1.7.0.10-76bdb' """
+    """:returns: the string from git-version-gen, e.g. '1.7.0.10-76bdb'"""
     repo_path = lib.git.get_repo_path(project)
 
     # Run git-version-gen if it is in the repository
@@ -41,18 +41,29 @@ def get_git_version(project):
     pattern = lib.git.get_latest_tag_pattern(project)
     pattern = pattern.replace("^", "", 1)
     pattern = pattern.replace("$", "", -1)
-    result = lib.run_cmd(["git", "describe",
-                       "--abbrev=4",
-                       "--tags",
-                       f"--match={pattern}",
-                       "HEAD"], cwd=repo_path, check=False)
+    result = lib.run_cmd(
+        [
+            "git",
+            "describe",
+            "--abbrev=4",
+            "--tags",
+            f"--match={pattern}",
+            "HEAD",
+        ],
+        cwd=repo_path,
+        check=False,
+    )
 
     if result.returncode == 128:
         print(f"{project}: has no git tags")
-        commit = lib.run_cmd(["git", "rev-parse", "HEAD"],
-                             cwd=repo_path).output[0:4]
-        count = lib.run_cmd(["git", "rev-list", "--count", "HEAD"],
-                             cwd=repo_path).output.rstrip()
+        commit = lib.run_cmd(
+            ["git", "rev-parse", "HEAD"],
+            cwd=repo_path,
+        ).output[0:4]
+        count = lib.run_cmd(
+            ["git", "rev-list", "--count", "HEAD"],
+            cwd=repo_path,
+        ).output.rstrip()
         try:
             print(f"{project}: getting version from debian/changelog")
             version = lib.debian.get_last_version_from_changelog(project)
@@ -105,14 +116,14 @@ def get_version_for_feed(project):
 
 
 def get_epoch(project):
-    """ The osmo-gbproxy used to have the same package version as osmo-sgsn
-        until 2021 where it was split into its own git repository. From then
-        on, osmo-gbproxy has a 0.*.* package version, which is smaller than
-        the previous 1.*.* from osmo-sgsn. We had to set the epoch to 1 for
-        osmo-gbproxy so package managers know these 0.*.* versions are higher
-        than the previous 1.*.* ones that are still found in e.g. debian 11.
-        The epoch is set in debian/changelog, retrieve it from there.
-        :returns: the epoch number if set, e.g. "1" or an empty string """
+    """The osmo-gbproxy used to have the same package version as osmo-sgsn
+    until 2021 where it was split into its own git repository. From then on,
+    osmo-gbproxy has a 0.*.* package version, which is smaller than the
+    previous 1.*.* from osmo-sgsn. We had to set the epoch to 1 for
+    osmo-gbproxy so package managers know these 0.*.* versions are higher than
+    the previous 1.*.* ones that are still found in e.g. debian 11. The epoch
+    is set in debian/changelog, retrieve it from there.
+    :returns: the epoch number if set, e.g. "1" or an empty string"""
     version_epoch = lib.debian.get_last_version_from_changelog(project)
 
     if ":" in version_epoch:
@@ -122,15 +133,17 @@ def get_epoch(project):
 
 
 def prepare_project_open5gs():
-    """ Download the subproject sources here, so the package can be built in
-        OBS without Internet access. """
-    lib.run_cmd(["meson", "subprojects", "download"],
-                cwd=lib.git.get_repo_path("open5gs"))
+    """Download the subproject sources here, so the package can be built in
+    OBS without Internet access."""
+    lib.run_cmd(
+        ["meson", "subprojects", "download"],
+        cwd=lib.git.get_repo_path("open5gs"),
+    )
 
 
 def run_generate_build_dep(project):
-    """ Run contrib/generate_build_dep.sh if it exists in the given project, to
-        to download sources for dependencies (see e.g. osmo_dia2gsup.git). """
+    """Run contrib/generate_build_dep.sh if it exists in the given project, to
+    to download sources for dependencies (see e.g. osmo_dia2gsup.git)."""
     repo_path = lib.git.get_repo_path(project)
     script_path = "contrib/generate_build_dep.sh"
 
@@ -147,10 +160,10 @@ def write_tarball_version(project, version):
 
 
 def write_commit_txt(project):
-    """ Write the current git commit to commit_$commit.txt file, so it gets
-        uploaded to OBS along with the rest of the source package. This allows
-        figuring out if the source package is still up-to-date or not for the
-        master feed. """
+    """Write the current git commit to commit_$commit.txt file, so it gets
+    uploaded to OBS along with the rest of the source package. This allows
+    figuring out if the source package is still up-to-date or not for the
+    master feed."""
     output_path = lib.get_output_path(project)
     commit = lib.git.get_head(project)
 
@@ -160,16 +173,26 @@ def write_commit_txt(project):
 
 def set_asciidoc_style_without_draft_watermark(project):
     repo_path = lib.git.get_repo_path(project)
-    doc_makefiles = lib.run_cmd(["grep", "-r", "-l", "include $(OSMO_GSM_MANUALS_DIR)/build/Makefile.asciidoc.inc"], cwd=repo_path, check=False)
+    doc_makefiles = lib.run_cmd(
+        ["grep", "-r", "-l", "include $(OSMO_GSM_MANUALS_DIR)/build/Makefile.asciidoc.inc"],
+        cwd=repo_path,
+        check=False,
+    )
     doc_makefiles = doc_makefiles.output.rstrip().split("\n")
 
     for doc_makefile in doc_makefiles:
         if doc_makefile == "":
             continue
         print(f"{project}: setting asciidoc style to remove draft watermark in {doc_makefile}")
-        lib.run_cmd(["sed", "-i",
-                     '/\\/build\\/Makefile\\.asciidoc\\.inc/s/^/  ASCIIDOCSTYLE = $(BUILDDIR)\\/custom-dblatex.sty\\n/',
-                     doc_makefile], cwd=repo_path)
+        lib.run_cmd(
+            [
+                "sed",
+                "-i",
+                "/\\/build\\/Makefile\\.asciidoc\\.inc/s/^/  ASCIIDOCSTYLE = $(BUILDDIR)\\/custom-dblatex.sty\\n/",
+                doc_makefile,
+            ],
+            cwd=repo_path,
+        )
 
 
 def build(project, gerrit_id=0):
@@ -237,15 +260,14 @@ def build(project, gerrit_id=0):
 
 
 def requires_osmo_gsm_manuals_dev(project):
-    """ Check if an already built source package has osmo-gsm-manuals-dev in
-        Build-Depends of the .dsc file """
+    """Check if an already built source package has osmo-gsm-manuals-dev in
+    Build-Depends of the .dsc file"""
     path_dsc = glob.glob(f"{lib.get_output_path(project)}/*.dsc")
     assert len(path_dsc) == 1, f"failed to get dsc path for {project}"
 
     with open(path_dsc[0], "r") as handle:
         for line in handle.readlines():
-            if line.startswith("Build-Depends:") \
-                    and "osmo-gsm-manuals-dev" in line:
+            if line.startswith("Build-Depends:") and "osmo-gsm-manuals-dev" in line:
                 return True
 
     return False
