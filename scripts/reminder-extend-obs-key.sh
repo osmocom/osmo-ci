@@ -10,7 +10,7 @@ gpg --show-keys public_key
 
 EXPIRATION_DATE="$(gpg --show-keys public_key | grep -o 'expires: [0-9-]*' | cut -d ' ' -f2)"
 EXPIRATION_DATE_S="$(date -d "$EXPIRATION_DATE" +%s)"
-ONE_YEAR_FROM_NOW="$(date -d "+356 days" +%Y-%m-%d)"
+ONE_YEAR_FROM_NOW="$(date -d "+365 days" +%Y-%m-%d)"
 ONE_YEAR_FROM_NOW_S="$(date -d "$ONE_YEAR_FROM_NOW" +%s)"
 
 set +x
