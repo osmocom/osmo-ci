@@ -119,7 +119,7 @@
 
       - ttcn3-mme-test-ogs:  # ~2 min
           testsuite: mme
-          args: -b osmocom:nightly
+          args: -b osmocom:nightly -c all
           timer: H 09 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
