@@ -4,6 +4,7 @@ latest/Debian_12
 latest/Debian_13
 latest/Raspbian_11
 latest/Raspbian_12
+latest/Raspbian_13
 latest/xUbuntu_22.04
 latest/xUbuntu_24.04
 latest/xUbuntu_25.04
@@ -15,6 +16,7 @@ nightly/Debian_12
 nightly/Debian_13
 nightly/Raspbian_11
 nightly/Raspbian_12
+nightly/Raspbian_13
 nightly/xUbuntu_22.04
 nightly/xUbuntu_24.04
 nightly/xUbuntu_25.04
