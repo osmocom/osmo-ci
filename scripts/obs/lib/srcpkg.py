@@ -195,7 +195,7 @@ def build(project, gerrit_id=0):
     print(f"{project}: building source package {version_epoch}")
     write_tarball_version(project, version_epoch)
 
-    if project in lib.config.projects_osmocom and not lib.args.no_meta:
+    if project in lib.config.projects_osmocom and not lib.args.no_meta and project != "osmocom-keyring":
         metapkg = lib.args.conflict_pkgname or f"osmocom-{feed}"
         lib.debian.control_add_depend(project, metapkg, conflict_version)
         if has_rpm_spec:
