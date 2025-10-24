@@ -50,12 +50,14 @@ echo ":: Building the source package"
 	--git-skip-fetch \
 	--git-skip-checkout \
 	--no-meta \
+	--verbose \
 	"$PROJECT_NAME" || error_exit
 
 echo ":: Building the binary packages"
 "$SCRIPTS_OBS_DIR"/build_binpkg.py \
 	--docker "$DISTRO" \
 	--feed "$FEED" \
+	--verbose \
 	"$PROJECT_NAME" || error_exit
 
 echo ":: Find binary packages in: $SCRIPTS_OBS_DIR/_temp/binpkgs"
