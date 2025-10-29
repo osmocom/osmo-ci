@@ -153,10 +153,10 @@ packages before they have been built (leading to failing jobs).
 
 ```
 18:00 - 21:00 OBS related
+  18:00 osmocom-obs (new nightly binary packages start building on OBS!)
   18:XX osmocom-obs-sync (sync Debian:12 etc. with openSUSE OBS)
   19:XX osmocom-obs-check-new-distros
   19:XX osmocom-obs-wireshark
-  20:XX osmocom-obs (new binary packages start building on OBS!)
 
 22:00 - 01:00 Jobs that don't need binary packages
   22:XX coverity
