@@ -100,6 +100,7 @@ projects_osmocom = [
 projects_other = [
     "neocon",
     "open5gs",
+    "pyhss",
 ]
 
 git_url_default = "https://gerrit.osmocom.org"  # /project gets appended
@@ -111,24 +112,28 @@ git_url_other = {
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
     "strongswan-epdg": "https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg",
     "libosmo-sccp-legacy": "https://gitea.osmocom.org/osmocom/libosmo-sccp-legacy",
+    "pyhss": "https://gitea.osmocom.org/osmocom/pyhss",
 }
 
 git_branch_default = "master"
 git_branch_other = {
     "open5gs": "main",
+    "pyhss": "osmocom/master",
 }
 
 def tag_pattern(prefix: str = '',
                 a: str = r'\d+',
                 b: str = r'\.\d+',
-                c: str = r'\.\d+') -> str:
-    return rf'^{prefix}{a}{b}{c}$'
+                c: str = r'\.\d+',
+                suffix: str = '') -> str:
+    return rf'^{prefix}{a}{b}{c}{suffix}$'
 
 git_latest_tag_pattern_default = tag_pattern()
 git_latest_tag_pattern_other = {
         "gapk": tag_pattern('v', c=r'(\.\d+)?'),
         "open5gs": tag_pattern('v'),
         "osmo-fl2k": tag_pattern('v'),
+        "pyhss": tag_pattern(suffix='-osmocom\\d+'),
         "rtl-sdr": tag_pattern('v'),
         "strongswan-epdg": tag_pattern('osmo-epdg-', c=r'\.[0-9a-z]+'),
         "wireshark": tag_pattern('v', c=r'\.[0-9a-z]+'),
