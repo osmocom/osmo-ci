@@ -61,6 +61,11 @@
           args: -b osmocom:nightly -c osmo_hlr
           timer: H 08 * * *
 
+      - ttcn3-hlr-test-pyhss:  # ~3 min
+          testsuite: hlr
+          args: -b osmocom:nightly -c pyhss
+          timer: H 08 * * *
+
       - ttcn3-mgw-test:  # ~8 min
           testsuite: mgw
           args: -b osmocom:nightly
@@ -244,6 +249,11 @@
       - ttcn3-hlr-test-latest:  # ~3 min
           testsuite: hlr
           args: -b osmocom:latest -c osmo_hlr
+          timer: H 12 * * *
+
+      - ttcn3-hlr-test-pyhss-latest:  # ~3 min
+          testsuite: hlr
+          args: -b osmocom:latest -c pyhss
           timer: H 12 * * *
 
       - ttcn3-mgw-test-latest:  # ~8 min
