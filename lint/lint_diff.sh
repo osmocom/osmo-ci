@@ -105,6 +105,7 @@ test_ruff() {
 		osmo-ci
 		osmo-dev
 		osmo-ttcn3-hacks
+		pyosmocom
 	"
 	local format_projects="
 		osmo-ttcn3-hacks
