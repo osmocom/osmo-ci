@@ -147,6 +147,18 @@ def prepare_project_pyhss():
     lib.run_cmd(["sh", "-e", script], cwd=repo_path)
 
 
+def prepare_project_pyosmocom():
+    """The format of the license field in pyproject.toml was changed from a
+    "table" to a a string with an SPDX license expression. The sources have
+    been adjusted to use the new format to appease a warning ("By 2026-Feb-18,
+    you need to update your project and remove deprecated calls or your builds
+    will no longer be supported."). However now the build fails with setuptools
+    from Debian 12. Remove the license line from pyproject.toml, the debian
+    packaging has its own license information in debian/copyright."""
+    repo_path = lib.git.get_repo_path("pyosmocom")
+    lib.run_cmd(["sed", "-i", "/^license = /d", "pyproject.toml"], cwd=repo_path)
+
+
 def run_generate_build_dep(project):
     """Run contrib/generate_build_dep.sh if it exists in the given project, to
     to download sources for dependencies (see e.g. osmo_dia2gsup.git)."""
