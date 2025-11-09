@@ -156,7 +156,19 @@
           pipeline_binpkgs: "centos:7 debian:11 debian:13"  # centos7: SYS#6760 (osmo-pcap dep)
 
       - libosmo-pfcp
-      - libosmo-sigtran
+      - libosmo-sigtran:
+          a1_name: WITH_TCAP
+          a1: !!python/tuple ["1", "0"]
+          a2_name: WITH_MANUALS
+          a2: !!python/tuple ["1", "0"]
+          combination_filter: >
+            (WITH_TCAP == "1" && WITH_MANUALS == "1") ||
+            (WITH_TCAP == "0" && WITH_MANUALS == "0")
+          cmd: |
+            {docker_run_ccache} \
+              -e WITH_TCAP="$WITH_TCAP" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
 
       - libosmocore:
           slave_axis: !!python/tuple [io_uring]  # OS#6405

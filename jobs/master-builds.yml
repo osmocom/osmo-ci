@@ -146,7 +146,8 @@
             master-osmo-mgw,
             master-osmo-sgsn
 
-      - libosmo-asn1-tcap
+      - libosmo-asn1-tcap:
+          trigger: master-libosmo-sigtran
 
       - libosmo-dsp:
           repos_url: '{gitea_url}/sdr/{repos}'
@@ -192,6 +193,18 @@
             master-osmo-hnbgw
 
       - libosmo-sigtran:
+          a1_name: WITH_TCAP
+          a1: !!python/tuple ["1", "0"]
+          a2_name: WITH_MANUALS
+          a2: !!python/tuple ["1", "0"]
+          combination_filter: >
+            (WITH_TCAP == "1" && WITH_MANUALS == "1") ||
+            (WITH_TCAP == "0" && WITH_MANUALS == "0")
+          cmd: |
+            {docker_run_ccache} \
+              -e WITH_TCAP="$WITH_TCAP" \
+              -e WITH_MANUALS="$WITH_MANUALS" \
+              {docker_img} {timeout_cmd} /build/contrib/jenkins.sh
           # Full triggers would be:
           # trigger: >
           #   master-osmo-bsc, master-osmo-iuh, master-osmo-msc,

@@ -13,6 +13,7 @@ osmo_cmd_require sdcc
 PROJECTS="
   libasn1c
   libosmo-abis
+  libosmo-asn1-tcap
   libosmocore
   libosmo-dsp
   libosmo-gprs

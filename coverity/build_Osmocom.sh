@@ -75,9 +75,11 @@ build_libasn1c
 build_libusrp
 build_default libosmo-netif
 build_default libosmo-abis
+build_default libosmo-asn1-tcap
 build_default libosmo-gprs
 build_default libosmo-pfcp
-build_default libosmo-sigtran
+build_default libosmo-sigtran \
+	"--enable-tcap-loadsharing"
 build_default libsmpp34
 build_default libgtpnl
 build_default osmo-ggsn \
