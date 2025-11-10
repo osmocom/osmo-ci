@@ -334,6 +334,12 @@ def main():
 
     os.makedirs(lib.config.path_temp, exist_ok=True)
 
+    # OSC 1.12.1 from Debian Trixie fails if the current working dir isn't a
+    # git repository or is missing an "origin" remote
+    os.chdir(lib.config.path_temp)
+    lib.run_cmd(["git", "init"])
+    lib.run_cmd(["git", "remote", "add", "origin", "."])
+
     # Get destination OBS projects
     lib.osc.set_apiurl(lib.args.to_apiurl, None)
     dest_projects = lib.osc.get_projects()
