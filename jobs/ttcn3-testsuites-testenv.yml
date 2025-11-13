@@ -405,6 +405,31 @@
           timer: H 13 * * *
           kernel: net-next
 
+      - ttcn3-hss-test-ogs-latest:  # ~1 min
+          testsuite: hss
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
+      - ttcn3-mme-test-ogs-latest:  # ~2 min
+          testsuite: mme
+          args: -b osmocom:latest -c all
+          timer: H 13 * * *
+
+      - ttcn3-pcrf-test-ogs-latest:  # ~1 min
+          testsuite: pcrf
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
+      - ttcn3-5gc-test-ogs-latest:  # ~1 min
+          testsuite: 5gc
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
+      - ttcn3-ggsn-test-ogs-latest:  # ~10 min
+          testsuite: ggsn
+          args: -b osmocom:latest -c open5gs
+          timer: H 13 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
