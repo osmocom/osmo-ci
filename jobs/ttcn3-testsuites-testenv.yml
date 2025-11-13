@@ -118,9 +118,14 @@
 
       - ttcn3-hss-test-ogs:  # ~1 min
           testsuite: hss
-          args: -b osmocom:nightly
+          args: -b osmocom:nightly -c open5gs
           timer: H 09 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
+      - ttcn3-hss-test-pyhss:  # ~1 min
+          testsuite: hss
+          args: -b osmocom:nightly -c pyhss
+          timer: H 09 * * *
 
       - ttcn3-mme-test-ogs:  # ~2 min
           testsuite: mme
@@ -407,7 +412,12 @@
 
       - ttcn3-hss-test-ogs-latest:  # ~1 min
           testsuite: hss
-          args: -b osmocom:latest
+          args: -b osmocom:latest -c open5gs
+          timer: H 13 * * *
+
+      - ttcn3-hss-test-pyhss-latest:  # ~1 min
+          testsuite: hss
+          args: -b osmocom:latest -c pyhss
           timer: H 13 * * *
 
       - ttcn3-mme-test-ogs-latest:  # ~2 min
