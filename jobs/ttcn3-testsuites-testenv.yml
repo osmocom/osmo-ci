@@ -58,7 +58,7 @@
 
       - ttcn3-hlr-test:  # ~3 min
           testsuite: hlr
-          args: -b osmocom:nightly -c osmo_hlr
+          args: -b osmocom:nightly -c osmo
           timer: H 08 * * *
 
       - ttcn3-hlr-test-pyhss:  # ~3 min
@@ -152,23 +152,23 @@
 
       - ttcn3-ggsn-test:  # ~15 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c osmo_ggsn_*
+          args: -b osmocom:nightly -c osmo_*
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c osmo_ggsn_v*_only --debian-kernel
+          args: -b osmocom:nightly -c osmo_v*_only --debian-kernel
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel-net-next:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c osmo_ggsn_v*_only --custom-kernel
+          args: -b osmocom:nightly -c osmo_v*_only --custom-kernel
           kernel: net-next
           timer: H 10 * * *
 
       - ttcn3-ggsn-test-kernel-torvalds:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:nightly -c osmo_ggsn_v*_only --custom-kernel
+          args: -b osmocom:nightly -c osmo_v*_only --custom-kernel
           kernel: torvalds
           timer: H 10 * * *
 
@@ -253,7 +253,7 @@
 
       - ttcn3-hlr-test-latest:  # ~3 min
           testsuite: hlr
-          args: -b osmocom:latest -c osmo_hlr
+          args: -b osmocom:latest -c osmo
           timer: H 12 * * *
 
       - ttcn3-hlr-test-pyhss-latest:  # ~3 min
@@ -323,23 +323,23 @@
 
       - ttcn3-ggsn-test-latest:  # ~15 min
           testsuite: ggsn
-          args: -b osmocom:latest -c osmo_ggsn_*
+          args: -b osmocom:latest -c osmo_*
           timer: H 12 * * *
 
       - ttcn3-ggsn-test-kernel-latest:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:latest -c osmo_ggsn_v*_only --debian-kernel
+          args: -b osmocom:latest -c osmo_v*_only --debian-kernel
           timer: H 12 * * *
 
       - ttcn3-ggsn-test-kernel-latest-net-next:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:latest -c osmo_ggsn_v*_only --custom-kernel
+          args: -b osmocom:latest -c osmo_v*_only --custom-kernel
           kernel: net-next
           timer: H 12 * * *
 
       - ttcn3-ggsn-test-kernel-latest-torvalds:  # ~10 min
           testsuite: ggsn
-          args: -b osmocom:latest -c osmo_ggsn_v*_only --custom-kernel
+          args: -b osmocom:latest -c osmo_v*_only --custom-kernel
           kernel: torvalds
           timer: H 12 * * *
 
@@ -493,7 +493,7 @@
 
       - ttcn3-hlr-test-asan:  # ~3 min
           testsuite: hlr
-          args: -b osmocom:nightly:asan -c osmo_hlr
+          args: -b osmocom:nightly:asan -c osmo
           timer: H 16 * * *
 
       - ttcn3-sip-test-asan:  # ~2 min
@@ -523,7 +523,7 @@
 
       - ttcn3-ggsn-test-asan:  # ~15 min
           testsuite: ggsn
-          args: -b osmocom:nightly:asan -c osmo_ggsn_*
+          args: -b osmocom:nightly:asan -c osmo_*
           timer: H 16 * * *
 
       - ttcn3-stp-test-asan:  # ~10 min
