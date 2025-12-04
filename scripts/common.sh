@@ -10,6 +10,7 @@ OSMO_GIT_URL_GERRIT="https://gerrit.osmocom.org"
 OSMO_RELEASE_REPOS="
 	libasn1c
 	libosmo-abis
+	libosmo-asn1-tcap
 	libosmo-gprs
 	libosmo-netif
 	libosmo-pfcp
