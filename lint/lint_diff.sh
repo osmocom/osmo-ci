@@ -61,7 +61,25 @@ test_checkpatch() {
 }
 
 test_clang_format() {
+	local check_projects="
+		osmo-asf4-dfu
+		osmo-ccid-firmware
+	"
+	local skip=true
+	local i
+
 	if ! [ -e ".clang-format" ] || ! command -v clang-format >/dev/null; then
+		return
+	fi
+
+	for i in $check_projects; do
+		if [ "$i" = "$PROJECT" ]; then
+			skip=false
+			break
+		fi
+	done
+
+	if $skip; then
 		return
 	fi
 
