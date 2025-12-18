@@ -78,3 +78,11 @@
     fstype: tmpfs
     state: mounted
     opts: "uid=1000,gid=1000"
+
+- name: add tracefs to /etc/fstab
+  ansible.posix.mount:
+    boot: true
+    path: /sys/kernel/tracing
+    src: tracefs
+    fstype: tracefs
+    state: present
