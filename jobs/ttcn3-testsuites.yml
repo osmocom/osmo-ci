@@ -95,6 +95,7 @@
     builders:
       - shell: |-
           export REGISTRY_HOST="registry.osmocom.org"
+          export RUN_BPFTRACE=1
 
           # Translate job name to docker-playground dir and relevant
           # environment variables
