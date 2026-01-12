@@ -30,7 +30,7 @@
 - name: setup gerrit ssh key (known_hosts)
   known_hosts:
     name: '[gerrit.osmocom.org]:29418'
-    key: '[gerrit.osmocom.org]:29418 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDI4wZwtcGz2V98iZWWEtsA162PolLtgQTBjnC14ONzZGQkTh9bTPsoSxnM5TKOm4F2bzq7gb+Qrsj4ZECD19qztmD37kMP9jn7/2i1V8oLAy9ojyklXAdBVTliQteVI7ieDOyKCnGbszvFWXY2isoO1k7yJLv0QyL7F5AuZlxeHw=='
+    key: '[gerrit.osmocom.org]:29418 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJoTejinQkDyqXpGUYNf+lDV2bjncR9scdPDGrPCUFFw gerrit-code-review@gerrit.osmocom.org'
     path: /etc/ssh/ssh_known_hosts
     state: present
 
