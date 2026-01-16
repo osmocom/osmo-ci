@@ -43,3 +43,10 @@
       - libosmocore-utils
     update_cache: yes
     cache_valid_time: 3600
+
+# Running bts ttcn3 tests as user requires them to be able to set rtprio
+- name: allow jenkins user to set rtprio
+  ansible.builtin.lineinfile:
+    path: "/etc/security/limits.d/{{ jenkins_user }}_allow-rtprio.conf"
+    line: "{{ jenkins_user }} - rtprio 30"
+    create: yes
