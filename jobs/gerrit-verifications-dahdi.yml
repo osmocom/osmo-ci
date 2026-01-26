@@ -52,7 +52,6 @@
          url: '{repo}'
          branches:
            - '{linux-ver}'
-         refspec: '{linux-ver}'
          shallow-clone: true
          wipe-workspace: false
          clean:
