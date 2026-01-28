@@ -109,6 +109,8 @@
     # Which jobs to run in the pipeline
     pipeline_build: true
     pipeline_lint: true
+    # Range from oldest supported Debian version to newest, see:
+    # https://gerrit.osmocom.org/c/osmo-ci/+/40861/comment/d35a8783_2a3833a4/
     pipeline_binpkgs: "debian:11 debian:13"
 
     # in alphabetical order
@@ -176,7 +178,7 @@
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
           cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins_arch.sh "$arch"'
-          pipeline_binpkgs: "centos:7 debian:11 debian:13"  # centos7: SYS#6760
+          pipeline_binpkgs: "centos:7 debian:10 debian:13"  # centos7: SYS#6760, debian10: SYS#7859
 
       - libsmpp34
 
@@ -299,7 +301,8 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
-      - osmo-gsm-manuals
+      - osmo-gsm-manuals:
+          pipeline_binpkgs: "debian:10 debian:13"  # debian10: SYS#7859
 
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -482,7 +485,10 @@
           pipeline_binpkgs: ""
 
       - osmo-smlc
-      - osmo-gbproxy
+
+      - osmo-gbproxy:
+          pipeline_binpkgs: "debian:10 debian:13"  # debian10: SYS#7859
+
       - osmo-hnodeb
 
       - osmo-hnbgw:
