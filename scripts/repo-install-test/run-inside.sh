@@ -459,13 +459,8 @@ test_binaries() {
 
 	if [ "$DISTRO" != "debian10" ]; then
 		test_binaries_version \
+			osmo-pfcp-tool \
 			osmo-upf
-
-		# OS#5817: not packaged for debian, needs osmo-upf release
-		if [ "$FEED" = "nightly" ] || [ "$DISTRO" = "centos8" ]; then
-			test_binaries_version \
-				osmo-pfcp-tool
-		fi
 	fi
 
 	if [ "$FEED" = "nightly" ]; then
