@@ -14,7 +14,7 @@
 # * osmo-remsim-client (exits immediately without USB device)
 # * osmo-trap2cgi (missing config: /etc/osmocom/%N.ini, OS#4108)
 # * osmo-trx-* (exits immediately without trx device)
-# * osmo-upf (not available for debian 10, gets added in services_check())
+# * osmo-upf nightly needs a newer kernel (OS#5905)
 SERVICES="
 	osmo-bsc
 	osmo-bts-virtual
@@ -186,9 +186,7 @@ prepare_vm_debian() {
 	case "$DISTRO" in
 		debian10)
 			# libgnutls30: can't access https://osmocom.org otherwise
-			# ca-certificates-java: fails if installed after java
 			apt-get install -y --no-install-recommends \
-				ca-certificates-java \
 				libgnutls30
 		;;
 	esac
@@ -237,6 +235,15 @@ find_patterns_or_exit() {
 }
 
 test_conflict_debian() {
+	# SYS#7859: the debian10 repository only has osmo-gbproxy + depends, so
+	# the conflict test doesn't work here, skip it
+	if [ "$DISTRO" = "debian10" ]; then
+		set +x
+		echo "Test skipped for debian10"
+		set -x
+		return
+	fi
+
 	apt-get -y install libosmocore
 
 	configure_osmocom_repo_debian_remove "$PROJ"
@@ -254,19 +261,9 @@ test_conflict_debian() {
 		"requested an impossible situation" \
 		"^The following packages have unmet dependencies:"
 
-	case "$DISTRO" in
-		debian10)
-			find_patterns_or_exit \
-				/tmp/out \
-				"Depends: osmocom-" \
-				"but it is not going to be installed"
-			;;
-		debian11|debian12)
-			find_patterns_or_exit \
-				/tmp/out \
-				"Conflicts: osmocom-"
-			;;
-	esac
+	find_patterns_or_exit \
+		/tmp/out \
+		"Conflicts: osmocom-"
 
 	configure_osmocom_repo_debian_remove "$PROJ_CONFLICT"
 	configure_osmocom_repo_debian "$PROJ"
@@ -417,8 +414,15 @@ test_binaries_version() {
 	fi
 }
 
+# Make sure that binares run at all and output a proper version
 test_binaries() {
-	# Make sure that binares run at all and output a proper version
+	# SYS#7859
+	if [ "$DISTRO" = "debian10" ]; then
+		test_binaries_version \
+			osmo-gbproxy
+		return
+	fi
+
 	test_binaries_version \
 		osmo-bsc \
 		osmo-bts-trx \
@@ -438,6 +442,7 @@ test_binaries() {
 		osmo-pcap-client \
 		osmo-pcap-server \
 		osmo-pcu \
+		osmo-pfcp-tool \
 		osmo-remsim-bankd \
 		osmo-remsim-client-shell \
 		osmo-remsim-client-st2 \
@@ -448,7 +453,8 @@ test_binaries() {
 		osmo-stp \
 		osmo-trx-ipc \
 		osmo-trx-uhd \
-		osmo-uecups-daemon
+		osmo-uecups-daemon \
+		osmo-upf
 
 	case "$DISTRO" in
 	debian*)
@@ -456,12 +462,6 @@ test_binaries() {
 			osmo-trx-usrp1
 		;;
 	esac
-
-	if [ "$DISTRO" != "debian10" ]; then
-		test_binaries_version \
-			osmo-pfcp-tool \
-			osmo-upf
-	fi
 
 	if [ "$FEED" = "nightly" ]; then
 		test_binaries_version \
@@ -471,22 +471,21 @@ test_binaries() {
 
 services_check() {
 	local service
-	local services_feed="$SERVICES"
+	local services_feed
 	local failed=""
 
-	if [ "$FEED" = "nightly" ]; then
-		services_feed="$services_feed $SERVICES_NIGHTLY"
-	fi
-
-	# We don't build osmo-upf for debian 10
-	if [ "$DISTRO" != "debian10" ]; then
-		# osmo-upf <= 0.1.1 needs GTP kernel module
-		if [ "$FEED" = "nightly" ]; then
-			# osmo-upf nightly needs a newer kernel (OS#5905)
-			# services_feed="$services_feed osmo-upf"
-			true
-		fi
-	fi
+	case "$DISTRO" in
+		"debian10")
+			# SYS#7859
+			services_feed="osmo-gbproxy"
+			;;
+		*)
+			services_feed="$SERVICES"
+			if [ "$FEED" = "nightly" ]; then
+				services_feed="$services_feed $SERVICES_NIGHTLY"
+			fi
+			;;
+	esac
 
 	systemctl start $services_feed
 	sleep 2
