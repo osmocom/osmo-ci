@@ -170,6 +170,12 @@ def rewrite_meta(project):
     assert root.get("name") == project
     root.set("name", project_new)
 
+    # Remove <scmsync> tag: build.opensuse.org runs current master of OBS, the
+    # stable version doesn't have this feature yet and errors with:
+    # "ERROR: Element project has extra content: scmsync"
+    for scmsync in root.findall(".scmsync"):
+        root.remove(scmsync)
+
     for description in root.findall("description"):
         href = f"{lib.args.weburl}/project/show/{project}"
         description.text = (
