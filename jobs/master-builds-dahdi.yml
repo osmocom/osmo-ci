@@ -1,31 +1,20 @@
 - project:
-    name: master-builds-dahdi-linux-stable
-    type: stable
-    repo: 'https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git'
-    linux-ver:
-      - "linux-4.19.y"
-      - "linux-5.10.y"
-      - "linux-6.1.y"
-      - "linux-6.12.y"
-      - "linux-rolling-stable"
+    name: master-builds-dahdi-linux
+    linux-repo-branch:
+      - "torvalds-master"
+      - "stable-linux-4.19.y"
+      - "stable-linux-5.10.y"
+      - "stable-linux-6.1.y"
+      - "stable-linux-6.12.y"
+      - "stable-linux-rolling-stable"
     jobs:
-      - 'master-dahdi-linux-{type}-{linux-ver}'
-
-- project:
-    name: master-builds-dahdi-linux-torvalds
-    type: torvalds
-    repo: 'https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
-    linux-ver:
-      - "master"
-    jobs:
-      - 'master-dahdi-linux-{type}-{linux-ver}'
+      - 'master-dahdi-linux-{linux-repo-branch}'
 
 - job-template:
-    name: 'master-dahdi-linux-{type}-{linux-ver}'
+    name: 'master-dahdi-linux-{linux-repo-branch}'
     project-type: freestyle
-    node: osmocom-master
+    node: linux-shallow-clone
     concurrent: true
-    retry-count: 0 # scm checkout
     properties:
       - build-discarder:
           days-to-keep: 30
@@ -33,7 +22,7 @@
     description: |
       Automatic jenkins test job of
       <a href="https://gerrit.osmocom.org/#/q/status:open+project:dahdi-linux">dahdi-linux</a>
-      built against linux {linux-ver}
+      built against linux {linux-repo-branch}
       (<a href="https://osmocom.org/issues/5407">OS#5407</a>)
       <br/><br/>
       <b>Auto-generated using Jenkins Job Builder. DO NOT EDIT MANUALLY!</b>
@@ -49,41 +38,34 @@
           default: 'jenkins-notifications@lists.osmocom.org laforge@gnumonks.org'
 
     scm:
-      # Let jenkins clone the big linux repository and keep it between builds
-      # (wipe-workspace is false). Clone dahdi-linux with code from gerrit in
-      # the shell part below.
       - git:
-         basedir: 'linux'
-         url: '{repo}'
+         url: 'https://gerrit.osmocom.org/dahdi-linux'
          branches:
-           - '{linux-ver}'
-         shallow-clone: true
-         wipe-workspace: false
-         clean:
-          before: true
+           - '$BRANCH'
+         wipe-workspace: true
 
     triggers:
       - timed: "H 23 * * *"
 
     builders:
       - shell: |
-          git -C linux config gc.autoDetach false
-          git -C linux gc --auto
-
-          rm -rf dahdi-linux
-          git clone \
-            --depth=1 \
-            https://gerrit.osmocom.org/dahdi-linux \
-            -b "$BRANCH"
-          git -C dahdi-linux log --oneline
-
           docker run \
             --rm=true \
             -e "KSRC=/linux" \
-            -v "$PWD/dahdi-linux:/build" \
-            -v "$PWD/linux:/linux" \
+            -v "$PWD:/build" \
+            -v "$HOME/linux.git:/linux.git:ro" \
             "$USER/debian-bookworm-build" \
-            timeout 10m su build -c /build/contrib/jenkins.sh
+            sh -e -x -c "
+              git config --global --add safe.directory /linux.git
+              git -C /linux.git -c color.ui=always log -1 --oneline {linux-repo-branch}
+              git clone -q /linux.git -b {linux-repo-branch} /linux
+              chown -R build:build /linux
+              timeout 10m su build -c /build/contrib/jenkins.sh
+            "
+
+    wrappers:
+    - ansicolor:
+        colormap: xterm
 
     publishers:
        - warnings:
