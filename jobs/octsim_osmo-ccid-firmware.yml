@@ -43,7 +43,7 @@
     publishers:
     - email:
         notify-every-unstable-build: true
-        recipients: jsteiger@sysmocom.de
+        recipients: jsteiger@sysmocom.de acouzens@sysmocom.de
         send-to-individuals: true
     retry-count: '3'
     triggers:
