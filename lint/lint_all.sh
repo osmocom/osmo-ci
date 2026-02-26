@@ -30,7 +30,7 @@ if [ -n "$TYPES" ]; then
 else
 	echo "Running checkpath in $GIT_DIR"
 
-	"$SCRIPT_DIR"/checkpatch/checkpatch_osmo.sh \
+	echo "" | "$SCRIPT_DIR"/checkpatch/checkpatch_osmo.sh \
 		-f \
 		--color=always \
 		--no-summary \

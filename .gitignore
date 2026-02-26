@@ -17,3 +17,4 @@ _temp_apks/
 _temp_manuals/
 _temp_releases/
 scripts/repo-install-test/run-inside-env.sh
+.stdin_temp

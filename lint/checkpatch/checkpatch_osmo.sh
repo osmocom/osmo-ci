@@ -2,6 +2,7 @@
 SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 PROJECT_DIR="$(git rev-parse --show-toplevel)"
 PROJECT="$(basename "$PROJECT_DIR")"
+STDIN_TEMP="$SCRIPT_DIR/.stdin_temp"
 
 exclude_paths_common() {
 	# Test output
@@ -83,48 +84,71 @@ exclude_paths_project() {
 # * UNNECESSARY_INT: not followed (see https://gerrit.osmocom.org/c/libosmocore/+/25345)
 # * UNSPECIFIED_INT: not followed (doesn't seem useful for us)
 # * VOLATILE: using volatile makes sense in embedded projects so this warning is not useful for us
+run_checkpatch() {
+	cat "$STDIN_TEMP" | $SCRIPT_DIR/checkpatch.pl \
+		$ARGS_EXCLUDE_PATHS_COMMON \
+		$ARGS_EXCLUDE_PATHS_COMMON_ASN1C \
+		$ARGS_EXCLUDE_PATHS_PROJECT \
+		--ignore ASSIGN_IN_IF \
+		--ignore AVOID_EXTERNS \
+		--ignore BLOCK_COMMENT_STYLE \
+		--ignore COMPLEX_MACRO \
+		--ignore CONSTANT_COMPARISON \
+		--ignore DEEP_INDENTATION \
+		--ignore EMBEDDED_FILENAME \
+		--ignore EMBEDDED_FUNCTION_NAME \
+		--ignore EXECUTE_PERMISSIONS \
+		--ignore FILE_PATH_CHANGES \
+		--ignore GLOBAL_INITIALISERS \
+		--ignore IF_0 \
+		--ignore INITIALISED_STATIC \
+		--ignore LINE_CONTINUATIONS \
+		--ignore LINE_SPACING \
+		--ignore LONG_LINE \
+		--ignore LONG_LINE_COMMENT \
+		--ignore LONG_LINE_STRING \
+		--ignore MACRO_WITH_FLOW_CONTROL \
+		--ignore MISSING_SPACE \
+		--ignore PREFER_DEFINED_ATTRIBUTE_MACRO \
+		--ignore PREFER_FALLTHROUGH \
+		--ignore REPEATED_WORD \
+		--ignore SPDX_LICENSE_TAG \
+		--ignore SPLIT_STRING \
+		--ignore STRING_FRAGMENTS \
+		--ignore SYMBOLIC_PERMS \
+		--ignore TRACING_LOGGING \
+		--ignore TRAILING_STATEMENTS \
+		--ignore UNNECESSARY_BREAK \
+		--ignore UNNECESSARY_INT \
+		--ignore UNSPECIFIED_INT \
+		--ignore VOLATILE \
+		--max-line-length 120 \
+		--typedefsfile "$SCRIPT_DIR/typedefs_osmo.txt" \
+		--no-signoff \
+		--no-tree \
+		"$@"
+}
+
+# This script gets called with stdin set to a git diff or empty string. Put it
+# into a temp file so we can pass it along to checkpatch multiple times.
+cat >"$STDIN_TEMP"
 
 cd "$PROJECT_DIR"
 
-$SCRIPT_DIR/checkpatch.pl \
-	$(exclude_paths_common) \
-	$(exclude_paths_common_asn1c) \
-	$(exclude_paths_project) \
-	--ignore ASSIGN_IN_IF \
-	--ignore AVOID_EXTERNS \
-	--ignore BLOCK_COMMENT_STYLE \
-	--ignore COMPLEX_MACRO \
-	--ignore CONSTANT_COMPARISON \
-	--ignore DEEP_INDENTATION \
-	--ignore EMBEDDED_FILENAME \
-	--ignore EMBEDDED_FUNCTION_NAME \
-	--ignore EXECUTE_PERMISSIONS \
-	--ignore FILE_PATH_CHANGES \
-	--ignore GLOBAL_INITIALISERS \
-	--ignore IF_0 \
-	--ignore INITIALISED_STATIC \
-	--ignore LINE_CONTINUATIONS \
-	--ignore LINE_SPACING \
-	--ignore LONG_LINE \
-	--ignore LONG_LINE_COMMENT \
-	--ignore LONG_LINE_STRING \
-	--ignore MACRO_WITH_FLOW_CONTROL \
-	--ignore MISSING_SPACE \
-	--ignore PREFER_DEFINED_ATTRIBUTE_MACRO \
-	--ignore PREFER_FALLTHROUGH \
-	--ignore REPEATED_WORD \
-	--ignore SPDX_LICENSE_TAG \
-	--ignore SPLIT_STRING \
-	--ignore STRING_FRAGMENTS \
-	--ignore SYMBOLIC_PERMS \
-	--ignore TRACING_LOGGING \
-	--ignore TRAILING_STATEMENTS \
-	--ignore UNNECESSARY_BREAK \
-	--ignore UNNECESSARY_INT \
-	--ignore UNSPECIFIED_INT \
-	--ignore VOLATILE \
-	--max-line-length 120 \
-	--typedefsfile "$SCRIPT_DIR/typedefs_osmo.txt" \
-	--no-signoff \
-	--no-tree \
-	"$@"
+ARGS_EXCLUDE_PATHS_COMMON="$(exclude_paths_common)"
+ARGS_EXCLUDE_PATHS_COMMON_ASN1C="$(exclude_paths_common_asn1c)"
+ARGS_EXCLUDE_PATHS_PROJECT="$(exclude_paths_project)"
+RET=0
+
+for i in .checkpatch*.conf; do
+	if [ -e "$i" ]; then
+		echo "config: $i"
+		CHECKPATCH_CONFIG="$i" run_checkpatch "$@" || RET=1
+	else
+		# The glob found nothing, just run normally
+		run_checkpatch "$@" || RET=1
+	fi
+done
+
+rm "$STDIN_TEMP"
+exit $RET

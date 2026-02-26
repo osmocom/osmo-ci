@@ -17,13 +17,15 @@ list_temp = {}
 def update_struct( file_path, msg_output, line_number):
     if file_path not in list_temp:
         list_temp[file_path] = []
-    list_temp[file_path].append({
+    error = {
         "robot_id" : "checkpatch",
         "robot_run_id" : sys.argv[3],
         "url" : sys.argv[4],
         "line" : line_number,
-        "message" : msg_output,}
-    )
+        "message" : msg_output,
+    }
+    if error not in list_temp[file_path]:
+        list_temp[file_path].append(error)
 
 def parse_file(input_file):
     fp = open (input_file, "r")
