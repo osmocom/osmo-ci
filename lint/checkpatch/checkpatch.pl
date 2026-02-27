@@ -6964,7 +6964,8 @@ sub process {
 # check for function declarations that have arguments without identifier names
 		if (defined $stat &&
 		    $stat =~ /^.\s*(?:extern\s+)?$Type\s*(?:$Ident|\(\s*\*\s*$Ident\s*\))\s*\(\s*([^{]+)\s*\)\s*;/s &&
-		    $1 ne "void") {
+		    $1 ne "void" &&
+		    $1 !~ /^void\)/) {
 			my $args = trim($1);
 			while ($args =~ m/\s*($Type\s*(?:$Ident|\(\s*\*\s*$Ident?\s*\)\s*$balanced_parens)?)/g) {
 				my $arg = trim($1);
