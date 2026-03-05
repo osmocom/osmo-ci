@@ -242,7 +242,8 @@ test_conflict_debian() {
 		return
 	fi
 
-	apt-get -y install libosmocore
+	apt-get -y install libosmocore osmocom-"$FEED"
+	apt-mark hold osmocom-"$FEED"
 
 	configure_osmocom_repo_debian_remove "$PROJ"
 	configure_osmocom_repo_debian "$PROJ_CONFLICT"
@@ -259,9 +260,18 @@ test_conflict_debian() {
 		"requested an impossible situation" \
 		"^The following packages have unmet dependencies:"
 
-	find_patterns_or_exit \
-		/tmp/out \
-		"Conflicts: osmocom-"
+	case "$DISTRO" in
+		debian11|debian12)
+			find_patterns_or_exit \
+				/tmp/out \
+				"Conflicts: osmocom-"
+			;;
+		*)
+			find_patterns_or_exit \
+				/tmp/out \
+				"Conflicts osmocom-"
+			;;
+	esac
 
 	configure_osmocom_repo_debian_remove "$PROJ_CONFLICT"
 	configure_osmocom_repo_debian "$PROJ"
