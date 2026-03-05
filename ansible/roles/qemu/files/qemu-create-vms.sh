@@ -11,6 +11,7 @@ DISTROS="
 	debian-10
 	debian-11
 	debian-12
+	debian-13
 "
 TEMP_SCRIPT="$(mktemp)"
 
@@ -79,7 +80,7 @@ done
 rm "$TEMP_SCRIPT"
 
 # Marker for ansible main.yml to skip the script
-touch /opt/qemu/.qemu-create-vms-done-v2
+touch /opt/qemu/.qemu-create-vms-done-v3
 
 echo
 echo "Done!"
