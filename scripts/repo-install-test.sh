@@ -17,6 +17,7 @@ DISTROS="
 	debian10
 	debian11
 	debian12
+	debian13
 "
 IMG_DIR="/opt/qemu"
 TEST_DIR="scripts/repo-install-test"
@@ -54,6 +55,9 @@ get_backing_img_path() {
 		;;
 	debian12)
 		ret="$IMG_DIR/debian-12.qcow2"
+		;;
+	debian13)
+		ret="$IMG_DIR/debian-13.qcow2"
 		;;
 	*)
 		set +x

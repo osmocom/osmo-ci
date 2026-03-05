@@ -57,6 +57,9 @@ distro_obsdir() {
 		debian12)
 			echo "Debian_12"
 			;;
+		debian13)
+			echo "Debian_13"
+			;;
 		*)
 			echo "ERROR: unknown obsdir for '$DISTRO'." >&2
 			exit 1
