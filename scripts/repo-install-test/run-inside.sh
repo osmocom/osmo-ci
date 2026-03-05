@@ -120,9 +120,7 @@ configure_osmocom_repo_debian() {
 		wget -O /tmp/Release.key "https://obs.osmocom.org/projects/$proj/public_key"
 	fi
 
-	apt-key add /tmp/Release.key
-
-	echo "deb http://$obs_repo ./" > "/etc/apt/sources.list.d/$proj.list"
+	echo "deb [signed-by=/tmp/Release.key] http://$obs_repo ./" > "/etc/apt/sources.list.d/$proj.list"
 	apt-get update
 }
 
