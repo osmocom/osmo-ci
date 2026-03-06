@@ -340,6 +340,12 @@ filter_packages() {
 		librtlsdr0-dbgsym) ;;
 		rtl-sdr-dbgsym) ;;
 
+		# sdcc 4.2.0 is needed to build libusrp (OS#6748), so we build
+		# it for distros that ship a newer version. Ignore the debug
+		# package as apt tries to install it together with the newer
+		# sdcc version from debian repositories.
+		sdcc-dbgsym) ;;
+
 		# Depends on mongodb, which was droppend from debian 10 onwards
 		open5gs*) ;;
 
