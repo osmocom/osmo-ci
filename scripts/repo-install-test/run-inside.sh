@@ -364,6 +364,9 @@ filter_packages() {
 		# Breaks the ssh connection to QEMU
 		charon-systemd*) ;;
 
+		# Conflicts with OsmoHLR (127.0.0.1:4222: Address already in use)
+		pyhss*) ;;
+
 		# All other packages are not filtered
 		*) echo "$i" ;;
 		esac
