@@ -361,6 +361,9 @@ filter_packages() {
 		# this test as downloading FPGA bitstream fails.
 		*bladerf*) ;;
 
+		# Breaks the ssh connection to QEMU
+		charon-systemd*) ;;
+
 		# All other packages are not filtered
 		*) echo "$i" ;;
 		esac
