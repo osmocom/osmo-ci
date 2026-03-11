@@ -46,6 +46,18 @@
     name:
       - qemu-arm
 
+- name: install mount-securityfs.service
+  ansible.builtin.copy:
+    src: mount-securityfs.service
+    dest: /etc/systemd/system/mount-securityfs.service
+
+- name: start and enable the mount-securityfs service
+  systemd:
+    daemon_reload: true
+    state: started
+    name: mount-securityfs.service
+    enabled: yes
+
 - name: ensure the systemd service is installed
   systemd:
     name: obsworker.service

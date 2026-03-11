@@ -1,0 +1,12 @@
+[Unit]
+Description=Mount securityfs
+Before=obsworker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mount securityfs /sys/kernel/security -t securityfs
+ExecStop=/usr/bin/umount /sys/kernel/security
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
