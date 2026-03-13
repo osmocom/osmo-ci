@@ -86,6 +86,8 @@ test_clang_format() {
 	echo "Running clang-format on 'git diff $COMMIT'..."
 	echo
 
+	clang-format --version
+
 	# Run clang-format-diff and colorize its output
 	local diff="$(git diff -U0 --relative "$COMMIT" \
 		| clang-format-diff -p1 \
