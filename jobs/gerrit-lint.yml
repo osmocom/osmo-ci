@@ -62,7 +62,7 @@
             -v ./code-from-gerrit:/build/code-from-gerrit \
             -v ./osmo-ci:/build/osmo-ci \
             -w /build/code-from-gerrit \
-            "$USER/debian-bookworm-build" \
+            "$USER/debian-trixie-build" \
             /build/osmo-ci/lint/lint_diff.sh HEAD~1
 
     wrappers:
