@@ -255,7 +255,17 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           pipeline_binpkgs: "debian:12 debian:13"
-          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          a2_name: JOB_TYPE
+          a2: !!python/tuple ["build", "manuals"]
+          cmd: |
+            case "$JOB_TYPE" in
+            build)
+              {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
+              ;;
+            manuals)
+              {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_manuals.sh
+              ;;
+            esac
 
       - logger_gsmtap:
           repos_url: '{gerrit_url}/erlang/{repos}'
