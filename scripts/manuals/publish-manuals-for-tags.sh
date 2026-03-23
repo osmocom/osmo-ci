@@ -425,7 +425,7 @@ build_publish_manuals() {
 			osmo-epdg)
 				su build -c \"make -C docs/manuals\"
 				;;
-			osmocom-bb)
+			osmocom-bb|osmo-s1gw)
 				su build -c \"make -C doc/manuals\"
 				;;
 			pyosmocom)
