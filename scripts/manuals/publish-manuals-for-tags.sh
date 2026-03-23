@@ -233,6 +233,12 @@ TAGS_IGNORE="
 
 	pyosmocom:0.0.1,
 	pyosmocom:0.0.2,
+
+	osmo-s1gw:0.1.0,
+	osmo-s1gw:0.1.1,
+	osmo-s1gw:0.2.0,
+	osmo-s1gw:0.3.0,
+	osmo-s1gw:0.4.0,
 "
 
 mkdir -p \
