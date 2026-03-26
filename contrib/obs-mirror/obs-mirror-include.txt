@@ -9,6 +9,7 @@ latest/xUbuntu_22.04
 latest/xUbuntu_24.04
 latest/xUbuntu_25.04
 latest/xUbuntu_25.10
+latest/xUbuntu_26.04
 
 nightly/CentOS_7
 nightly/Debian_11
@@ -21,3 +22,4 @@ nightly/xUbuntu_22.04
 nightly/xUbuntu_24.04
 nightly/xUbuntu_25.04
 nightly/xUbuntu_25.10
+nightly/xUbuntu_26.04
