@@ -24,6 +24,7 @@ download_deps() {
 		3.11
 		3.12
 		3.13
+		3.14
 	"
 	# See e.g. https://pypi.org/project/SQLAlchemy/#files
 	local platform
