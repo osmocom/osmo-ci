@@ -106,6 +106,12 @@ def get_version_for_feed(project):
         if ":" in ret:
             ret = ret.split(":")[1]
 
+    # Nightly: add a ".0" after the version if the current commit is on a
+    # version tag, so the next version is higher (OS#6981)
+    if lib.args.feed == "nightly":
+        while ret.count(".") < 3:
+            ret += ".0"
+
     # Append the conflict_version to increase the version even if the commit
     # did not change (OS#5135)
     conflict_version = lib.args.conflict_version
