@@ -11,7 +11,7 @@
     - shell: |
             cd ./tests
             mkdir -p sysmo-octsim/dl
-            ./run-tests
+            timeout 30m ./run-tests
     concurrent: false
     description: octsim osmo-ccid-firmware CI - flash every build to octsim and see
       if it still works
