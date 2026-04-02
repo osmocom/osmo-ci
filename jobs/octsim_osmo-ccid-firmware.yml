@@ -7,6 +7,11 @@
         - octsimtest
     block-downstream: false
     block-upstream: false
+    parameters:
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org jsteiger@sysmocom.de acouzens@sysmocom.de'
     builders:
     - shell: |
             cd ./tests
@@ -43,7 +48,7 @@
     publishers:
     - email:
         notify-every-unstable-build: true
-        recipients: jsteiger@sysmocom.de acouzens@sysmocom.de
+        recipients: '$EMAIL_NOTIFICATIONS'
         send-to-individuals: true
     retry-count: '3'
     triggers:
