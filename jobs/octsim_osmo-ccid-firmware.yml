@@ -1,7 +1,9 @@
 - job:
+    name: octsim_osmo-ccid-firmware
+    description: |
+        octsim osmo-ccid-firmware CI - flash every build to octsim and see if
+        it still works
     node: octsimtest
-    block-downstream: false
-    block-upstream: false
     parameters:
       - string:
           name: EMAIL_NOTIFICATIONS
@@ -12,13 +14,6 @@
             cd ./tests
             mkdir -p sysmo-octsim/dl
             timeout 30m ./run-tests
-    concurrent: false
-    description: octsim osmo-ccid-firmware CI - flash every build to octsim and see
-      if it still works
-    disabled: false
-    execution-strategy:
-      sequential: false
-    name: octsim_osmo-ccid-firmware
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ccid-firmware
@@ -28,25 +23,16 @@
           branches:
             - 'master'
     properties:
-    - build-blocker:
-        block-level: GLOBAL
-        blocking-jobs: []
-        queue-scanning: DISABLED
-        use-build-blocker: false
     - build-discarder:
         days-to-keep: 30
         num-to-keep: 120
-    - rebuild:
-        auto-rebuild: false
-        rebuild-disabled: false
     publishers:
     - email:
         notify-every-unstable-build: true
         recipients: '$EMAIL_NOTIFICATIONS'
         send-to-individuals: true
-    retry-count: '3'
+    retry-count: 3 # scm checkout
     triggers:
     - reverse:
         jobs: master-osmo-ccid-firmware,
     - timed: H 22 * * *
-    wrappers: []
