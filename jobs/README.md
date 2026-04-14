@@ -160,7 +160,6 @@ packages before they have been built (leading to failing jobs).
 
 22:00 - 01:00 Jobs that don't need binary packages
   22:XX coverity
-  22:XX octsim_osmo-ccid-firmware
   22:XX osmo-gsm-tester-runner (virtual)
   23:XX build-kernels-testenv
   23:XX master-builds-dahdi

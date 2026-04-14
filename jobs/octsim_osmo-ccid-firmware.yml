@@ -35,4 +35,3 @@
     triggers:
     - reverse:
         jobs: master-osmo-ccid-firmware,
-    - timed: H 22 * * *
