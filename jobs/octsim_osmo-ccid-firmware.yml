@@ -17,6 +17,7 @@
           default: 'jenkins-notifications@lists.osmocom.org jsteiger@sysmocom.de acouzens@sysmocom.de'
     builders:
     - shell: |
+            export PYTHONUNBUFFERED=1
             cd ./tests
             mkdir -p sysmo-octsim/dl
             timeout 30m ./run-tests
