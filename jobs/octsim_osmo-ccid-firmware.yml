@@ -1,10 +1,5 @@
 - job:
-    axes:
-    - axis:
-        name: label
-        type: slave
-        values:
-        - octsimtest
+    node: octsimtest
     block-downstream: false
     block-upstream: false
     parameters:
@@ -24,7 +19,6 @@
     execution-strategy:
       sequential: false
     name: octsim_osmo-ccid-firmware
-    project-type: matrix
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ccid-firmware
