@@ -11,7 +11,6 @@ libosmocore/contrib/verify_value_string_arrays_are_terminated.py $(find . -name 
 
 import re
 import sys
-import codecs
 import os.path
 
 value_string_array_re = re.compile(
@@ -19,15 +18,15 @@ value_string_array_re = re.compile(
   re.MULTILINE | re.DOTALL)
 
 members = r'(\.(value|str)\s*=\s*)?'
-terminator_re = re.compile('{\s*}|{\s*0\s*}|{\s*' + members + '(0|NULL)\s*,'
-                           '\s*' + members + '(0|NULL)\s*}')
+terminator_re = re.compile(r'{\s*}|{\s*0\s*}|{\s*' + members + r'(0|NULL)\s*,'
+                           r'\s*' + members + r'(0|NULL)\s*}')
 errors_found = 0
 
 def check_file(f):
   global errors_found
   if not (f.endswith('.h') or f.endswith('.c') or f.endswith('.cpp')):
     return
-  arrays = value_string_array_re.findall(codecs.open(f, "r", "utf-8", errors='ignore').read())
+  arrays = value_string_array_re.findall(open(f, "r", encoding='utf-8', errors='ignore').read())
   for array_def, name in arrays:
     if not terminator_re.search(array_def):
       print('ERROR: file contains unterminated value_string %r: %r'
