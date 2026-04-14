@@ -6,6 +6,12 @@
     node: octsimtest
     parameters:
       - string:
+          name: BRANCH
+          description: |
+                Branch of <code>osmo-ccid-firmware.git</code>, from which the
+                test code (<code>test</code> directory) gets read.
+          default: 'master'
+      - string:
           name: EMAIL_NOTIFICATIONS
           description: For failed build notifications, set to empty to disable
           default: 'jenkins-notifications@lists.osmocom.org jsteiger@sysmocom.de acouzens@sysmocom.de'
@@ -21,7 +27,7 @@
           git-config-email: 'jenkins@osmocom.org'
           skip-tag: true
           branches:
-            - 'master'
+            - '$BRANCH'
     properties:
     - build-discarder:
         days-to-keep: 30
