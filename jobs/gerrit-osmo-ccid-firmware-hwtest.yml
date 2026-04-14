@@ -1,0 +1,43 @@
+- job:
+    name: gerrit-osmo-ccid-firmware-hwtest
+    description: |
+        octsim osmo-ccid-firmware CI - flash firmware built as artifact in
+        to octsim and see if it still works
+    node: octsimtest
+
+    parameters:
+      !include: gerrit-verifications-parameters.yaml.inc
+
+    builders:
+      - shell: |
+              # Get firmware from previous job
+              git clone \
+                --depth=1 \
+                -b "$BRANCH_CI" \
+                https://gerrit.osmocom.org/osmo-ci
+              osmo-ci/scripts/jenkins-gerrit/artifacts_download.py "$PIPELINE_BUILD_URL"
+              install \
+                -Dm644 \
+                gerrit-artifacts/archive/sysmoOCTSIM/gcc/sysmoOCTSIM-*.bin \
+                tests/sysmo-octsim/dl/sysmoOCTSIM-latest.bin
+
+              # Run tests
+              export SKIP_FETCH_IMAGE=1
+              cd ./tests
+              timeout 30m ./run-tests
+
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/osmo-ccid-firmware
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+          skip-tag: true
+          branches:
+            - 'master'
+          wipe-workspace: true
+    properties:
+    - build-discarder:
+        days-to-keep: 30
+        num-to-keep: 120
+    retry-count: 3 # scm checkout
+
