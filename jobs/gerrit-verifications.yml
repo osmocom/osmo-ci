@@ -112,6 +112,7 @@
     # Range from oldest supported Debian version to newest, see:
     # https://gerrit.osmocom.org/c/osmo-ci/+/40861/comment/d35a8783_2a3833a4/
     pipeline_binpkgs: "debian:11 debian:13"
+    artifacts: ""
 
     # in alphabetical order
     repos:
@@ -479,6 +480,11 @@
 
       - osmo-ccid-firmware:
           pipeline_binpkgs: ""
+          artifacts: "**/sysmoOCTSIM-*.bin"
+          cmd: |
+            {docker_run_ccache} \
+              -e SKIP_FIRMWARE_CLEAN=1 \
+              {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
 
       - osmo-e1d
       - osmo-cbc
@@ -830,9 +836,14 @@
     builders:
       - shell: '{obj:cmd}'
       # Remove workspace on success to free up space
-      - shell: 'rm -rf "$WORKSPACE"'
+      - shell: |
+          if [ -z "{artifacts}" ]; then
+              rm -rf "$WORKSPACE"
+          fi
 
     publishers:
+       - archive:
+           artifacts: '{obj:artifacts}'
        - warnings:
            console-log-parsers:
              - 'GNU C Compiler 4 (gcc)'
