@@ -108,6 +108,7 @@
     gerrit_project: '{repos}'
     # Which jobs to run in the pipeline
     pipeline_build: true
+    pipeline_hwtest: false
     pipeline_lint: true
     # Range from oldest supported Debian version to newest, see:
     # https://gerrit.osmocom.org/c/osmo-ci/+/40861/comment/d35a8783_2a3833a4/
@@ -480,6 +481,7 @@
 
       - osmo-ccid-firmware:
           pipeline_binpkgs: ""
+          pipeline_hwtest: true
           artifacts: "**/sysmoOCTSIM-*.bin"
           cmd: |
             {docker_run_ccache} \
@@ -589,6 +591,11 @@
           name: PIPELINE_BUILD
           description: Enable the build job (runs contrib/jenkins.sh)
           default: '{obj:pipeline_build}'
+      - string:
+          name: PIPELINE_HWTEST
+          description: |
+            Enable a hardware test job that uses artifacts from the build job.
+          default: '{obj:pipeline_hwtest}'
       - bool:
           name: PIPELINE_LINT
           description: Enable the lint job
@@ -654,9 +661,23 @@
                 when {{
                   expression {{ params.PIPELINE_BUILD }}
                 }}
-                steps {{
-                  script {{
-                    run_job("build", "gerrit-{repos}-build")
+                stages {{
+                  stage("Build (inner)") {{
+                    steps {{
+                      script {{
+                        run_job("build", "gerrit-{repos}-build")
+                      }}
+                    }}
+                  }}
+                  stage("HWTest") {{
+                    when {{
+                      expression {{ params.PIPELINE_HWTEST }}
+                    }}
+                    steps {{
+                      script {{
+                        run_job("hwtest", "gerrit-{repos}-hwtest")
+                      }}
+                    }}
                   }}
                 }}
               }}

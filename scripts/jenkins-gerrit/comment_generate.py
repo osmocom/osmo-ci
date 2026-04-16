@@ -61,6 +61,8 @@ def stage_from_job_name(job_name, job_url):
         return "endianness"
     if job_name.endswith("-build"):
         return "build"
+    if job_name.endswith("-hwtest"):
+        return "hwtest"
     assert False, f"couldn't figure out stage from job_name: {job_name}"
 
 
