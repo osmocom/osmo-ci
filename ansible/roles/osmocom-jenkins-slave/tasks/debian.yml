@@ -30,29 +30,39 @@
     update_cache: yes
   when: ansible_distribution == 'Debian' and ansible_distribution_release == 'jessie'
 
-- name: install java for jessie
-  apt:
-    name: openjdk-8-jre-headless
-    cache_valid_time: 3600
-    update_cache: yes
-    install_recommends: no
-    default_release: jessie-backports
-  when: ansible_distribution == 'Debian' and ansible_distribution_release == 'jessie'
+# Install a recent java directly from download.java.net. This method works for
+# all debian versions, even really old ones, but only for x86_64 and aarch64.
+# Get links for new releases here: https://jdk.java.net/26/
+- name: install openjdk from download.java.net
+  when: ansible_architecture != "armv8l"
+  args:
+    creates: "/home/{{ jenkins_user }}/jenkins/jdk-26/bin/java"
+  become: true
+  become_user: "{{ jenkins_user }}"
+  shell: |
+    cd ~/jenkins
+    case "$(arch)" in
+      x86_64)
+        wget -q https://download.java.net/java/GA/jdk26/c3cc523845074aa0af4f5e1e1ed4151d/35/GPL/openjdk-26_linux-x64_bin.tar.gz
+        ;;
+      aarch64)
+        wget -q https://download.java.net/java/GA/jdk26/c3cc523845074aa0af4f5e1e1ed4151d/35/GPL/openjdk-26_linux-aarch64_bin.tar.gz
+        ;;
+      *)
+        echo "unsupported arch: $(arch)"
+        exit 1
+        ;;
+    esac
+    tar -xf openjdk-26_linux-*_bin.tar.gz
+    rm openjdk-26_linux-*_bin.tar.gz
+    ln -sf jdk-26/ jdk
 
-- name: install java for stretch
-  apt:
-    name:
-      - openjdk-8-jre-headless
-    cache_valid_time: 3600
-    update_cache: yes
-    install_recommends: no
-  when: ansible_distribution == 'Debian' and ansible_distribution_version == '9'
-
-- name: install java for buster and later
+# armv8l: install java from debian repos
+- name: install openjdk from debian
+  when: ansible_architecture == "armv8l"
   apt:
     name:
       - default-jre-headless
     cache_valid_time: 3600
     update_cache: yes
     install_recommends: no
-  when: ansible_distribution == 'Debian' and ansible_distribution_version|int >= 10
