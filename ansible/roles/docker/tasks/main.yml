@@ -11,12 +11,12 @@
     update_cache: yes
 
 - name: add docker gpg key to apt keyring
-  apt_key:
-    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+  get_url:
     url: https://download.docker.com/linux/debian/gpg
+    dest: /etc/apt/trusted.gpg.d/docker.asc
 
 - apt_repository:
-    repo: "deb https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
     state: present
     update_cache: yes
   when: ansible_distribution == "Debian"
