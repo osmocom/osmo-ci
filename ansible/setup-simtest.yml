@@ -3,11 +3,6 @@
   hosts: simtester
   user: root
   tasks:
-    - name: apt-get update
-      apt:
-        cache_valid_time: 3600
-        update_cache: yes
-
     - name: install common utilities
       apt:
         name:
@@ -21,6 +16,8 @@
           - tshark
           - virtualenv
         install_recommends: no
+        cache_valid_time: 3600
+        update_cache: yes
 
     - name: "pysim: get requirements.txt"
       get_url:
