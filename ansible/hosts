@@ -20,7 +20,7 @@ rpi4-raspbian12build-ansible-3 ansible_host=10.9.25.70 docker_max_image_space="2
 lx2-raspbian13build-ansible ansible_host=10.9.25.28 docker_max_image_space="20 GB" jenkins_tmpfs=True
 
 [simtester]
-simtest ansible_host=10.9.25.80
+simtest ansible_host=10.9.25.94
 
 [obs_workers]
 build4-obsworker ansible_host=2a01:4f8:121:200a::1:2 obs_worker_instances=8 obs_worker_jobs=8
