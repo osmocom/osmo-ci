@@ -14,6 +14,7 @@ RUN	apt-get update && \
 		colordiff \
 		debhelper \
 		default-libmysqlclient-dev \
+		dh-cmake \
 		dh-python \
 		dh-virtualenv \
 		dpkg-dev \
