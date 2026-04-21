@@ -113,7 +113,10 @@
     # Range from oldest supported Debian version to newest, see:
     # https://gerrit.osmocom.org/c/osmo-ci/+/40861/comment/d35a8783_2a3833a4/
     pipeline_binpkgs: "debian:11 debian:13"
-    artifacts: ""
+    # When using an empty string, archiving fails even if allow-empty is set:
+    # "ERROR: Step ‘Archive the artifacts’ failed: No artifacts are configured
+    #  for archiving."
+    artifacts: "nothing"
 
     # in alphabetical order
     repos:
@@ -856,14 +859,18 @@
 
     builders:
       - shell: '{obj:cmd}'
-      # Remove workspace on success to free up space
+      # Replace workspace with empty dir to free up space. Having an empty dir
+      # is required so the artifacts logic doesn't fail (even if there is
+      # nothing to archive).
       - shell: |
-          if [ -z "{artifacts}" ]; then
+          if [ "{artifacts}" = "nothing" ]; then
               rm -rf "$WORKSPACE"
+              mkdir "$WORKSPACE"
           fi
 
     publishers:
        - archive:
+           allow-empty: true
            artifacts: '{obj:artifacts}'
        - warnings:
            console-log-parsers:
