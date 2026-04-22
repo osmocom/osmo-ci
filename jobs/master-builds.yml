@@ -86,6 +86,7 @@
     timeout_cmd: '/usr/bin/timeout 30m'
     wrapper_cmd: '{timeout_cmd} /osmo-ci/scripts/wrapper_core_bt_on_error.sh'
     cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh'
+    check_jenkins_mark: 'git show --summary --format=%B | grep "^Jenkins:" | grep -q'
     trigger:
     email: jenkins-notifications@lists.osmocom.org laforge@gnumonks.org
     gerrit_url: 'https://gerrit.osmocom.org'
@@ -648,7 +649,12 @@
           cmd: |
             case "$JOB_TYPE" in
             "card-test")
-              {timeout_cmd} ./contrib/jenkins.sh
+              if {check_jenkins_mark} "skip-card-test"; then
+                # skip tests requiring physical cards
+                echo "GERRIT_PIPELINE_JOB_SKIPPED"
+              else
+                {timeout_cmd} ./contrib/jenkins.sh
+              fi
               ;;
             *)
               {docker_run} \
