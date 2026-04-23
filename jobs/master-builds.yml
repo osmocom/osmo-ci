@@ -643,7 +643,7 @@
           a2: !!python/tuple ["test", "card-test", "pylint", "docs"]
           combination_filter: >
             (JOB_TYPE == "test" && label == "osmocom-master") ||
-            (JOB_TYPE == "crad-test" && label == "simtester") ||
+            (JOB_TYPE == "card-test" && label == "simtester") ||
             (JOB_TYPE == "pylint" && label == "osmocom-master") ||
             (JOB_TYPE == "docs" && label == "osmocom-master")
           cmd: |
