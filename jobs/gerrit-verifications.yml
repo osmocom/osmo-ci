@@ -103,6 +103,7 @@
     timeout_cmd: '/usr/bin/timeout 30m'
     wrapper_cmd: '{timeout_cmd} /osmo-ci/scripts/wrapper_core_bt_on_error.sh'
     cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh'
+    check_jenkins_mark: 'git show --summary --format=%B | grep "^Jenkins:" | grep -q'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
     gerrit_project: '{repos}'
@@ -535,16 +536,22 @@
           concurrent: false
           slave_axis: !!python/tuple [simtester,osmocom-gerrit]
           a2_name: JOB_TYPE
-          a2: !!python/tuple ["test", "distcheck", "pylint", "docs"]
+          a2: !!python/tuple ["test", "card-test", "distcheck", "pylint", "docs"]
           combination_filter: >
-            (JOB_TYPE == "test" && label == "simtester") ||
+            (JOB_TYPE == "test" && label == "osmocom-gerrit") ||
+            (JOB_TYPE == "card-test" && label == "simtester") ||
             (JOB_TYPE == "distcheck" && label == "osmocom-gerrit") ||
             (JOB_TYPE == "pylint" && label == "osmocom-gerrit") ||
             (JOB_TYPE == "docs" && label == "osmocom-gerrit")
           cmd: |
             case "$JOB_TYPE" in
-            "test")
-              {timeout_cmd} ./contrib/jenkins.sh
+            "card-test")
+              if {check_jenkins_mark} "skip-card-test"; then
+                # skip tests requiring physical cards
+                echo "GERRIT_PIPELINE_JOB_SKIPPED"
+              else
+                {timeout_cmd} ./contrib/jenkins.sh
+              fi
               ;;
             *)
               {docker_run} \
