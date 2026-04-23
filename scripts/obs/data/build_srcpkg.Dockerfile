@@ -16,6 +16,7 @@ RUN	apt-get update && \
 		default-libmysqlclient-dev \
 		dh-cmake \
 		dh-python \
+		dh-runit \
 		dh-virtualenv \
 		dpkg-dev \
 		erlang-nox \
