@@ -643,6 +643,19 @@
             podman pull registry.osmocom.org/osmocom-build/debian-"$debver"-osmo-ttcn3-testenv
           done
 
+          # Clean up leftover apt partial directories, which the host system
+          # user can't remove directly
+          for i in _cache/podman/var-lib-apt-debian-*/lists/partial; do
+            if [ -e "$i" ]; then
+              podman run \
+                --rm \
+                -v "$PWD:/build" \
+                -w /build \
+                osmocom-build/debian-trixie-osmo-ttcn3-testenv \
+                rm -rvf "$i"
+            fi
+          done
+
           rm -rf logs _cache .linux
 
           if [ "$KERNEL" != "none" ]; then
