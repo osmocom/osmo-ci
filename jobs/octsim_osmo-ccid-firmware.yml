@@ -2,7 +2,8 @@
     name: octsim_osmo-ccid-firmware
     description: |
         octsim osmo-ccid-firmware CI - flash every build to octsim and see if
-        it still works
+        it still works.
+        Using the latest firmware from downloads.osmocom.org.
     node: octsimtest
     parameters:
       - string:
