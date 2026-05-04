@@ -31,6 +31,10 @@ ProxyJump proxyuser@myhostproxy.com:22
 User root
 ```
 
+## Update coverity
+
+`ansible-playbook -v -i hosts -l coverity_slaves -t coverity setup-jenkins-slave.yml`
+
 # how to make slaves log-in to registry.osmocom.org:
 
 `ansible jenkins_slaves -u root -a "su - osmocom-build -c 'docker login -u jenkins_slave -p PASSWD https://registry.osmocom.org/'"`
