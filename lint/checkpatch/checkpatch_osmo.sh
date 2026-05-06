@@ -77,6 +77,7 @@ exclude_paths_project() {
 # * SPDX_LICENSE_TAG: we don't place it on line 1
 # * SPLIT_STRING: we do split long messages over multiple lines
 # * SSCANF_TO_KSTRTO: kernel specific
+# * STATIC_CONST_CHAR_ARRAY: incompatible with DEFUN_* API from libosmocore
 # * STRING_FRAGMENTS: sometimes used intentionally to improve readability
 # * SYMBOLIC_PERMS: recommends using octal permissions over symbolic ones, not followed
 # * TRACING_LOGGING: recommends to use kernel's internal ftrace instead of printf("%s()\n", __func__)
@@ -116,6 +117,7 @@ run_checkpatch() {
 		--ignore SPDX_LICENSE_TAG \
 		--ignore SPLIT_STRING \
 		--ignore SSCANF_TO_KSTRTO \
+		--ignore STATIC_CONST_CHAR_ARRAY \
 		--ignore STRING_FRAGMENTS \
 		--ignore SYMBOLIC_PERMS \
 		--ignore TRACING_LOGGING \
