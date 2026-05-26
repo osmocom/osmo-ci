@@ -3,9 +3,9 @@ DIR="$(realpath "$(dirname "$0")")"
 PROJ="$1"
 
 BRANCHES="
-	osmith/deb-packaging
+	osmocom/deb-packaging
 	osmocom/qcdiag
-	laforge/rspro
+	osmocom/rspro
 "
 
 prepare_git_repo() {
