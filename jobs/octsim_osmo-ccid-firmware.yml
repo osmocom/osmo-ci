@@ -16,12 +16,16 @@
           name: EMAIL_NOTIFICATIONS
           description: For failed build notifications, set to empty to disable
           default: 'jenkins-notifications@lists.osmocom.org jsteiger@sysmocom.de acouzens@sysmocom.de'
+      - string:
+          name: TIMEOUT
+          description: Abort the tests after this time in case they hang
+          default: '30m'
     builders:
     - shell: |
             export PYTHONUNBUFFERED=1
             cd ./tests
             mkdir -p sysmo-octsim/dl
-            timeout 30m ./run-tests
+            timeout $TIMEOUT ./run-tests
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ccid-firmware
