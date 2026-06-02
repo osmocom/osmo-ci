@@ -24,7 +24,13 @@
               # Run tests
               export SKIP_FETCH_IMAGE=1
               cd ./tests
-              timeout 30m ./run-tests
+
+              sudo /etc/osmo-ccid-firmware-tests/start-hook.sh
+              FAIL=0
+              timeout 30m ./run-tests || FAIL=1
+              sudo /etc/osmo-ccid-firmware-tests/stop-hook.sh
+
+              exit $FAIL
 
     scm:
       - git:
@@ -39,5 +45,8 @@
     - build-discarder:
         days-to-keep: 30
         num-to-keep: 120
+    publishers:
+    - archive:
+        artifacts: 'tests/logs/**'
     retry-count: 3 # scm checkout
 

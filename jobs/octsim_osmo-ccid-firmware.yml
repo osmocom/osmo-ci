@@ -25,7 +25,13 @@
             export PYTHONUNBUFFERED=1
             cd ./tests
             mkdir -p sysmo-octsim/dl
-            timeout $TIMEOUT ./run-tests
+
+            sudo /etc/osmo-ccid-firmware-tests/start-hook.sh
+            FAIL=0
+            timeout $TIMEOUT ./run-tests || FAIL=1
+            sudo /etc/osmo-ccid-firmware-tests/stop-hook.sh
+
+            exit $FAIL
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ccid-firmware
@@ -43,6 +49,8 @@
         notify-every-unstable-build: true
         recipients: '$EMAIL_NOTIFICATIONS'
         send-to-individuals: true
+    - archive:
+        artifacts: 'tests/logs/**'
     retry-count: 3 # scm checkout
     triggers:
     - reverse:
