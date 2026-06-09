@@ -40,4 +40,11 @@ if [ -z "$token" ]; then
   exit 1
 fi
 
-eval "$curl_cmd"
+eval "$curl_cmd" | tee output.html
+
+if ! grep -q "Build successfully submitted" output.html; then
+	set +x
+	echo
+	echo "ERROR: coverity upload has failed!"
+	exit 1
+fi
