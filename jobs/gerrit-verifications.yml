@@ -193,6 +193,13 @@
 
       - libusrp
 
+      - onomondo-eim:
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          pipeline_binpkgs: ""
+
+      - onomondo-ipa:
+          pipeline_binpkgs: ""
+
       - openggsn:
           a1_name: GTP
           a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
