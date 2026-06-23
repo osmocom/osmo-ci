@@ -277,6 +277,10 @@
       - libusrp:
           trigger: master-osmo-trx
 
+      - onomondo-eim:
+          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+
+      - onomondo-ipa
       - osmo-bsc
       - osmo-bsc-nat
 
