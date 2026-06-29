@@ -17,6 +17,7 @@
     a4: !!python/tuple [default]
     combination_filter: ''
     sequential: false
+    wipe: false  # most projects use osmo-clean-workspace.sh instead
     # most common build invocation
     # SYS_PTRACE is needed for ASAN (https://github.com/google/sanitizers/issues/764)
     # seccomp profile is needed for io_uring (OS#6405)
@@ -279,8 +280,11 @@
 
       - onomondo-eim:
           cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          wipe: true
 
-      - onomondo-ipa
+      - onomondo-ipa:
+          wipe: true
+
       - osmo-bsc
       - osmo-bsc-nat
 
@@ -746,7 +750,7 @@
            - '$BRANCH'
          refspec:
          name:
-         wipe-workspace: false
+         wipe-workspace: '{obj:wipe}'
          skip-tag: true
          submodule:
            recursive: true
