@@ -68,6 +68,7 @@ exclude_paths_project() {
 # * INITIALISED_STATIC: we use this, see also http://lkml.iu.edu/hypermail/linux/kernel/0808.1/2235.html
 # * LINE_CONTINUATIONS: false positives
 # * LINE_SPACING: we don't always put a blank line after declarations
+# * LINUX_VERSION_CODE: warns about using LINUX_VERSION_CODE, which doesn't make sense outside of the kernel
 # * LONG_LINE*: should be 120 chars, but exceptions are done often so don't fail here
 # * MACRO_WITH_FLOW_CONTROL: not followed
 # * MISSING_SPACE: warns about breaking strings at space characters, not useful for long strings of hex chars
@@ -106,6 +107,7 @@ run_checkpatch() {
 		--ignore INITIALISED_STATIC \
 		--ignore LINE_CONTINUATIONS \
 		--ignore LINE_SPACING \
+		--ignore LINUX_VERSION_CODE \
 		--ignore LONG_LINE \
 		--ignore LONG_LINE_COMMENT \
 		--ignore LONG_LINE_STRING \
