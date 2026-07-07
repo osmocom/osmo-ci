@@ -1,3 +1,4 @@
+latest/AlmaLinux_8
 latest/CentOS_7
 latest/Debian_11
 latest/Debian_12
@@ -11,6 +12,7 @@ latest/xUbuntu_25.04
 latest/xUbuntu_25.10
 latest/xUbuntu_26.04
 
+nightly/AlmaLinux_8
 nightly/CentOS_7
 nightly/Debian_11
 nightly/Debian_12
