@@ -95,13 +95,23 @@ RUN	set -x; \
 		echo "deb [signed-by=/usr/share/keyrings/osmocom.asc] https://downloads.osmocom.org/packages/osmocom:/$FEED/xUbuntu_$VERSION/ ./" \
 			> /etc/apt/sources.list.d/osmocom-$FEED.list \
 		;; \
-	almalinux:*|centos:*) \
+	centos:7) \
 		{ echo "[network_osmocom_$FEED]"; \
 		  echo "name=osmocom:$FEED"; \
 		  echo "type=rpm-md"; \
 		  echo "baseurl=https://downloads.osmocom.org/packages/osmocom:/$FEED/CentOS_$VERSION/"; \
 		  echo "gpgcheck=1"; \
 		  echo "gpgkey=https://downloads.osmocom.org/packages/osmocom:/$FEED/CentOS_$VERSION/repodata/repomd.xml.key"; \
+		  echo "enabled=1"; \
+		} > /etc/yum.repos.d/network:osmocom:$FEED.repo \
+		;; \
+	almalinux:8) \
+		{ echo "[network_osmocom_$FEED]"; \
+		  echo "name=osmocom:$FEED"; \
+		  echo "type=rpm-md"; \
+		  echo "baseurl=https://downloads.osmocom.org/packages/osmocom:/$FEED/AlmaLinux_8/"; \
+		  echo "gpgcheck=1"; \
+		  echo "gpgkey=https://downloads.osmocom.org/packages/osmocom:/$FEED/AlmaLinux_8/repodata/repomd.xml.key"; \
 		  echo "enabled=1"; \
 		} > /etc/yum.repos.d/network:osmocom:$FEED.repo \
 		;; \
