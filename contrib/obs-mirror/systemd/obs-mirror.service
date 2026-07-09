@@ -1,0 +1,10 @@
+[Unit]
+Description=obs-mirror
+
+[Service]
+Type=oneshot
+User=pkgmirror
+ExecStart=/home/pkgmirror/osmo-ci/contrib/obs-mirror/obs-mirror.sh
+
+[Install]
+WantedBy=multi-user.target
