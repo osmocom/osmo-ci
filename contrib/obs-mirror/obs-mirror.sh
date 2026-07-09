@@ -9,10 +9,7 @@
 #
 # See also: OS#4862
 
-DATE=`date +%Y%m%d-%H%M%S`
-LOGFILE="/home/pkgmirror/obs-mirror-$DATE.log"
-echo "Redirecting all output to: $LOGFILE"
-exec >$LOGFILE 2>&1
+DATE="$(date +%Y%m%d-%H%M%S)"
 
 set -e -x
 SCRIPT_DIR="$(realpath "$(dirname "$(realpath "$0")")")"
