@@ -239,6 +239,7 @@ TAGS_IGNORE="
 	osmo-s1gw:0.2.0,
 	osmo-s1gw:0.3.0,
 	osmo-s1gw:0.4.0,
+	osmo-s1gw:0.4.1,
 "
 
 mkdir -p \
