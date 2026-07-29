@@ -25,3 +25,27 @@ exclude = [
 	"scripts/verify_log_statements.py",
 	"scripts/verify_value_string_arrays_are_terminated.py",
 ]
+
+[lint]
+ignore = [
+	"B006",    # https://docs.astral.sh/ruff/rules/mutable-argument-default/
+	"B010",    # https://docs.astral.sh/ruff/rules/set-attr-with-constant/
+	"B026",    # https://docs.astral.sh/ruff/rules/star-arg-unpacking-after-keyword-arg/
+	"BLE001",  # https://docs.astral.sh/ruff/rules/blind-except/
+	"EXE001",  # https://docs.astral.sh/ruff/rules/shebang-not-executable/
+	"FURB122", # https://docs.astral.sh/ruff/rules/for-loop-writes/
+	"FURB129", # https://docs.astral.sh/ruff/rules/readlines-in-for/
+	"FURB188", # https://docs.astral.sh/ruff/rules/slice-to-remove-prefix-or-suffix/
+	"I001",    # https://docs.astral.sh/ruff/rules/unsorted-imports/
+	"PIE808",  # https://docs.astral.sh/ruff/rules/unnecessary-range-start/
+	"PIE810",  # https://docs.astral.sh/ruff/rules/multiple-starts-ends-with/
+	"PLW0602", # https://docs.astral.sh/ruff/rules/global-variable-not-assigned/
+	"PLW1510", # https://docs.astral.sh/ruff/rules/subprocess-run-without-check/
+	"RUF100",  # https://docs.astral.sh/ruff/rules/unused-noqa/
+	"SIM103",  # https://docs.astral.sh/ruff/rules/needless-bool/
+	"SIM115",  # https://docs.astral.sh/ruff/rules/open-file-with-context-handler/
+	"SIM201",  # https://docs.astral.sh/ruff/rules/negate-equal-op/
+	"SIM401",  # https://docs.astral.sh/ruff/rules/if-else-block-instead-of-dict-get/
+	"UP031",   # https://docs.astral.sh/ruff/rules/printf-string-formatting/
+	"W605",    # https://docs.astral.sh/ruff/rules/invalid-escape-sequence/
+]
