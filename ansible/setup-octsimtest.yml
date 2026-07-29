@@ -1,0 +1,28 @@
+---
+- name: setup octsimtest
+  hosts: octsimtest
+  user: root
+  tasks:
+
+    - name: install /etc/sudoers.d/jenkins
+      copy:
+        src: octsimtest/sudoers.d-jenkins
+        dest: /etc/sudoers.d/jenkins
+
+    - name: install /etc/osmo-ccid-firmware-tests/restart-pcscd.sh
+      copy:
+        src: octsimtest/restart-pcscd.sh
+        dest: /etc/osmo-ccid-firmware-tests/restart-pcscd.sh
+        mode: 0755
+
+    - name: install /etc/osmo-ccid-firmware-tests/start-hook.sh
+      copy:
+        src: octsimtest/start-hook.sh
+        dest: /etc/osmo-ccid-firmware-tests/start-hook.sh
+        mode: 0755
+
+    - name: install /etc/osmo-ccid-firmware-tests/stop-hook.sh
+      copy:
+        src: octsimtest/stop-hook.sh
+        dest: /etc/osmo-ccid-firmware-tests/stop-hook.sh
+        mode: 0755
