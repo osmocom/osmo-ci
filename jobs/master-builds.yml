@@ -675,6 +675,8 @@
 
       - dahdi-tools
 
+      - upf-benchmark
+
       - osmocom-android-binaries:
           ssh:
             - binaries_ftp.osmocom.org
