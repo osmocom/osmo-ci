@@ -212,6 +212,8 @@ def get_comment_result(build_url, notify_on_success):
 
     summary += f"{len(jobs['passed'])} passed:\n"
     summary += get_jobs_list_str(jobs["passed"])
+    if not jobs['passed']:
+        summary += "Zero jobs passed, internal script error?\n"
 
     if "build" in pipeline and "deb" in pipeline and "rpm" in pipeline and \
             not pipeline["build"]["passed"] and pipeline["deb"]["passed"] \
@@ -227,7 +229,7 @@ def get_comment_result(build_url, notify_on_success):
         summary += "https://osmocom.org/projects/cellular-infrastructure/wiki/Linting\n"
 
     summary += "\n"
-    if jobs["failed"]:
+    if jobs["failed"] or not jobs['passed']:
         summary += "Build Failed\n"
         summary += "\n"
         summary += f"Find the Retrigger button here:\n{build_url}\n"
