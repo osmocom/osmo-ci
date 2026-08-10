@@ -112,13 +112,12 @@ git_url_other = {
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
     "strongswan-epdg": "https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg",
     "libosmo-sccp-legacy": "https://gitea.osmocom.org/osmocom/libosmo-sccp-legacy",
-    "pyhss": "https://gitea.osmocom.org/osmocom/pyhss",
+    "pyhss": "https://github.com/nickvsnetworking/pyhss",
 }
 
 git_branch_default = "master"
 git_branch_other = {
     "open5gs": "main",
-    "pyhss": "osmocom/master",
 }
 
 def tag_pattern(prefix: str = '',
@@ -133,7 +132,6 @@ git_latest_tag_pattern_other = {
         "gapk": tag_pattern('v', c=r'(\.\d+)?'),
         "open5gs": tag_pattern('v'),
         "osmo-fl2k": tag_pattern('v'),
-        "pyhss": tag_pattern(suffix='-osmocom\\d+'),
         "rtl-sdr": tag_pattern('v'),
         "strongswan-epdg": tag_pattern('osmo-epdg-', c=r'\.[0-9a-z]+'),
         "wireshark": tag_pattern('v', c=r'\.[0-9a-z]+'),

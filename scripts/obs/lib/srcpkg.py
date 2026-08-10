@@ -149,7 +149,7 @@ def prepare_project_open5gs():
 
 def prepare_project_pyhss():
     repo_path = lib.git.get_repo_path("pyhss")
-    script = os.path.join(lib.ci_obs_dir, "data/pyhss_download_deps.sh")
+    script = "debian/pyhss_download_deps.sh"
     lib.run_cmd(["sh", "-e", script], cwd=repo_path)
 
 
