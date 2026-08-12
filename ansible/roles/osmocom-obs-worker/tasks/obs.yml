@@ -58,6 +58,15 @@
     name: mount-securityfs.service
     enabled: yes
 
+- name: create /etc/systemd/system/obsworker.service.d/
+  file:
+    path: /etc/systemd/system/obsworker.service.d/
+
+- name: configure systemd service to restart on failure
+  ansible.builtin.copy:
+    src: obsworker.conf
+    dest: /etc/systemd/system/obsworker.service.d/override.conf
+
 - name: ensure the systemd service is installed
   systemd:
     name: obsworker.service
