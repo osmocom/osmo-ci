@@ -311,7 +311,6 @@
           pipeline_binpkgs: ""
 
       - osmo-ci:
-          pipeline_build: false
           pipeline_binpkgs: ""
 
       - osmo-dev:
