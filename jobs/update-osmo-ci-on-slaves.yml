@@ -47,7 +47,7 @@
       - timed: "H H * * *"
 
     builders:
-      - shell: './contrib/jenkins.sh'
+      - shell: './scripts/update-osmo-ci/update-osmo-ci.sh'
 
     wrappers:
     - ansicolor:
