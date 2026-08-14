@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e -x
-WORKSPACE_DIR="$(realpath "$(dirname "$0")/..")"
+WORKSPACE_DIR="$(realpath "$(dirname "$0")/../..")"
 
 # Clone repository to ~/, or update existing
 # $1: name of osmocom project
