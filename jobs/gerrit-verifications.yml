@@ -759,6 +759,30 @@
                 }}
               }}
 
+              stage("binpkgs-3") {{
+                when {{
+                  expression {{ params.PIPELINE_BINPKGS.split().size() > 3 }}
+                }}
+                steps {{
+                  script {{
+                    distro = params.PIPELINE_BINPKGS.split()[3]
+                    run_job(distro, "gerrit-binpkgs", null, distro)
+                  }}
+                }}
+              }}
+
+              stage("binpkgs-4") {{
+                when {{
+                  expression {{ params.PIPELINE_BINPKGS.split().size() > 4 }}
+                }}
+                steps {{
+                  script {{
+                    distro = params.PIPELINE_BINPKGS.split()[4]
+                    run_job(distro, "gerrit-binpkgs", null, distro)
+                  }}
+                }}
+              }}
+
             }} // end of parallel
           }} // end of Verification stage
 
