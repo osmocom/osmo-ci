@@ -212,8 +212,8 @@ def get_comment_result(build_url, notify_on_success):
 
     summary += f"{len(jobs['passed'])} passed:\n"
     summary += get_jobs_list_str(jobs["passed"])
-    if not jobs['passed']:
-        summary += "Zero jobs passed, internal script error?\n"
+    if not jobs["passed"] and not jobs["failed"]:
+        summary += "Zero jobs passed or failed, internal script error?\n"
 
     if "build" in pipeline and "deb" in pipeline and "rpm" in pipeline and \
             not pipeline["build"]["passed"] and pipeline["deb"]["passed"] \
