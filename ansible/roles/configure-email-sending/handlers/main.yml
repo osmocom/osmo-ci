@@ -1,0 +1,9 @@
+---
+- name: run newaliases
+  ansible.builtin.command:
+    cmd: newaliases
+
+- name: restart exim4
+  ansible.builtin.service:
+    name: exim4
+    state: restarted

@@ -1,0 +1,27 @@
+---
+- name: Set /etc/mailname
+  ansible.builtin.lineinfile:
+    path: /etc/mailname
+    regexp: '.*'
+    line: "{{ inventory_hostname }}"  # e.g. build4.osmocom.org
+
+- name: Set mail alias for root
+  ansible.builtin.lineinfile:
+    path: /etc/aliases
+    regexp: '^root:'
+    line: "root: root@osmocom.org"
+  notify: run newaliases
+
+- name: Configure exim4 dc_smarthost
+  ansible.builtin.lineinfile:
+    path: /etc/exim4/update-exim4.conf.conf
+    regexp: '^dc_smarthost='
+    line: "dc_smarthost='mail.osmocom.org'"
+  notify: restart exim4
+
+- name: Configure exim4 dc_eximconfig_configtype
+  ansible.builtin.lineinfile:
+    path: /etc/exim4/update-exim4.conf.conf
+    regexp: '^dc_eximconfig_configtype='
+    line: "dc_eximconfig_configtype='smarthost'"
+  notify: restart exim4
