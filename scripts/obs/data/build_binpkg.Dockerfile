@@ -122,4 +122,31 @@ RUN	set -x; \
 		;; \
 	esac
 
+# OS#7064: In our jenkins, installing packages for centos7 is very slow when
+# doing it right before building packages. Work around it by installing all
+# build dependencies when building the docker image already (where for some
+# reason it is not slow). This saves ~45 min for each CI run and can be done
+# here since we only have very few packages that we still must build for
+# centos7.
+# List of packages are from BuildRequires in these files:
+# https://gitea.osmocom.org/osmocom/libosmocore/src/branch/master/contrib/libosmocore.spec.in
+# https://gitea.osmocom.org/osmocom/libosmo-netif/src/branch/master/contrib/libosmo-netif.spec.in
+# https://gitea.osmocom.org/osmocom/osmo-pcap/src/branch/master/contrib/osmo-pcap.spec.in
+RUN	case "$DISTRO" in \
+	centos:7) \
+		yum -y install \
+			'pkgconfig(gnutls)' \
+			'pkgconfig(libmnl)' \
+			'pkgconfig(libpcsclite)' \
+			'pkgconfig(libsystemd)' \
+			'pkgconfig(libusb-1.0)' \
+			'pkgconfig(libzmq)' \
+			'pkgconfig(talloc)' \
+			libpcap-devel \
+			lksctp-tools-devel \
+			python3 \
+			xz \
+		;; \
+	esac
+
 WORKDIR	/obs/
