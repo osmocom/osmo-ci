@@ -568,8 +568,7 @@
 
       - ttcn3-remsim-test-asan:  # ~6 min
           testsuite: remsim
-          # "-d debian:bookworm": OS#6845
-          args: -b osmocom:nightly:asan -c all -d debian:bookworm
+          args: -b osmocom:nightly:asan -c all
           timer: H 17 * * *
 
       - ttcn3-sccp-test-asan:  # ~2 min
@@ -637,11 +636,11 @@
           which-build: last-successful
           stable: true
       - shell: |-
+          DISTRO="debian:trixie"
+          IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
           KERNEL="{kernel}"
 
-          for debver in trixie bookworm; do
-            podman pull registry.osmocom.org/osmocom-build/debian-"$debver"-osmo-ttcn3-testenv
-          done
+          podman pull "$IMAGE"
 
           # Clean up leftover apt partial directories, which the host system
           # user can't remove directly
