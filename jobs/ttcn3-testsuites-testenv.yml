@@ -644,7 +644,10 @@
 
           # Clean up leftover apt partial directories, which the host system
           # user can't remove directly
-          for i in _cache/podman/var-lib-apt-debian-*/lists/partial; do
+          # Examples:
+          # * …/podman/var-cache-apt-debian-trixie/archives/partial
+          # * …/podman/var-lib-apt-debian-trixie/lists/partial
+          for i in _cache/podman/var-*-apt-*/*/partial; do
             if [ -e "$i" ]; then
               podman run \
                 --rm \
