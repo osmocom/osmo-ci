@@ -92,6 +92,7 @@ TAGS_IGNORE="
 	osmo-mgw:1.2.1,
 	osmo-mgw:1.3.0,
 	osmo-mgw:1.4.0,
+	osmo-mgw:1.16.0,
 
 	osmo-msc:1.0.1,
 	osmo-msc:1.1.0,
