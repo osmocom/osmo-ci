@@ -22,6 +22,10 @@
           description: |
                 osmo-ci.git branch
           default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
     builders:
       - shell: |
           scripts/manuals/publish-manuals-for-tags.sh
@@ -38,7 +42,7 @@
     publishers:
        - email:
           notify-every-unstable-build: true
-          recipients: 'jenkins-notifications@lists.osmocom.org'
+          recipients: '$EMAIL_NOTIFICATIONS'
     wrappers:
       - ssh-agent-credentials:
           users:
