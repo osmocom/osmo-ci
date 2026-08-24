@@ -5,6 +5,8 @@ Description=obs-mirror
 Type=oneshot
 User=pkgmirror
 ExecStart=/home/pkgmirror/osmo-ci/contrib/obs-mirror/obs-mirror.sh
+Restart=on-failure
+RestartSec=600
 
 [Install]
 WantedBy=multi-user.target
