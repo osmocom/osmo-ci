@@ -230,7 +230,7 @@
           timer: H 10 * * *
           kernel: net-next
 
-      - ttcn3-pgw-test:  # ~7 min
+      - ttcn3-pgw-test-ogs:  # ~7 min
           testsuite: pgw
           args: -b osmocom:nightly
           timer: H 11 * * *
