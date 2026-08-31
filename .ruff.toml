@@ -2,7 +2,6 @@ line-length = 120
 
 [format]
 exclude = [
-	"lint/checkpatch/checkpatch_json.py",
 	"scripts/jenkins-gerrit/comment_generate.py",
 	"scripts/obs/build_binpkg.py",
 	"scripts/obs/build_srcpkg.py",

@@ -7,28 +7,31 @@ This utilty generate json output to post comment in gerrit.
 INPUT: output of checkpatch.pl.
 OUTPUT: json format output that can be used to post comment in gerrit
 """
+
 import sys
 import json
 
 data = {}
-data['comments'] = []
+data["comments"] = []
 list_temp = {}
 
-def update_struct( file_path, msg_output, line_number):
+
+def update_struct(file_path, msg_output, line_number):
     if file_path not in list_temp:
         list_temp[file_path] = []
     error = {
-        "robot_id" : "checkpatch",
-        "robot_run_id" : sys.argv[3],
-        "url" : sys.argv[4],
-        "line" : line_number,
-        "message" : msg_output,
+        "robot_id": "checkpatch",
+        "robot_run_id": sys.argv[3],
+        "url": sys.argv[4],
+        "line": line_number,
+        "message": msg_output,
     }
     if error not in list_temp[file_path]:
         list_temp[file_path].append(error)
 
+
 def parse_file(input_file):
-    fp = open (input_file, "r")
+    fp = open(input_file, "r")
     for line in fp:
         if line.startswith("ERROR:"):
             msg_output = line.split("ERROR:")[1].strip()
@@ -38,10 +41,11 @@ def parse_file(input_file):
             temp = line.split("FILE:")
             file_path = temp[1].split(":")[0]
             line_number = temp[1].split(":")[1]
-            update_struct( file_path.strip(), msg_output, str(line_number)  )
+            update_struct(file_path.strip(), msg_output, str(line_number))
         else:
             continue
     fp.close()
+
 
 def main():
     if (len(sys.argv) < 5) or (sys.argv[1] == "-h"):
@@ -51,11 +55,12 @@ def main():
 
     print(sys.argv[1])
     parse_file(sys.argv[1])
-    data['robot_comments'] = list_temp
+    data["robot_comments"] = list_temp
     print(json.dumps(data))
-    out_file = open( sys.argv[2] , "w")
+    out_file = open(sys.argv[2], "w")
     json.dump(data, out_file, sort_keys=True, indent=4)
     out_file.close()
+
 
 if __name__ == "__main__":
     main()
