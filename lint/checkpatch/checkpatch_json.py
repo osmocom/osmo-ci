@@ -16,6 +16,15 @@ data["comments"] = []
 list_temp = {}
 
 
+def gerrit_markdown_escape(msg):
+    """Escape characters that would get interpreted as markdown syntax in
+    gerrit comments. For example, the following should not result in bold text:
+    foo ** bar" should be "foo **bar"""
+    msg = msg.replace("*", "\\*")
+    msg = msg.replace("`", "\\`")
+    return msg
+
+
 def update_struct(file_path, msg_output, line_number):
     if file_path not in list_temp:
         list_temp[file_path] = []
@@ -24,7 +33,7 @@ def update_struct(file_path, msg_output, line_number):
         "robot_run_id": sys.argv[3],
         "url": sys.argv[4],
         "line": line_number,
-        "message": msg_output,
+        "message": gerrit_markdown_escape(msg_output),
     }
     if error not in list_temp[file_path]:
         list_temp[file_path].append(error)
