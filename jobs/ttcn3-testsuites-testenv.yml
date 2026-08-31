@@ -440,6 +440,13 @@
           args: -b osmocom:latest -c open5gs
           timer: H 13 * * *
 
+      - ttcn3-pgw-test-ogs-latest:  # ~7 min
+          testsuite: pgw
+          args: -b osmocom:latest
+          timer: H 13 * * *
+          description_extra: |
+            Test open5gs-smfd + open5gs-upfd PGW latest.
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
