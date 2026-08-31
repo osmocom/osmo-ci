@@ -238,6 +238,12 @@
             Test open5gs-smfd + open5gs-upfd PGW main.
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-smf-test-ogs:  # ~7 min
+          testsuite: smf
+          args: -b osmocom:nightly
+          timer: H 11 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -446,6 +452,11 @@
           timer: H 13 * * *
           description_extra: |
             Test open5gs-smfd + open5gs-upfd PGW latest.
+
+      - ttcn3-smf-test-ogs-latest:  # ~7 min
+          testsuite: smf
+          args: -b osmocom:latest
+          timer: H 13 * * *
 
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
