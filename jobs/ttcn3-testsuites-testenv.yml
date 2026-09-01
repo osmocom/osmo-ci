@@ -678,7 +678,9 @@
 
           rm -rf logs cache src/osmo-ttcn3-hacks/.linux
 
-          if [ "$KERNEL" != "none" ]; then
+          if [ "$KERNEL" = "none" ]; then
+            rm linux
+          else
             mv linux src/osmo-ttcn3-hacks/.linux
           fi
 
