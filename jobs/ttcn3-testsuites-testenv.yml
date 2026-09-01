@@ -676,10 +676,10 @@
             fi
           done
 
-          rm -rf logs _cache .linux
+          rm -rf logs _cache src/osmo-ttcn3-hacks/.linux
 
           if [ "$KERNEL" != "none" ]; then
-            mv linux .linux
+            mv linux src/osmo-ttcn3-hacks/.linux
           fi
 
           set +x  # Don't output the color codes we set here
@@ -696,7 +696,7 @@
           uptime | grep --color=always -o "load.*"
 
           RC=0
-          if ! ./testenv.py run \
+          if ! src/osmo-ttcn3-hacks/testenv.py run \
             {testsuite} \
             --podman \
             --cache "$PWD"/_cache \
@@ -709,7 +709,7 @@
           # Free up space from downloaded apt packages, build artifacts etc.
           # The osmo-ttcn3-hacks deps dir and ccache are persistent.
           if [ "$RC" = 0 ]; then
-            rm -rf _cache .linux
+            rm -rf _cache src
           fi
 
           uptime | grep --color=always -o "load.*"
@@ -723,6 +723,7 @@
           git-config-name: 'Jenkins Builder'
           git-config-email: 'jenkins@osmocom.org'
           wipe-workspace: false
+          basedir: src/osmo-ttcn3-hacks
     triggers:
       - timed: "{obj:timer}"
     publishers:
