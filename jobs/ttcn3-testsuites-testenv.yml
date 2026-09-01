@@ -624,6 +624,15 @@
           args: -b osmocom:nightly:asan
           timer: H 17 * * *
 
+      # ---------------------------------------------
+      # Build from source with osmo-dev (for programs
+      # where we don't have binary packages in OBS)
+      # ---------------------------------------------
+      - ttcn3-onomondo-ipa-test:
+          testsuite: ipad
+          build-with-osmo-dev: true
+          timer: H 17 * * *
+
 - job-template:
     name: '{job-name}'
     project-type: freestyle
@@ -657,6 +666,9 @@
           DISTRO="debian:trixie"
           IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
           KERNEL="{kernel}"
+
+          # Converting to lowercase is needed as jenkins-job-builder sets it to "True" / "False"
+          BUILD_WITH_OSMO_DEV="$(echo '{build-with-osmo-dev}' | tr '[:upper:]' '[:lower:]')"
 
           podman pull "$IMAGE"
 
@@ -696,6 +708,10 @@
           set -x
 
           uptime | grep --color=always -o "load.*"
+
+          if $BUILD_WITH_OSMO_DEV; then
+            src/osmo-ttcn3-hacks/testenv.py init osmo-dev
+          fi
 
           RC=0
           if ! src/osmo-ttcn3-hacks/testenv.py run \
@@ -751,3 +767,5 @@
     - ansicolor:
         colormap: xterm
     email: jenkins-notifications@lists.osmocom.org
+    args: ""
+    build-with-osmo-dev: false
