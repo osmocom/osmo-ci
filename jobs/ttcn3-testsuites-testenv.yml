@@ -665,7 +665,7 @@
           # Examples:
           # * …/podman/var-cache-apt-debian-trixie/archives/partial
           # * …/podman/var-lib-apt-debian-trixie/lists/partial
-          for i in _cache/podman/var-*-apt-*/*/partial; do
+          for i in cache/podman/var-*-apt-*/*/partial; do
             if [ -e "$i" ]; then
               podman run \
                 --rm \
@@ -676,7 +676,7 @@
             fi
           done
 
-          rm -rf logs _cache src/osmo-ttcn3-hacks/.linux
+          rm -rf logs cache src/osmo-ttcn3-hacks/.linux
 
           if [ "$KERNEL" != "none" ]; then
             mv linux src/osmo-ttcn3-hacks/.linux
@@ -699,7 +699,7 @@
           if ! src/osmo-ttcn3-hacks/testenv.py run \
             {testsuite} \
             --podman \
-            --cache "$PWD"/_cache \
+            --cache "$PWD"/cache \
             --ccache ~/ccache/testenv \
             --log-dir "$PWD"/logs \
             $TESTENV_ARGS; then
@@ -709,7 +709,7 @@
           # Free up space from downloaded apt packages, build artifacts etc.
           # The osmo-ttcn3-hacks deps dir and ccache are persistent.
           if [ "$RC" = 0 ]; then
-            rm -rf _cache src
+            rm -rf cache src
           fi
 
           uptime | grep --color=always -o "load.*"
