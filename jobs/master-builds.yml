@@ -485,7 +485,7 @@
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
             arm*|aarch64)
-              DOCKER_IMG="$USER/debian-bookworm-build-arm"  # OS#6858
+              DOCKER_IMG="$DOCKER_IMG-arm"
               SETARCH_CMD="setarch linux32"
               ;;
             esac
