@@ -633,6 +633,11 @@
           build-with-osmo-dev: true
           timer: H 17 * * *
 
+      - ttcn3-onomondo-eim-test:
+          testsuite: eim
+          build-with-osmo-dev: true
+          timer: H 17 * * *
+
 - job-template:
     name: '{job-name}'
     project-type: freestyle
