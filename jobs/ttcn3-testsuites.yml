@@ -17,7 +17,7 @@
     jobs:
       - "{job-name}"
     # Folders from docker-playground.git
-    # timer: 10 per hour from 04:00 - 18:00, see jobs/README.adoc
+    # timer: 10 per hour from 04:00 - 18:00, see jobs/README.md
     job-name:
       # debian nightly - order by time
       - nplab-m3ua-test:  # ~1 min

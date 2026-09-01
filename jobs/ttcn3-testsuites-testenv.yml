@@ -21,7 +21,7 @@
     node: ttcn3
     jobs:
       - "{job-name}"
-    # timers: see jobs/README.adoc
+    # timers: see jobs/README.md
     job-name:
       # ---------------------------------------------
       # Debian nightly
