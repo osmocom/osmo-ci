@@ -448,7 +448,8 @@
       - osmo-sip-connector
 
       - osmo-trx:
-          slave_axis: !!python/tuple [osmocom-gerrit,raspbian]
+          # OS#7083: use lx2 for arm builds because it has enough memory
+          slave_axis: !!python/tuple [osmocom-gerrit,lx2-raspbian13build-ansible]
           a1_name: INSTR
           a1: !!python/tuple [--with-sse, --without-sse, --with-neon, --with-neon-vfpv4]
           a2_name: WITH_MANUALS
@@ -456,8 +457,8 @@
           combination_filter: >
             (INSTR == "--without-sse" && WITH_MANUALS == "1" && label == "osmocom-gerrit") ||
             (INSTR == "--with-sse" && WITH_MANUALS == "0" && label == "osmocom-gerrit") ||
-            (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "raspbian") ||
-            (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "raspbian")
+            (INSTR == "--with-neon" && WITH_MANUALS == "0" && label == "lx2-raspbian13build-ansible") ||
+            (INSTR == "--with-neon-vfpv4" && WITH_MANUALS == "0" && label == "lx2-raspbian13build-ansible")
           cmd: |
             DOCKER_IMG="{docker_img}"
             case "$(arch)" in
