@@ -154,6 +154,18 @@ qemu_prepare_vm() {
 			-e s/security.debian.org/archive.debian.org/g \
 			/etc/apt/sources.list
 		;;
+	debian11)
+		# As of writing, the debian 11 security repository is not
+		# available on archive.debian.org while at the same time the
+		# non-archived version is broken. Run the test without the
+		# security repository. This is fine here, debian 11 is EOL
+		# anyway.
+		qemu_ssh sed \
+			-i \
+			-e s/deb.debian.org/archive.debian.org/g \
+			-e '/.*security.debian.org.*/d' \
+			/etc/apt/sources.list
+		;;
 	esac
 }
 
