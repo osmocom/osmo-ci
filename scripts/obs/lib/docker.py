@@ -25,8 +25,10 @@ def get_distro_from(distro, image_type):
     match distro:
         case "debian:10":
             distro = "debian/eol:buster"
-        # debian:11 points to debian:bullseye upstream
-        # debian:12 points to debian:bookworm upstream
+        case "debian:11":
+            distro = "debian/eol:bullseye"
+        case "debian:12":
+            distro = "debian:bookworm"
         case "debian:13":
             distro = "debian:trixie"
 
