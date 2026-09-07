@@ -12,6 +12,18 @@ RUN	set -x && \
 	fi && \
 	useradd --uid=${UID} -m user
 
+# As of writing, the debian 11 security repository is not available on
+# archive.debian.org while at the same time the non-archived version is broken.
+# Use snapshot.debian.org for now (as found in the debian:eol image).
+RUN	case "$DISTRO" in \
+	debian:11) \
+		( echo "deb http://archive.debian.org/debian bullseye main"; \
+		  echo "deb http://snapshot.debian.org/archive/debian-security/20250625T172521Z bullseye-security main"; \
+		  echo "deb http://archive.debian.org/debian bullseye-updates main"; \
+		) > /etc/apt/sources.list \
+		;; \
+	esac
+
 # Only install build-essential here, and what's needed to add the Osmocom
 # repository. Everything else must be defined as dependency in the package
 # build recipe. For rpm-based distributions, there is no build-essential or
