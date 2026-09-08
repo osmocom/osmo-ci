@@ -635,6 +635,7 @@
 
       - ttcn3-onomondo-eim-test:
           testsuite: eim
+          args: -c all
           build-with-osmo-dev: true
           timer: H 17 * * *
 
