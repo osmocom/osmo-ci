@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
+# Copyright 2026 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import glob
 import os
 import pathlib
 import lib.config
 import lib.debian
 import lib.rpm_spec
+
+# Imports that may not be available during startup, ignore it here and rely on
+# lib.check_required_programs() checking this later on (possibly after the
+# script executed itself in docker if using --docker).
+try:
+    import packaging.version
+except ImportError:
+    pass
 
 
 def checkout_for_feed(project):
@@ -97,14 +105,8 @@ def get_version_for_feed(project):
         return ret[1:] if ret.startswith("v") else ret
 
     ret = get_git_version(project)
-
-    # Try to get the last version from the debian/changelog if we can't get
-    # it with git-version-gen, like it was done in the previous OBS scripts
     if ret == "UNKNOWN":
-        ret = lib.debian.get_last_version_from_changelog(project)
-        # cut off epoch, we retrieve it separately in get_epoch() below
-        if ":" in ret:
-            ret = ret.split(":")[1]
+        return None  # Caller will use version from debian/changelog instead
 
     # Nightly: add a ".0" after the version if the current commit is on a
     # version tag, so the next version is higher (OS#6981)
@@ -121,21 +123,57 @@ def get_version_for_feed(project):
     return ret
 
 
-def get_epoch(project):
-    """The osmo-gbproxy used to have the same package version as osmo-sgsn
-    until 2021 where it was split into its own git repository. From then on,
-    osmo-gbproxy has a 0.*.* package version, which is smaller than the
-    previous 1.*.* from osmo-sgsn. We had to set the epoch to 1 for
-    osmo-gbproxy so package managers know these 0.*.* versions are higher than
-    the previous 1.*.* ones that are still found in e.g. debian 11. The epoch
-    is set in debian/changelog, retrieve it from there.
-    :returns: the epoch number if set, e.g. "1" or an empty string"""
+def get_version_epoch(project):
+    version_append = lib.args.version_append
+    version = None
+    epoch = None
+
+    # Start with version and epoch from debian/changelog
     version_epoch = lib.debian.get_last_version_from_changelog(project)
-
     if ":" in version_epoch:
-        return version_epoch.split(":")[0]
+        epoch, version = version_epoch.split(":", 1)
+    else:
+        version = version_epoch
 
-    return ""
+    # Use git-based version if it is higher
+    version_git = get_version_for_feed(project)
+    use_git_version = False
+    if version_git:
+        use_git_version = True
+        try:
+            if packaging.version.parse(version) > packaging.version.parse(version_git.split("-")[0]):
+                print(
+                    f"{project}: WARNING: version from changelog ({version}) is higher than version based on git tag ({version_git})"
+                )
+                if version_append:
+                    print(f"{project}: WARNING: assuming commit from last git tag was amended, ignoring...")
+                else:
+                    print(f"{project}: WARNING: using version from changelog (git tag not pushed yet?)")
+                    use_git_version = False
+        except packaging.version.InvalidVersion:
+            # packaging.version.parse can parse the version numbers used in
+            # Osmocom projects (where we need the above check), but not e.g.
+            # some versions from wireshark. Don't abort here in that case.
+            print(f"{project}: WARNING: couldn't parse versions (dch: {version}, git: {version_git})")
+
+    else:
+        print(f"{project}: WARNING: couldn't generate a git-based version")
+
+    if use_git_version:
+        version = version_git
+
+    if version_append:
+        version += version_append
+
+    if use_git_version:
+        print(f"{project}: using git-based version ({version})")
+    else:
+        print(f"{project}: using version based on debian/changelog ({version})")
+
+    if epoch:
+        print(f"{project}: retrieved epoch ({epoch}) from debian/changelog")
+
+    return (version, epoch)
 
 
 def prepare_project_open5gs():
@@ -179,6 +217,7 @@ def run_generate_build_dep(project):
 def write_tarball_version(project, version):
     repo_path = lib.git.get_repo_path(project)
 
+    print(f"{project}: writing .tarball-version: {version}")
     with open(f"{repo_path}/.tarball-version", "w") as f:
         f.write(f"{version}\n")
 
@@ -222,7 +261,6 @@ def set_asciidoc_style_without_draft_watermark(project):
 def build(project, gerrit_id=0):
     conflict_version = lib.args.conflict_version
     feed = lib.args.feed
-    version_append = lib.args.version_append
 
     lib.git.clone(project)
     lib.git.clean(project)
@@ -231,10 +269,7 @@ def build(project, gerrit_id=0):
     else:
         checkout_for_feed(project)
 
-    version = get_version_for_feed(project)
-    if version_append:
-        version += version_append
-    epoch = get_epoch(project)
+    version, epoch = get_version_epoch(project)
     version_epoch = f"{epoch}:{version}" if epoch else version
 
     has_rpm_spec = lib.rpm_spec.get_spec_in_path(project) is not None

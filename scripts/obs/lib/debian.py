@@ -1,19 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-2.0-or-later
-# Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
+# Copyright 2026 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
 import datetime
 import os
 import shlex
 import lib
 import lib.git
-
-# Imports that may not be available during startup, ignore it here and rely on
-# lib.check_required_programs() checking this later on (possibly after the
-# script executed itself in docker if using --docker).
-try:
-    import packaging.version
-except ImportError:
-    pass
 
 
 def control_add_depend(project, pkgname, version):
@@ -108,27 +100,11 @@ def changelog_add_entry_if_needed(project, version):
     the given version."""
     version_changelog = get_last_version_from_changelog(project)
 
-    # Don't use a lower number (OS#6173)
-    try:
-        if packaging.version.parse(version_changelog.split("-")[0]) > packaging.version.parse(version.split("-")[0]):
-            print(
-                f"{project}: WARNING: version from changelog ({version_changelog}) is higher than version based on git tag ({version})"
-            )
-            if lib.args.version_append:
-                print(f"{project}: WARNING: assuming commit from last git tag was amended, ignoring...")
-            else:
-                print(f"{project}: WARNING: using version from changelog (git tag not pushed yet?)")
-                return
-    except packaging.version.InvalidVersion:
-        # packaging.version.parse can parse the version numbers used in Osmocom
-        # projects (where we need the above check), but not e.g. some versions
-        # from wireshark. Don't abort here if that is the case.
-        pass
-
     # Debian versions must start with a digit
     version = transform_version(version)
 
     if version_changelog == version:
+        print(f"{project}: adding debian/changelog entry is unnecessary")
         return
 
     print(f"{project}: adding debian/changelog entry ({version_changelog} => {version})")
