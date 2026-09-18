@@ -180,7 +180,7 @@ def disable_manuals(project):
     # debian/rules: remove --enable-manuals etc.
     lib.run_cmd(["sed", "-i", "s/--enable-manuals//g", f"{debian}/rules"])
     lib.run_cmd(["sed", "-i", "s/--enable-doxygen//g", f"{debian}/rules"])
-    lib.run_cmd(["sed", "-i", "s/$(MAKE) -C doc\/manuals//g", f"{debian}/rules"])
+    lib.run_cmd(["sed", "-i", "s/$(MAKE) -C doc\\/manuals//g", f"{debian}/rules"])
 
 
 def build_source_package(project):
