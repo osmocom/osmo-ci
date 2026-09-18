@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 
 
-def test_gerrit_verifications_binpkgs():
+def test_jobs_gerrit_verifications_binpkgs():
     """Ensure we don't use more parameters for pipeline_binpkgs than the
     pipeline can handle."""
     yml = Path(Path(__file__) / "../../jobs/gerrit-verifications.yml").resolve()
