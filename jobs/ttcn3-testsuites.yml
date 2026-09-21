@@ -55,25 +55,6 @@
       - TTCN3-centos7-pcap-client-test-latest:  # ~1 min
           timer: H 07 * * *
 
-      # BTS testsuites tend to fail with timeouts on heavy loads. Group them
-      # here in timeslots where jenkins nodes are otherwise not busy according
-      # to stats in grafana to hopefully make the test results more stable.
-      # See also jobs/README.md.
-      # Once we can replace faketrx with a rewrite (OS#6672), this should not
-      # be necessary anymore.
-      - ttcn3-bts-test-io_uring:  # ~135 min
-          timer: 30 01 * * *
-          node: build4-deb12build-ansible
-      - ttcn3-bts-test:  # ~135 min
-          timer: 30 01 * * *
-          node: build5-deb12build-ansible
-      - ttcn3-bts-test-latest:  # ~135 min
-          timer: 30 03 * * *
-          node: build4-deb12build-ansible
-      - ttcn3-bts-test-asan:  # ~135 min
-          timer: 30 03 * * *
-          node: build5-deb12build-ansible
-
 - job-template:
     name: '{job-name}'
     project-type: freestyle

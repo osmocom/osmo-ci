@@ -26,6 +26,12 @@
       # ---------------------------------------------
       # Debian nightly
       # ---------------------------------------------
+      - ttcn3-bts-test:  # ~135 min
+          testsuite: bts
+          args: -b osmocom:nightly -c all
+          timer: 30 01 * * *
+          node: build5-deb12build-ansible
+
       - ttcn3-hnbgw-test:  # ~13 min
           testsuite: hnbgw
           args: -b osmocom:nightly -c all
@@ -247,6 +253,12 @@
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
+      - ttcn3-bts-test-latest:  # ~135 min
+          testsuite: bts
+          args: -b osmocom:latest -c all
+          timer: 30 03 * * *
+          node: build4-deb12build-ansible
+
       - ttcn3-pcu-test-latest:  # ~14 min
           testsuite: pcu
           args: -b osmocom:latest -c generic
@@ -461,6 +473,12 @@
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
+      - ttcn3-bts-test-io_uring:  # ~135 min
+          testsuite: bts
+          args: -b osmocom:nightly --io-uring -c all
+          timer: 30 01 * * *
+          node: build4-deb12build-ansible
+
       - ttcn3-mgw-test-io_uring:  # ~8 min
           testsuite: mgw
           args: -b osmocom:nightly --io-uring
@@ -504,6 +522,12 @@
       # ---------------------------------------------
       # Debian nightly + asan (OS#5301)
       # ---------------------------------------------
+      - ttcn3-bts-test-asan:  # ~135 min
+          testsuite: bts
+          args: -b osmocom:nightly:asan -c all
+          timer: 30 03 * * *
+          node: build5-deb12build-ansible
+
       - ttcn3-mgw-test-asan:  # ~8 min
           testsuite: mgw
           args: -b osmocom:nightly:asan
