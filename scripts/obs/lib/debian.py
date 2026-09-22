@@ -111,11 +111,11 @@ def changelog_add_entry_if_needed(project, version):
     changelog_add_entry(project, version)
 
 
-def configure_append(project, parameters):
+def configure_append_debian_rules(project, parameters):
     """Add one or more configure parameters like --enable-sanitize to the
     dh_auto_configure line, also add the override_dh_auto_configure block
     if missing."""
-    print(f"{project}: adding configure parameters: {parameters}")
+    print(f"{project}: adding configure parameters to debian/rules: {parameters}")
     rules = f"{lib.git.get_repo_path(project)}/debian/rules"
     override_found = False
     with open(rules, "r") as f:
@@ -141,6 +141,28 @@ def configure_append(project, parameters):
         ]
     with open(rules, "w") as f:
         f.writelines(lines)
+
+
+def configure_append_src_makefile(project, parameters):
+    """For osmocom-bb we need to adjust places where HOST_CONFARGS is used in
+    src/Makefile."""
+    makefile = f"{lib.git.get_repo_path(project)}/src/Makefile"
+    if not os.path.exists(makefile):
+        return
+    print(f"{project}: adding configure parameters to src/Makefile: {parameters}")
+    lib.run_cmd(
+        [
+            "sed",
+            "-i",
+            f"s/$(HOST_CONFARGS)/$(HOST_CONFARGS) {parameters}/g",
+            makefile,
+        ]
+    )
+
+
+def configure_append(project, parameters):
+    configure_append_debian_rules(project, parameters)
+    configure_append_src_makefile(project, parameters)
 
 
 def disable_manuals(project):
