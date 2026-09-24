@@ -9,7 +9,10 @@ repos_api="
 	libosmo-netif
 	libosmo-abis
 	libosmo-sigtran
+	libusrp
+	osmo-e1d
 	osmo-gmr
+	osmo-trx
 "
 
 # Source common.sh from osmo-ci.git for osmo_git_clone_url()
