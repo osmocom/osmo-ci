@@ -29,6 +29,7 @@
       - ttcn3-bts-test:  # ~135 min
           testsuite: bts
           args: -b osmocom:nightly -c all
+          init-osmo-dev: true
           timer: 30 01 * * *
           node: build5-deb12build-ansible
 
@@ -256,6 +257,7 @@
       - ttcn3-bts-test-latest:  # ~135 min
           testsuite: bts
           args: -b osmocom:latest -c all
+          init-osmo-dev: true
           timer: 30 03 * * *
           node: build4-deb12build-ansible
 
@@ -476,6 +478,7 @@
       - ttcn3-bts-test-io_uring:  # ~135 min
           testsuite: bts
           args: -b osmocom:nightly --io-uring -c all
+          init-osmo-dev: true
           timer: 30 01 * * *
           node: build4-deb12build-ansible
 
@@ -525,6 +528,7 @@
       - ttcn3-bts-test-asan:  # ~135 min
           testsuite: bts
           args: -b osmocom:nightly:asan -c all
+          init-osmo-dev: true
           timer: 30 03 * * *
           node: build5-deb12build-ansible
 
