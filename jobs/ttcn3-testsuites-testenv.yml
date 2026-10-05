@@ -654,13 +654,13 @@
       # ---------------------------------------------
       - ttcn3-onomondo-ipa-test:
           testsuite: ipad
-          build-with-osmo-dev: true
+          init-osmo-dev: true
           timer: H 17 * * *
 
       - ttcn3-onomondo-eim-test:
           testsuite: eim
           args: -c all
-          build-with-osmo-dev: true
+          init-osmo-dev: true
           timer: H 17 * * *
 
 - job-template:
@@ -698,7 +698,7 @@
           KERNEL="{kernel}"
 
           # Converting to lowercase is needed as jenkins-job-builder sets it to "True" / "False"
-          BUILD_WITH_OSMO_DEV="$(echo '{build-with-osmo-dev}' | tr '[:upper:]' '[:lower:]')"
+          INIT_OSMO_DEV="$(echo '{init-osmo-dev}' | tr '[:upper:]' '[:lower:]')"
 
           podman pull "$IMAGE"
 
@@ -739,7 +739,7 @@
 
           uptime | grep --color=always -o "load.*"
 
-          if $BUILD_WITH_OSMO_DEV; then
+          if $INIT_OSMO_DEV; then
             src/osmo-ttcn3-hacks/testenv.py init osmo-dev
           fi
 
@@ -798,4 +798,4 @@
         colormap: xterm
     email: jenkins-notifications@lists.osmocom.org
     args: ""
-    build-with-osmo-dev: false
+    init-osmo-dev: false
