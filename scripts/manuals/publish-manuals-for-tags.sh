@@ -264,6 +264,14 @@ get_configure_opts_from_repo_name() {
 	osmo-msc|osmo-sgsn)
 		echo "--enable-iu"
 		;;
+	osmo-trx)
+		echo "--with-bladerf"
+		echo "--with-ipc"
+		echo "--with-lms"
+		echo "--with-mstrx"
+		echo "--with-uhd"
+		echo "--with-usrp1"
+		;;
 	esac
 }
 
@@ -379,7 +387,7 @@ clone_repo() {
 build_publish_manuals() {
 	local repo="$1"
 	local tag="$2"
-	local configure_opts="--enable-manuals $(get_configure_opts_from_repo_name "$repo")"
+	local configure_opts="--enable-manuals $(get_configure_opts_from_repo_name "$repo" | tr '\n' ' ')"
 	echo "$LOG_PREFIX Building manuals"
 
 	if ! docker run \
