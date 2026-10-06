@@ -44,7 +44,19 @@ done
 
 # Upload all docs
 for i in $repos_api; do
-	if ! [ -d "$i"/doc ]; then
+	# Some repos ship their API docs in a subdirectory, under a different name
+	case "$i" in
+	osmo-trx)
+		doc_dir="$i/libosmo-trx/doc"
+		dest="$i/libosmo-trx"
+		;;
+	*)
+		doc_dir="$i/doc"
+		dest="$i"
+		;;
+	esac
+
+	if ! [ -d "$doc_dir" ]; then
 		# e.g. libosmo-abis is built as dependency for others but doesn't
 		# have its own doxygen documentation as of writing
 		continue
@@ -54,6 +66,6 @@ for i in $repos_api; do
 		-avz \
 		--delete \
 		-e "$SSH_CMD" \
-		./"$i"/doc/ \
-		api@ftp.osmocom.org:web-files/latest/"$i"/
+		./"$doc_dir"/ \
+		api@ftp.osmocom.org:web-files/latest/"$dest"/
 done
