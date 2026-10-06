@@ -398,7 +398,7 @@ build_publish_manuals() {
 		-e "OSMO_REPOSITORY=$(get_docs_dir_from_repo_name "$repo")" \
 		-e "PUBLISH_REF=$tag" \
 		-e "SSH_AUTH_SOCK=/ssh-agent" \
-		-v "$OSMO_CI_DIR/scripts/manuals:/manuals" \
+		-v "$OSMO_CI_DIR/scripts:/osmo-ci-scripts" \
 		-v "$TEMP/src/$repo/:/build" \
 		-v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
 		"$DOCKER_IMAGE" \
@@ -422,7 +422,7 @@ build_publish_manuals() {
 
 			# Remove DRAFT in osmo-gsm-manuals
 			cd /opt/osmo-gsm-manuals/
-			patch -p1 < /manuals/0001-build-set-ASCIIDOCSTYLE-to-remove-DRAFT.patch
+			patch -p1 < /osmo-ci-scripts/manuals/0001-build-set-ASCIIDOCSTYLE-to-remove-DRAFT.patch
 
 			# Build manuals
 			cd /build
