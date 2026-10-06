@@ -278,7 +278,10 @@ get_configure_opts_from_repo_name() {
 	osmo-hnbgw)
 		echo "--enable-pfcp"
 		;;
-	osmo-msc|osmo-sgsn)
+	osmo-msc)
+		echo "--enable-iu --enable-smpp"
+		;;
+	osmo-sgsn)
 		echo "--enable-iu"
 		;;
 	osmo-trx)
