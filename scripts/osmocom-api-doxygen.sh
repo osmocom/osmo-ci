@@ -62,9 +62,21 @@ for i in $repos_api; do
 		continue
 	fi
 
+	# Upload only doxygen output (html/ and latex/ trees, possibly nested in
+	# a per-library subdirectory, plus tag files and html.tar), but not the
+	# other files in doc/ (Makefiles, examples, manuals, ...). Excluded
+	# files that were uploaded previously get deleted on the server.
 	rsync \
 		-avz \
 		--delete \
+		--delete-excluded \
+		--prune-empty-dirs \
+		--include='html/***' \
+		--include='latex/***' \
+		--include='/*.tag' \
+		--include='/html.tar' \
+		--include='*/' \
+		--exclude='*' \
 		-e "$SSH_CMD" \
 		./"$doc_dir"/ \
 		api@ftp.osmocom.org:web-files/latest/"$dest"/
