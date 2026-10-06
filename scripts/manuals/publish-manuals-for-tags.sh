@@ -258,6 +258,21 @@ check_ssh_auth_sock() {
 # $1: repo name
 get_configure_opts_from_repo_name() {
 	case "$1" in
+	osmo-bts)
+		# contrib/jenkins_sysmobts.sh
+		echo "--enable-sysmocom-bts"
+		echo "--with-sysmobts=/tmp/sysmo/layer1-headers/include/"
+		# contrib/jenkins_oct_and_bts_trx.sh
+		echo "--enable-octphy"
+		echo "--enable-trx"
+		echo "--with-octsdr-2g=/tmp/oct/layer1-headers/"
+		# contrib/jenkins_lc15.sh
+		echo "--enable-litecell15"
+		echo "--with-litecell15=/tmp/lc15/layer1-headers/inc/"
+		# contrib/jenkins_oc2g.sh
+		echo "--enable-oc2g"
+		echo "--with-oc2g=/tmp/oc2g/layer1-headers/inc/"
+		;;
 	osmo-hnbgw)
 		echo "--enable-pfcp"
 		;;
@@ -423,6 +438,13 @@ build_publish_manuals() {
 			# Remove DRAFT in osmo-gsm-manuals
 			cd /opt/osmo-gsm-manuals/
 			patch -p1 < /osmo-ci-scripts/manuals/0001-build-set-ASCIIDOCSTYLE-to-remove-DRAFT.patch
+
+			# Other preparations
+			case $repo in
+			osmo-bts)
+				su build -c \"sh -ex /osmo-ci-scripts/manuals/osmo-bts-get-all-headers.sh\"
+				;;
+			esac
 
 			# Build manuals
 			cd /build
