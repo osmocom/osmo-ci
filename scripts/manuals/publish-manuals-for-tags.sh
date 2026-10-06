@@ -2,6 +2,7 @@
 . "$(dirname "$0")/../common.sh"
 OSMO_CI_DIR="$(realpath $(dirname "$0")/../..)"
 TEMP="$OSMO_CI_DIR/_temp_manuals"
+L1_DIR="/tmp/osmo-layer1-headers"
 WEB_PATH="/downloads/home/docs/web-files"
 SSH_COMMAND="ssh -o UserKnownHostsFile=$TEMP/src/osmo-gsm-manuals/build/known_hosts -p 48"
 DOCKER_IMAGE="$USER/debian-trixie-build"
@@ -245,6 +246,7 @@ TAGS_IGNORE="
 
 mkdir -p \
 	"$TEMP" \
+	"$TEMP/osmo-layer1-headers" \
 	"$TEMP/src"
 
 check_ssh_auth_sock() {
@@ -258,6 +260,21 @@ check_ssh_auth_sock() {
 # $1: repo name
 get_configure_opts_from_repo_name() {
 	case "$1" in
+	osmo-bts)
+		# contrib/jenkins_sysmobts.sh
+		echo "--enable-sysmocom-bts"
+		echo "--with-sysmobts=$L1_DIR/sysmo/inst/include"
+		# contrib/jenkins_oct_and_bts_trx.sh
+		echo "--enable-octphy"
+		echo "--enable-trx"
+		echo "--with-octsdr-2g=$L1_DIR/oct/layer1-headers/"
+		# contrib/jenkins_lc15.sh
+		echo "--enable-litecell15"
+		echo "--with-litecell15=$L1_DIR/lc15/layer1-headers/inc/"
+		# contrib/jenkins_oc2g.sh
+		echo "--enable-oc2g"
+		echo "--with-oc2g=$L1_DIR/oc2g/layer1-headers/inc/"
+		;;
 	osmo-hnbgw)
 		echo "--enable-pfcp"
 		;;
@@ -400,6 +417,7 @@ build_publish_manuals() {
 		-e "SSH_AUTH_SOCK=/ssh-agent" \
 		-v "$OSMO_CI_DIR/scripts:/osmo-ci-scripts" \
 		-v "$TEMP/src/$repo/:/build" \
+		-v "$TEMP/osmo-layer1-headers/:$L1_DIR" \
 		-v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
 		"$DOCKER_IMAGE" \
 		sh -ex -c "
@@ -423,6 +441,13 @@ build_publish_manuals() {
 			# Remove DRAFT in osmo-gsm-manuals
 			cd /opt/osmo-gsm-manuals/
 			patch -p1 < /osmo-ci-scripts/manuals/0001-build-set-ASCIIDOCSTYLE-to-remove-DRAFT.patch
+
+			# Other preparations
+			case $repo in
+			osmo-bts)
+				su build -c \"sh -ex /osmo-ci-scripts/manuals/osmo-bts-get-all-headers.sh\"
+				;;
+			esac
 
 			# Build manuals
 			cd /build
