@@ -15,9 +15,9 @@ RUN	set -x && \
 # Patch sources.list for EOL distros
 RUN	case "$DISTRO" in \
 	debian:11) \
-		( echo "deb http://archive.debian.org/debian bullseye main"; \
-		  echo "deb http://archive.debian.org/debian-security bullseye-security main"; \
-		  echo "deb http://archive.debian.org/debian bullseye-updates main"; \
+		( echo "deb http://snapshot.debian.org/archive/debian/20260814T143040Z bullseye main"; \
+		  echo "deb http://snapshot.debian.org/archive/debian-security/20260814T165831Z bullseye-security main"; \
+		  echo "deb http://snapshot.debian.org/archive/debian/20260814T143040Z bullseye-updates main"; \
 		) > /etc/apt/sources.list \
 		;; \
 	esac
