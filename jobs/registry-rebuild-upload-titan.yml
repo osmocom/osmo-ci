@@ -19,6 +19,11 @@
       - build-discarder:
           days-to-keep: 30
           num-to-keep: 30
+    parameters:
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
     node: osmocom-master
     parameters:
       - string:
@@ -38,7 +43,7 @@
     publishers:
       - email:
           notify-every-unstable-build: true
-          recipients: 'jenkins-notifications@lists.osmocom.org'
+          recipients: '$EMAIL_NOTIFICATIONS'
 
 - job:
     name: registry-rebuild-upload-ttcn3-bts-tests
@@ -84,6 +89,10 @@
           name: BRANCH
           description: osmo-ttcn3-hacks.git branch
           default: 'master'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ttcn3-hacks
@@ -105,6 +114,6 @@
     publishers:
        - email:
           notify-every-unstable-build: true
-          recipients: 'jenkins-notifications@lists.osmocom.org'
+          recipients: '$EMAIL_NOTIFICATIONS'
 
 # vim: expandtab tabstop=2 shiftwidth=2
