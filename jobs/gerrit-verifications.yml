@@ -581,21 +581,25 @@
       - osmo-ttcn3-hacks:
           slave_axis: !!python/tuple [ttcn3]
           cmd: |
-            docker run \
+            TITAN_VERSION=11.1.0
+            DISTRO="debian:trixie"
+            IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
+
+            podman run \
               --rm \
               -v "$PWD:/build" \
-              "registry.osmocom.org/osmocom-build/debian-bookworm-titan" \
+              -w "/build" \
+              "$IMAGE" \
               {timeout_cmd} \
-              sh -e -x -c '
-                useradd --uid=1000 build
-                for i in /osmo-ttcn3-hacks/deps/*/; do
-                  if ! [ -e /build/deps/"$(basename "$i")" ]; then
-                    ln -s "$i" /build/deps/
-                  fi
-                done
-                su build -c "make -C /build clean compile"
-                '
+              sh -e -x -c "
+                export TTCN3_DIR='/opt/eclipse-titan-$TITAN_VERSION'
+                export PATH=\"\$TTCN3_DIR/bin:\$PATH\"
+                make deps
+                make compile
+                make clean
+                "
           pipeline_binpkgs: ""
+          wipe: true
 
       - dahdi-tools:
           pipeline_lint: false
