@@ -102,11 +102,13 @@
       - shell: |
           REGISTRY="registry.osmocom.org"
           DISTRO="debian:trixie"
+          REPODIR="Debian_13"
           IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
 
           podman build \
             --build-arg DISTRO="$DISTRO" \
             --build-arg REGISTRY="$REGISTRY" \
+            --build-arg REPODIR="$REPODIR" \
             -t "$IMAGE" \
             _testenv/data/podman
 
