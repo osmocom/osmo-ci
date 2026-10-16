@@ -572,7 +572,11 @@
               -e WITH_MANUALS="$WITH_MANUALS" \
               "$DOCKER_IMG" {wrapper_cmd} $SETARCH_CMD /build/contrib/jenkins.sh
 
-      - osmocom-bb
+      - osmocom-bb:
+          ssh:
+            - binaries_ftp.osmocom.org
+            - docs_ftp.osmocom.org
+
       - osmo-sysmon
       - osmo-remsim
       - osmo-asf4-dfu:
