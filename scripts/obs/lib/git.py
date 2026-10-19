@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Copyright 2022 sysmocom - s.f.m.c. GmbH <info@sysmocom.de>
+import fnmatch
 import os
 import re
 import lib.config
@@ -11,8 +12,9 @@ def get_repo_path(project):
 
 
 def get_repo_url(project):
-    if project in lib.config.git_url_other:
-        return lib.config.git_url_other[project]
+    for pattern, url in lib.config.git_url_other.items():
+        if fnmatch.fnmatch(project, pattern):
+            return url
     return f"{lib.config.git_url_default}/{project}"
 
 

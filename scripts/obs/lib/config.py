@@ -105,6 +105,7 @@ projects_other = [
 
 git_url_default = "https://gerrit.osmocom.org"  # /project gets appended
 git_url_other = {
+    "eclipse-titan*": "https://gitea.osmocom.org/ttcn3/titan.core",
     "libosmo-dsp": "https://gitea.osmocom.org/sdr/libosmo-dsp",
     "libosmo-sccp-legacy": "https://gitea.osmocom.org/osmocom/libosmo-sccp-legacy",
     "neocon": "https://github.com/laf0rge/neocon",
