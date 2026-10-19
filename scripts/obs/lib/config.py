@@ -106,13 +106,13 @@ projects_other = [
 git_url_default = "https://gerrit.osmocom.org"  # /project gets appended
 git_url_other = {
     "libosmo-dsp": "https://gitea.osmocom.org/sdr/libosmo-dsp",
+    "libosmo-sccp-legacy": "https://gitea.osmocom.org/osmocom/libosmo-sccp-legacy",
     "neocon": "https://github.com/laf0rge/neocon",
     "open5gs": "https://github.com/open5gs/open5gs",
     "osmo-fl2k": "https://gitea.osmocom.org/sdr/osmo-fl2k",
+    "pyhss": "https://github.com/nickvsnetworking/pyhss",
     "rtl-sdr": "https://gitea.osmocom.org/sdr/rtl-sdr",
     "strongswan-epdg": "https://gitea.osmocom.org/ims-volte-vowifi/strongswan-epdg",
-    "libosmo-sccp-legacy": "https://gitea.osmocom.org/osmocom/libosmo-sccp-legacy",
-    "pyhss": "https://github.com/nickvsnetworking/pyhss",
 }
 
 git_branch_default = "master"
