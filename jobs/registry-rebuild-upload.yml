@@ -9,6 +9,8 @@
           image: "debian-bookworm-aram-applet"
       - registry-rebuild-upload-rp2040:
           image: "debian-bookworm-rp2040"
+      - registry-rebuild-upload-pysim-build:
+          image: "pysim-build"
 
 - job-template:
     name: '{job-name}'

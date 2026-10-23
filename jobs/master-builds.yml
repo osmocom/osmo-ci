@@ -45,6 +45,7 @@
               -u build \
               -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
               -v "$HOME/osmo-ci:/osmo-ci:ro" \
+              -v "$HOME/osmo-gsm-manuals:/opt/osmo-gsm-manuals:ro" \
               -v "$PWD:/build" \
               -v "$HOME/.ssh:/home/build/.ssh:ro" \
     docker_run_ccache: |
@@ -84,6 +85,7 @@
     docker_img_android: 'registry.osmocom.org/osmocom-build/debian-bookworm-android'
     docker_img_aram_applet: 'registry.osmocom.org/osmocom-build/debian-bookworm-aram-applet'
     docker_img_rp2040: 'registry.osmocom.org/osmocom-build/debian-bookworm-rp2040'
+    docker_img_pysim: 'registry.osmocom.org/osmocom-build/pysim-build'
     timeout_cmd: '/usr/bin/timeout 30m'
     wrapper_cmd: '{timeout_cmd} /osmo-ci/scripts/wrapper_core_bt_on_error.sh'
     cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh'
@@ -665,9 +667,10 @@
               {timeout_cmd} ./contrib/jenkins.sh
               ;;
             *)
+              docker pull {docker_img_pysim}
               {docker_run} \
                 -e JOB_TYPE="$JOB_TYPE" \
-                {docker_img} \
+                {docker_img_pysim} \
                   {timeout_cmd} /build/contrib/jenkins.sh
               ;;
             esac
