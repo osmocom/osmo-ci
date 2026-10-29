@@ -38,7 +38,7 @@ def changelog_add_entry(project, version):
     version = version.replace("-", ".")
 
     # Debian changelog requires this specific date format
-    date = datetime.datetime.now(datetime.timezone.utc)
+    date = datetime.datetime.now(datetime.UTC)
     date_str = date.strftime("%a, %d %b %Y %H:%M:%S %z")
 
     # Add new changelog entry
