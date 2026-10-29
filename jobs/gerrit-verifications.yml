@@ -422,7 +422,7 @@
             *)
               {docker_run} \
                 -e JOB_TYPE="$JOB_TYPE" \
-                {docker_img} \
+                {docker_img_pysim} \
                   {timeout_cmd} /build/contrib/jenkins.sh
               ;;
             esac
