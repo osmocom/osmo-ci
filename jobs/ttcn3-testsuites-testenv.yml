@@ -257,6 +257,18 @@
           timer: H 11 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-udr-test-ogs:
+          testsuite: udr
+          args: -b osmocom:nightly
+          timer: H 11 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
+      - ttcn3-ausf-test-ogs:
+          testsuite: ausf
+          args: -b osmocom:nightly
+          timer: H 11 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -480,6 +492,16 @@
 
       - ttcn3-udm-test-ogs-latest:
           testsuite: udm
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
+      - ttcn3-udr-test-ogs-latest:
+          testsuite: udr
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
+      - ttcn3-ausf-test-ogs-latest:
+          testsuite: ausf
           args: -b osmocom:latest
           timer: H 13 * * *
 
