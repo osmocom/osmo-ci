@@ -1,0 +1,69 @@
+- job:
+    name: 'Osmocom_OBS_nightly_asan_open5gs'
+    project-type: freestyle
+    concurrent: false
+    defaults: global
+    description: |
+      Build a debian source package for open5gs with asan enabled and upload it
+      to osmocom:nightly:asan
+    properties:
+      - build-discarder:
+          days-to-keep: 30
+          num-to-keep: 30
+    node: obs
+    parameters:
+      - string:
+          name: BRANCH_CI
+          description: osmo-ci.git branch
+          default: 'master'
+      - string:
+          name: BRANCH_OPEN5GS
+          description: open5gs.git branch
+          default: 'main'
+      - string:
+          name: EMAIL_NOTIFICATIONS
+          description: For failed build notifications, set to empty to disable
+          default: 'jenkins-notifications@lists.osmocom.org'
+    builders:
+      - shell: |
+          mkdir -p scripts/obs/_cache
+
+          git \
+            -C scripts/obs/_cache \
+            clone \
+            -b "$BRANCH_OPEN5GS" \
+            https://github.com/open5gs/open5gs
+
+          patch \
+            scripts/obs/_cache/open5gs/debian/rules \
+            scripts/obs/data/open5gs/0001-debian-build-with-asan.patch
+
+          export PYTHONUNBUFFERED=1
+
+          ./scripts/obs/update_obs_project.py \
+            --apiurl https://obs.osmocom.org \
+            --conflict-pkgname "osmocom-nightly-asan" \
+            --docker \
+            --feed "nightly" \
+            --git-skip-checkout \
+            --git-skip-fetch \
+            --version-append "~asan" \
+            osmocom:nightly:asan \
+            open5gs
+
+          # Remove workspace on success to free up space
+          rm -rf "$WORKSPACE"
+    scm:
+      - git:
+          branches:
+            - '$BRANCH_CI'
+          url: https://gerrit.osmocom.org/osmo-ci
+          git-config-name: 'Jenkins Builder'
+          git-config-email: 'jenkins@osmocom.org'
+    triggers:
+      - timed: "H 20 * * *"
+
+    publishers:
+      - email:
+          notify-every-unstable-build: true
+          recipients: '$EMAIL_NOTIFICATIONS'
