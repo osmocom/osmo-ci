@@ -696,6 +696,63 @@
           args: -b osmocom:nightly:asan
           timer: H 17 * * *
 
+      - ttcn3-hss-test-ogs-asan:  # ~1 min
+          testsuite: hss
+          args: -b osmocom:nightly:asan -c open5gs
+          timer: H 18 * * *
+
+      - ttcn3-mme-test-ogs-asan:  # ~2 min
+          testsuite: mme
+          args: -b osmocom:nightly:asan -c all
+          timer: H 18 * * *
+
+      - ttcn3-pcrf-test-ogs-asan:  # ~1 min
+          testsuite: pcrf
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
+      - ttcn3-5gc-test-ogs-asan:  # ~1 min
+          testsuite: 5gc
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
+      - ttcn3-ggsn-test-ogs-asan:  # ~10 min
+          testsuite: ggsn
+          args: -b osmocom:nightly:asan -c open5gs
+          timer: H 18 * * *
+
+      - ttcn3-pgw-test-ogs-asan:  # ~7 min
+          testsuite: pgw
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+          description_extra: |
+            Test open5gs-smfd + open5gs-upfd PGW main.
+
+      - ttcn3-smf-test-ogs-asan:  # ~7 min
+          testsuite: smf
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
+      - ttcn3-udm-test-ogs-asan:
+          testsuite: udm
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
+      - ttcn3-udr-test-ogs-asan:
+          testsuite: udr
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
+      - ttcn3-ausf-test-ogs-asan:
+          testsuite: ausf
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
+      - ttcn3-pcf-test-ogs-asan:
+          testsuite: pcf
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
       # ---------------------------------------------
       # Build from source with osmo-dev (for programs
       # where we don't have binary packages in OBS)
