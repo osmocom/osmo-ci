@@ -275,6 +275,12 @@
           timer: H 11 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-bsf-test-ogs:
+          testsuite: bsf
+          args: -b osmocom:nightly
+          timer: H 11 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -516,6 +522,11 @@
           args: -b osmocom:latest
           timer: H 13 * * *
 
+      - ttcn3-bsf-test-ogs-latest:
+          testsuite: bsf
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
       # ---------------------------------------------
       # Debian nightly + io_uring (OS#6357)
       # ---------------------------------------------
@@ -750,6 +761,11 @@
 
       - ttcn3-pcf-test-ogs-asan:
           testsuite: pcf
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+
+      - ttcn3-bsf-test-ogs-asan:
+          testsuite: bsf
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
 
