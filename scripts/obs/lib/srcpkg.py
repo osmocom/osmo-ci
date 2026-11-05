@@ -187,6 +187,14 @@ def prepare_project_open5gs():
 
 def prepare_project_pyhss():
     repo_path = lib.git.get_repo_path("pyhss")
+
+    # Workaround for https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1152361
+    lib.run_cmd(
+        "echo 'tzdata  # vendor-in-deb' >> requirements.txt",
+        cwd=repo_path,
+        shell=True,
+    )
+
     script = "debian/pyhss_download_deps.sh"
     lib.run_cmd(["sh", "-e", script], cwd=repo_path)
 
