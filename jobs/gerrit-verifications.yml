@@ -97,15 +97,18 @@
               -e CCACHE_DIR="/ccache" \
               -e PATH="/usr/lib/ccache:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
               -v "$CCACHE_DIR:/ccache" \
-    docker_img: '$USER/debian-trixie-build'
-    docker_img_erlang: '$USER/debian-bookworm-erlang'
+    docker_img: 'registry.osmocom.org/osmocom-build/debian-trixie-build'
+    docker_img_bookworm: 'registry.osmocom.org/osmocom-build/debian-bookworm-build'
+    docker_img_erlang: 'registry.osmocom.org/osmocom-build/debian-bookworm-erlang'
     docker_img_android: 'registry.osmocom.org/osmocom-build/debian-bookworm-android'
     docker_img_aram_applet: 'registry.osmocom.org/osmocom-build/debian-bookworm-aram-applet'
     docker_img_rp2040: 'registry.osmocom.org/osmocom-build/debian-bookworm-rp2040'
     docker_img_pysim: 'registry.osmocom.org/osmocom-build/pysim-build'
     timeout_cmd: '/usr/bin/timeout 30m'
     wrapper_cmd: '{timeout_cmd} /osmo-ci/scripts/wrapper_core_bt_on_error.sh'
-    cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh'
+    cmd: |
+      docker pull {docker_img}
+      {docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
     check_jenkins_mark: 'git show --summary --format=%B | grep "^Jenkins:" | grep -q'
     gerrit_url: 'ssh://jenkins@gerrit.osmocom.org:29418'
     repos_url: '{gerrit_url}/{repos}'
@@ -178,6 +181,7 @@
             (WITH_TCAP == "1" && WITH_MANUALS == "1") ||
             (WITH_TCAP == "0" && WITH_MANUALS == "0")
           cmd: |
+            docker pull {docker_img}
             {docker_run_ccache} \
               -e WITH_TCAP="$WITH_TCAP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
@@ -188,7 +192,9 @@
           a1_name: arch
           a1: !!python/tuple [arm-none-eabi, amd64]
           combination_filter: '!(arch=="arm-none-eabi" && label=="FreeBSD_amd64")'
-          cmd: '{docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins_arch.sh "$arch"'
+          cmd: |
+            docker pull {docker_img}
+            {docker_run_ccache} {docker_img} {wrapper_cmd} /build/contrib/jenkins_arch.sh "$arch"
           # SYS#8110: almalinux:8 (osmo-pcap dep)
           # SYS#6760: centos:7 (osmo-pcap dep)
           pipeline_binpkgs: "almalinux:8 centos:7 debian:10 debian:13"
@@ -201,7 +207,9 @@
       - libusrp
 
       - onomondo-eim:
-          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          cmd: |
+            docker pull {docker_img_erlang}
+            {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
           pipeline_binpkgs: ""
           wipe: true
 
@@ -241,6 +249,7 @@
               SETARCH_CMD="setarch linux32"
               ;;
             esac
+            docker pull "$DOCKER_IMG"
             {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e WITH_MANUALS="$WITH_MANUALS" \
@@ -249,7 +258,9 @@
       - osmo_dia2gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          cmd: |
+            docker pull {docker_img_erlang}
+            {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-epdg:
           repos_url: '{gerrit_url}/erlang/{repos}'
@@ -260,9 +271,11 @@
           cmd: |
             case "$JOB_TYPE" in
             build)
+              docker pull {docker_img_erlang}
               {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
               ;;
             manuals)
+              docker pull {docker_img}
               {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_manuals.sh
               ;;
             esac
@@ -276,9 +289,11 @@
           cmd: |
             case "$JOB_TYPE" in
             build)
+              docker pull {docker_img_erlang}
               {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
               ;;
             manuals)
+              docker pull {docker_img}
               {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins_manuals.sh
               ;;
             esac
@@ -287,7 +302,9 @@
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
           pipeline_binpkgs: ""
-          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          cmd: |
+            docker pull {docker_img_erlang}
+            {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
 
       - osmo-e1-hardware:
           a2_name: JOB_TYPE
@@ -297,9 +314,9 @@
             case "$JOB_TYPE" in
             firmware|gateware|manuals)
               DOCKER_IMG="registry.osmocom.org/$USER/fpga-build"
-              docker pull "$DOCKER_IMG"
               ;;
             esac
+            docker pull "$DOCKER_IMG"
             {docker_run} \
               -e JOB_TYPE="$JOB_TYPE" \
               "$DOCKER_IMG" \
@@ -321,6 +338,7 @@
             (GTP == "--enable-gtp-linux" && WITH_MANUALS == "0") ||
             (GTP == "--disable-gtp-linux" && WITH_MANUALS == "1")
           cmd: |
+            docker pull {docker_img}
             {docker_run_ccache} \
               -e GTP="$GTP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
@@ -332,7 +350,9 @@
       - osmo_gsup:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run_ccache} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          cmd: |
+            docker pull {docker_img_erlang}
+            {docker_run_ccache} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
           pipeline_binpkgs: ""
 
       - osmo-hlr
@@ -348,6 +368,7 @@
             (IU == "--enable-iu" && WITH_MANUALS == "1") ||
             (IU == "--disable-iu" && WITH_MANUALS == "0")
           cmd: |
+            docker pull {docker_img}
             {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
@@ -384,6 +405,7 @@
               SETARCH_CMD="setarch linux32"
               ;;
             esac
+            docker pull "$DOCKER_IMG"
             {docker_run_ccache} \
               -e FIRMWARE_VERSION="$FIRMWARE_VERSION" \
               -e with_vty="$with_vty" \
@@ -414,6 +436,7 @@
               {timeout_cmd} ./contrib/jenkins.sh
               ;;
             *)
+              docker pull {docker_img_pysim}
               {docker_run} \
                 -e JOB_TYPE="$JOB_TYPE" \
                 {docker_img_pysim} \
@@ -430,6 +453,7 @@
             (IU == "--enable-iu" && WITH_MANUALS == "1") ||
             (IU == "--disable-iu" && WITH_MANUALS == "0")
           cmd: |
+            docker pull {docker_img}
             {docker_run_ccache} \
               -e IU="$IU" \
               -e WITH_MANUALS="$WITH_MANUALS" \
@@ -438,7 +462,9 @@
       - osmo_ss7:
           repos_url: '{gerrit_url}/erlang/{repos}'
           gerrit_project: 'erlang/{repos}'
-          cmd: '{docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh'
+          cmd: |
+            docker pull {docker_img_erlang}
+            {docker_run} {docker_img_erlang} {timeout_cmd} /build/contrib/jenkins.sh
           pipeline_binpkgs: ""
 
       - osmo-sip-connector
@@ -463,6 +489,7 @@
               SETARCH_CMD="setarch linux32"
               ;;
             esac
+            docker pull "$DOCKER_IMG"
             {docker_run_ccache} \
               -e INSTR="$INSTR" \
               -e WITH_MANUALS="$WITH_MANUALS" \
@@ -489,7 +516,9 @@
 
       - osmo-opencm3-projects:
           # bookworm: OS#6859
-          cmd: '{docker_run} $USER/debian-bookworm-build {wrapper_cmd} /build/contrib/jenkins.sh'
+          cmd: |
+            docker pull {docker_img_bookworm}
+            {docker_run} {docker_img_bookworm} {wrapper_cmd} /build/contrib/jenkins.sh
           pipeline_binpkgs: ""
 
       - osmo-asf4-dfu:
@@ -500,6 +529,7 @@
           pipeline_hwtest: true
           artifacts: "**/sysmoOCTSIM-*.bin"
           cmd: |
+            docker pull {docker_img}
             {docker_run_ccache} \
               -e SKIP_FIRMWARE_CLEAN=1 \
               {docker_img} {wrapper_cmd} /build/contrib/jenkins.sh
@@ -536,6 +566,7 @@
             (PFCP == "1" && WITH_MANUALS == "1" && NFTABLES == "1") ||
             (PFCP == "0" && WITH_MANUALS == "0" && NFTABLES == "0")
           cmd: |
+            docker pull {docker_img}
             {docker_run_ccache} \
               -e PFCP="$PFCP" \
               -e WITH_MANUALS="$WITH_MANUALS" \
@@ -582,6 +613,7 @@
             DISTRO="debian:trixie"
             IMAGE="registry.osmocom.org/osmocom-build/"$(echo "$DISTRO" | tr : -)"-osmo-ttcn3-testenv"
 
+            podman pull "$IMAGE"
             podman run \
               --rm \
               -v "$PWD:/build" \
