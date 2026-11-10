@@ -209,12 +209,6 @@
           pipeline_binpkgs: ""
           wipe: true
 
-      - openggsn:
-          a1_name: GTP
-          a1: !!python/tuple [--enable-gtp-linux,--disable-gtp-linux]
-          concurrent: false
-          cmd: '{timeout_cmd} ./contrib/jenkins.sh'
-
       - osmo-bsc
       - osmo-bsc-nat
 

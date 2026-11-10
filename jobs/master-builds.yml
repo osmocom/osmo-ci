@@ -134,7 +134,7 @@
           trigger: master-osmo-iuh
 
       - libgtpnl:
-          trigger: master-osmo-ggsn, openggsn, master-osmo-upf
+          trigger: master-osmo-ggsn, master-osmo-upf
 
       - libosmo-abis:
           # Full triggers would be:
