@@ -711,26 +711,31 @@
           testsuite: hss
           args: -b osmocom:nightly:asan -c open5gs
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-mme-test-ogs-asan:  # ~2 min
           testsuite: mme
           args: -b osmocom:nightly:asan -c all
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-pcrf-test-ogs-asan:  # ~1 min
           testsuite: pcrf
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-5gc-test-ogs-asan:  # ~1 min
           testsuite: 5gc
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-ggsn-test-ogs-asan:  # ~10 min
           testsuite: ggsn
           args: -b osmocom:nightly:asan -c open5gs
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-pgw-test-ogs-asan:  # ~7 min
           testsuite: pgw
@@ -738,36 +743,43 @@
           timer: H 18 * * *
           description_extra: |
             Test open5gs-smfd + open5gs-upfd PGW main.
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-smf-test-ogs-asan:  # ~7 min
           testsuite: smf
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-udm-test-ogs-asan:
           testsuite: udm
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-udr-test-ogs-asan:
           testsuite: udr
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-ausf-test-ogs-asan:
           testsuite: ausf
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-pcf-test-ogs-asan:
           testsuite: pcf
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       - ttcn3-bsf-test-ogs-asan:
           testsuite: bsf
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
       # ---------------------------------------------
       # Build from source with osmo-dev (for programs
