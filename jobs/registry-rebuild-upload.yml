@@ -11,6 +11,12 @@
           image: "debian-bookworm-rp2040"
       - registry-rebuild-upload-pysim-build:
           image: "pysim-build"
+      - registry-rebuild-upload-bookworm-build:
+          image: "debian-bookworm-build"
+      - registry-rebuild-upload-bookworm-erlang:
+          image: "debian-bookworm-erlang"
+      - registry-rebuild-upload-trixie-build:
+          image: "debian-trixie-build"
 
 - job-template:
     name: '{job-name}'
