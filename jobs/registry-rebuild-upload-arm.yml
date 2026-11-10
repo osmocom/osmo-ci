@@ -1,0 +1,45 @@
+- project:
+    name: registry-rebuild-upload
+    jobs:
+      - "{job-name}"
+    job-name:
+      - registry-rebuild-upload-trixie-build-arm:
+          image: "debian-trixie-build-arm"
+          base: "arm32v7/debian:trixie"
+
+- job-template:
+    name: '{job-name}'
+    node: lx2-raspbian13build-ansible
+    description: |
+        Build the <code>{image}</code> image from
+        <a href="https://gitea.osmocom.org/osmocom/docker-playground/">
+          docker-playground
+        </a> and push it to the Osmocom registry.
+    concurrent: false
+    parameters:
+      - string:
+          name: BRANCH
+          description: |
+                Branch of <code>docker-playground.git</code>
+          default: 'master'
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/docker-playground
+          skip-tag: true
+          branches:
+            - '$BRANCH'
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+
+          docker pull {base}
+          docker tag {base} "$REGISTRY"/{base}
+
+          setarch linux32 make -C "{image}" REGISTRY_HOST=$REGISTRY
+          docker push "$REGISTRY/osmocom-build/{image}"
+    properties:
+      - build-discarder:
+          num-to-keep: 120
+    wrappers:
+      - ansicolor:
+          colormap: xterm
