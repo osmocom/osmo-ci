@@ -24,12 +24,6 @@
           description: |
                 osmo-ci.git branch
           default: 'master'
-      - string:
-          # Used in scripts/common.sh:docker_images_require()
-          name: OSMO_BRANCH_DOCKER_PLAYGROUND
-          description: |
-                docker-playground.git branch
-          default: 'master'
     scm:
       - git:
           url: https://gerrit.osmocom.org/osmo-ci
@@ -59,28 +53,6 @@
     publishers:
       - email:
           recipients: jenkins-notifications@lists.osmocom.org
-
-# Trigger from docker-playground.git too
-- job:
-    name: update-osmo-ci-on-slaves-dp
-    description: |
-      Trigger <a href="https://jenkins.osmocom.org/jenkins/job/update-osmo-ci-on-slaves/">update-osmo-ci-on-slaves</a>
-      on changes in docker-playground.git, so it can rebuild docker containers relevant for the jenkins slaves.
-    scm:
-      - git:
-          url: https://gerrit.osmocom.org/docker-playground
-          git-config-name: 'Jenkins Builder'
-          git-config-email: 'jenkins@osmocom.org'
-          skip-tag: true
-          branches:
-            - 'master'
-    triggers:
-      - pollscm:
-          cron: "H/5 * * * *"
-          ignore-post-commit-hooks: false
-    publishers:
-      - trigger:
-          project: "update-osmo-ci-on-slaves"
 
 
 # vim: expandtab tabstop=2 shiftwidth=2

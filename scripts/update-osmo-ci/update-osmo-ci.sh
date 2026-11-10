@@ -30,7 +30,3 @@ clone_repo() {
 
 clone_repo osmo-ci
 clone_repo osmo-gsm-manuals
-
-if [ `uname` = "Linux" ] && [ "x${OSMO_CI_NO_DOCKER}" != "x1" ]; then
-	scripts/osmo-ci-docker-rebuild.sh
-fi
