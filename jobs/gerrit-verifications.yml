@@ -92,6 +92,7 @@
               -i \
               -u build \
               -v "$HOME/osmo-ci:/osmo-ci:ro" \
+              -v "$HOME/osmo-gsm-manuals:/opt/osmo-gsm-manuals:ro" \
               -v "$PWD:/build" \
               \
               -e CCACHE_DIR="/ccache" \
