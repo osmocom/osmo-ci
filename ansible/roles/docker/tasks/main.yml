@@ -56,5 +56,7 @@
 - name: cleanup vfs storage dir
   shell: "docker info | grep -q 'Storage Driver: overlay2' || rm -rf /var/lib/docker/vfs"
 
-# After docker is set up, add docuum to clean old docker images
-- import_tasks: docuum.yml
+# Only needed on machines that frequently build images (x86_64 machines)
+- name: Add docuum to clean old docker images
+  ansible.builtin.import_tasks: docuum.yml
+  when: ansible_facts["architecture"] == "x86_64"
