@@ -4,7 +4,7 @@ OSMO_CI_DIR="$(realpath $(dirname "$0")/../..)"
 TEMP="$OSMO_CI_DIR/_temp_releases"
 WEB_PATH="/downloads/home/releases/web-files"
 SSH_COMMAND="ssh -o UserKnownHostsFile=$OSMO_CI_DIR/contrib/known_hosts -p 48"
-DOCKER_IMAGE="$USER/debian-bookworm-build"
+DOCKER_IMAGE="osmocom-build/debian-bookworm-build"
 LOG_PREFIX="::"
 
 OSMO_RELEASE_REPOS="

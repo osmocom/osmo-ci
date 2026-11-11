@@ -31,7 +31,7 @@
             -u build \
             -v "$PWD:/build" \
             -w /build \
-            "$USER/debian-bookworm-build" \
+            "osmocom-build/debian-bookworm-build" \
             scripts/osmocom-build-old-tags-against-master.sh
 
           # Remove git repos and build results on success to free up space

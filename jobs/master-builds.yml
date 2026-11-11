@@ -390,7 +390,7 @@
             DOCKER_IMG="{docker_img}"
             case "$JOB_TYPE" in
             firmware|gateware)
-              DOCKER_IMG="registry.osmocom.org/$USER/fpga-build"
+              DOCKER_IMG="registry.osmocom.org/osmocom-build/fpga-build"
               ;;
             esac
             docker pull "$DOCKER_IMG"
@@ -403,7 +403,7 @@
             - docs_ftp.osmocom.org
       - ice40-usbtrace:
           repos_url: '{gitea_url}/electronics/{repos}'
-          docker_img: 'registry.osmocom.org/$USER/fpga-build'
+          docker_img: 'registry.osmocom.org/osmocom-build/fpga-build'
           cmd: |
             docker pull {docker_img}
             {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish
@@ -412,7 +412,7 @@
             - docs_ftp.osmocom.org
       - no2bootloader:
           repos_url: 'https://github.com/no2fpga/{repos}'
-          docker_img: 'registry.osmocom.org/$USER/fpga-build'
+          docker_img: 'registry.osmocom.org/osmocom-build/fpga-build'
           cmd: |
             docker pull {docker_img}
             {docker_run} {docker_img} {timeout_cmd} /build/contrib/jenkins.sh --publish

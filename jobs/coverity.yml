@@ -20,7 +20,7 @@
             -v "$HOME/osmo-ci/coverity:/opt/osmo-ci/coverity:ro" \
             -v "/opt/coverity:/opt/coverity:ro" \
             -w /build/coverity \
-            "$USER/debian-bookworm-build" \
+            "osmocom-build/debian-bookworm-build" \
             ./jenkins.sh
     publishers:
       - email:

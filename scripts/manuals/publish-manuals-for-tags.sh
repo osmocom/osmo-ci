@@ -5,7 +5,7 @@ TEMP="$OSMO_CI_DIR/_temp_manuals"
 L1_DIR="/tmp/osmo-layer1-headers"
 WEB_PATH="/downloads/home/docs/web-files"
 SSH_COMMAND="ssh -o UserKnownHostsFile=$TEMP/src/osmo-gsm-manuals/build/known_hosts -p 48"
-DOCKER_IMAGE="$USER/debian-trixie-build"
+DOCKER_IMAGE="osmocom-build/debian-trixie-build"
 LOG_PREFIX="::"
 
 # Releases that were made before shared osmo-gsm-manuals, or where build fails

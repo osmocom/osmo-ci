@@ -33,5 +33,5 @@ docker run \
 	-e "PROJ=$PROJ" \
 	-v "$SCRIPTS:/scripts" \
 	-v "$(realpath "$OSCRC"):/home/user/.oscrc" \
-	"$USER/$IMAGE" \
+	"osmocom-build/$IMAGE" \
 	sh -c "cd ~ && /scripts/$SCRIPT"

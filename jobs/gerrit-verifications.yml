@@ -313,7 +313,7 @@
             DOCKER_IMG="{docker_img}"
             case "$JOB_TYPE" in
             firmware|gateware|manuals)
-              DOCKER_IMG="registry.osmocom.org/$USER/fpga-build"
+              DOCKER_IMG="registry.osmocom.org/osmocom-build/fpga-build"
               ;;
             esac
             docker pull "$DOCKER_IMG"

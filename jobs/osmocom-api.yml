@@ -42,5 +42,5 @@
             -v "$PWD:/build" \
             -v $(readlink -f $SSH_AUTH_SOCK):/ssh-agent \
             -w /build \
-            "$USER/debian-bookworm-build" \
+            "osmocom-build/debian-bookworm-build" \
             scripts/osmocom-api-doxygen.sh

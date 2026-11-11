@@ -42,7 +42,7 @@
       - shell: |
           REGISTRY="registry.osmocom.org"
           make -C "{image}" REGISTRY_HOST=$REGISTRY
-          docker push "$REGISTRY/$USER/{image}"
+          docker push "$REGISTRY/osmocom-build/{image}"
     properties:
       - build-discarder:
           num-to-keep: 120

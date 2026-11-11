@@ -54,7 +54,7 @@
             -e "KSRC=/linux" \
             -v "$PWD:/build" \
             -v "$HOME/linux.git:/linux.git:ro" \
-            "$USER/debian-bookworm-build" \
+            "osmocom-build/debian-bookworm-build" \
             sh -e -x -c "
               git config --global --add safe.directory /linux.git
               git -C /linux.git -c color.ui=always log -1 --oneline {linux-repo-branch}
