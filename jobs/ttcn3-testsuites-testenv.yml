@@ -281,6 +281,12 @@
           timer: H 11 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-sepp-test-ogs:
+          testsuite: sepp
+          args: -b osmocom:nightly
+          timer: H 11 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -524,6 +530,11 @@
 
       - ttcn3-bsf-test-ogs-latest:
           testsuite: bsf
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
+      - ttcn3-sepp-test-ogs-latest:
+          testsuite: sepp
           args: -b osmocom:latest
           timer: H 13 * * *
 
@@ -777,6 +788,12 @@
 
       - ttcn3-bsf-test-ogs-asan:
           testsuite: bsf
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
+      - ttcn3-sepp-test-ogs-asan:
+          testsuite: sepp
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
