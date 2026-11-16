@@ -287,6 +287,12 @@
           timer: H 11 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
 
+      - ttcn3-eir-test-ogs:
+          testsuite: eir
+          args: -b osmocom:nightly
+          timer: H 11 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
       # ---------------------------------------------
       # Debian latest
       # ---------------------------------------------
@@ -535,6 +541,12 @@
 
       - ttcn3-sepp-test-ogs-latest:
           testsuite: sepp
+          args: -b osmocom:latest
+          timer: H 13 * * *
+
+      - ttcn3-eir-test-ogs-latest:
+          testsuite: eir
+          disabled: true  # Until open5gs > v2.8.0 is tagged
           args: -b osmocom:latest
           timer: H 13 * * *
 
@@ -794,6 +806,12 @@
 
       - ttcn3-sepp-test-ogs-asan:
           testsuite: sepp
+          args: -b osmocom:nightly:asan
+          timer: H 18 * * *
+          email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
+
+      - ttcn3-eir-test-ogs-asan:
+          testsuite: eir
           args: -b osmocom:nightly:asan
           timer: H 18 * * *
           email: jenkins-notifications@lists.osmocom.org acetcom@gmail.com
