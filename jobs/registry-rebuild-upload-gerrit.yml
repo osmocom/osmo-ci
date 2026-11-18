@@ -1,0 +1,36 @@
+- job:
+    name: 'registry-rebuild-upload-gerrit'
+    description: |
+        Build the <code>gerrit</code> image from
+        <a href="https://gitea.osmocom.org/osmocom/docker-playground/">
+          docker-playground
+        </a> and push it to the Osmocom registry.
+    concurrent: false
+    parameters:
+      - string:
+          name: BRANCH
+          description: |
+                Branch of <code>docker-playground.git</code>
+          default: 'master'
+    scm:
+      - git:
+          url: https://gerrit.osmocom.org/docker-playground
+          skip-tag: true
+          branches:
+            - '$BRANCH'
+    builders:
+      - shell: |
+          REGISTRY="registry.osmocom.org"
+          TAG="$(grep 'FROM.*gerritcodereview/gerrit:' gerrit/Dockerfile | cut -d : -f 2)"
+
+          test -n "$TAG"
+          echo "release=$TAG" >gerrit/.release
+          make -C "gerrit" REGISTRY_HOST="$REGISTRY"
+          docker tag "$REGISTRY"/gerrit:latest "$REGISTRY"/gerrit:"$TAG"
+          docker push "$REGISTRY"/gerrit:"$TAG"
+    properties:
+      - build-discarder:
+          num-to-keep: 120
+    wrappers:
+      - ansicolor:
+          colormap: xterm
